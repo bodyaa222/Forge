@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Forge — Research</title>
+<style>
+  :root {
+    --bg: #0a0a0a;
+    --surface: #141414;
+    --surface2: #1c1c1c;
+    --border: #242424;
+    --border2: #2e2e2e;
+    --text: #f0f0f0;
+    --sub: #888;
+    --accent: #c8ff00;
+    --accent-dim: rgba(200,255,0,.08);
+    --hypo: #f59e0b;
+    --hypo-bg: rgba(245,158,11,.1);
+    --hard: #ef4444;
+    --soft: #3b82f6;
+    --asp: #a855f7;
+    --hard-bg: rgba(239,68,68,.08);
+    --soft-bg: rgba(59,130,246,.08);
+    --asp-bg: rgba(168,85,247,.08);
+    --radius: 10px;
+    --gap: 24px;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 15px; line-height: 1.65; }
+
+  /* NAV */
+  nav { position: sticky; top: 0; z-index: 100; background: rgba(10,10,10,.85); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); padding: 0 32px; display: flex; align-items: center; gap: 32px; height: 52px; }
+  nav .logo { font-weight: 700; font-size: 16px; letter-spacing: -.3px; color: var(--accent); margin-right: auto; }
+  nav a { color: var(--sub); text-decoration: none; font-size: 13px; font-weight: 500; transition: color .15s; }
+  nav a:hover { color: var(--text); }
+
+  /* HERO */
+  .hero { padding: 72px 32px 48px; max-width: 900px; margin: 0 auto; }
+  .hero h1 { font-size: clamp(32px, 5vw, 52px); font-weight: 800; letter-spacing: -1.5px; line-height: 1.1; margin-bottom: 16px; }
+  .hero h1 span { color: var(--accent); }
+  .hero p { color: var(--sub); font-size: 16px; max-width: 560px; }
+  .meta { display: flex; gap: 16px; margin-top: 24px; flex-wrap: wrap; }
+  .badge { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: 600; border: 1px solid; }
+  .badge.hard { color: var(--hard); border-color: rgba(239,68,68,.3); background: var(--hard-bg); }
+  .badge.soft { color: var(--soft); border-color: rgba(59,130,246,.3); background: var(--soft-bg); }
+  .badge.asp { color: var(--asp); border-color: rgba(168,85,247,.3); background: var(--asp-bg); }
+  .badge.hypo-badge { color: var(--hypo); border-color: rgba(245,158,11,.3); background: var(--hypo-bg); }
+
+  /* SECTIONS */
+  section { max-width: 1100px; margin: 0 auto; padding: 64px 32px; border-top: 1px solid var(--border); }
+  .section-label { font-size: 11px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin-bottom: 12px; }
+  .section-title { font-size: clamp(22px, 3vw, 30px); font-weight: 800; letter-spacing: -.5px; margin-bottom: 8px; }
+  .section-sub { color: var(--sub); font-size: 14px; margin-bottom: 40px; max-width: 600px; }
+
+  /* HYPOTHESIS TAG */
+  .h { display: inline-flex; align-items: center; gap: 4px; background: var(--hypo-bg); color: var(--hypo); border: 1px solid rgba(245,158,11,.25); border-radius: 4px; font-size: 10px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; padding: 1px 6px; vertical-align: middle; margin-left: 4px; }
+
+  /* COMPETITOR GROUPS */
+  .group-label { font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; padding: 6px 12px; border-radius: 6px; display: inline-block; margin-bottom: 20px; }
+  .group-hard .group-label { background: var(--hard-bg); color: var(--hard); }
+  .group-soft .group-label { background: var(--soft-bg); color: var(--soft); }
+  .group-asp .group-label { background: var(--asp-bg); color: var(--asp); }
+  .group-desc { color: var(--sub); font-size: 13px; margin-bottom: 20px; }
+  .group { margin-bottom: 48px; }
+  .cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 16px; }
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; }
+  .card h3 { font-size: 15px; font-weight: 700; margin-bottom: 8px; }
+  .card .why { font-size: 13px; color: var(--sub); margin-bottom: 12px; line-height: 1.5; }
+  .card ul { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+  .card ul li { font-size: 13px; color: #ccc; padding-left: 14px; position: relative; line-height: 1.45; }
+  .card ul li::before { content: '→'; position: absolute; left: 0; color: var(--accent); font-size: 11px; top: 2px; }
+  .card .study-label { font-size: 11px; font-weight: 600; color: var(--accent); margin-bottom: 8px; letter-spacing: .05em; text-transform: uppercase; }
+
+  /* PRIORITY TABLE */
+  .priority-table { width: 100%; border-collapse: collapse; margin-top: 8px; }
+  .priority-table th { text-align: left; font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--sub); padding: 8px 16px; border-bottom: 1px solid var(--border); }
+  .priority-table td { padding: 12px 16px; border-bottom: 1px solid var(--border); font-size: 14px; vertical-align: top; }
+  .priority-table tr:last-child td { border-bottom: none; }
+  .priority-table tr:hover td { background: var(--surface2); }
+  .num { font-weight: 800; color: var(--accent); font-size: 18px; }
+
+  /* BENCHMARK TABLE */
+  .bench-wrap { overflow-x: auto; margin-top: 8px; border-radius: var(--radius); border: 1px solid var(--border); }
+  .bench { width: 100%; border-collapse: collapse; min-width: 800px; }
+  .bench th { background: var(--surface2); text-align: left; font-size: 12px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--sub); padding: 12px 16px; border-bottom: 1px solid var(--border); white-space: nowrap; }
+  .bench th:first-child { color: var(--text); }
+  .bench td { padding: 14px 16px; border-bottom: 1px solid var(--border); font-size: 13px; line-height: 1.5; vertical-align: top; }
+  .bench tr:last-child td { border-bottom: none; }
+  .bench tr:hover td { background: rgba(255,255,255,.02); }
+  .bench td:first-child { font-weight: 700; color: var(--sub); font-size: 12px; text-transform: uppercase; letter-spacing: .05em; white-space: nowrap; background: var(--surface); }
+  .none { color: #555; font-style: italic; }
+  .strong { color: var(--accent); font-weight: 600; }
+
+  /* SCREENSHOTS */
+  .screens-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
+  .screen-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
+  .screen-card img { width: 100%; display: block; border-bottom: 1px solid var(--border); object-fit: cover; height: 200px; }
+  .screen-card .screen-info { padding: 12px 14px; }
+  .screen-card .screen-name { font-size: 13px; font-weight: 600; margin-bottom: 4px; }
+  .screen-card .screen-desc { font-size: 12px; color: var(--sub); }
+  .screen-card .screen-tag { font-size: 10px; font-weight: 700; color: var(--sub); letter-spacing: .06em; text-transform: uppercase; margin-bottom: 6px; }
+  .login-wall { display: flex; align-items: center; justify-content: center; height: 200px; background: var(--surface2); border-bottom: 1px solid var(--border); }
+  .login-wall span { font-size: 12px; color: #555; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; }
+
+  /* PATTERNS */
+  .patterns { display: flex; flex-direction: column; gap: 16px; }
+  .pattern { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; }
+  .pattern-header { display: flex; align-items: flex-start; gap: 16px; margin-bottom: 16px; }
+  .pattern-num { width: 36px; height: 36px; background: var(--accent-dim); border: 1px solid rgba(200,255,0,.2); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 800; color: var(--accent); flex-shrink: 0; }
+  .pattern h3 { font-size: 17px; font-weight: 700; letter-spacing: -.2px; }
+  .pattern-tag { font-size: 11px; color: var(--sub); font-weight: 500; margin-top: 2px; }
+  .pattern-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  @media (max-width: 600px) { .pattern-grid { grid-template-columns: 1fr; } }
+  .pattern-box { background: var(--surface2); border-radius: 8px; padding: 14px; }
+  .pattern-box .box-label { font-size: 10px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--sub); margin-bottom: 6px; }
+  .pattern-box p { font-size: 13px; line-height: 1.55; color: #ccc; }
+  .pattern.best { border-color: rgba(200,255,0,.3); background: rgba(200,255,0,.03); }
+  .pattern.best .pattern-num { background: var(--accent); color: #000; border-color: var(--accent); }
+  .pattern.worst { opacity: .7; }
+  .verdict { display: inline-flex; align-items: center; gap: 6px; padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: 700; margin-top: 12px; }
+  .verdict.v-best { background: rgba(200,255,0,.12); color: var(--accent); border: 1px solid rgba(200,255,0,.3); }
+  .verdict.v-second { background: rgba(59,130,246,.1); color: #60a5fa; border: 1px solid rgba(59,130,246,.3); }
+  .verdict.v-post { background: rgba(168,85,247,.1); color: #c084fc; border: 1px solid rgba(168,85,247,.3); }
+  .verdict.v-no { background: rgba(239,68,68,.1); color: #f87171; border: 1px solid rgba(239,68,68,.3); }
+
+  /* CONCLUSIONS */
+  .conclusions-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 16px; }
+  .concl { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; }
+  .concl .concl-label { font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--sub); margin-bottom: 14px; }
+  .concl-item { margin-bottom: 16px; padding-bottom: 16px; border-bottom: 1px solid var(--border); }
+  .concl-item:last-child { margin-bottom: 0; padding-bottom: 0; border-bottom: none; }
+  .concl-item h4 { font-size: 14px; font-weight: 700; margin-bottom: 6px; }
+  .concl-item p { font-size: 13px; color: var(--sub); line-height: 1.55; }
+
+  /* PM QUESTIONS */
+  .pm-questions { display: flex; flex-direction: column; gap: 12px; }
+  .pm-q { background: var(--surface); border: 1px solid var(--border2); border-left: 3px solid var(--accent); border-radius: var(--radius); padding: 18px 20px; }
+  .pm-q h4 { font-size: 14px; font-weight: 700; margin-bottom: 6px; }
+  .pm-q p { font-size: 13px; color: var(--sub); line-height: 1.55; }
+
+  /* SOURCES */
+  .sources-list { display: flex; flex-direction: column; gap: 6px; }
+  .source-item { display: flex; align-items: baseline; gap: 10px; font-size: 13px; padding: 8px 0; border-bottom: 1px solid var(--border); }
+  .source-item:last-child { border-bottom: none; }
+  .source-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--border2); flex-shrink: 0; margin-top: 6px; }
+  .source-item span { color: var(--sub); }
+
+  /* FOOTER */
+  footer { max-width: 1100px; margin: 0 auto; padding: 32px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; color: var(--sub); font-size: 12px; gap: 16px; flex-wrap: wrap; }
+  footer strong { color: var(--text); }
+
+  /* UTILITIES */
+  strong { color: var(--text); }
+  @media (max-width: 768px) { nav { gap: 16px; } nav a:nth-child(n+4) { display: none; } section { padding: 48px 20px; } .hero { padding: 48px 20px 32px; } }
+</style>
+</head>
+<body>
+
+<nav>
+  <span class="logo">Forge</span>
+  <a href="#competitors">Конкуренти</a>
+  <a href="#benchmark">Бенчмарк</a>
+  <a href="#screens">Скріни</a>
+  <a href="#patterns">Патерни</a>
+  <a href="#conclusions">Висновки</a>
+  <a href="#sources">Джерела</a>
+</nav>
+
+<div class="hero">
+  <h1>Competitive<br><span>Research</span></h1>
+  <p>Аналіз ринку для Forge — платформи, що з'єднує атлетів і персональних тренерів. Факти без джерела позначені <span class="h">гіпотеза</span></p>
+  <div class="meta">
+    <span class="badge hard">● Hard</span>
+    <span class="badge soft">● Soft</span>
+    <span class="badge asp">● Aspirational</span>
+    <span class="badge hypo-badge">◆ Гіпотеза</span>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════ COMPETITORS ═══════════════════════════════ -->
+<section id="competitors">
+  <div class="section-label">01 — Конкуренти</div>
+  <h2 class="section-title">Карта конкурентів</h2>
+  <p class="section-sub">14 продуктів у трьох групах. Категоризація — редакційна <span class="h">гіпотеза</span>, ґрунтується на аналізі JTBD і аудиторій.</p>
+
+  <!-- HARD -->
+  <div class="group group-hard">
+    <span class="group-label">HARD — той самий продукт, та сама аудиторія</span>
+    <p class="group-desc">Платформа "атлет + тренер в одному застосунку": призначення тренувань, трекінг виконання, харчування, прогрес тіла.</p>
+    <div class="cards">
+      <div class="card">
+        <h3>Trainerize <span style="color:var(--sub);font-weight:400;font-size:12px">(ABC Fitness)</span></h3>
+        <p class="why">Глобальний лідер ринку trainer-client платформ. 400k+ коучів <span class="h">гіпотеза</span> — присутній в СНД-ринку, більшість онлайн-тренерів знають бренд.</p>
+        <div class="study-label">Що вивчити для Forge</div>
+        <ul>
+          <li>Workout execution screen — логування сету в реальному часі, попередні дані</li>
+          <li>Flow призначення програми тренером</li>
+          <li>Dashboard тренера: огляд клієнтів і "відстаючих"</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>TrueCoach</h3>
+        <p class="why">Прямий конкурент, менш enterprise-аудиторія. Відомий чистішим UI <span class="h">гіпотеза</span> — джерела підтверджують менше onboarding-тертя.</p>
+        <div class="study-label">Що вивчити</div>
+        <ul>
+          <li>Feedback-механіка: коментар тренера до конкретного тренування</li>
+          <li>Program builder: drag-and-drop, шаблони, копіювання тижнів</li>
+          <li>Mobile UX виконання: прогрес-індикатор, rest timer</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>My PT Hub</h3>
+        <p class="why">Комплексна платформа — тренування + харчування + фото-прогрес + оплата. Найближча до повного feature set MVP <span class="h">гіпотеза</span>.</p>
+        <div class="study-label">Що вивчити</div>
+        <ul>
+          <li>Nutrition logging UX — введення їжі, макроси, огляд день/тиждень</li>
+          <li>Body progress — вага + обміри, графіки</li>
+          <li>Onboarding нового клієнта після інвайту</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Everfit</h3>
+        <p class="why">Новіший гравець із сучаснішим дизайном <span class="h">гіпотеза</span>. Демонструє напрямок UX у категорії.</p>
+        <div class="study-label">Що вивчити</div>
+        <ul>
+          <li>Progress charts і візуалізація PR</li>
+          <li>Video reference у планах — YouTube embed чи власний плеєр</li>
+          <li>Mobile-first відчуття vs native app</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Hevy <span style="color:var(--sub);font-weight:400;font-size:12px">(суміжний)</span></h3>
+        <p class="why">Без тренера, але найпопулярніший workout logger серед аудиторії 22–30 <span class="h">гіпотеза</span>. Звідси прийдуть наші атлети.</p>
+        <div class="study-label">Що вивчити</div>
+        <ul>
+          <li>Logging UX — додавання сету, рядок ваги/повторів, PR під час логування</li>
+          <li>History + PR visualization по вправі в часі</li>
+          <li>Соціальні механіки для gamification</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- SOFT -->
+  <div class="group group-soft">
+    <span class="group-label">SOFT — інший продукт, той самий JTBD</span>
+    <p class="group-desc">"Отримати персональний план і мати прозорий зв'язок / підзвітність по прогресу."</p>
+    <div class="cards">
+      <div class="card">
+        <h3>Google Sheets + Telegram <span style="color:var(--sub);font-weight:400;font-size:12px">реальний incumbent</span></h3>
+        <p class="why">Це не продукт — це поведінка. Більшість українських тренерів ведуть клієнтів саме так <span class="h">гіпотеза</span>. Наш справжній конкурент у статус-кво.</p>
+        <div class="study-label">Що вивчити</div>
+        <ul>
+          <li>Шаблони Sheets — ментальна модель структури плану</li>
+          <li>Де система ламається для тренера і атлета</li>
+          <li>Що Forge має робити краще на кожному кроці</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Strava</h3>
+        <p class="why">Self-tracking без тренера. Доводить: люди логують якщо UX зручний і є соціальний контекст <span class="h">гіпотеза</span>.</p>
+        <div class="study-label">Що вивчити</div>
+        <ul>
+          <li>Activity feed — механіка kudos, мотивація повернення</li>
+          <li>PR-система як gamification для силових тренувань</li>
+          <li>Onboarding без тертя</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Маркетплейси тренерів <span style="color:var(--sub);font-weight:400;font-size:12px">GetPT, Profitness, Instagram</span></h3>
+        <p class="why">Закривають "знайти тренера", але не "вести клієнта" <span class="h">гіпотеза</span>. Показують gap, який Forge заповнює.</p>
+        <div class="study-label">Що вивчити</div>
+        <ul>
+          <li>Як тренери презентують послуги — атрибути вибору</li>
+          <li>Що відбувається "після першого дзвінка"</li>
+          <li>Чому Instagram виграє: просто, нотифікації, знайоме</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Nike Training Club / Fitbod</h3>
+        <p class="why">Self-guided програми — альтернатива без тренера. Конкурують за увагу атлета <span class="h">гіпотеза</span>.</p>
+        <div class="study-label">Що вивчити</div>
+        <ul>
+          <li>"Сьогоднішнє тренування" — ієрархія інформації</li>
+          <li>Персоналізація без живого тренера — паттерни онбордингу</li>
+          <li>Empty states і підтримка консистентності</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ASPIRATIONAL -->
+  <div class="group group-asp">
+    <span class="group-label">ASPIRATIONAL — міжнародні еталони UX</span>
+    <p class="group-desc">Продукти зі сильним UX, data viz і преміальним позиціюванням.</p>
+    <div class="cards">
+      <div class="card">
+        <h3>Future</h3>
+        <p class="why">Найближчий до Forge серед преміальних. Real coach + app, $149–199/міс <span class="h">гіпотеза — точна ціна може змінитись</span>.</p>
+        <div class="study-label">Що вивчити</div>
+        <ul>
+          <li>Coach–athlete communication без месенджер-відчуття</li>
+          <li>Onboarding — відчуття преміальності з першої хвилини</li>
+          <li>Workout execution — анімації, прогрес, feedback loop</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Whoop</h3>
+        <p class="why">Еталон data visualization у fitness. Показує як подати складні дані красиво <span class="h">гіпотеза</span>.</p>
+        <div class="study-label">Що вивчити</div>
+        <ul>
+          <li>Dashboard — ієрархія метрик, що "над fold", колірна семантика</li>
+          <li>Progress graphs тижень/місяць — паттерни для наших графіків</li>
+          <li>Coaching insights — дані → actionable рекомендації</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Ladder</h3>
+        <p class="why">Strength-focused, чистий UX подачі програм, typography-first <span class="h">гіпотеза</span>.</p>
+        <div class="study-label">Що вивчити</div>
+        <ul>
+          <li>Program presentation — тижневий блок, навігація між днями</li>
+          <li>Exercise cards — ієрархія (назва, сети, повтори, відео, нотатки)</li>
+          <li>Як тільки шрифт і відступи створюють преміальність</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Strava <span style="color:var(--sub);font-weight:400;font-size:12px">gamification layer</span></h3>
+        <div class="study-label">Що вивчити</div>
+        <ul>
+          <li>Badge system — коли видаються, вигляд у профілі</li>
+          <li>Year in Sport recap — як дані стають емоційними</li>
+          <li>Соціальне змагання без агресивного геймдизайну</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Zoe <span style="color:var(--sub);font-weight:400;font-size:12px">nutrition data viz</span></h3>
+        <div class="study-label">Що вивчити</div>
+        <ul>
+          <li>Daily nutrition summary на мобільному — деталізація vs читабельність</li>
+          <li>Macro breakdown — круговий діаграм vs progress bars</li>
+          <li>"Score" механіка — оцінка дня → натхнення для daily summary</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Priority -->
+  <div style="margin-top:40px;">
+    <h3 style="font-size:16px;font-weight:700;margin-bottom:16px;">Пріоритет глибокого дослідження <span class="h">гіпотеза</span></h3>
+    <table class="priority-table">
+      <thead><tr><th>#</th><th>Конкурент</th><th>Причина</th></tr></thead>
+      <tbody>
+        <tr><td class="num">1</td><td><strong>Google Sheets + Telegram</strong></td><td>Реальний конкурент — треба зрозуміти де він ламається</td></tr>
+        <tr><td class="num">2</td><td><strong>Trainerize</strong></td><td>Лідер ринку — baseline для feature set і UX-антипатернів</td></tr>
+        <tr><td class="num">3</td><td><strong>Future</strong></td><td>UX-стандарт категорії, aspirational benchmark</td></tr>
+        <tr><td class="num">4</td><td><strong>Hevy</strong></td><td>Звідси прийдуть наші атлети — їхні очікування</td></tr>
+        <tr><td class="num">5</td><td><strong>Whoop</strong></td><td>Data visualization reference</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════ BENCHMARK ═══════════════════════════════ -->
+<section id="benchmark">
+  <div class="section-label">02 — Бенчмарк</div>
+  <h2 class="section-title">Порівняльна таблиця</h2>
+  <p class="section-sub">Дані з рецензій і офіційних сайтів (джерела — внизу). Позначки без джерела — <span class="h">гіпотеза</span></p>
+
+  <div class="bench-wrap">
+    <table class="bench">
+      <thead>
+        <tr>
+          <th>Вісь</th>
+          <th>Trainerize</th>
+          <th>TrueCoach</th>
+          <th>Fitbod</th>
+          <th>MyFitnessPal</th>
+          <th>Strong</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Аудиторія</td>
+          <td>Тренери, студії, фітнес-бізнеси (B2B)</td>
+          <td>Силові та S&C тренери (B2B, менший масштаб)</td>
+          <td>Самостійні атлети без тренера (B2C)</td>
+          <td>Люди, що рахують калорії, схуднення (B2C)</td>
+          <td>Досвідчені силовики: пауерліфтери, бодібілдери (B2C)</td>
+        </tr>
+        <tr>
+          <td>Основа продукту</td>
+          <td>All-in-one coaching бізнес-платформа</td>
+          <td>Програмування + відео-фідбек на техніку</td>
+          <td>AI-адаптивна генерація тренувань</td>
+          <td>Трекінг калорій і макросів, БД 20.5M+ продуктів</td>
+          <td>Мінімалістичний логгер: сет/повтор/вага</td>
+        </tr>
+        <tr>
+          <td>Зв'язок тренер↔атлет</td>
+          <td>Dashboard → app → in-app messaging + відео</td>
+          <td>Async відео-фідбек: атлет знімає → тренер анотує кадри</td>
+          <td class="none">Немає — AI замінює тренера</td>
+          <td class="none">Немає — соцстрічка + AI-chatbot (2026)</td>
+          <td class="none">Немає — тільки індивідуально</td>
+        </tr>
+        <tr>
+          <td>Глибина трекінгу</td>
+          <td>Тренування + нутриція (native+MFP) + тіло + wearables</td>
+          <td>Тренування + комплаєнс + нутриція via MFP + wearables (Standard+)</td>
+          <td>Тренування + muscle heatmap + PR. <span class="none">Без нутриції</span></td>
+          <td>Нутриція (найглибша) + тренування via інтеграції. <span class="none">Без сну</span></td>
+          <td>Тільки тренування + тіло (PRO). <span class="none">Без нутриції</span></td>
+        </tr>
+        <tr>
+          <td>Монетизація</td>
+          <td>Freemium by client count: $9–$225+/міс. Add-ons: нутриція +$45/міс</td>
+          <td>$30–165/міс by clients. 14-day trial, 90-day money-back</td>
+          <td>$16/міс або $96/рік. Немає free після trial</td>
+          <td>Free + Premium $80/рік + Premium+ $100/рік</td>
+          <td>Free (3 routines) + PRO $30/рік або $100 lifetime</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════ SCREENS ═══════════════════════════════ -->
+<section id="screens">
+  <div class="section-label">03 — Скріни</div>
+  <h2 class="section-title">Публічні сторінки</h2>
+  <p class="section-sub">Знято Playwright, mobile viewport 390×844. Продуктові екрани за логіном позначені <strong>[?]</strong></p>
+
+  <div class="screens-grid">
+    <div class="screen-card">
+      <img src="research/screens/trainerize-home.png" alt="Trainerize homepage" loading="lazy">
+      <div class="screen-info">
+        <div class="screen-tag">Hard competitor</div>
+        <div class="screen-name">Trainerize — Homepage</div>
+        <div class="screen-desc">Загальний positioning, hero, CTA</div>
+      </div>
+    </div>
+    <div class="screen-card">
+      <img src="research/screens/trainerize-features.png" alt="Trainerize features" loading="lazy">
+      <div class="screen-info">
+        <div class="screen-tag">Hard competitor</div>
+        <div class="screen-name">Trainerize — Features</div>
+        <div class="screen-desc">Список функцій і модулів</div>
+      </div>
+    </div>
+    <div class="screen-card">
+      <img src="research/screens/truecoach-home.png" alt="TrueCoach homepage" loading="lazy">
+      <div class="screen-info">
+        <div class="screen-tag">Hard competitor</div>
+        <div class="screen-name">TrueCoach — Homepage</div>
+        <div class="screen-desc">Positioning, UX-відчуття бренду</div>
+      </div>
+    </div>
+    <div class="screen-card">
+      <img src="research/screens/truecoach-features.png" alt="TrueCoach features" loading="lazy">
+      <div class="screen-info">
+        <div class="screen-tag">Hard competitor</div>
+        <div class="screen-name">TrueCoach — Features</div>
+        <div class="screen-desc">Ключові можливості платформи</div>
+      </div>
+    </div>
+    <div class="screen-card">
+      <img src="research/screens/fitbod-home.png" alt="Fitbod homepage" loading="lazy">
+      <div class="screen-info">
+        <div class="screen-tag">Soft / Aspirational</div>
+        <div class="screen-name">Fitbod — Homepage</div>
+        <div class="screen-desc">AI-first позиціювання, UX-стандарт категорії</div>
+      </div>
+    </div>
+    <div class="screen-card">
+      <img src="research/screens/myfitnesspal-home.png" alt="MyFitnessPal homepage" loading="lazy">
+      <div class="screen-info">
+        <div class="screen-tag">Soft competitor</div>
+        <div class="screen-name">MyFitnessPal — Homepage</div>
+        <div class="screen-desc">Nutrition-first, масова аудиторія</div>
+      </div>
+    </div>
+    <div class="screen-card">
+      <img src="research/screens/strong-home.png" alt="Strong homepage" loading="lazy">
+      <div class="screen-info">
+        <div class="screen-tag">Soft competitor</div>
+        <div class="screen-name">Strong — Homepage</div>
+        <div class="screen-desc">Мінімалістичний логгер, self-directed атлети</div>
+      </div>
+    </div>
+    <div class="screen-card">
+      <div class="login-wall"><span>[?] Потребує логіну</span></div>
+      <div class="screen-info">
+        <div class="screen-tag">In-product screens</div>
+        <div class="screen-name">Dashboard / Workout / Plan Builder</div>
+        <div class="screen-desc">Потребують акаунту — ручний скрінінг</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════ PATTERNS ═══════════════════════════════ -->
+<section id="patterns">
+  <div class="section-label">04 — UX Патерни</div>
+  <h2 class="section-title">З'єднання двох сторін</h2>
+  <p class="section-sub">5 принципово різних UX-патернів для two-sided продуктів. Вся секція — <span class="h">гіпотеза</span> (аналітика, не первинне дослідження).</p>
+
+  <div class="patterns">
+
+    <div class="pattern best">
+      <div class="pattern-header">
+        <div class="pattern-num">1</div>
+        <div>
+          <h3>Token-based invite — код або посилання</h3>
+          <div class="pattern-tag">Slack · Discord · Notion · Calendly</div>
+        </div>
+      </div>
+      <div class="pattern-grid">
+        <div class="pattern-box">
+          <div class="box-label">Як працює</div>
+          <p>Одна сторона генерує унікальний токен — інша вводить або переходить по посиланню. З'єднання миттєве, платформа — тільки технічний міст.</p>
+        </div>
+        <div class="pattern-box">
+          <div class="box-label">Де застосовується</div>
+          <p>Slack workspace, Discord server invite, Notion shared space, Calendly booking link, Loom share link.</p>
+        </div>
+        <div class="pattern-box">
+          <div class="box-label">Коли підходить</div>
+          <p>Відносини між сторонами <strong>вже існують</strong> поза продуктом. Мета — перенести їх у структурований інструмент, а не встановити нові.</p>
+        </div>
+        <div class="pattern-box">
+          <div class="box-label">Коли ламається</div>
+          <p>Коли відносин поза продуктом немає. Не масштабується для масового залучення (тренер з 50 незнайомими клієнтами).</p>
+        </div>
+      </div>
+      <span class="verdict v-best">✓ Найкращий для Forge MVP</span>
+    </div>
+
+    <div class="pattern">
+      <div class="pattern-header">
+        <div class="pattern-num">2</div>
+        <div>
+          <h3>Marketplace / каталог + вибір</h3>
+          <div class="pattern-tag">Airbnb · Upwork · Fiverr · GetPT</div>
+        </div>
+      </div>
+      <div class="pattern-grid">
+        <div class="pattern-box">
+          <div class="box-label">Як працює</div>
+          <p>Одна сторона створює профіль-оферту. Інша переглядає каталог, фільтрує, вибирає. Платформа = ринок і гарант.</p>
+        </div>
+        <div class="pattern-box">
+          <div class="box-label">Де застосовується</div>
+          <p>Airbnb, Upwork, Fiverr, більшість маркетплейсів тренерів, PromUA.</p>
+        </div>
+        <div class="pattern-box">
+          <div class="box-label">Коли підходить</div>
+          <p>Обидві сторони — незнайомці до платформи. Цінність у агрегації, рейтингах, безпеці оплати. Масштаб критичний.</p>
+        </div>
+        <div class="pattern-box">
+          <div class="box-label">Коли ламається</div>
+          <p>Cold-start — перші тренери без відгуків не отримують клієнтів. Дорого будувати довіру. Погано для нішевих персоналізованих послуг.</p>
+        </div>
+      </div>
+      <span class="verdict v-post">→ Post-MVP, коли з'явиться потреба в discovery</span>
+    </div>
+
+    <div class="pattern">
+      <div class="pattern-header">
+        <div class="pattern-num">3</div>
+        <div>
+          <h3>Request → Approval</h3>
+          <div class="pattern-tag">LinkedIn · GitHub Org · Instagram private</div>
+        </div>
+      </div>
+      <div class="pattern-grid">
+        <div class="pattern-box">
+          <div class="box-label">Як працює</div>
+          <p>Одна сторона надсилає запит. Інша переглядає і підтверджує або відхиляє. З'єднання — результат явного рішення.</p>
+        </div>
+        <div class="pattern-box">
+          <div class="box-label">Де застосовується</div>
+          <p>LinkedIn connections, Instagram follow (private), GitHub organization, Uber (водій бере замовлення).</p>
+        </div>
+        <div class="pattern-box">
+          <div class="box-label">Коли підходить</div>
+          <p>Одна сторона "дефіцитна" і контролює доступ. Якість матчу важливіша за швидкість onboarding.</p>
+        </div>
+        <div class="pattern-box">
+          <div class="box-label">Коли ламається</div>
+          <p>Inbox-колапс при великій кількості запитів. Брак контексту в запиті ускладнює рішення. Тертя при кожному новому клієнті.</p>
+        </div>
+      </div>
+      <span class="verdict v-second">→ Другий варіант, якщо post-MVP тренер хоче контролювати прийом</span>
+    </div>
+
+    <div class="pattern">
+      <div class="pattern-header">
+        <div class="pattern-num">4</div>
+        <div>
+          <h3>Algorithm / Smart matching</h3>
+          <div class="pattern-tag">Hinge · Upwork Best Match · Future</div>
+        </div>
+      </div>
+      <div class="pattern-grid">
+        <div class="pattern-box">
+          <div class="box-label">Як працює</div>
+          <p>Платформа сама пропонує матч на основі даних обох сторін. Жодна сторона не "шукає" активно.</p>
+        </div>
+        <div class="pattern-box">
+          <div class="box-label">Де застосовується</div>
+          <p>Hinge, Upwork "Best Match", Wolt courier–order matching, OkCupid compatibility.</p>
+        </div>
+        <div class="pattern-box">
+          <div class="box-label">Коли підходить</div>
+          <p>Велика база з обох сторін, багаті дані для навчання алгоритму. Користувач не знає, кого шукати.</p>
+        </div>
+        <div class="pattern-box">
+          <div class="box-label">Коли ламається</div>
+          <p>Cold-start — без даних алгоритм рекомендує погано. "Чорна скринька" підриває довіру. Висока вартість помилки матчу.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="pattern worst">
+      <div class="pattern-header">
+        <div class="pattern-num" style="background:rgba(239,68,68,.1);border-color:rgba(239,68,68,.3);color:#f87171">5</div>
+        <div>
+          <h3>Swipe / Mutual match</h3>
+          <div class="pattern-tag">Tinder · Bumble · Jobr</div>
+        </div>
+      </div>
+      <div class="pattern-grid">
+        <div class="pattern-box">
+          <div class="box-label">Як працює</div>
+          <p>Обидві сторони висловлюють інтерес. З'єднання тільки при взаємному. Асиметрія знімається — ніхто не може нав'язатись.</p>
+        </div>
+        <div class="pattern-box">
+          <div class="box-label">Де застосовується</div>
+          <p>Tinder/Bumble, Jobr (кандидат ↔ роботодавець), деякі B2B платформи.</p>
+        </div>
+        <div class="pattern-box">
+          <div class="box-label">Коли підходить</div>
+          <p>Великий рівнозначний пул з обох сторін, низька вартість кожного матчу, легко переключитись.</p>
+        </div>
+        <div class="pattern-box">
+          <div class="box-label">Коли ламається</div>
+          <p>Асиметричні відносини (тренер ≠ клієнт за природою). Малий пул. Геймдизайн тривіалізує вибір — погано для дорогої послуги.</p>
+        </div>
+      </div>
+      <span class="verdict v-no">✗ Не підходить для Forge — жодна зі стадій</span>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════════════════════════ CONCLUSIONS ═══════════════════════════════ -->
+<section id="conclusions">
+  <div class="section-label">05 — Висновки</div>
+  <h2 class="section-title">Паттерни, відмінності, питання</h2>
+  <p class="section-sub">Висновки — редакційна <span class="h">гіпотеза</span>, ґрунтується на джерелах з розділу Sources.</p>
+
+  <div class="conclusions-grid">
+    <div class="concl">
+      <div class="concl-label">3 спільні патерни</div>
+      <div class="concl-item">
+        <h4>Тренерський mobile UX = системне слабке місце</h4>
+        <p>Trainerize і TrueCoach кращі на десктопі з боку тренера — мобільний інтерфейс тренера завжди програє клієнтському. <span class="h">гіпотеза</span> — підтверджується відгуками на Trainerize Г2026.</p>
+      </div>
+      <div class="concl-item">
+        <h4>Нутриція делегується назовні</h4>
+        <p>Trainerize і TrueCoach пунтять харчування в MFP. Інтеграція Trainerize зламалась наприкінці 2025. Forge із нативним введенням — архітектурна перевага.</p>
+      </div>
+      <div class="concl-item">
+        <h4>Async-first комунікація — домінантний паттерн</h4>
+        <p>Жоден продукт не робить live coaching основним механізмом. "Тренер призначає → атлет виконує → тренер ревʼюзить" — стандарт категорії.</p>
+      </div>
+    </div>
+
+    <div class="concl">
+      <div class="concl-label">3 ключові відмінності</div>
+      <div class="concl-item">
+        <h4>Роль AI — три різні ставки</h4>
+        <p>Fitbod: AI замінює тренера. Trainerize: AI генерує контент для тренера. MFP: AI chatbot поверх логів. Forge — без AI в MVP. <span class="h">гіпотеза</span></p>
+      </div>
+      <div class="concl-item">
+        <h4>B2B vs B2C визначає весь UX-пріоритет</h4>
+        <p>Trainerize/TrueCoach: тренер платить (клієнт безкоштовно). Fitbod/Strong/MFP: атлет платить. Хто платить — той перший у продуктовій ієрархії.</p>
+      </div>
+      <div class="concl-item">
+        <h4>Глибина vs фокус: ніхто не робить все добре</h4>
+        <p>MFP = нутриція, але не тренування. Strong = logging, але без нутриції. Trainerize = широкий, але застарілий і дорогий. <span class="h">гіпотеза</span></p>
+      </div>
+    </div>
+
+    <div class="concl" style="grid-column: 1 / -1;">
+      <div class="concl-label">3 питання до PM</div>
+      <div class="pm-questions">
+        <div class="pm-q">
+          <h4>1. Хто платить — тренер чи атлет?</h4>
+          <p>Це не тільки монетизація — це вся продуктова ієрархія. Якщо тренер (B2B): його інтерфейс = основний продукт. Якщо атлет: логіка зворотна. MVP без монетизації відкладає питання, але архітектура потребує відповіді зараз.</p>
+        </div>
+        <div class="pm-q">
+          <h4>2. Нативна нутриція — диференціатор чи overhead?</h4>
+          <p>Trainerize і TrueCoach уникають і платять нестабільністю інтеграцій. Forge включив ручне введення в бриф. Але чи залишиться пріоритетом при скороченні scope?</p>
+        </div>
+        <div class="pm-q">
+          <h4>3. Яка деталізація виконання тренування критична для тренера?</h4>
+          <p>Strong і Hevy: кращий logging = мінімум кроків на сет. Але тренеру важливо бачити вагу/повтори/відхилення від плану чи достатньо "виконано/ні"? Від цього залежить складність моделі даних і workout execution screen.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════ SOURCES ═══════════════════════════════ -->
+<section id="sources">
+  <div class="section-label">06 — Джерела</div>
+  <h2 class="section-title">Sources</h2>
+  <p class="section-sub" style="margin-bottom:24px;">Факти, підкріплені цими джерелами, позначені як факти. Решта — <span class="h">гіпотеза</span></p>
+  <div class="sources-list">
+    <div class="source-item"><div class="source-dot"></div><span>TrainerVerdict — Trainerize Review 2026</span></div>
+    <div class="source-item"><div class="source-dot"></div><span>AI Tools Bakery — Trainerize Pricing 2026</span></div>
+    <div class="source-item"><div class="source-dot"></div><span>TrainerVerdict — TrueCoach Review 2026</span></div>
+    <div class="source-item"><div class="source-dot"></div><span>Coachbox — TrueCoach Review 2026</span></div>
+    <div class="source-item"><div class="source-dot"></div><span>Coachway.io — TrueCoach Pricing 2026</span></div>
+    <div class="source-item"><div class="source-dot"></div><span>Autonomous.ai — Fitbod App Review 2026</span></div>
+    <div class="source-item"><div class="source-dot"></div><span>SensAI — Fitbod Review 2026 / Fitness App Pricing Comparison</span></div>
+    <div class="source-item"><div class="source-dot"></div><span>Garage Gym Reviews — MyFitnessPal Review 2026</span></div>
+    <div class="source-item"><div class="source-dot"></div><span>NutriScan — MyFitnessPal Pricing 2026</span></div>
+    <div class="source-item"><div class="source-dot"></div><span>MyFitnessPal Blog — Summer 2026 Release Notes</span></div>
+    <div class="source-item"><div class="source-dot"></div><span>UX Collective — MyFitnessPal UX Case Study (Dikondawar)</span></div>
+    <div class="source-item"><div class="source-dot"></div><span>Medium / Melchionda — MyFitnessPal Usability Test</span></div>
+    <div class="source-item"><div class="source-dot"></div><span>RepReturn — Strong App Review 2026</span></div>
+    <div class="source-item"><div class="source-dot"></div><span>Cora Health — Strong App Comparison</span></div>
+    <div class="source-item"><div class="source-dot"></div><span>Medium / Yap — Strong App UX Redesign Case Study</span></div>
+    <div class="source-item"><div class="source-dot"></div><span>Trainerize Blog — Trainerize vs TrueCoach vs Everfit 2026</span></div>
+  </div>
+</section>
+
+<footer>
+  <div><strong>Forge</strong> — Research Report · Вересень 2026</div>
+  <div style="color:#555">Скріни: Playwright 1.63 · Mobile 390×844 · 3× DPR</div>
+</footer>
+
+</body>
+</html>
