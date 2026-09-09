@@ -94,15 +94,22 @@
   .strong { color: var(--accent); font-weight: 600; }
 
   /* SCREENSHOTS */
-  .screens-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
+  .screens-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 16px; }
   .screen-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
-  .screen-card img { width: 100%; display: block; border-bottom: 1px solid var(--border); object-fit: cover; height: 200px; }
+  .screen-card a.img-link { display: block; border-bottom: 1px solid var(--border); background: #111; overflow: hidden; position: relative; }
+  .screen-card a.img-link::after { content: '↗ відкрити'; position: absolute; bottom: 8px; right: 8px; background: rgba(0,0,0,.75); color: #fff; font-size: 11px; font-weight: 600; padding: 3px 8px; border-radius: 4px; opacity: 0; transition: opacity .15s; }
+  .screen-card a.img-link:hover::after { opacity: 1; }
+  .screen-card img { width: 100%; display: block; object-fit: contain; max-height: 420px; transition: transform .2s; }
+  .screen-card a.img-link:hover img { transform: scale(1.01); }
   .screen-card .screen-info { padding: 12px 14px; }
   .screen-card .screen-name { font-size: 13px; font-weight: 600; margin-bottom: 4px; }
   .screen-card .screen-desc { font-size: 12px; color: var(--sub); }
   .screen-card .screen-tag { font-size: 10px; font-weight: 700; color: var(--sub); letter-spacing: .06em; text-transform: uppercase; margin-bottom: 6px; }
-  .login-wall { display: flex; align-items: center; justify-content: center; height: 200px; background: var(--surface2); border-bottom: 1px solid var(--border); }
+  .login-wall { display: flex; align-items: center; justify-content: center; height: 160px; background: var(--surface2); border-bottom: 1px solid var(--border); }
   .login-wall span { font-size: 12px; color: #555; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; }
+  /* CARD LINKS */
+  .card-link { display: inline-flex; align-items: center; gap: 4px; color: var(--accent); font-size: 12px; font-weight: 600; text-decoration: none; margin-left: 8px; opacity: .7; }
+  .card-link:hover { opacity: 1; }
 
   /* PATTERNS */
   .patterns { display: flex; flex-direction: column; gap: 16px; }
@@ -191,7 +198,7 @@
     <p class="group-desc">Платформа "атлет + тренер в одному застосунку": призначення тренувань, трекінг виконання, харчування, прогрес тіла.</p>
     <div class="cards">
       <div class="card">
-        <h3>Trainerize <span style="color:var(--sub);font-weight:400;font-size:12px">(ABC Fitness)</span></h3>
+        <h3>Trainerize <span style="color:var(--sub);font-weight:400;font-size:12px">(ABC Fitness)</span><a class="card-link" href="https://www.trainerize.com" target="_blank">↗ сайт</a></h3>
         <p class="why">Глобальний лідер ринку trainer-client платформ. 400k+ коучів <span class="h">гіпотеза</span> — присутній в СНД-ринку, більшість онлайн-тренерів знають бренд.</p>
         <div class="study-label">Що вивчити для Forge</div>
         <ul>
@@ -201,7 +208,7 @@
         </ul>
       </div>
       <div class="card">
-        <h3>TrueCoach</h3>
+        <h3>TrueCoach<a class="card-link" href="https://truecoach.co" target="_blank">↗ сайт</a></h3>
         <p class="why">Прямий конкурент, менш enterprise-аудиторія. Відомий чистішим UI <span class="h">гіпотеза</span> — джерела підтверджують менше onboarding-тертя.</p>
         <div class="study-label">Що вивчити</div>
         <ul>
@@ -211,7 +218,7 @@
         </ul>
       </div>
       <div class="card">
-        <h3>My PT Hub</h3>
+        <h3>My PT Hub<a class="card-link" href="https://www.mypthub.net" target="_blank">↗ сайт</a></h3>
         <p class="why">Комплексна платформа — тренування + харчування + фото-прогрес + оплата. Найближча до повного feature set MVP <span class="h">гіпотеза</span>.</p>
         <div class="study-label">Що вивчити</div>
         <ul>
@@ -221,7 +228,7 @@
         </ul>
       </div>
       <div class="card">
-        <h3>Everfit</h3>
+        <h3>Everfit<a class="card-link" href="https://everfit.io" target="_blank">↗ сайт</a></h3>
         <p class="why">Новіший гравець із сучаснішим дизайном <span class="h">гіпотеза</span>. Демонструє напрямок UX у категорії.</p>
         <div class="study-label">Що вивчити</div>
         <ul>
@@ -231,7 +238,7 @@
         </ul>
       </div>
       <div class="card">
-        <h3>Hevy <span style="color:var(--sub);font-weight:400;font-size:12px">(суміжний)</span></h3>
+        <h3>Hevy <span style="color:var(--sub);font-weight:400;font-size:12px">(суміжний)</span><a class="card-link" href="https://www.hevyapp.com" target="_blank">↗ сайт</a></h3>
         <p class="why">Без тренера, але найпопулярніший workout logger серед аудиторії 22–30 <span class="h">гіпотеза</span>. Звідси прийдуть наші атлети.</p>
         <div class="study-label">Що вивчити</div>
         <ul>
@@ -249,7 +256,7 @@
     <p class="group-desc">"Отримати персональний план і мати прозорий зв'язок / підзвітність по прогресу."</p>
     <div class="cards">
       <div class="card">
-        <h3>Google Sheets + Telegram <span style="color:var(--sub);font-weight:400;font-size:12px">реальний incumbent</span></h3>
+        <h3>Google Sheets + Telegram <span style="color:var(--sub);font-weight:400;font-size:12px">реальний incumbent</span><a class="card-link" href="https://sheets.google.com" target="_blank">↗</a></h3>
         <p class="why">Це не продукт — це поведінка. Більшість українських тренерів ведуть клієнтів саме так <span class="h">гіпотеза</span>. Наш справжній конкурент у статус-кво.</p>
         <div class="study-label">Що вивчити</div>
         <ul>
@@ -259,7 +266,7 @@
         </ul>
       </div>
       <div class="card">
-        <h3>Strava</h3>
+        <h3>Strava<a class="card-link" href="https://www.strava.com" target="_blank">↗ сайт</a></h3>
         <p class="why">Self-tracking без тренера. Доводить: люди логують якщо UX зручний і є соціальний контекст <span class="h">гіпотеза</span>.</p>
         <div class="study-label">Що вивчити</div>
         <ul>
@@ -279,7 +286,7 @@
         </ul>
       </div>
       <div class="card">
-        <h3>Nike Training Club / Fitbod</h3>
+        <h3>Nike Training Club / Fitbod<a class="card-link" href="https://www.fitbod.me" target="_blank">↗ Fitbod</a></h3>
         <p class="why">Self-guided програми — альтернатива без тренера. Конкурують за увагу атлета <span class="h">гіпотеза</span>.</p>
         <div class="study-label">Що вивчити</div>
         <ul>
@@ -297,7 +304,7 @@
     <p class="group-desc">Продукти зі сильним UX, data viz і преміальним позиціюванням.</p>
     <div class="cards">
       <div class="card">
-        <h3>Future</h3>
+        <h3>Future<a class="card-link" href="https://www.future.co" target="_blank">↗ сайт</a></h3>
         <p class="why">Найближчий до Forge серед преміальних. Real coach + app, $149–199/міс <span class="h">гіпотеза — точна ціна може змінитись</span>.</p>
         <div class="study-label">Що вивчити</div>
         <ul>
@@ -307,7 +314,7 @@
         </ul>
       </div>
       <div class="card">
-        <h3>Whoop</h3>
+        <h3>Whoop<a class="card-link" href="https://www.whoop.com" target="_blank">↗ сайт</a></h3>
         <p class="why">Еталон data visualization у fitness. Показує як подати складні дані красиво <span class="h">гіпотеза</span>.</p>
         <div class="study-label">Що вивчити</div>
         <ul>
@@ -317,7 +324,7 @@
         </ul>
       </div>
       <div class="card">
-        <h3>Ladder</h3>
+        <h3>Ladder<a class="card-link" href="https://www.joinladder.com" target="_blank">↗ сайт</a></h3>
         <p class="why">Strength-focused, чистий UX подачі програм, typography-first <span class="h">гіпотеза</span>.</p>
         <div class="study-label">Що вивчити</div>
         <ul>
@@ -336,7 +343,7 @@
         </ul>
       </div>
       <div class="card">
-        <h3>Zoe <span style="color:var(--sub);font-weight:400;font-size:12px">nutrition data viz</span></h3>
+        <h3>Zoe <span style="color:var(--sub);font-weight:400;font-size:12px">nutrition data viz</span><a class="card-link" href="https://joinzoe.com" target="_blank">↗ сайт</a></h3>
         <div class="study-label">Що вивчити</div>
         <ul>
           <li>Daily nutrition summary на мобільному — деталізація vs читабельність</li>
@@ -433,61 +440,108 @@
   <h2 class="section-title">Публічні сторінки</h2>
   <p class="section-sub">Знято Playwright, mobile viewport 390×844. Продуктові екрани за логіном позначені <strong>[?]</strong></p>
 
+  <p style="font-size:13px;color:var(--sub);margin-bottom:20px;">App Store — реальний UI продукту. Маркетингові сторінки — повний scroll. Клікай на скрін → відкривається повнорозмірне зображення.</p>
+
+  <h3 style="font-size:13px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--sub);margin-bottom:12px;">App Store — реальний UI</h3>
+  <div class="screens-grid" style="margin-bottom:32px;">
+    <div class="screen-card">
+      <a class="img-link" href="research/screens/trainerize-appstore.png" target="_blank"><img src="research/screens/trainerize-appstore.png" alt="Trainerize App Store" loading="lazy"></a>
+      <div class="screen-info">
+        <div class="screen-tag">Hard · App Store</div>
+        <div class="screen-name">Trainerize — App Store listing</div>
+        <div class="screen-desc">Реальні UI-скріни з опису застосунку</div>
+      </div>
+    </div>
+    <div class="screen-card">
+      <a class="img-link" href="research/screens/truecoach-appstore.png" target="_blank"><img src="research/screens/truecoach-appstore.png" alt="TrueCoach App Store" loading="lazy"></a>
+      <div class="screen-info">
+        <div class="screen-tag">Hard · App Store</div>
+        <div class="screen-name">TrueCoach — App Store listing</div>
+        <div class="screen-desc">Workout logging, coach feedback UI</div>
+      </div>
+    </div>
+    <div class="screen-card">
+      <a class="img-link" href="research/screens/hevy-appstore.png" target="_blank"><img src="research/screens/hevy-appstore.png" alt="Hevy App Store" loading="lazy"></a>
+      <div class="screen-info">
+        <div class="screen-tag">Hard-суміжний · App Store</div>
+        <div class="screen-name">Hevy — App Store listing</div>
+        <div class="screen-desc">Logging UX — очікування наших атлетів</div>
+      </div>
+    </div>
+    <div class="screen-card">
+      <a class="img-link" href="research/screens/strong-appstore.png" target="_blank"><img src="research/screens/strong-appstore.png" alt="Strong App Store" loading="lazy"></a>
+      <div class="screen-info">
+        <div class="screen-tag">Soft · App Store</div>
+        <div class="screen-name">Strong — App Store listing</div>
+        <div class="screen-desc">Мінімалістичний logging, exercise history</div>
+      </div>
+    </div>
+    <div class="screen-card">
+      <a class="img-link" href="research/screens/fitbod-appstore.png" target="_blank"><img src="research/screens/fitbod-appstore.png" alt="Fitbod App Store" loading="lazy"></a>
+      <div class="screen-info">
+        <div class="screen-tag">Soft · App Store</div>
+        <div class="screen-name">Fitbod — App Store listing</div>
+        <div class="screen-desc">AI workout generation, muscle heatmap</div>
+      </div>
+    </div>
+    <div class="screen-card">
+      <a class="img-link" href="research/screens/myfitnesspal-appstore.png" target="_blank"><img src="research/screens/myfitnesspal-appstore.png" alt="MyFitnessPal App Store" loading="lazy"></a>
+      <div class="screen-info">
+        <div class="screen-tag">Soft · App Store</div>
+        <div class="screen-name">MyFitnessPal — App Store listing</div>
+        <div class="screen-desc">Nutrition tracking, macro dashboard</div>
+      </div>
+    </div>
+  </div>
+
+  <h3 style="font-size:13px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--sub);margin-bottom:12px;">Маркетингові сторінки — повний scroll</h3>
   <div class="screens-grid">
     <div class="screen-card">
-      <img src="research/screens/trainerize-home.png" alt="Trainerize homepage" loading="lazy">
+      <a class="img-link" href="research/screens/trainerize-features-full.png" target="_blank"><img src="research/screens/trainerize-features-full.png" alt="Trainerize features" loading="lazy"></a>
       <div class="screen-info">
-        <div class="screen-tag">Hard competitor</div>
-        <div class="screen-name">Trainerize — Homepage</div>
-        <div class="screen-desc">Загальний positioning, hero, CTA</div>
+        <div class="screen-tag">Hard · Features page</div>
+        <div class="screen-name">Trainerize — Features (full)</div>
+        <div class="screen-desc">Повний перелік модулів і можливостей</div>
       </div>
     </div>
     <div class="screen-card">
-      <img src="research/screens/trainerize-features.png" alt="Trainerize features" loading="lazy">
+      <a class="img-link" href="research/screens/truecoach-features-full.png" target="_blank"><img src="research/screens/truecoach-features-full.png" alt="TrueCoach features" loading="lazy"></a>
       <div class="screen-info">
-        <div class="screen-tag">Hard competitor</div>
-        <div class="screen-name">Trainerize — Features</div>
-        <div class="screen-desc">Список функцій і модулів</div>
+        <div class="screen-tag">Hard · Features page</div>
+        <div class="screen-name">TrueCoach — Features (full)</div>
+        <div class="screen-desc">Video feedback, program builder overview</div>
       </div>
     </div>
     <div class="screen-card">
-      <img src="research/screens/truecoach-home.png" alt="TrueCoach homepage" loading="lazy">
+      <a class="img-link" href="research/screens/hevy-home.png" target="_blank"><img src="research/screens/hevy-home.png" alt="Hevy homepage" loading="lazy"></a>
       <div class="screen-info">
-        <div class="screen-tag">Hard competitor</div>
-        <div class="screen-name">TrueCoach — Homepage</div>
-        <div class="screen-desc">Positioning, UX-відчуття бренду</div>
+        <div class="screen-tag">Hard-суміжний · Homepage</div>
+        <div class="screen-name">Hevy — Homepage</div>
+        <div class="screen-desc">Positioning, product UI preview</div>
       </div>
     </div>
     <div class="screen-card">
-      <img src="research/screens/truecoach-features.png" alt="TrueCoach features" loading="lazy">
+      <a class="img-link" href="research/screens/everfit-home.png" target="_blank"><img src="research/screens/everfit-home.png" alt="Everfit homepage" loading="lazy"></a>
       <div class="screen-info">
-        <div class="screen-tag">Hard competitor</div>
-        <div class="screen-name">TrueCoach — Features</div>
-        <div class="screen-desc">Ключові можливості платформи</div>
+        <div class="screen-tag">Hard · Homepage</div>
+        <div class="screen-name">Everfit — Homepage</div>
+        <div class="screen-desc">Сучасніший дизайн у категорії</div>
       </div>
     </div>
     <div class="screen-card">
-      <img src="research/screens/fitbod-home.png" alt="Fitbod homepage" loading="lazy">
+      <a class="img-link" href="research/screens/future-home.png" target="_blank"><img src="research/screens/future-home.png" alt="Future homepage" loading="lazy"></a>
       <div class="screen-info">
-        <div class="screen-tag">Soft / Aspirational</div>
-        <div class="screen-name">Fitbod — Homepage</div>
-        <div class="screen-desc">AI-first позиціювання, UX-стандарт категорії</div>
+        <div class="screen-tag">Aspirational · Homepage</div>
+        <div class="screen-name">Future — Homepage</div>
+        <div class="screen-desc">Преміальний real-coach app — наш benchmark</div>
       </div>
     </div>
     <div class="screen-card">
-      <img src="research/screens/myfitnesspal-home.png" alt="MyFitnessPal homepage" loading="lazy">
+      <a class="img-link" href="research/screens/whoop-home.png" target="_blank"><img src="research/screens/whoop-home.png" alt="Whoop homepage" loading="lazy"></a>
       <div class="screen-info">
-        <div class="screen-tag">Soft competitor</div>
-        <div class="screen-name">MyFitnessPal — Homepage</div>
-        <div class="screen-desc">Nutrition-first, масова аудиторія</div>
-      </div>
-    </div>
-    <div class="screen-card">
-      <img src="research/screens/strong-home.png" alt="Strong homepage" loading="lazy">
-      <div class="screen-info">
-        <div class="screen-tag">Soft competitor</div>
-        <div class="screen-name">Strong — Homepage</div>
-        <div class="screen-desc">Мінімалістичний логгер, self-directed атлети</div>
+        <div class="screen-tag">Aspirational · Homepage</div>
+        <div class="screen-name">Whoop — Homepage</div>
+        <div class="screen-desc">Еталон data visualization у fitness</div>
       </div>
     </div>
     <div class="screen-card">
@@ -495,7 +549,7 @@
       <div class="screen-info">
         <div class="screen-tag">In-product screens</div>
         <div class="screen-name">Dashboard / Workout / Plan Builder</div>
-        <div class="screen-desc">Потребують акаунту — ручний скрінінг</div>
+        <div class="screen-desc">Потребують акаунту — ручний скрінінг або credentials</div>
       </div>
     </div>
   </div>
@@ -721,22 +775,23 @@
   <h2 class="section-title">Sources</h2>
   <p class="section-sub" style="margin-bottom:24px;">Факти, підкріплені цими джерелами, позначені як факти. Решта — <span class="h">гіпотеза</span></p>
   <div class="sources-list">
-    <div class="source-item"><div class="source-dot"></div><span>TrainerVerdict — Trainerize Review 2026</span></div>
-    <div class="source-item"><div class="source-dot"></div><span>AI Tools Bakery — Trainerize Pricing 2026</span></div>
-    <div class="source-item"><div class="source-dot"></div><span>TrainerVerdict — TrueCoach Review 2026</span></div>
-    <div class="source-item"><div class="source-dot"></div><span>Coachbox — TrueCoach Review 2026</span></div>
-    <div class="source-item"><div class="source-dot"></div><span>Coachway.io — TrueCoach Pricing 2026</span></div>
-    <div class="source-item"><div class="source-dot"></div><span>Autonomous.ai — Fitbod App Review 2026</span></div>
-    <div class="source-item"><div class="source-dot"></div><span>SensAI — Fitbod Review 2026 / Fitness App Pricing Comparison</span></div>
-    <div class="source-item"><div class="source-dot"></div><span>Garage Gym Reviews — MyFitnessPal Review 2026</span></div>
-    <div class="source-item"><div class="source-dot"></div><span>NutriScan — MyFitnessPal Pricing 2026</span></div>
-    <div class="source-item"><div class="source-dot"></div><span>MyFitnessPal Blog — Summer 2026 Release Notes</span></div>
-    <div class="source-item"><div class="source-dot"></div><span>UX Collective — MyFitnessPal UX Case Study (Dikondawar)</span></div>
-    <div class="source-item"><div class="source-dot"></div><span>Medium / Melchionda — MyFitnessPal Usability Test</span></div>
-    <div class="source-item"><div class="source-dot"></div><span>RepReturn — Strong App Review 2026</span></div>
-    <div class="source-item"><div class="source-dot"></div><span>Cora Health — Strong App Comparison</span></div>
-    <div class="source-item"><div class="source-dot"></div><span>Medium / Yap — Strong App UX Redesign Case Study</span></div>
-    <div class="source-item"><div class="source-dot"></div><span>Trainerize Blog — Trainerize vs TrueCoach vs Everfit 2026</span></div>
+    <div class="source-item"><div class="source-dot"></div><a href="https://trainerverdict.com/reviews/trainerize-review/" target="_blank" style="color:var(--text);text-decoration:none;">TrainerVerdict — Trainerize Review 2026</a></div>
+    <div class="source-item"><div class="source-dot"></div><a href="https://aitoolsbakery.com/blog/trainerize-pricing-2026/" target="_blank" style="color:var(--text);text-decoration:none;">AI Tools Bakery — Trainerize Pricing 2026</a></div>
+    <div class="source-item"><div class="source-dot"></div><a href="https://trainerverdict.com/reviews/truecoach-review/" target="_blank" style="color:var(--text);text-decoration:none;">TrainerVerdict — TrueCoach Review 2026</a></div>
+    <div class="source-item"><div class="source-dot"></div><a href="https://coachbox.app/en/compare/truecoach-review/" target="_blank" style="color:var(--text);text-decoration:none;">Coachbox — TrueCoach Review 2026</a></div>
+    <div class="source-item"><div class="source-dot"></div><a href="https://coachway.io/articles/truecoach-pricing/" target="_blank" style="color:var(--text);text-decoration:none;">Coachway.io — TrueCoach Pricing 2026</a></div>
+    <div class="source-item"><div class="source-dot"></div><a href="https://www.autonomous.ai/ourblog/fitbod-app-review" target="_blank" style="color:var(--text);text-decoration:none;">Autonomous.ai — Fitbod App Review 2026</a></div>
+    <div class="source-item"><div class="source-dot"></div><a href="https://www.sensai.fit/blog/fitbod-review-2026" target="_blank" style="color:var(--text);text-decoration:none;">SensAI — Fitbod Review 2026</a></div>
+    <div class="source-item"><div class="source-dot"></div><a href="https://www.sensai.fit/blog/fitness-app-pricing-free-tier-comparison" target="_blank" style="color:var(--text);text-decoration:none;">SensAI — Fitness App Pricing Free Tier Comparison</a></div>
+    <div class="source-item"><div class="source-dot"></div><a href="https://www.garagegymreviews.com/myfitnesspal-review" target="_blank" style="color:var(--text);text-decoration:none;">Garage Gym Reviews — MyFitnessPal Review 2026</a></div>
+    <div class="source-item"><div class="source-dot"></div><a href="https://nutriscan.app/blog/posts/myfitnesspal-pricing-2026-guide-2ff09c399a" target="_blank" style="color:var(--text);text-decoration:none;">NutriScan — MyFitnessPal Pricing 2026</a></div>
+    <div class="source-item"><div class="source-dot"></div><a href="https://blog.myfitnesspal.com/summer-2026-release/" target="_blank" style="color:var(--text);text-decoration:none;">MyFitnessPal Blog — Summer 2026 Release Notes</a></div>
+    <div class="source-item"><div class="source-dot"></div><a href="https://uxdesign.cc/ui-ux-case-study-designing-an-improved-myfitnesspal-experience-3492bbe4923c" target="_blank" style="color:var(--text);text-decoration:none;">UX Collective — MyFitnessPal UX Case Study (Dikondawar)</a></div>
+    <div class="source-item"><div class="source-dot"></div><a href="https://medium.com/@seanmelchionda/myfitnesspal-a-usability-test-of-the-iphone-app-e394a789ad6e" target="_blank" style="color:var(--text);text-decoration:none;">Medium / Melchionda — MyFitnessPal Usability Test</a></div>
+    <div class="source-item"><div class="source-dot"></div><a href="https://repreturn.com/strong-app-review/" target="_blank" style="color:var(--text);text-decoration:none;">RepReturn — Strong App Review 2026</a></div>
+    <div class="source-item"><div class="source-dot"></div><a href="https://www.corahealth.app/compare/strong" target="_blank" style="color:var(--text);text-decoration:none;">Cora Health — Strong App Comparison</a></div>
+    <div class="source-item"><div class="source-dot"></div><a href="https://medium.com/@hwaijunyap/ui-ux-case-study-strong-workout-app-redesign-fc22afbada65" target="_blank" style="color:var(--text);text-decoration:none;">Medium / Yap — Strong App UX Redesign Case Study</a></div>
+    <div class="source-item"><div class="source-dot"></div><a href="https://www.trainerize.com/blog/trainerize-vs-truecoach-vs-everfit-online-coaches/" target="_blank" style="color:var(--text);text-decoration:none;">Trainerize Blog — Trainerize vs TrueCoach vs Everfit 2026</a></div>
   </div>
 </section>
 
