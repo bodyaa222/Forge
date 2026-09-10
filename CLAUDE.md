@@ -93,3 +93,24 @@ Mock data is acceptable for early UI iterations; real Supabase data is the targe
 - Nutrition is manual-entry only (no external food DB or barcode scanner)
 - No real-time features in MVP (no chat, no live push)
 - Supabase handles auth + data — avoid building custom backend
+
+---
+
+## Research Conclusions (from competitive analysis, Sep 2026)
+
+Full analysis: `research/research.md` · Screenshots: `research/screens/ui/` · Visual: `research.html`
+
+### Validated by competitors
+- **Future Pro** proves the remote coach + athlete model exists and people pay (~$149/mo). Forge wins on price accessibility for everyday trainers.
+- **Noom** proves async coach feedback is sufficient — no real-time required. Text comment per workout = enough for MVP.
+- **Lifesum** / **Garmin** prove nutrition manual entry is the standard flow. Barcode/AI is a nice-to-have.
+- **Pushr** proves schedule alone is a product — without a clear training calendar, athletes don't know what to do tomorrow.
+
+### Key UX patterns to use in Forge
+- **Pill-row day selector** (S M T W T F S) — for training plan assignment (seen in Pushr)
+- **In-workout bottom sheet** — Reps / Weight / Flag / Guide during active workout (seen in Future Pro)
+- **Macro progress bars** — Carbs / Protein / Fat with daily kcal line (seen in Lifesum)
+- **Dark premium UI** — Future Pro, Oura, Garmin all chose dark theme for athletic feel
+
+### Design direction confirmed
+Dark theme. Strong typography. Data-first cards. No generic fitness aesthetic.
