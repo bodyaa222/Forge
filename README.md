@@ -57,7 +57,7 @@ Competitive analysis of 7 fitness apps from Mobbin — real UI screenshots, benc
 | [Garmin Connect](research/screens/ui/garmin-connect-ios-0463877a-79d0-44f8-8e13-268fd9a3014a/) | Soft competitor | Subscription paywall design. Performance dashboard layout. |
 
 → Full analysis: [`research/research.md`](research/research.md)  
-→ Visual overview: [`research.html`](research.html) (open locally or via GitHub Pages)
+→ **Visual overview: [research.html — відкрити](https://bodyaa222.github.io/Forge/research/research.html)** (GitHub Pages)
 
 ---
 
