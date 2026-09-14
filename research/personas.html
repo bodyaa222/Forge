@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Forge — Personas & JTBD</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#080808;--bg2:#0f0f0f;--bg3:#161616;
+  --line:#1e1e1e;--line2:#282828;
+  --text:#e2e2e2;--text2:#777;--text3:#444;
+  --accent:#d4ff4f;
+  --amber:#e8b84b;--amber-dim:rgba(232,184,75,0.1);
+  --primary-dim:rgba(212,255,79,0.07);
+  --purple:#a29bfe;--purple-dim:rgba(162,155,254,0.1);
+}
+
+::selection{background:var(--accent);color:#000}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg);color:var(--text);
+  font-family:'Inter',system-ui,sans-serif;
+  font-size:15px;line-height:1.65;
+  -webkit-font-smoothing:antialiased;
+}
+::-webkit-scrollbar{width:4px;height:4px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--line2);border-radius:4px}
+*{scrollbar-width:thin;scrollbar-color:var(--line2) transparent}
+
+/* ── HEADER ── */
+header{
+  max-width:1400px;margin:0 auto;
+  padding:64px 56px 52px;
+  border-bottom:1px solid var(--line);
+  display:grid;grid-template-columns:1fr auto;align-items:end;gap:24px;
+}
+.brand{
+  font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--text3);margin-bottom:20px;grid-column:1/-1;
+}
+header h1{
+  font-family:'DM Serif Display',Georgia,serif;
+  font-size:clamp(52px,6vw,88px);font-weight:400;
+  line-height:.95;letter-spacing:-.02em;color:var(--text);
+}
+header h1 em{font-style:italic;color:var(--text3)}
+.header-meta{
+  font-size:13px;color:var(--text3);
+  text-align:right;line-height:1.8;align-self:end;padding-bottom:4px;
+}
+.header-meta strong{color:var(--text2);font-weight:500}
+
+/* ── NAV ── */
+.page-nav{
+  position:sticky;top:0;z-index:100;
+  background:rgba(8,8,8,.96);
+  backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--line);
+}
+.page-nav-inner{
+  max-width:1400px;margin:0 auto;
+  display:flex;gap:2px;overflow-x:auto;
+  scrollbar-width:none;padding:10px 56px;
+}
+.page-nav-inner::-webkit-scrollbar{display:none}
+.nav-btn{
+  background:none;border:1px solid transparent;border-radius:6px;
+  color:var(--text3);cursor:pointer;font-family:inherit;
+  font-size:13px;font-weight:500;padding:5px 14px;
+  white-space:nowrap;transition:all .12s;flex-shrink:0;text-decoration:none;display:inline-block;
+}
+.nav-btn:hover{color:var(--text2);border-color:var(--line2)}
+.nav-btn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.nav-btn.active{background:var(--text);color:#000;border-color:transparent;font-weight:700}
+
+/* ── MAIN ── */
+main{max-width:1400px;margin:0 auto;padding:0 56px 120px}
+
+/* ── SECTION HEADINGS ── */
+.section-h{
+  font-family:'DM Serif Display',Georgia,serif;
+  font-size:clamp(28px,3vw,40px);font-weight:400;
+  letter-spacing:-.02em;line-height:1;
+  padding-top:72px;margin-bottom:40px;color:var(--text);
+}
+.section-h:first-child{padding-top:56px}
+.section-sub{
+  font-size:13px;color:var(--text3);margin-top:8px;
+  font-family:'Inter',sans-serif;font-weight:400;letter-spacing:0;
+}
+
+/* ── INLINE MARKS ── */
+.q{
+  display:inline-flex;align-items:center;
+  font-size:9px;font-weight:700;letter-spacing:.06em;
+  padding:2px 5px;border-radius:3px;
+  background:var(--bg3);color:var(--text3);border:1px solid var(--line2);
+  vertical-align:middle;margin-left:4px;font-family:'Inter',sans-serif;
+  white-space:nowrap;
+}
+.hyp{
+  display:inline-flex;align-items:center;
+  font-size:9px;font-weight:700;letter-spacing:.06em;
+  padding:2px 5px;border-radius:3px;
+  background:var(--amber-dim);color:var(--amber);
+  vertical-align:middle;margin-left:4px;font-family:'Inter',sans-serif;
+  white-space:nowrap;
+}
+.conf{
+  display:inline-flex;align-items:center;
+  font-size:9px;font-weight:700;letter-spacing:.06em;
+  padding:2px 5px;border-radius:3px;
+  background:var(--primary-dim);color:var(--accent);
+  vertical-align:middle;margin-left:4px;font-family:'Inter',sans-serif;
+  white-space:nowrap;
+}
+.src{font-size:12px;color:var(--text3);margin-top:10px;font-style:normal;line-height:1.5}
+
+/* ── PERSONA ROWS ── */
+.persona-list{}
+.persona-row{
+  border-top:1px solid var(--line);
+  padding:48px 0;
+  display:grid;grid-template-columns:1fr 1.8fr;gap:64px;align-items:start;
+}
+.persona-row:last-child{border-bottom:1px solid var(--line)}
+.persona-row.is-primary{background:var(--primary-dim);
+  margin:0 -24px;padding-left:24px;padding-right:24px;}
+
+.persona-identity{}
+.persona-status{
+  font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--text3);margin-bottom:12px;
+}
+.persona-row.is-primary .persona-status{color:var(--accent)}
+.persona-name{
+  font-family:'DM Serif Display',Georgia,serif;
+  font-size:clamp(36px,4vw,52px);font-weight:400;
+  letter-spacing:-.02em;line-height:1;margin-bottom:6px;
+  color:var(--text);
+}
+.persona-row.is-primary .persona-name{color:var(--accent)}
+.persona-role{font-size:14px;color:var(--text2);margin-bottom:24px}
+.persona-context{
+  font-size:14px;line-height:1.65;color:var(--text2);
+  border-left:1px solid var(--line2);padding-left:16px;
+  max-width:320px;
+}
+.persona-context .update{
+  font-size:12px;color:var(--text3);margin-top:10px;
+  padding-top:10px;border-top:1px solid var(--line);
+}
+
+.persona-body{}
+.pblock{margin-bottom:28px}
+.pblock-label{
+  font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--text3);margin-bottom:12px;
+}
+.pblock ul{list-style:none;display:flex;flex-direction:column;gap:8px}
+.pblock ul li{
+  font-size:14px;line-height:1.55;
+  padding-left:18px;position:relative;color:var(--text2);
+}
+.pblock ul li::before{content:'–';position:absolute;left:0;color:var(--text3)}
+.pblock ul li.good::before{content:'✓';color:var(--accent);font-weight:700}
+.pblock ul li.bad::before{content:'✗';color:var(--text3)}
+.pblock ul li.warn::before{content:'⚠';color:var(--amber)}
+.persona-quote{
+  font-size:14px;line-height:1.65;
+  color:var(--text);padding:16px 20px;
+  background:var(--bg2);border-radius:6px;
+  border-left:2px solid var(--line2);
+  font-style:italic;margin-top:20px;
+}
+.persona-row.is-primary .persona-quote{border-left-color:var(--accent)}
+.persona-quote cite{
+  display:block;font-style:normal;font-size:11px;
+  color:var(--text3);margin-top:8px;
+}
+
+/* ── MAIN JOB ── */
+.main-job{
+  border-top:1px solid var(--line);
+  padding:56px 0;
+}
+.main-job-label{
+  font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--accent);margin-bottom:20px;
+}
+.main-job blockquote{
+  font-family:'DM Serif Display',Georgia,serif;
+  font-size:clamp(22px,2.5vw,32px);font-weight:400;
+  line-height:1.3;letter-spacing:-.01em;
+  color:var(--text);max-width:860px;
+  padding-left:32px;border-left:2px solid var(--accent);
+}
+.main-job-meta{
+  margin-top:24px;padding-left:32px;
+  font-size:13px;color:var(--text3);line-height:1.7;max-width:640px;
+}
+
+/* ── JOB ROWS ── */
+.jobs-group{margin-bottom:0}
+.job-row{
+  border-top:1px solid var(--line);
+  padding:36px 0;
+  display:grid;grid-template-columns:80px 1fr;gap:40px;align-items:start;
+}
+.job-row:last-child{border-bottom:1px solid var(--line)}
+.job-n{
+  font-family:'DM Serif Display',Georgia,serif;
+  font-size:52px;font-weight:400;line-height:1;
+  color:var(--line2);letter-spacing:-.03em;
+}
+.job-n.emotional{color:rgba(232,184,75,.18)}
+.job-n.social{color:rgba(162,155,254,.15)}
+.job-body{padding-top:6px}
+.job-id{
+  font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--text3);margin-bottom:8px;
+}
+.job-statement{
+  font-size:16px;line-height:1.6;color:var(--text);
+  margin-bottom:12px;max-width:680px;
+}
+.job-statement em{font-style:italic;color:var(--text2)}
+.job-meta{
+  font-size:12px;color:var(--text3);line-height:1.6;
+  display:flex;gap:20px;flex-wrap:wrap;
+}
+.job-persona{color:var(--text2);font-weight:500}
+.job-source{}
+
+/* ── GROUP HEADER ── */
+.group-h{
+  font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--text3);padding-top:56px;margin-bottom:0;
+}
+
+/* ── TABLE ── */
+.table-wrap{
+  overflow-x:auto;
+  border-top:1px solid var(--line);
+  border-bottom:1px solid var(--line);
+}
+table{width:100%;border-collapse:collapse;min-width:900px}
+thead th{
+  padding:12px 14px;text-align:center;
+  font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;
+  color:var(--text3);border-bottom:1px solid var(--line);white-space:nowrap;
+  background:var(--bg);
+}
+thead th:first-child{text-align:left;min-width:180px;color:var(--text2)}
+thead th.primary-col{color:var(--accent)}
+tbody td{
+  padding:10px 14px;font-size:12px;
+  border-bottom:1px solid var(--line);text-align:center;
+  vertical-align:top;line-height:1.5;
+}
+tbody td:first-child{text-align:left;color:var(--text);font-weight:600;font-size:13px}
+tbody tr:last-child td{border-bottom:none}
+tbody tr:hover td{background:var(--bg2)}
+.cell{text-align:left;font-size:11px;color:var(--text2);line-height:1.5}
+
+/* importance chips */
+.imp{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:20px;height:20px;border-radius:4px;
+  font-size:11px;font-weight:800;margin-right:4px;flex-shrink:0;
+}
+.imp-3{background:var(--accent);color:#000}
+.imp-2{background:var(--amber-dim);color:var(--amber);border:1px solid rgba(232,184,75,.3)}
+.imp-1{background:var(--bg3);color:var(--text3);border:1px solid var(--line2)}
+.imp-q{background:var(--bg3);color:var(--text3);border:1px solid var(--line2);font-style:italic;font-size:10px}
+
+/* ── CONCLUSIONS ── */
+.conclusions{}
+.core-jobs{display:flex;flex-direction:column;gap:0}
+.core-job{
+  border-top:1px solid var(--line);
+  padding:36px 0;
+  display:grid;grid-template-columns:200px 1fr;gap:48px;align-items:start;
+}
+.core-job:last-child{border-bottom:1px solid var(--line)}
+.core-label{
+  font-family:'DM Serif Display',Georgia,serif;
+  font-size:18px;line-height:1.2;color:var(--accent);
+}
+.core-label span{display:block;font-family:'Inter',sans-serif;
+  font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--text3);margin-bottom:6px;}
+.core-body p{font-size:14px;line-height:1.65;color:var(--text2);margin-bottom:10px}
+.core-body p:last-child{margin-bottom:0}
+.core-body strong{color:var(--text);font-weight:600}
+
+.defer-table{width:100%;border-collapse:collapse;margin-top:0}
+.defer-table th{
+  padding:10px 16px;text-align:left;font-size:11px;font-weight:700;
+  letter-spacing:.08em;text-transform:uppercase;color:var(--text3);
+  border-bottom:1px solid var(--line);
+}
+.defer-table td{
+  padding:14px 16px;font-size:13px;color:var(--text2);
+  border-bottom:1px solid var(--line);vertical-align:top;line-height:1.55;
+}
+.defer-table td:first-child{color:var(--text);font-weight:600}
+.defer-table tr:last-child td{border-bottom:none}
+
+/* ── RESPONSIVE ── */
+@media(max-width:900px){
+  .persona-row{grid-template-columns:1fr;gap:32px}
+  .core-job{grid-template-columns:1fr;gap:16px}
+  .persona-row.is-primary{margin:0 -16px;padding-left:16px;padding-right:16px}
+}
+@media(max-width:640px){
+  header{padding:40px 24px 36px;grid-template-columns:1fr;gap:16px}
+  .header-meta{text-align:left}
+  main,.page-nav-inner{padding-left:24px;padding-right:24px}
+  .job-row{grid-template-columns:56px 1fr;gap:20px}
+  .job-n{font-size:36px}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">Forge · Personas & JTBD</div>
+  <h1>User <em>Profiles</em></h1>
+  <div class="header-meta">
+    <strong>3 персони</strong> · 10 jobs · матриця<br>
+    Вересень 2026 · після доресерчу
+  </div>
+</header>
+
+<nav class="page-nav">
+  <div class="page-nav-inner">
+    <a class="nav-btn active" href="#personas">Персони</a>
+    <a class="nav-btn" href="#jobs">Ієрархія Jobs</a>
+    <a class="nav-btn" href="#matrix">JTBD Матриця</a>
+    <a class="nav-btn" href="#conclusions">Висновки MVP</a>
+  </div>
+</nav>
+
+<main>
+
+<!-- ═══════════════════════════════ PERSONAS ═══════════════════════════════ -->
+<section id="personas">
+<h2 class="section-h">Персони
+  <div class="section-sub">Тренер вибирає інструмент першим і запрошує атлета — тому primary</div>
+</h2>
+
+<div class="persona-list">
+
+  <!-- МАКСИМ — PRIMARY -->
+  <div class="persona-row is-primary">
+    <div class="persona-identity">
+      <div class="persona-status">Primary · Тренер</div>
+      <div class="persona-name">Максим</div>
+      <div class="persona-role">27 р., онлайн-тренер <span class="q">?</span></div>
+      <div class="persona-context">
+        Два роки веде клієнтів після переїзду. На старті вистачало Telegram і Google Таблиць — зараз 8 клієнтів і система тріщить.
+        <span class="q">?</span> — 8 клієнтів вигадано; «точка болю» невідома.
+        <div class="update">
+          ↳ <strong>Після доресерчу:</strong> Google Sheets як відправна точка — <span class="conf">підтверджено</span> (Capterra TrueCoach: Jesse O., Frank C., Daniel Y. прийшли зі Sheets). Trainerize / TrueCoach / TrainHeroic існують як наступний крок. Максим — тренер «до» professional platforms.
+        </div>
+      </div>
+    </div>
+    <div class="persona-body">
+      <div class="pblock">
+        <div class="pblock-label">Jobs</div>
+        <ul>
+          <li>Скласти план і надіслати клієнту без copy-paste</li>
+          <li>Бачити чи клієнт тренувався, не питаючи в чат</li>
+          <li>Залишити коментар за 2 хвилини замість розлогого Telegram</li>
+          <li>«Пульт» — один екран де видно всіх клієнтів і хто відстає</li>
+        </ul>
+      </div>
+      <div class="pblock">
+        <div class="pblock-label">Болі сьогодні</div>
+        <ul>
+          <li>Telegram: план губиться між мемами і голосовими <span class="hyp">гіпотеза</span></li>
+          <li>Google Sheets: бачить дані тільки якщо клієнт вніс. Часто — не вносить <span class="hyp">гіпотеза</span></li>
+          <li class="warn">Notification overload: клієнти вимикають всі сповіщення за перший місяць <span class="conf">підтверджено</span> — Trainerize Capterra</li>
+          <li>Немає агрегованого прогресу — вручну зводить цифри</li>
+        </ul>
+      </div>
+      <div class="pblock">
+        <div class="pblock-label">Тригери довіри / страхи</div>
+        <ul>
+          <li class="good">Бачить дані клієнта без прохання</li>
+          <li class="good">Простий invite link — клієнт не потребує інструкцій</li>
+          <li class="good">Відеореференс вправи прямо в плані <span class="conf">підтверджено</span> — Future Pro єдиний з цим</li>
+          <li class="bad">«Ще один інструмент — мої клієнти не будуть використовувати» <span class="hyp">гіпотеза</span></li>
+          <li class="bad">Складний конструктор — якщо довше ніж в Sheets, не варто <span class="hyp">гіпотеза</span></li>
+        </ul>
+      </div>
+      <div class="persona-quote">
+        «Я витрачаю більше часу на адмінку ніж на саме тренерство»
+        <cite>[?] Гіпотетична зона · верифікувати: r/personaltraining, Capterra Future Pro / TrueCoach</cite>
+      </div>
+    </div>
+  </div>
+
+  <!-- ОЛЯ — SECONDARY #1 -->
+  <div class="persona-row">
+    <div class="persona-identity">
+      <div class="persona-status">Secondary #1 · Атлет із тренером</div>
+      <div class="persona-name">Оля</div>
+      <div class="persona-role">29 р., менеджер проєктів, Київ <span class="q">?</span></div>
+      <div class="persona-context">
+        Три місяці тому взяла онлайн-тренера після того як самостійні тренування «зайшли в глухий кут». Тренер надсилає план у PDF в Telegram. Логує в Notes або не логує взагалі.
+        <div class="update">
+          ↳ <strong>Після доресерчу:</strong> «Логує в Notes» — <span class="conf">підтверджено</span>. App Store: категорія апок що імпортують з iPhone Notes, реальний відгук: «I paste my workout from the iPhone Notes app after each session». 77% користувачів фітнес-апок ідуть за 3 дні — Оля <strong>high dropout risk</strong>.
+        </div>
+      </div>
+    </div>
+    <div class="persona-body">
+      <div class="pblock">
+        <div class="pblock-label">Jobs</div>
+        <ul>
+          <li>Знати що робити сьогодні без пошуку PDF у Telegram</li>
+          <li>Зафіксувати підхід між сетами, поки пам'ятає</li>
+          <li>Показати тренеру що вона старалась, навіть якщо вага не впала</li>
+          <li>Побачити власний прогрес у числах — місяць тому vs зараз</li>
+        </ul>
+      </div>
+      <div class="pblock">
+        <div class="pblock-label">Болі сьогодні</div>
+        <ul>
+          <li>PDF в Telegram: план не інтерактивний, не можна поставити галочку</li>
+          <li>Notes між сетами: довго і незручно <span class="conf">підтверджено</span></li>
+          <li>Тренер питає «як минулий тиждень?» — відповідає по пам'яті <span class="hyp">гіпотеза</span></li>
+          <li class="warn">High dropout risk: 90% покидають фітнес-апку за 30 днів <span class="conf">підтверджено</span></li>
+        </ul>
+      </div>
+      <div class="pblock">
+        <div class="pblock-label">Тригери довіри / страхи</div>
+        <ul>
+          <li class="good">Перше відкриття = план на сьогодні, без пошуку</li>
+          <li class="good">Логування: 3 поля, одна кнопка, секунди між сетами <span class="conf">швидкість підтверджено</span></li>
+          <li class="good">Бачить власний прогрес — без тренера</li>
+          <li class="bad">Треба переконати тренера теж перейти <span class="hyp">гіпотеза</span></li>
+          <li class="bad">«Ще одна апка якою перестану через тиждень» <span class="hyp">гіпотеза</span></li>
+        </ul>
+      </div>
+      <div class="persona-quote">
+        «I paste my workout from the iPhone Notes app after each session and it's all converted automatically. Surprised it worked so well!»
+        <cite>Реальний відгук, Gym Note Plus App Store · підтверджує Notes-паттерн</cite>
+      </div>
+    </div>
+  </div>
+
+  <!-- ДМИТРО — SECONDARY #2 -->
+  <div class="persona-row">
+    <div class="persona-identity">
+      <div class="persona-status">Secondary #2 · Самостійний атлет</div>
+      <div class="persona-name">Дмитро</div>
+      <div class="persona-role">24 р., розробник <span class="q">?</span> · всі деталі — гіпотеза</div>
+      <div class="persona-context">
+        Тренується самостійно 2 роки, Google Sheet з програмою. Зробив кілька циклів — «застряг». Бачить рекламу online coaching. До Forge може прийти якщо тренер запросить.
+        <div class="update">
+          ↳ Найслабша персона. Дані future Pro pricing (Г1) — єдиний зв'язок із research. Решта — [?].
+        </div>
+      </div>
+    </div>
+    <div class="persona-body">
+      <div class="pblock">
+        <div class="pblock-label">Jobs</div>
+        <ul>
+          <li>Зрозуміти чи варто платити за тренера <span class="q">?</span></li>
+          <li>Знайти спосіб щоб тренер бачив реальні дані, а не вірив на слово <span class="q">?</span></li>
+          <li>Не втратити свободу — хоче план, але не хоче звіт щодня <span class="q">?</span></li>
+        </ul>
+      </div>
+      <div class="pblock">
+        <div class="pblock-label">Болі сьогодні</div>
+        <ul>
+          <li>Google Sheet не мобільний, незручний у залі <span class="hyp">гіпотеза</span></li>
+          <li>Немає зовнішнього погляду — не знає чи правильно прогресує <span class="hyp">гіпотеза</span></li>
+          <li>Future Pro ~$149/mo — ціновий бар'єр для початку <span class="conf">підтверджено</span> — Г1</li>
+        </ul>
+      </div>
+      <div class="pblock">
+        <div class="pblock-label">Тригери довіри / страхи</div>
+        <ul>
+          <li class="good">Тренер реагує на дані, а не просто бере гроші <span class="q">?</span></li>
+          <li class="good">Може зберегти власну логіку тренувань <span class="q">?</span></li>
+          <li class="bad">«Тренер мені не потрібен — потрібний лише план» <span class="q">?</span></li>
+          <li class="bad">Обов'язковість — щоденний чекін відлякує <span class="q">?</span></li>
+        </ul>
+      </div>
+      <div class="persona-quote">
+        «Хочу щоб хтось перевірив мою програму але не хочу щоб за мною стежили»
+        <cite>[?] Гіпотетично · Дмитро найменш підтверджений — не будувати фічі тільки під нього</cite>
+      </div>
+    </div>
+  </div>
+
+</div>
+</section>
+
+<!-- ═══════════════════════════════ JOBS ═══════════════════════════════ -->
+<section id="jobs">
+<h2 class="section-h">Ієрархія Jobs</h2>
+
+<!-- MAIN JOB -->
+<div class="main-job">
+  <div class="main-job-label">Main Job · продукт</div>
+  <blockquote>
+    Коли я веду або виконую тренувальну програму дистанційно, я хочу щоб план і реальне виконання знаходились в одному місці, щоб тренер міг коригувати, а атлет — завжди знав що робити сьогодні.
+  </blockquote>
+  <div class="main-job-meta">
+    <span class="conf">підтверджено</span> — Future Pro доводить що remote coaching + реальні дані = ринковий продукт (Г1). Async feedback достатньо — Noom + Future Pro (Г2). Персони: Максим не бачить виконання без питань, Оля не знає план без пошуку PDF.
+  </div>
+</div>
+
+<!-- FUNCTIONAL JOBS -->
+<div class="group-h">Functional Jobs · шлях до main job</div>
+<div class="jobs-group">
+
+  <div class="job-row">
+    <div class="job-n">J1</div>
+    <div class="job-body">
+      <div class="job-id">Тренер · доставка плану</div>
+      <div class="job-statement">Коли я складаю нову програму для клієнта, я хочу щоб вона потрапила до нього там де він тренується, щоб він не шукав її в чаті і не тренувався по пам'яті.</div>
+      <div class="job-meta">
+        <span class="job-persona">Максим · важливість 3</span>
+        <span class="job-source">Оля: PDF в Telegram — момент тертя · Pushr = schedule alone (Г4)</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="job-row">
+    <div class="job-n">J2</div>
+    <div class="job-body">
+      <div class="job-id">Тренер · видимість виконання</div>
+      <div class="job-statement">Коли клієнт завершив тренування, я хочу бачити що він реально зробив — вага, підходи, відчуття — не питаючи в чат, щоб наступний коментар був по суті.</div>
+      <div class="job-meta">
+        <span class="job-persona">Максим · важливість 3</span>
+        <span class="job-source">Г2: async feedback норма · Future Pro trainer dashboard (BM)</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="job-row">
+    <div class="job-n">J3</div>
+    <div class="job-body">
+      <div class="job-id">Атлет · план на сьогодні</div>
+      <div class="job-statement">Коли я прийшов на тренування, я хочу відкрити одне місце і одразу побачити вправи і підходи на сьогодні, щоб не гаяти перші 10 хвилин на пошук.</div>
+      <div class="job-meta">
+        <span class="job-persona">Оля · важливість 3</span>
+        <span class="job-source">Г4: Pushr = schedule alone — є аудиторія · dropout risk: якщо немає — не відкриє вдруге</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="job-row">
+    <div class="job-n">J4</div>
+    <div class="job-body">
+      <div class="job-id">Атлет · логування між сетами</div>
+      <div class="job-statement">Коли я відпочиваю між підходами в залі, я хочу записати вагу і повтори за секунди, щоб до кінця тренування мати точні дані, а не реконструювати по пам'яті.</div>
+      <div class="job-meta">
+        <span class="job-persona">Оля · важливість 3</span>
+        <span class="job-source"><span class="conf">підтверджено</span> — Future Pro bottom sheet (П2) · Notes-паттерн підтверджено (DR2) · швидкість = #1 критерій (DR1)</span>
+      </div>
+      <div class="src">⚠ «5–10 секунд» з попередніх документів — <span class="q">?</span> вигадано. Правильно: «секунди», конкретний поріг не виміряно.</div>
+    </div>
+  </div>
+
+  <div class="job-row">
+    <div class="job-n">J5</div>
+    <div class="job-body">
+      <div class="job-id">Атлет · підтвердження прогресу</div>
+      <div class="job-statement">Коли моя вага стоїть або я сумніваюсь чи варто продовжувати, я хочу побачити що місяць тому я піднімав менше, щоб мати підставу не кидати.</div>
+      <div class="job-meta">
+        <span class="job-persona">Оля · важливість 3 · Дмитро · важливість 3</span>
+        <span class="job-source">BM: 5/7 конкурентів мають progress charts — насичений ринок</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- EMOTIONAL JOBS -->
+<div class="group-h" style="margin-top:40px">Emotional Jobs</div>
+<div class="jobs-group">
+
+  <div class="job-row">
+    <div class="job-n emotional">E1</div>
+    <div class="job-body">
+      <div class="job-id">Тренер · контроль замість хаосу</div>
+      <div class="job-statement">Коли у мене 8 клієнтів і кожен у своєму чаті, я хочу відчувати що я веду людей через систему, а не ловлю повідомлення і забуваю хто де зупинився.</div>
+      <div class="job-meta">
+        <span class="job-persona">Максим · важливість 3</span>
+        <span class="job-source"><span class="hyp">гіпотеза</span> · похідне від Г1 + PRS · emotional dimension не верифіковано</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="job-row">
+    <div class="job-n emotional">E2</div>
+    <div class="job-body">
+      <div class="job-id">Атлет · зусилля побачені</div>
+      <div class="job-statement">Коли я відпахав важке тренування і нікому про це не розповів, я хочу щоб тренер побачив це без мого звіту, щоб не відчувати що стараюсь у вакуумі.</div>
+      <div class="job-meta">
+        <span class="job-persona">Оля · важливість 3</span>
+        <span class="job-source">Strava split feedback «Split 1 complete!» = визнання зусиль в моменті (П4) · Оля «відповідає по пам'яті»</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- SOCIAL JOBS -->
+<div class="group-h" style="margin-top:40px">Social Jobs</div>
+<div class="jobs-group">
+
+  <div class="job-row">
+    <div class="job-n social">S1</div>
+    <div class="job-body">
+      <div class="job-id">Тренер · профі-сигнал <span class="q">?</span></div>
+      <div class="job-statement">Коли потенційний клієнт питає «як ти ведеш атлетів», я хочу показати зрозуміле місце де все відбувається, а не пояснювати що «у нас є чат і таблиця».</div>
+      <div class="job-meta">
+        <span class="job-persona">Максим · важливість <span class="q">?</span></span>
+        <span class="job-source"><span class="q">?</span> Гіпотеза · нема даних у research.md · перемістити в основний список після інтерв'ю</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="job-row">
+    <div class="job-n social">S2</div>
+    <div class="job-body">
+      <div class="job-id">Атлет · дані замість виправдань</div>
+      <div class="job-statement">Коли тренер питає «як минулий тиждень», я хочу відповісти цифрами, а не «ну більш-менш», щоб розмова була про результат, а не про те чому я пропустив.</div>
+      <div class="job-meta">
+        <span class="job-persona">Оля · важливість 3</span>
+        <span class="job-source">PRS: «відповідає по пам'яті» — соціально незручна ситуація · emotional dimension <span class="hyp">гіпотеза</span></span>
+      </div>
+    </div>
+  </div>
+
+</div>
+</section>
+
+<!-- ═══════════════════════════════ MATRIX ═══════════════════════════════ -->
+<section id="matrix">
+<h2 class="section-h">JTBD Матриця
+  <div class="section-sub">Важливість: 3 = критично · 2 = є обхідний шлях · 1 = nice-to-have · ? = невідомо</div>
+</h2>
+
+<div class="table-wrap">
+<table>
+  <thead>
+    <tr>
+      <th>Job</th>
+      <th class="primary-col">Максим<br><span style="font-weight:400;text-transform:none;letter-spacing:0;color:var(--text3)">тренер · primary</span></th>
+      <th>Оля<br><span style="font-weight:400;text-transform:none;letter-spacing:0;color:var(--text3)">атлет із тренером</span></th>
+      <th>Дмитро<br><span style="font-weight:400;text-transform:none;letter-spacing:0;color:var(--text3)">самостійний</span></th>
+      <th>Функція в продукті</th>
+      <th>Конкуренти</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>M</strong> · розрив план↔виконання</td>
+      <td><div class="cell"><span class="imp imp-3">3</span>Future Pro = ринок є (Г1) · без цього — Telegram</div></td>
+      <td><div class="cell"><span class="imp imp-3">3</span>Г4: без плану тренується по пам'яті</div></td>
+      <td><div class="cell"><span class="imp imp-1">1</span>job не активний без тренера</div></td>
+      <td><div class="cell">Спільний простір: план тренера + лог атлета</div></td>
+      <td><div class="cell">Future Pro ✓ повністю · Noom ✓ частково · решта ✗</div></td>
+    </tr>
+    <tr>
+      <td><strong>J1</strong> · тренер доставляє план</td>
+      <td><div class="cell"><span class="imp imp-3">3</span>PDF губиться в Telegram <span class="hyp">гіп.</span></div></td>
+      <td><div class="cell"><span class="imp imp-2">2</span>шукає PDF — тертя є, обхідний шлях є</div></td>
+      <td><div class="cell"><span class="imp imp-q">?</span>job не активний</div></td>
+      <td><div class="cell">Plan builder + пряме призначення атлету</div></td>
+      <td><div class="cell">Future Pro ✓ · Pushr ✓ schedule only · Noom ✓ часткового</div></td>
+    </tr>
+    <tr>
+      <td><strong>J2</strong> · тренер бачить що сталося</td>
+      <td><div class="cell"><span class="imp imp-3">3</span>Г2: async норма · зараз отримує пам'ять <span class="hyp">гіп.</span></div></td>
+      <td><div class="cell"><span class="imp imp-2">2</span>E2: хоче щоб зусилля побачили</div></td>
+      <td><div class="cell"><span class="imp imp-q">?</span>немає тренера</div></td>
+      <td><div class="cell">Workout log видимий тренеру + async comment</div></td>
+      <td><div class="cell">Future Pro ✓ · Noom ✓ · решта ✗ trainer visibility</div></td>
+    </tr>
+    <tr>
+      <td><strong>J3</strong> · атлет бачить план сьогодні</td>
+      <td><div class="cell"><span class="imp imp-2">2</span>якщо атлет не знає — клієнт відвалюється</div></td>
+      <td><div class="cell"><span class="imp imp-3">3</span>Г4 · dropout: без цього не відкриє вдруге</div></td>
+      <td><div class="cell"><span class="imp imp-2">2</span>Google Sheet — аналогічне тертя</div></td>
+      <td><div class="cell">Athlete home screen: тренування першим екраном</div></td>
+      <td><div class="cell">Pushr ✓ найкраще (без trainer) · Future Pro ✓ ($149/mo)</div></td>
+    </tr>
+    <tr>
+      <td><strong>J4</strong> · логування між сетами</td>
+      <td><div class="cell"><span class="imp imp-2">2</span>якість даних залежить від цього</div></td>
+      <td><div class="cell"><span class="imp imp-3">3</span><span class="conf">підтв.</span> Future Pro bottom sheet (П2) · Notes-паттерн (DR2) · фрикція = #1 причина відмови (DR3)</div></td>
+      <td><div class="cell"><span class="imp imp-2">2</span>Google Sheet в залі незручний</div></td>
+      <td><div class="cell">Quick logger: вправа / вага / повтори + зберегти сет</div></td>
+      <td><div class="cell">Future Pro ✓ bottom sheet · Strava — GPS only · решта ✗</div></td>
+    </tr>
+    <tr>
+      <td><strong>J5</strong> · атлет бачить прогрес</td>
+      <td><div class="cell"><span class="imp imp-2">2</span>утримання клієнта</div></td>
+      <td><div class="cell"><span class="imp imp-3">3</span>BM: 5/7 конкурентів · Оля відповідає по пам'яті</div></td>
+      <td><div class="cell"><span class="imp imp-3">3</span>«застряг», не знає чи прогресує</div></td>
+      <td><div class="cell">Progress charts + PR по вазі / повтореннях</div></td>
+      <td><div class="cell"><strong style="color:var(--amber)">Насичено:</strong> Future Pro ✓ Strava ✓ Noom ✓ Lifesum ✓ Garmin ✓</div></td>
+    </tr>
+    <tr>
+      <td><strong>E1</strong> · тренер відчуває контроль</td>
+      <td><div class="cell"><span class="imp imp-3">3</span>адмінка &gt; тренерство <span class="hyp">гіп.</span> · похідне від Г1</div></td>
+      <td><div class="cell"><span class="imp imp-q">?</span></div></td>
+      <td><div class="cell"><span class="imp imp-q">?</span></div></td>
+      <td><div class="cell">Client list зі статусом активності</div></td>
+      <td><div class="cell"><span class="q">?</span> emotional dimension конкурентів не досліджувався</div></td>
+    </tr>
+    <tr>
+      <td><strong>E2</strong> · зусилля атлета побачені</td>
+      <td><div class="cell"><span class="imp imp-2">2</span>лог = коментар по суті</div></td>
+      <td><div class="cell"><span class="imp imp-3">3</span>Strava split feedback (П4) · «тренується у вакуумі»</div></td>
+      <td><div class="cell"><span class="imp imp-1">1</span>нікому бачити без тренера</div></td>
+      <td><div class="cell">Сигнал тренеру коли атлет завершив · feedback видимий атлету</div></td>
+      <td><div class="cell">Strava ✓ social kudos · Future Pro ✓ · решта ✗</div></td>
+    </tr>
+    <tr>
+      <td><strong>S1</strong> · тренер як профі <span class="q">?</span></td>
+      <td><div class="cell"><span class="imp imp-q">?</span>нема даних в research</div></td>
+      <td><div class="cell"><span class="imp imp-q">?</span></div></td>
+      <td><div class="cell"><span class="imp imp-q">?</span></div></td>
+      <td><div class="cell"><span class="q">?</span> побічний ефект загального UX</div></td>
+      <td><div class="cell">Future Pro: elite coaching tool (Г1) · механізм невідомо</div></td>
+    </tr>
+    <tr>
+      <td><strong>S2</strong> · дані замість виправдань</td>
+      <td><div class="cell"><span class="imp imp-2">2</span>краща розмова = продуктивніший клієнт</div></td>
+      <td><div class="cell"><span class="imp imp-3">3</span>«по пам'яті» — соціально незручна <span class="hyp">гіп.</span></div></td>
+      <td><div class="cell"><span class="imp imp-1">1</span>job не активний без тренера</div></td>
+      <td><div class="cell">Logged workout як anchor для weekly check-in</div></td>
+      <td><div class="cell"><span class="q">?</span> конкретного рішення не задокументовано</div></td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</section>
+
+<!-- ═══════════════════════════════ CONCLUSIONS ═══════════════════════════════ -->
+<section id="conclusions">
+<h2 class="section-h">Висновки MVP
+  <div class="section-sub">Критерій: важливість 3 для primary + не закриті ринком за доступною ціною</div>
+</h2>
+
+<div class="core-jobs">
+
+  <div class="core-job">
+    <div class="core-label">
+      <span>Ядро 1</span>
+      J1 + J2<br>єдиний цикл
+    </div>
+    <div class="core-body">
+      <p>Тренер будує план → атлет бачить його сьогодні → логує → тренер бачить без питання. Це єдина петля що відрізняє Forge від «план у Telegram + звіт по пам'яті».</p>
+      <p>Ринок: Future Pro закриває, але $149/mo. Noom — часткового. Решта не закривають. Trainerize / TrueCoach — тренерська сторона, але складний онбординг (4–8 годин) і слабкий мобільний UX.</p>
+      <p><strong>Функції:</strong> plan builder + assignment + workout log видимий тренеру + async comment поле.</p>
+    </div>
+  </div>
+
+  <div class="core-job">
+    <div class="core-label">
+      <span>Ядро 2</span>
+      J3<br>athlete home screen
+    </div>
+    <div class="core-body">
+      <p>Без «відкрив — одразу бачиш план сьогодні» атлет не починає тренування в апці. J3 — точка входу щодня; якщо вона тремтить — 90% відтоку підтвердиться.</p>
+      <p>Ринок: Pushr робить найкраще, але без trainer connection. Future Pro має, але $149/mo.</p>
+      <p><strong>Функція:</strong> перший екран атлета = поточне тренування зі списком вправ і статусом кожного підходу.</p>
+    </div>
+  </div>
+
+  <div class="core-job">
+    <div class="core-label">
+      <span>Ядро 3</span>
+      J4<br>quick logger
+    </div>
+    <div class="core-body">
+      <p>J3 приводить до тренування. J4 вирішує чи атлет логує або закриває телефон. Якщо logging займає більше кількох секунд між сетами — кидає. Тоді J2 порожній, тренер бачить нуль.</p>
+      <p>Підтверджено: швидкість = #1 критерій (DR1). Notes-паттерн реальний (DR2). Friction = #1 причина dropout (DR3). Future Pro bottom sheet — єдиний конкурент що вирішив правильно (П2).</p>
+      <p><strong>Функція:</strong> 3 поля (вправа / вага / повтори) + кнопка «зберегти сет» без додаткової навігації.</p>
+    </div>
+  </div>
+
+</div>
+
+<h2 class="section-h" style="padding-top:56px">Функції-кандидати на відкладення</h2>
+<div class="table-wrap" style="border-top:1px solid var(--line)">
+<table class="defer-table">
+  <thead>
+    <tr>
+      <th>Функція</th>
+      <th>Job у матриці</th>
+      <th>Чому під питанням</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Video exercise references</td>
+      <td>Слабко J3 (ЩО — так; ЯК — sub-job не визначений)</td>
+      <td>Жоден job не формулює «хочу побачити техніку». Future Pro єдиний конкурент що має. Якщо атлет вже знає вправи — відео не потрібне для core loop.</td>
+    </tr>
+    <tr>
+      <td>Body measurements окремо від ваги</td>
+      <td>J5 підтип, вузький</td>
+      <td>Жоден job не каже «тренер переглядає обміри». Вага — так (J5). Сантиметри — додаткова складність форми без підтвердженого job.</td>
+    </tr>
+    <tr>
+      <td>In-app notification badges</td>
+      <td>Немає прямого job · механізм для J2/E2</td>
+      <td>Без реального push — декорація. E2 живе через те що тренер відповідає, а не через значок. Notification overload — задокументований ризик (DR4 Capterra).</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<div class="src" style="margin-top:24px;padding-top:24px;border-top:1px solid var(--line)">
+  Джерела: research.md · personas.md · jtbd.md · Capterra TrueCoach reviews 2025–2026 · fitnessrefined.co retention data · setgraph.app Reddit summary · Gym Note Plus App Store · vocal.media fitness app dropout · Mobbin UI screenshots (вересень 2026)
+</div>
+</section>
+
+</main>
+
+<script>
+// highlight active nav on scroll
+const sections = ['personas','jobs','matrix','conclusions'];
+const btns = document.querySelectorAll('.nav-btn');
+const obs = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      btns.forEach(b=>b.classList.remove('active'));
+      const active = document.querySelector(`.nav-btn[href="#${e.target.id}"]`);
+      if(active) active.classList.add('active');
+    }
+  });
+},{threshold:.15,rootMargin:'-60px 0px -60% 0px'});
+sections.forEach(id=>{
+  const el = document.getElementById(id);
+  if(el) obs.observe(el);
+});
+</script>
+</body>
+</html>
