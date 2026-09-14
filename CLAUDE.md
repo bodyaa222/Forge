@@ -114,3 +114,18 @@ Full analysis: `research/research.md` · Screenshots: `research/screens/ui/` · 
 
 ### Design direction confirmed
 Dark theme. Strong typography. Data-first cards. No generic fitness aesthetic.
+
+---
+
+## People (personas & JTBD)
+
+Full files: `research/personas.md` · `research/jtbd.md` · Visual: `research/personas.html`
+
+**Primary persona — Максим, онлайн-тренер.** 5–10 клієнтів, зараз у стані Telegram + Google Sheets. Вирішує взяти Forge — і тільки після цього запрошує атлета. Google Sheets як відправна точка підтверджено (Capterra TrueCoach reviews).
+
+**Main job:** Коли я веду або виконую програму дистанційно, я хочу щоб план і реальне виконання знаходились в одному місці — щоб тренер міг коригувати, а атлет завжди знав що робити сьогодні.
+
+**Топ-3 jobs для MVP:**
+1. **J1+J2** — тренер надсилає план → атлет логує → тренер бачить без питання. Єдина петля що відрізняє Forge від «Telegram + пам'ять».
+2. **J3** — атлет відкриває апку і одразу бачить план на сьогодні. Точка входу щодня; без неї 90% відтоку (підтверджено).
+3. **J4** — атлет логує підхід між сетами за секунди. Якщо повільно — кидає. Тоді J2 порожній і петля ламається.

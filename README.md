@@ -61,6 +61,24 @@ Competitive analysis of 7 fitness apps from Mobbin — real UI screenshots, benc
 
 ---
 
+## Люди (Lesson 2)
+
+User research: 3 персони, 10 jobs to be done, JTBD-матриця з пріоритетами і джерелами.
+
+**Primary — Максим, онлайн-тренер** (~8 клієнтів, Telegram + Google Sheets). Вирішує прийняти інструмент першим і запрошує атлетів. Google Sheets як відправна точка підтверджено через Capterra TrueCoach reviews.
+
+**Secondary — Оля, атлет із тренером** (логує в Notes або не логує — підтверджено реальними App Store відгуками). High dropout risk: 90% фітнес-апок кидають за 30 днів; friction при введенні даних — провідна причина.
+
+**Main job:** план і виконання в одному місці — тренер бачить без питань, атлет знає що робити сьогодні.
+
+| Файл | Що всередині |
+|---|---|
+| [`research/personas.md`](research/personas.md) | 3 персони з контекстом, jobs, болями, тригерами. Позначки [?] і «гіпотеза» де даних нема. |
+| [`research/jtbd.md`](research/jtbd.md) | 1 main job, 5 functional, 2 emotional, 2 social jobs. JTBD-матриця: важливість 1–3 для кожної персони, функція в продукті, що роблять конкуренти. |
+| [`research/personas.html`](https://bodyaa222.github.io/Forge/research/personas.html) | Візуальна версія: картки персон, ієрархія jobs, матриця — темна редакційна верстка. |
+
+---
+
 ## Stack
 | | |
 |---|---|
