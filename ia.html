@@ -1,0 +1,1169 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Forge — Information Architecture</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#080808;--bg2:#0f0f0f;--bg3:#161616;
+  --line:#1e1e1e;--line2:#282828;
+  --text:#e2e2e2;--text2:#777;--text3:#444;
+  --accent:#d4ff4f;--accent-dim:rgba(212,255,79,.08);
+  --amber:#e8b84b;--amber-dim:rgba(232,184,75,.1);
+  --purple:#a29bfe;--purple-dim:rgba(162,155,254,.1);
+  --red:#ff6b6b;--red-dim:rgba(255,107,107,.08);
+}
+::selection{background:var(--accent);color:#000}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg);color:var(--text);
+  font-family:'Inter',system-ui,sans-serif;
+  font-size:15px;line-height:1.65;
+  -webkit-font-smoothing:antialiased;
+}
+::-webkit-scrollbar{width:4px;height:4px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--line2);border-radius:4px}
+*{scrollbar-width:thin;scrollbar-color:var(--line2) transparent}
+
+/* ── HEADER ── */
+header{
+  max-width:1400px;margin:0 auto;
+  padding:64px 56px 52px;
+  border-bottom:1px solid var(--line);
+  display:grid;grid-template-columns:1fr auto;align-items:end;gap:24px;
+}
+.brand{
+  font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--text3);margin-bottom:20px;grid-column:1/-1;
+}
+header h1{
+  font-family:'DM Serif Display',Georgia,serif;
+  font-size:clamp(52px,6vw,88px);font-weight:400;
+  line-height:.95;letter-spacing:-.02em;color:var(--text);
+}
+header h1 em{font-style:italic;color:var(--text3)}
+.header-meta{
+  font-size:13px;color:var(--text3);
+  text-align:right;line-height:1.8;align-self:end;padding-bottom:4px;
+}
+.header-meta strong{color:var(--text2);font-weight:500}
+
+/* ── NAV ── */
+.page-nav{
+  position:sticky;top:0;z-index:100;
+  background:rgba(8,8,8,.96);
+  backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--line);
+}
+.page-nav-inner{
+  max-width:1400px;margin:0 auto;
+  display:flex;gap:2px;overflow-x:auto;
+  scrollbar-width:none;padding:10px 56px;
+}
+.page-nav-inner::-webkit-scrollbar{display:none}
+.nav-btn{
+  background:none;border:1px solid transparent;border-radius:6px;
+  color:var(--text3);cursor:pointer;font-family:inherit;
+  font-size:13px;font-weight:500;padding:5px 14px;
+  white-space:nowrap;transition:all .12s;flex-shrink:0;
+  text-decoration:none;display:inline-block;
+}
+.nav-btn:hover{color:var(--text2);border-color:var(--line2)}
+.nav-btn.active{background:var(--text);color:#000;border-color:transparent;font-weight:700}
+
+/* ── MAIN ── */
+main{max-width:1400px;margin:0 auto;padding:0 56px 120px}
+
+/* ── SECTION HEADINGS ── */
+.section-h{
+  font-family:'DM Serif Display',Georgia,serif;
+  font-size:clamp(28px,3vw,40px);font-weight:400;
+  letter-spacing:-.02em;line-height:1;
+  padding-top:72px;margin-bottom:8px;color:var(--text);
+}
+.section-h:first-child{padding-top:56px}
+.section-sub{font-size:13px;color:var(--text3);margin-bottom:40px}
+
+/* ── BADGES ── */
+.jtag{
+  display:inline-flex;align-items:center;
+  font-size:10px;font-weight:700;letter-spacing:.06em;
+  padding:2px 7px;border-radius:4px;white-space:nowrap;
+  font-family:'Inter',sans-serif;
+}
+.jtag-j{background:var(--accent-dim);color:var(--accent)}
+.jtag-e{background:var(--amber-dim);color:var(--amber)}
+.jtag-s{background:var(--purple-dim);color:var(--purple)}
+.jtag-p{background:var(--bg3);color:var(--text3);border:1px solid var(--line2)}
+.jtag-orphan{background:var(--red-dim);color:var(--red)}
+
+.role{
+  display:inline-flex;align-items:center;
+  font-size:9px;font-weight:700;letter-spacing:.1em;
+  padding:2px 5px;border-radius:3px;
+  color:var(--text3);background:var(--bg3);border:1px solid var(--line2);
+  white-space:nowrap;font-family:'Inter',sans-serif;
+}
+
+/* ── SITEMAP TREE ── */
+.tree-groups{display:flex;flex-direction:column;gap:0}
+.tree-group{margin-bottom:48px}
+.tree-group-label{
+  font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--text3);margin-bottom:16px;padding-bottom:10px;
+  border-bottom:1px solid var(--line);
+}
+.tree-item{
+  display:flex;align-items:center;gap:10px;flex-wrap:wrap;
+  padding:9px 0;border-bottom:1px solid var(--line);
+  font-size:14px;color:var(--text2);
+  position:relative;
+}
+.tree-item:last-child{border-bottom:none}
+.tree-item .name{color:var(--text);flex-shrink:0}
+.tree-item.home .name::after{
+  content:'← home';font-size:10px;color:var(--text3);margin-left:8px;
+  font-weight:400;font-style:italic;
+}
+.tree-l0{padding-left:0}
+.tree-l1{padding-left:28px}
+.tree-l2{padding-left:56px}
+.tree-l3{padding-left:84px}
+.indent-line{
+  position:absolute;left:12px;top:0;bottom:0;
+  width:1px;background:var(--line2);
+}
+.indent-line2{left:40px}
+.indent-line3{left:68px}
+.tree-connector{
+  display:inline-block;color:var(--text3);font-size:12px;
+  font-family:monospace;margin-right:4px;flex-shrink:0;
+}
+.tree-desc{font-size:12px;color:var(--text3);margin-left:4px}
+
+/* ── NAV MODEL ── */
+.nav-model{
+  display:grid;grid-template-columns:1fr 1fr;gap:24px;
+  margin-top:40px;
+}
+.nav-role-block{
+  background:var(--bg2);border:1px solid var(--line);border-radius:8px;
+  padding:24px;
+}
+.nav-role-label{
+  font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--text3);margin-bottom:16px;
+}
+.nav-tabs-row{
+  display:flex;gap:8px;margin-bottom:20px;
+}
+.nav-tab{
+  flex:1;text-align:center;
+  background:var(--bg3);border:1px solid var(--line2);border-radius:6px;
+  padding:12px 8px;font-size:13px;font-weight:600;color:var(--text);
+}
+.nav-tab.primary{
+  background:var(--accent-dim);border-color:var(--accent);color:var(--accent);
+}
+.nav-tab-job{font-size:10px;color:var(--text3);margin-top:4px;font-weight:400}
+.tap-count{
+  font-size:12px;color:var(--text3);
+}
+.tap-count strong{color:var(--accent)}
+.tap-count span{color:var(--amber)}
+
+/* ── FLOWS ── */
+.flow-block{
+  margin-bottom:64px;padding-top:48px;
+  border-top:1px solid var(--line);
+}
+.flow-block:first-child{border-top:none;padding-top:0}
+.flow-label{
+  font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--accent);margin-bottom:8px;
+}
+.flow-title{
+  font-family:'DM Serif Display',Georgia,serif;
+  font-size:clamp(22px,2.5vw,32px);font-weight:400;
+  letter-spacing:-.01em;color:var(--text);margin-bottom:6px;
+}
+.flow-who{font-size:13px;color:var(--text3);margin-bottom:24px}
+.mermaid-wrap{
+  background:var(--bg2);border:1px solid var(--line);border-radius:8px;
+  padding:32px;overflow-x:auto;
+}
+.mermaid-wrap svg{display:block;margin:0 auto}
+.flow-legend{
+  margin-top:24px;display:grid;
+  grid-template-columns:1fr 1fr;gap:24px;
+}
+.flow-legend-col{}
+.flow-legend-label{
+  font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--text3);margin-bottom:10px;
+}
+.flow-legend ul{list-style:none;display:flex;flex-direction:column;gap:6px}
+.flow-legend ul li{
+  font-size:13px;color:var(--text2);
+  padding-left:16px;position:relative;line-height:1.5;
+}
+.flow-legend ul li::before{content:'–';position:absolute;left:0;color:var(--text3)}
+.flow-legend ul li strong{color:var(--text);font-weight:500}
+
+/* ── MATRIX ── */
+.matrix-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:8px}
+.matrix-table{border-collapse:collapse;font-size:12px;width:max-content;min-width:100%}
+.matrix-table thead th{
+  background:var(--bg2);
+  padding:0;height:130px;vertical-align:bottom;
+  border-right:1px solid var(--line2);border-bottom:1px solid var(--line);
+  position:relative;min-width:44px;
+}
+.matrix-table thead th .th-inner{
+  display:block;
+  writing-mode:vertical-rl;text-orientation:mixed;
+  transform:rotate(180deg);
+  padding:12px 12px 8px;
+  font-size:11px;font-weight:500;color:var(--text2);
+  white-space:nowrap;letter-spacing:.02em;
+}
+.matrix-table thead th.job-col-h{
+  width:200px;min-width:200px;
+  writing-mode:initial;transform:none;vertical-align:middle;
+}
+.matrix-table thead th.job-col-h .th-inner{
+  writing-mode:initial;transform:none;
+  font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--text3);padding:12px 16px;
+}
+.matrix-table thead th.orphan-h .th-inner{color:var(--red)}
+.matrix-table thead th.orphan-h{background:var(--red-dim)}
+
+.matrix-table tbody tr:hover td{background:rgba(255,255,255,.02)}
+.matrix-table tbody td{
+  padding:9px 12px;border-right:1px solid var(--line2);border-bottom:1px solid var(--line2);
+  text-align:center;vertical-align:middle;
+}
+.matrix-table tbody td.job-col{
+  text-align:left;white-space:nowrap;
+  font-size:13px;font-weight:500;color:var(--text);
+  padding:9px 16px;background:var(--bg2);
+  position:sticky;left:0;
+  border-right:1px solid var(--line);
+}
+.matrix-table tbody td.orphan-col{background:var(--red-dim)}
+.matrix-table .check{color:var(--accent);font-size:15px;font-weight:700}
+
+.matrix-section-sep td{
+  background:var(--bg3) !important;
+  font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--text3);padding:5px 16px;text-align:left;
+  border-bottom:1px solid var(--line);
+}
+
+/* ── DEFECTS ── */
+.defects-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:40px}
+.defect-card{
+  background:var(--bg2);border:1px solid var(--line);border-radius:8px;padding:24px;
+}
+.defect-card.orphan-card{border-color:rgba(255,107,107,.2)}
+.defect-label{
+  font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--red);margin-bottom:12px;
+}
+.defect-name{font-size:16px;font-weight:600;color:var(--text);margin-bottom:6px}
+.defect-problem{font-size:13px;color:var(--text2);margin-bottom:12px;line-height:1.55}
+.defect-fix{
+  font-size:13px;color:var(--text);
+  padding:10px 14px;background:var(--bg3);border-radius:6px;
+  border-left:2px solid var(--accent);line-height:1.55;
+}
+
+.spof-block{margin-top:32px}
+.spof-label{
+  font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--amber);margin-bottom:16px;
+}
+.spof-list{display:flex;flex-direction:column;gap:12px}
+.spof-item{
+  display:flex;gap:16px;align-items:start;
+  background:var(--bg2);border:1px solid var(--amber-dim);border-radius:6px;padding:16px;
+}
+.spof-job{
+  font-family:'DM Serif Display',Georgia,serif;
+  font-size:28px;color:var(--amber);line-height:1;
+  flex-shrink:0;width:40px;text-align:center;
+}
+.spof-text{}
+.spof-screen{font-size:14px;font-weight:600;color:var(--text);margin-bottom:4px}
+.spof-risk{font-size:13px;color:var(--text2)}
+
+/* ── FOOTER ── */
+footer{
+  max-width:1400px;margin:0 auto;
+  padding:32px 56px;border-top:1px solid var(--line);
+  font-size:12px;color:var(--text3);
+  display:flex;justify-content:space-between;align-items:center;
+}
+
+/* ── RESPONSIVE ── */
+@media(max-width:900px){
+  header,main,footer{padding-left:24px;padding-right:24px}
+  .page-nav-inner{padding-left:24px;padding-right:24px}
+  header{grid-template-columns:1fr}
+  .header-meta{text-align:left}
+  .nav-model{grid-template-columns:1fr}
+  .flow-legend{grid-template-columns:1fr}
+  .defects-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <p class="brand">Forge · Information Architecture</p>
+  <h1>Sitemap,<br><em>Flows,</em><br>Matrix</h1>
+  <div class="header-meta">
+    <strong>Lesson 3</strong><br>
+    20 екранів · 10 jobs<br>
+    4 user flows<br>
+    Вересень 2026
+  </div>
+</header>
+
+<nav class="page-nav">
+  <div class="page-nav-inner">
+    <a class="nav-btn" href="#sitemap">Sitemap</a>
+    <a class="nav-btn" href="#nav-model">Навігація</a>
+    <a class="nav-btn" href="#flows">Flows</a>
+    <a class="nav-btn" href="#matrix">Матриця</a>
+  </div>
+</nav>
+
+<main>
+
+<!-- ═══════════════════════════════════════════════════════════
+     SITEMAP
+═══════════════════════════════════════════════════════════ -->
+<section id="sitemap">
+  <h2 class="section-h">Sitemap</h2>
+  <p class="section-sub">Дерево екранів. Кожен екран — тільки якщо за ним стоїть job. Роль: <span class="role">T</span> тренер · <span class="role">A</span> атлет · <span class="role">TA</span> обидва.</p>
+
+  <div class="tree-groups">
+
+    <!-- AUTH -->
+    <div class="tree-group">
+      <div class="tree-group-label">AUTH — передумова для всіх jobs</div>
+
+      <div class="tree-item tree-l0">
+        <span class="role">TA</span>
+        <span class="name">Реєстрація</span>
+        <span class="jtag jtag-p">prereq</span>
+        <span class="jtag jtag-s">S1</span>
+        <span class="jtag jtag-j">J1</span>
+        <span class="tree-desc">вибір ролі; атлет вводить інвайт-код</span>
+      </div>
+      <div class="tree-item tree-l0">
+        <span class="role">TA</span>
+        <span class="name">Вхід</span>
+        <span class="jtag jtag-orphan">SIROTA</span>
+        <span class="tree-desc">auth infrastructure; виключений з job-матриці</span>
+      </div>
+    </div>
+
+    <!-- ТРЕНЕР -->
+    <div class="tree-group">
+      <div class="tree-group-label">Тренер [T] — Максим, primary persona</div>
+
+      <div class="tree-item tree-l0 home">
+        <span class="role">T</span>
+        <span class="name">Мої атлети — огляд</span>
+        <span class="jtag jtag-j">J2</span>
+        <span class="jtag jtag-e">E1</span>
+      </div>
+      <div class="tree-item tree-l1">
+        <div class="indent-line"></div>
+        <span class="tree-connector">└</span>
+        <span class="role">T</span>
+        <span class="name">Атлет — активність і фідбек</span>
+        <span class="jtag jtag-j">J2</span>
+      </div>
+      <div class="tree-item tree-l2">
+        <div class="indent-line"></div>
+        <div class="indent-line indent-line2"></div>
+        <span class="tree-connector">└</span>
+        <span class="role">T</span>
+        <span class="name">Деталі тренування (тренер-вид)</span>
+        <span class="jtag jtag-j">J2</span>
+        <span class="jtag jtag-e">E1</span>
+        <span class="jtag jtag-e">E2</span>
+      </div>
+      <div class="tree-item tree-l3">
+        <div class="indent-line"></div>
+        <div class="indent-line indent-line2"></div>
+        <div class="indent-line indent-line3"></div>
+        <span class="tree-connector">└</span>
+        <span class="role">T</span>
+        <span class="name">Залишити фідбек</span>
+        <span class="jtag jtag-j">J2</span>
+        <span class="jtag jtag-e">E2</span>
+      </div>
+
+      <div class="tree-item tree-l0" style="margin-top:8px">
+        <span class="role">T</span>
+        <span class="name">Програми — список</span>
+        <span class="jtag jtag-j">J1</span>
+        <span class="jtag jtag-e">E1</span>
+        <span class="jtag jtag-s">S1</span>
+      </div>
+      <div class="tree-item tree-l1">
+        <div class="indent-line"></div>
+        <span class="tree-connector">├</span>
+        <span class="role">T</span>
+        <span class="name">Конструктор програми</span>
+        <span class="jtag jtag-j">J1</span>
+      </div>
+      <div class="tree-item tree-l2">
+        <div class="indent-line"></div>
+        <div class="indent-line indent-line2"></div>
+        <span class="tree-connector">└</span>
+        <span class="role">T</span>
+        <span class="name">Редактор дня / сесії</span>
+        <span class="jtag jtag-j">J1</span>
+      </div>
+      <div class="tree-item tree-l1">
+        <div class="indent-line"></div>
+        <span class="tree-connector">└</span>
+        <span class="role">T</span>
+        <span class="name">Призначити програму атлету</span>
+        <span class="jtag jtag-j">J1</span>
+      </div>
+
+      <div class="tree-item tree-l0" style="margin-top:8px">
+        <span class="role">T</span>
+        <span class="name">Запросити атлета (інвайт)</span>
+        <span class="jtag jtag-j">J1</span>
+        <span class="jtag jtag-s">S1</span>
+        <span class="jtag jtag-p">prereq</span>
+      </div>
+    </div>
+
+    <!-- АТЛЕТ -->
+    <div class="tree-group">
+      <div class="tree-group-label">Атлет [A] — Оля, secondary #1</div>
+
+      <div class="tree-item tree-l0 home">
+        <span class="role">A</span>
+        <span class="name">Сьогодні — план на день</span>
+        <span class="jtag jtag-j">J3</span>
+        <span class="jtag jtag-j">J1↓</span>
+      </div>
+      <div class="tree-item tree-l1">
+        <div class="indent-line"></div>
+        <span class="tree-connector">└</span>
+        <span class="role">A</span>
+        <span class="name">Активне тренування / Логер</span>
+        <span class="jtag jtag-j">J4</span>
+        <span class="jtag jtag-j">J2↑</span>
+      </div>
+      <div class="tree-item tree-l2">
+        <div class="indent-line"></div>
+        <div class="indent-line indent-line2"></div>
+        <span class="tree-connector">└</span>
+        <span class="role">A</span>
+        <span class="name">Завершення тренування</span>
+        <span class="jtag jtag-e">E2</span>
+        <span class="jtag jtag-j">J5</span>
+        <span class="jtag jtag-s">S2</span>
+      </div>
+
+      <div class="tree-item tree-l0" style="margin-top:8px">
+        <span class="role">A</span>
+        <span class="name">Прогрес</span>
+        <span class="jtag jtag-j">J5</span>
+        <span class="jtag jtag-e">E2</span>
+        <span class="jtag jtag-s">S2</span>
+      </div>
+      <div class="tree-item tree-l1">
+        <div class="indent-line"></div>
+        <span class="tree-connector">└</span>
+        <span class="role">A</span>
+        <span class="name">Історія тренувань</span>
+        <span class="jtag jtag-j">J5</span>
+        <span class="jtag jtag-s">S2</span>
+      </div>
+
+      <div class="tree-item tree-l0" style="margin-top:8px">
+        <span class="role">A</span>
+        <span class="name">Харчування — сьогодні</span>
+        <span class="jtag jtag-j">J5</span>
+        <span class="jtag jtag-s">S2</span>
+      </div>
+      <div class="tree-item tree-l1">
+        <div class="indent-line"></div>
+        <span class="tree-connector">└</span>
+        <span class="role">A</span>
+        <span class="name">Додати їжу</span>
+        <span class="jtag jtag-j">J5</span>
+        <span class="jtag jtag-s">S2</span>
+      </div>
+
+      <div class="tree-item tree-l0" style="margin-top:8px">
+        <span class="role">A</span>
+        <span class="name">Записати замір тіла</span>
+        <span class="jtag jtag-j">J5</span>
+        <span class="jtag jtag-s">S2</span>
+      </div>
+    </div>
+
+    <!-- СПІЛЬНІ -->
+    <div class="tree-group">
+      <div class="tree-group-label">Спільні [TA]</div>
+      <div class="tree-item tree-l0">
+        <span class="role">TA</span>
+        <span class="name">Профіль / Налаштування</span>
+        <span class="jtag jtag-orphan">SIROTA</span>
+        <span class="tree-desc">logout, пароль; bio тренера → S1 після рішення</span>
+      </div>
+    </div>
+
+  </div><!-- /tree-groups -->
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════
+     НАВІГАЦІЯ
+═══════════════════════════════════════════════════════════ -->
+<section id="nav-model">
+  <h2 class="section-h">Навігаційна модель</h2>
+  <p class="section-sub">Bottom nav · 3 пункти на роль · Глибина до main job ≤ 2 тапи</p>
+
+  <div class="nav-model">
+    <div class="nav-role-block">
+      <div class="nav-role-label">Атлет [A]</div>
+      <div class="nav-tabs-row">
+        <div class="nav-tab primary">
+          Сьогодні
+          <div class="nav-tab-job">J3 · J4</div>
+        </div>
+        <div class="nav-tab">
+          Харчування
+          <div class="nav-tab-job">nutrition · J5</div>
+        </div>
+        <div class="nav-tab">
+          Прогрес
+          <div class="nav-tab-job">J5 · S2 · E2</div>
+        </div>
+      </div>
+      <div class="tap-count">
+        J3 — <strong>0 тапів</strong> (landing screen) ·
+        J4 — <strong>2 тапи</strong> ·
+        Харчування — <span style="color:var(--text2)">2 тапи</span>
+      </div>
+    </div>
+
+    <div class="nav-role-block">
+      <div class="nav-role-label">Тренер [T]</div>
+      <div class="nav-tabs-row">
+        <div class="nav-tab primary">
+          Атлети
+          <div class="nav-tab-job">J2 · E1</div>
+        </div>
+        <div class="nav-tab">
+          Програми
+          <div class="nav-tab-job">J1</div>
+        </div>
+        <div class="nav-tab">
+          Профіль
+          <div class="nav-tab-job">S1 · invite</div>
+        </div>
+      </div>
+      <div class="tap-count">
+        J2 огляд — <strong>0 тапів</strong> ·
+        Деталі — <strong>2 тапи</strong> ·
+        Фідбек — <span style="color:var(--amber)">3 тапи</span> (justified)
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════
+     FLOWS
+═══════════════════════════════════════════════════════════ -->
+<section id="flows">
+  <h2 class="section-h">User Flows</h2>
+  <p class="section-sub">Mermaid flowchart TD · [екран] = sitemap · {рішення} · (стан) · ((кінець))</p>
+
+  <!-- MAIN JOB -->
+  <div class="flow-block">
+    <div class="flow-label">MAIN JOB · J3 + J4</div>
+    <div class="flow-title">Знати, що тренувати сьогодні, і залогувати виконання</div>
+    <div class="flow-who">Хто: атлет (Оля) · Частота: 3–5 разів на тиждень</div>
+    <div class="mermaid-wrap">
+<pre class="mermaid">
+flowchart TD
+    A(Запуск застосунку) --> B{"Автентифікований?"}
+    B -->|ні| C["Вхід"]
+    C --> B
+    B -->|так| D{"Підключений до тренера?"}
+
+    D -->|ні| E["Сьогодні — план на день"]
+    E --> F("Стан: немає тренера — введи інвайт-код")
+    F --> Z1(("Тупик: очікуємо інвайт від тренера"))
+
+    D -->|так| G("Завантажуємо план...")
+    G --> H{"Завантажено?"}
+    H -->|ні| I("Помилка мережі")
+    I --> J{"Повторити?"}
+    J -->|так| G
+    J -->|ні| Z2(("Тупик: немає з'єднання"))
+
+    H -->|так| K{"План на сьогодні є?"}
+    K -->|ні| L["Сьогодні — план на день"]
+    L --> M("Стан: план не призначено — чекаємо від тренера")
+    M --> Z3(("Тупик: чекаємо план"))
+
+    K -->|так| N["Сьогодні — план на день"]
+    N --> O("Тап — Почати тренування")
+    O --> P["Активне тренування / Логер"]
+
+    P --> Q{"Заповнив вагу і повтори?"}
+    Q -->|ні| R("Стан: поля порожні — кнопка неактивна")
+    R --> P
+
+    Q -->|так| S("Тап — Зберегти підхід")
+    S --> T{"Збережено?"}
+    T -->|ні| U("Помилка збереження підходу")
+    U --> V{"Повторити?"}
+    V -->|так| S
+    V -->|ні| Z4(("Тупик: дані підходу втрачено"))
+
+    T -->|так| W{"Останній підхід вправи?"}
+    W -->|ні| X("Таймер відпочинку")
+    X --> P
+    W -->|так| Y{"Остання вправа у тренуванні?"}
+    Y -->|ні| AA("Перехід до наступної вправи")
+    AA --> P
+    Y -->|так| AB("Тап — Завершити тренування")
+    AB --> AC["Завершення тренування"]
+    AC --> OK1(("Успіх: тренування залоговано"))
+</pre>
+    </div>
+    <div class="flow-legend">
+      <div class="flow-legend-col">
+        <div class="flow-legend-label">Рішення</div>
+        <ul>
+          <li><strong>Підключений до тренера?</strong> — без інвайту план недоступний</li>
+          <li><strong>Завантажено?</strong> — мережева помилка; retry або тупик</li>
+          <li><strong>План на сьогодні є?</strong> — тренер підключений, план ще не призначено</li>
+          <li><strong>Заповнив поля?</strong> — inline validation, кнопка неактивна</li>
+          <li><strong>Збережено?</strong> — збій синхронізації; retry або втрата підходу</li>
+        </ul>
+      </div>
+      <div class="flow-legend-col">
+        <div class="flow-legend-label">Стани</div>
+        <ul>
+          <li><strong>Empty / немає тренера</strong> — інструкція «отримай інвайт»</li>
+          <li><strong>Empty / план не призначено</strong> — атлет чекає від тренера</li>
+          <li><strong>Loading</strong> — завантаження плану блокує UI</li>
+          <li><strong>Error / мережа</strong> — retry або кешований fallback</li>
+          <li><strong>Error / збереження підходу</strong> — retry або попередження</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- J1 -->
+  <div class="flow-block">
+    <div class="flow-label">J1</div>
+    <div class="flow-title">Тренер створює і призначає план</div>
+    <div class="flow-who">Хто: тренер (Максим) · Коли: початок нового тижня або новий клієнт</div>
+    <div class="mermaid-wrap">
+<pre class="mermaid">
+flowchart TD
+    A(Вхід у застосунок) --> B["Мої атлети — огляд"]
+    B --> C("Тап — вкладка Програми")
+    C --> D["Програми — список"]
+    D --> E{"Є програми?"}
+
+    E -->|ні| F("Стан: список порожній")
+    F --> G("Тап — Створити програму")
+    E -->|так| G
+
+    G --> H["Конструктор програми"]
+    H --> I("Ввести назву і опис програми")
+    I --> J("Тап — Додати день / сесію")
+    J --> K["Редактор дня / сесії"]
+    K --> L("Ввести вправу: назва, сети, повтори, вага")
+    L --> M{"Ще вправи у цьому дні?"}
+    M -->|так| L
+    M -->|ні| N{"Ще дні у програмі?"}
+    N -->|так| J
+    N -->|ні| O("Тап — Зберегти програму")
+
+    O --> P{"Збережено?"}
+    P -->|ні| Q("Помилка збереження програми")
+    Q --> R{"Повторити?"}
+    R -->|так| O
+    R -->|ні| Z1(("Тупик: програму не збережено"))
+
+    P -->|так| S["Програми — список"]
+    S --> T("Тап — Призначити атлету")
+    T --> U["Призначити програму атлету"]
+    U --> V{"Є підключені атлети?"}
+
+    V -->|ні| W("Стан: немає жодного атлета")
+    W --> X["Запросити атлета (інвайт)"]
+    X --> Y{"Атлет прийняв інвайт?"}
+    Y -->|ні| Z2(("Тупик: чекаємо підключення атлета"))
+    Y -->|так| U
+
+    V -->|так| AA("Вибрати атлета зі списку")
+    AA --> AB("Вибрати дату початку")
+    AB --> AC("Тап — Підтвердити призначення")
+    AC --> AD{"Призначено?"}
+    AD -->|ні| AE("Помилка призначення")
+    AE --> AF{"Повторити?"}
+    AF -->|так| AC
+    AF -->|ні| Z3(("Тупик: план не призначено"))
+    AD -->|так| OK1(("Успіх: план призначено атлету"))
+</pre>
+    </div>
+    <div class="flow-legend">
+      <div class="flow-legend-col">
+        <div class="flow-legend-label">Рішення</div>
+        <ul>
+          <li><strong>Є програми?</strong> — порожній список → одразу «Створити»</li>
+          <li><strong>Ще вправи? / Ще дні?</strong> — цикл побудови програми</li>
+          <li><strong>Збережено?</strong> — мережева помилка; retry або тупик</li>
+          <li><strong>Є підключені атлети?</strong> — invite flow якщо немає</li>
+          <li><strong>Призначено?</strong> — збій призначення; retry або тупик</li>
+        </ul>
+      </div>
+      <div class="flow-legend-col">
+        <div class="flow-legend-label">Стани</div>
+        <ul>
+          <li><strong>Empty / немає програм</strong> — порожній список</li>
+          <li><strong>Empty / немає атлетів</strong> — потрібний invite flow</li>
+          <li><strong>Error / збереження</strong> — мережа або validation</li>
+          <li><strong>Error / призначення</strong> — збій прив'язки до атлета</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- NUTRITION -->
+  <div class="flow-block">
+    <div class="flow-label">Nutrition</div>
+    <div class="flow-title">Атлет логує харчування</div>
+    <div class="flow-who">Хто: атлет · Частота: 3–4 рази на день</div>
+    <div class="mermaid-wrap">
+<pre class="mermaid">
+flowchart TD
+    A(Відкрив застосунок) --> B("Тап — вкладка Харчування")
+    B --> C("Завантажуємо записи за сьогодні...")
+    C --> D{"Завантажено?"}
+    D -->|ні| E("Помилка мережі")
+    E --> F{"Повторити?"}
+    F -->|так| C
+    F -->|ні| Z1(("Тупик: харчування недоступне"))
+
+    D -->|так| G["Харчування — сьогодні"]
+    G --> H{"Є записи за сьогодні?"}
+    H -->|ні| I("Стан: нічого не залоговано — показники нульові")
+    H -->|так| Jj("Підсумок: ккал / білки / жири / вуглеводи")
+    I --> K("Тап — Додати їжу")
+    Jj --> K
+
+    K --> L["Додати їжу"]
+    L --> M("Ввести назву страви")
+    M --> N("Ввести калорії")
+    N --> O{"Додати макроси?"}
+    O -->|ні| P("Тап — Зберегти")
+    O -->|так| Q("Ввести білки / жири / вуглеводи")
+    Q --> P
+
+    P --> R{"Збережено?"}
+    R -->|ні| S("Помилка збереження запису")
+    S --> T{"Повторити?"}
+    T -->|так| P
+    T -->|ні| Z2(("Тупик: запис страви втрачено"))
+
+    R -->|так| U["Харчування — сьогодні"]
+    U --> V("Оновлений підсумок: ккал і макроси додано")
+    V --> W{"Додати ще одну страву?"}
+    W -->|так| K
+    W -->|ні| OK1(("Успіх: харчування залоговано"))
+</pre>
+    </div>
+    <div class="flow-legend">
+      <div class="flow-legend-col">
+        <div class="flow-legend-label">Рішення</div>
+        <ul>
+          <li><strong>Завантажено?</strong> — retry або тупик</li>
+          <li><strong>Є записи?</strong> — empty state перший запис дня</li>
+          <li><strong>Додати макроси?</strong> — лише ккал обов'язково</li>
+          <li><strong>Збережено?</strong> — retry або втрата запису</li>
+          <li><strong>Додати ще?</strong> — цикл без виходу з контексту</li>
+        </ul>
+      </div>
+      <div class="flow-legend-col">
+        <div class="flow-legend-label">Стани</div>
+        <ul>
+          <li><strong>Loading</strong> — денні записи при відкритті вкладки</li>
+          <li><strong>Empty</strong> — нульові показники + CTA «Додати»</li>
+          <li><strong>Error / мережа</strong> — не завантажились дані</li>
+          <li><strong>Error / збереження</strong> — не зберігся запис страви</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- J2 + E2 -->
+  <div class="flow-block">
+    <div class="flow-label">J2 + E2</div>
+    <div class="flow-title">Тренер переглядає прогрес і залишає фідбек</div>
+    <div class="flow-who">Хто: тренер (Максим) · Коли: після тренування клієнта · Частота: кілька разів на тиждень</div>
+    <div class="mermaid-wrap">
+<pre class="mermaid">
+flowchart TD
+    A(Вхід у застосунок) --> B["Мої атлети — огляд"]
+    B --> C{"Є підключені атлети?"}
+
+    C -->|ні| D("Стан: список порожній — запроси першого атлета")
+    D --> E["Запросити атлета (інвайт)"]
+    E --> Z1(("Тупик: чекаємо підключення"))
+
+    C -->|так| F("Підсумок активності: хто тренувався, хто ні")
+    F --> G("Вибрати клієнта зі списку")
+    G --> H["Атлет — активність і фідбек"]
+    H --> I{"Є тренування без фідбеку?"}
+
+    I -->|ні| Jj("Стан: всі тренування вже прокоментовано")
+    Jj --> Z2(("Тупик: нема що переглядати"))
+
+    I -->|так| K("Завантажуємо деталі тренувань...")
+    K --> L{"Завантажено?"}
+    L -->|ні| M("Помилка мережі")
+    M --> N{"Повторити?"}
+    N -->|так| K
+    N -->|ні| Z3(("Тупик: дані клієнта недоступні"))
+
+    L -->|так| O("Вибрати конкретне тренування")
+    O --> P["Деталі тренування (тренер-вид)"]
+    P --> Q{"Дані виглядають коректно?"}
+
+    Q -->|ні| R("Стан: аномальні дані")
+    R --> S["Залишити фідбек"]
+    Q -->|так| S
+
+    S --> T("Написати текстовий коментар")
+    T --> U{"Коментар не порожній?"}
+    U -->|ні| V("Стан: поле порожнє — кнопка неактивна")
+    V --> T
+
+    U -->|так| W("Тап — Надіслати фідбек")
+    W --> X{"Фідбек збережено?"}
+    X -->|ні| Y("Помилка відправки")
+    Y --> Z{"Повторити?"}
+    Z -->|так| W
+    Z -->|ні| Z4(("Тупик: фідбек не надіслано"))
+
+    X -->|так| OK1(("Успіх: фідбек надіслано"))
+</pre>
+    </div>
+    <div class="flow-legend">
+      <div class="flow-legend-col">
+        <div class="flow-legend-label">Рішення</div>
+        <ul>
+          <li><strong>Є підключені атлети?</strong> — empty без invite</li>
+          <li><strong>Є тренування без фідбеку?</strong> — empty якщо все прокоментовано</li>
+          <li><strong>Завантажено?</strong> — мережева помилка</li>
+          <li><strong>Дані коректні?</strong> — anomaly flag перед фідбеком</li>
+          <li><strong>Коментар не порожній?</strong> — кнопка неактивна</li>
+          <li><strong>Фідбек збережено?</strong> — retry або тупик</li>
+        </ul>
+      </div>
+      <div class="flow-legend-col">
+        <div class="flow-legend-label">Стани</div>
+        <ul>
+          <li><strong>Empty / немає атлетів</strong> — invite flow</li>
+          <li><strong>Empty / всі прокоментовано</strong> — нема дій</li>
+          <li><strong>Loading</strong> — деталі тренувань клієнта</li>
+          <li><strong>Anomaly</strong> — різкі зміни в даних</li>
+          <li><strong>Error / мережа</strong> — дані клієнта недоступні</li>
+          <li><strong>Error / відправка</strong> — фідбек не надіслано</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════
+     MATRIX
+═══════════════════════════════════════════════════════════ -->
+<section id="matrix">
+  <h2 class="section-h">Матриця трасування</h2>
+  <p class="section-sub">Jobs × Екрани. ✓ — екран бере участь у закритті job. Стовпці без ✓ підсвічені червоним.</p>
+
+  <div class="matrix-wrap">
+    <table class="matrix-table">
+      <thead>
+        <tr>
+          <th class="job-col-h"><div class="th-inner">Job</div></th>
+          <!-- AUTH -->
+          <th><div class="th-inner">Реєстр</div></th>
+          <th class="orphan-h"><div class="th-inner">Вхід ⚠</div></th>
+          <!-- TRAINER -->
+          <th><div class="th-inner">Атл-огляд</div></th>
+          <th><div class="th-inner">Атл-фідбек</div></th>
+          <th><div class="th-inner">Деталі-T</div></th>
+          <th><div class="th-inner">Фідбек-T</div></th>
+          <th><div class="th-inner">Програми</div></th>
+          <th><div class="th-inner">Констр</div></th>
+          <th><div class="th-inner">Редактор</div></th>
+          <th><div class="th-inner">Признач</div></th>
+          <th><div class="th-inner">Інвайт-T</div></th>
+          <!-- ATHLETE -->
+          <th><div class="th-inner">Сьогодні</div></th>
+          <th><div class="th-inner">Логер</div></th>
+          <th><div class="th-inner">Заверш</div></th>
+          <th><div class="th-inner">Прогрес</div></th>
+          <th><div class="th-inner">Історія</div></th>
+          <th><div class="th-inner">Харчув</div></th>
+          <th><div class="th-inner">Їжа+</div></th>
+          <th><div class="th-inner">Замір</div></th>
+          <!-- SHARED -->
+          <th class="orphan-h"><div class="th-inner">Профіль ⚠</div></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="matrix-section-sep">
+          <td colspan="21">AUTH + ТРЕНЕР [T]</td>
+        </tr>
+        <!-- M -->
+        <tr>
+          <td class="job-col"><span class="jtag jtag-j" style="margin-right:8px">M</span>план↔виконання</td>
+          <td></td><td class="orphan-col"></td>
+          <td><span class="check">✓</span></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td>
+          <td><span class="check">✓</span></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td>
+          <td><span class="check">✓</span></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td>
+          <td></td><td></td><td></td><td></td><td></td>
+          <td class="orphan-col"></td>
+        </tr>
+        <!-- J1 -->
+        <tr>
+          <td class="job-col"><span class="jtag jtag-j" style="margin-right:8px">J1</span>тренер доставляє план</td>
+          <td><span class="check">✓</span></td><td class="orphan-col"></td>
+          <td></td><td></td><td></td><td></td>
+          <td><span class="check">✓</span></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td>
+          <td><span class="check">✓</span></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+          <td class="orphan-col"></td>
+        </tr>
+        <!-- J2 -->
+        <tr>
+          <td class="job-col"><span class="jtag jtag-j" style="margin-right:8px">J2</span>тренер бачить що сталося</td>
+          <td></td><td class="orphan-col"></td>
+          <td><span class="check">✓</span></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td>
+          <td></td><td></td><td></td><td></td><td></td>
+          <td></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td><td></td><td></td><td></td><td></td><td></td>
+          <td class="orphan-col"></td>
+        </tr>
+        <!-- J3 -->
+        <tr>
+          <td class="job-col"><span class="jtag jtag-j" style="margin-right:8px">J3</span>атлет знає що сьогодні</td>
+          <td></td><td class="orphan-col"></td>
+          <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+          <td><span class="check">✓</span></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+          <td class="orphan-col"></td>
+        </tr>
+        <!-- J4 -->
+        <tr>
+          <td class="job-col"><span class="jtag jtag-j" style="margin-right:8px">J4</span>атлет фіксує підхід</td>
+          <td></td><td class="orphan-col"></td>
+          <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+          <td></td><td><span class="check">✓</span></td><td></td><td></td><td></td><td></td><td></td><td></td>
+          <td class="orphan-col"></td>
+        </tr>
+        <!-- J5 -->
+        <tr>
+          <td class="job-col"><span class="jtag jtag-j" style="margin-right:8px">J5</span>атлет бачить прогрес</td>
+          <td></td><td class="orphan-col"></td>
+          <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+          <td></td><td></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td>
+          <td class="orphan-col"></td>
+        </tr>
+        <!-- E1 -->
+        <tr>
+          <td class="job-col"><span class="jtag jtag-e" style="margin-right:8px">E1</span>контроль тренера</td>
+          <td></td><td class="orphan-col"></td>
+          <td><span class="check">✓</span></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td>
+          <td><span class="check">✓</span></td><td></td><td></td><td></td><td></td>
+          <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+          <td class="orphan-col"></td>
+        </tr>
+        <!-- E2 -->
+        <tr>
+          <td class="job-col"><span class="jtag jtag-e" style="margin-right:8px">E2</span>зусилля видимі</td>
+          <td></td><td class="orphan-col"></td>
+          <td></td><td></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td>
+          <td></td><td></td><td></td><td></td><td></td>
+          <td></td><td></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td><td></td><td></td><td></td><td></td>
+          <td class="orphan-col"></td>
+        </tr>
+        <!-- S1 -->
+        <tr>
+          <td class="job-col"><span class="jtag jtag-s" style="margin-right:8px">S1</span>тренер виглядає профі</td>
+          <td><span class="check">✓</span></td><td class="orphan-col"></td>
+          <td></td><td></td><td></td><td></td>
+          <td><span class="check">✓</span></td><td></td><td></td><td></td><td><span class="check">✓</span></td>
+          <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+          <td class="orphan-col"></td>
+        </tr>
+        <!-- S2 -->
+        <tr>
+          <td class="job-col"><span class="jtag jtag-s" style="margin-right:8px">S2</span>атлет відповідає цифрами</td>
+          <td></td><td class="orphan-col"></td>
+          <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+          <td></td><td></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td>
+          <td class="orphan-col"></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- LEGEND -->
+  <div style="margin-top:16px;font-size:12px;color:var(--text3);display:flex;gap:24px;flex-wrap:wrap">
+    <span>Реєстр = Реєстрація</span>
+    <span>Атл-огляд = Мої атлети — огляд</span>
+    <span>Атл-фідбек = Атлет — активність і фідбек</span>
+    <span>Деталі-T = Деталі тренування (тренер-вид)</span>
+    <span>Фідбек-T = Залишити фідбек</span>
+    <span>Констр = Конструктор програми</span>
+    <span>Признач = Призначити програму атлету</span>
+    <span>Інвайт-T = Запросити атлета (інвайт)</span>
+    <span>Заверш = Завершення тренування</span>
+    <span>Харчув = Харчування — сьогодні</span>
+    <span>Їжа+ = Додати їжу</span>
+    <span>Замір = Записати замір тіла</span>
+  </div>
+
+  <!-- DEFECTS -->
+  <h3 style="font-family:'DM Serif Display',Georgia,serif;font-size:24px;font-weight:400;margin-top:56px;margin-bottom:24px;color:var(--text)">Дефекти покриття</h3>
+
+  <div class="defects-grid">
+    <div class="defect-card orphan-card">
+      <div class="defect-label">Екран-сирота #1</div>
+      <div class="defect-name">Вхід</div>
+      <div class="defect-problem">Жоден job не формулює «увійти в систему» як людську мотивацію. Auth — prereq, не destination.</div>
+      <div class="defect-fix">Визнати як infrastructure prereq і виключити з матриці. Логін-екран присутній у кожному продукті — це не дефект дизайну. Брендований вигляд побічно підсилює S1.</div>
+    </div>
+    <div class="defect-card orphan-card">
+      <div class="defect-label">Екран-сирота #2 · [SIROTA]</div>
+      <div class="defect-name">Профіль / Налаштування</div>
+      <div class="defect-problem">MVP Профіль = тільки logout і зміна пароля. Жодна людська мотивація з jtbd.md тут не закривається.</div>
+      <div class="defect-fix">Додати поле bio тренера (1–2 речення), видиме підключеним атлетам → прив'язати до S1. Вартість: одне поле у формі. Сутність Trainer Profile вже має bio [?].</div>
+    </div>
+  </div>
+
+  <div class="spof-block">
+    <div class="spof-label">Single point of failure — не сироти, але критичний ризик</div>
+    <div class="spof-list">
+      <div class="spof-item">
+        <div class="spof-job">J3</div>
+        <div class="spof-text">
+          <div class="spof-screen">Сьогодні — план на день</div>
+          <div class="spof-risk">Єдиний екран що закриває J3. Якщо не відображає план — J3 повністю провалюється, 90% відтоку. Design priority #1.</div>
+        </div>
+      </div>
+      <div class="spof-item">
+        <div class="spof-job">J4</div>
+        <div class="spof-text">
+          <div class="spof-screen">Активне тренування / Логер</div>
+          <div class="spof-risk">Єдиний екран що закриває J4. Якщо Логер незручний — J4 мертвий, J2 порожній, петля ламається. Design priority #2.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+</main>
+
+<footer>
+  <span>Forge · IA · Lesson 3 · Вересень 2026</span>
+  <span>sitemap.md · flows.md · jtbd.md</span>
+</footer>
+
+<!-- ── MERMAID ── -->
+<script type="module">
+import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+mermaid.initialize({
+  startOnLoad: true,
+  theme: 'base',
+  themeVariables: {
+    background: '#0f0f0f',
+    primaryColor: '#1e1e1e',
+    primaryTextColor: '#e2e2e2',
+    primaryBorderColor: '#282828',
+    lineColor: '#555555',
+    secondaryColor: '#161616',
+    tertiaryColor: '#1e1e1e',
+    tertiaryTextColor: '#777777',
+    nodeBorder: '#333333',
+    clusterBkg: '#161616',
+    titleColor: '#e2e2e2',
+    edgeLabelBackground: '#161616',
+    fontFamily: "'Inter', system-ui, sans-serif",
+    fontSize: '13px',
+    labelBackground: '#161616',
+    specialStateColor: '#d4ff4f',
+  }
+});
+</script>
+
+<!-- ── NAV ── -->
+<script>
+const navEl = document.querySelector('.page-nav');
+const sectionEls = Array.from(document.querySelectorAll('section[id]'));
+const btns = Array.from(document.querySelectorAll('.nav-btn'));
+
+function setActive(id) {
+  btns.forEach(b => b.classList.remove('active'));
+  const btn = document.querySelector(`.nav-btn[href="#${id}"]`);
+  if (btn) btn.classList.add('active');
+}
+
+btns.forEach(btn => {
+  btn.addEventListener('click', e => {
+    e.preventDefault();
+    const id = btn.getAttribute('href').slice(1);
+    setActive(id);
+    const target = document.getElementById(id);
+    if (!target) return;
+    const offset = navEl.offsetHeight + 8;
+    const top = target.getBoundingClientRect().top + window.scrollY - offset;
+    window.scrollTo({ top, behavior: 'smooth' });
+  });
+});
+
+function onScroll() {
+  const navBottom = navEl.offsetHeight + 16;
+  let current = sectionEls[0].id;
+  sectionEls.forEach(s => {
+    if (s.getBoundingClientRect().top <= navBottom) current = s.id;
+  });
+  setActive(current);
+}
+
+window.addEventListener('scroll', onScroll, { passive: true });
+onScroll();
+</script>
+
+</body>
+</html>

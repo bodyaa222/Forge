@@ -79,6 +79,24 @@ User research: 3 персони, 10 jobs to be done, JTBD-матриця з пр
 
 ---
 
+## Структура (IA, Lesson 3)
+
+Information Architecture: sitemap, user flows, traceability matrix.
+
+| Файл | Що всередині |
+|---|---|
+| [`sitemap.md`](./sitemap.md) | Повна карта екранів (20 екранів), розбита по ролях і розділах. Кожен екран позначено job-тегами. Розділ «Трасування»: матриця покриття 10 jobs × 20 screens, екрани-сироти, jobs-сироти, SPOF-попередження. |
+| [`flows.md`](./flows.md) | 4 user flows у Mermaid (flowchart TD): MAIN JOB J3+J4 (атлет логує тренування), J1 (тренер створює і призначає план), Nutrition (атлет логує харчування), J2+E2 (тренер переглядає прогрес і залишає фідбек). Кожен flow — happy path + empty / error / loading стани + тупики. |
+| [`ia.html`](https://bodyaa222.github.io/Forge/ia.html) | Візуальна IA-сторінка: дерево sitemap із job-тегами, навігаційна модель, усі 4 flows відрендерені Mermaid, матриця трасування з підсвіченими сиротами. |
+
+**Глобальна навігація:** bottom nav, 4 вкладки на роль. Атлет: Сьогодні · Харчування · Прогрес · Профіль. Тренер: Мої атлети · Програми · Запросити · Профіль.
+
+**Глибина до main job:** 3 тапи від home screen атлета до першого збереженого підходу.
+
+→ **IA overview: [ia.html — відкрити](https://bodyaa222.github.io/Forge/ia.html)** (GitHub Pages)
+
+---
+
 ## Stack
 | | |
 |---|---|
