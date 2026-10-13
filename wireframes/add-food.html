@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>add-food.html — Додати їжу · Forge Wireframes</title>
+  <style>
+
+    /* ═══════════════════════════════════════════════════════
+       PAGE CHROME — двоколонковий layout: nav-tree + phone frame
+    ════════════════════════════════════════════════════════ */
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      height: 100%;
+      font-family: sans-serif;
+      font-size: 14px;
+      color: #333;
+      background: #ebebeb;
+    }
+
+    .page-layout {
+      display: flex;
+      min-height: 100vh;
+      align-items: flex-start;
+    }
+
+    /* ═══════════════════════════════════════════════════════
+       LEFT NAV SIDEBAR — дерево вайрфреймів
+    ════════════════════════════════════════════════════════ */
+
+    .wf-nav {
+      width: 224px;
+      min-width: 224px;
+      flex-shrink: 0;
+      height: 100vh;
+      position: sticky;
+      top: 0;
+      overflow-y: auto;
+      background: #fafafa;
+      border-right: 1px solid #d0d0d0;
+    }
+
+    .wf-nav-title {
+      padding: 14px 14px 12px;
+      font-size: 11px;
+      font-weight: bold;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #888;
+      border-bottom: 1px solid #e0e0e0;
+    }
+
+    /* tree root */
+    .wf-tree {
+      list-style: none;
+      padding: 6px 0 24px;
+    }
+
+    /* section header (GROUP LABEL) */
+    .wf-tree .tree-section {
+      padding: 12px 14px 4px;
+      font-size: 9px;
+      font-weight: bold;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #bbb;
+      border-top: 1px solid #eeeeee;
+      margin-top: 6px;
+      list-style: none;
+    }
+    .wf-tree > li:first-child.tree-section {
+      border-top: none;
+      margin-top: 0;
+    }
+
+    /* screen name row */
+    .wf-tree .tree-screen {
+      list-style: none;
+      padding: 6px 0 2px;
+    }
+    .screen-name {
+      display: block;
+      padding: 3px 14px 2px 20px;
+      font-size: 12px;
+      font-weight: bold;
+      color: #555;
+      line-height: 1.4;
+    }
+
+    /* state links */
+    .tree-states {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .tree-states li {
+      list-style: none;
+    }
+    .tree-states li a {
+      display: block;
+      padding: 3px 14px 3px 32px;
+      font-size: 11px;
+      color: #888;
+      text-decoration: none;
+      line-height: 1.45;
+      border-left: 2px solid transparent;
+    }
+    .tree-states li a::before {
+      content: "○ ";
+      color: #ccc;
+    }
+    .tree-states li a:hover {
+      color: #444;
+      background: #f0f0f0;
+    }
+
+    /* current page */
+    .tree-states li a[aria-current="page"] {
+      color: #222;
+      font-weight: bold;
+      background: #eaeaea;
+      border-left-color: #888;
+    }
+    .tree-states li a[aria-current="page"]::before {
+      content: "● ";
+      color: #555;
+    }
+
+    /* planned — файл ще не створено */
+    .tree-states li a.planned {
+      color: #ccc;
+    }
+    .tree-states li a.planned::before {
+      color: #ddd;
+    }
+    .tree-states li a.planned:hover {
+      background: none;
+      cursor: default;
+      color: #ccc;
+    }
+
+    /* standalone screen link (без станів) */
+    .tree-screen-link {
+      display: block;
+      padding: 3px 14px 3px 20px;
+      font-size: 11px;
+      color: #bbb;
+      text-decoration: none;
+      line-height: 1.45;
+    }
+    .tree-screen-link::before {
+      content: "○ ";
+      color: #ddd;
+    }
+
+    /* ═══════════════════════════════════════════════════════
+       CANVAS — центрує phone frame
+    ════════════════════════════════════════════════════════ */
+
+    .wf-canvas {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 28px 32px;
+    }
+
+    .wf-frame-wrap { display: flex; flex-direction: column; }
+    .state-nav { width: 390px; background: #f2f2f2; border: 1px solid #ccc; border-bottom: none; padding: 7px 12px; display: flex; align-items: center; gap: 5px; flex-wrap: wrap; font-size: 11px; }
+    .state-nav > span { font-size: 9px; font-weight: bold; text-transform: uppercase; letter-spacing: .08em; color: #bbb; margin-right: 3px; flex-shrink: 0; }
+    .state-nav a { color: #888; text-decoration: none; padding: 2px 7px; border: 1px solid #d4d4d4; border-radius: 3px; background: #fff; white-space: nowrap; }
+    .state-nav a:hover { color: #444; border-color: #bbb; }
+    .state-nav a[aria-current="page"] { color: #333; font-weight: bold; background: #e2e2e2; border-color: #aaa; }
+
+    /* ═══════════════════════════════════════════════════════
+       PHONE FRAME — 390px mobile container
+    ════════════════════════════════════════════════════════ */
+
+    .phone-frame {
+      width: 390px;
+      flex-shrink: 0;
+      height: 844px;
+      background: #fff;
+      border: 1px solid #bbb;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      /* subtle frame shadow for depth */
+    }
+
+    /* ── phone header ── */
+    .phone-frame header {
+      flex-shrink: 0;
+      height: 58px;
+      background: #fff;
+      border-bottom: 1px solid #ccc;
+      display: flex;
+      align-items: center;
+      padding: 0 16px;
+      gap: 12px;
+    }
+
+    /* ── phone main ── */
+    .phone-frame main {
+      flex: 1;
+      overflow-y: auto;
+      background: #fff;
+      padding-bottom: 24px;
+    }
+
+    /* ──────────────────────────────────────────────────────
+       WIREFRAME COMPONENT STYLES (scoped to phone-frame)
+       Палітра: фон #fff · рамки #ccc · заливка #e8e8e8 · текст #333
+    ────────────────────────────────────────────────────── */
+
+    /* zone annotation labels */
+    .zone-label {
+      display: block;
+      font-size: 9px;
+      font-weight: bold;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #aaa;
+      background: #f7f7f7;
+      border-left: 3px solid #d0d0d0;
+      padding: 5px 12px 4px;
+      line-height: 1.5;
+    }
+    .zone-label em {
+      display: block;
+      font-weight: normal;
+      font-style: italic;
+      color: #c0c0c0;
+      margin-top: 1px;
+      text-transform: none;
+      letter-spacing: 0;
+    }
+
+    /* flow-step annotation (wireframe-only meta) */
+    .flow-step {
+      background: #f5f5f5;
+      border: 1px dashed #c8c8c8;
+      padding: 8px 16px;
+      font-size: 11px;
+      color: #888;
+      line-height: 1.5;
+    }
+    .flow-step strong { color: #555; }
+
+    /* sections */
+    .phone-frame section {
+      border-bottom: 1px solid #eeeeee;
+    }
+    .section-body {
+      padding: 14px 16px;
+    }
+
+    /* header internals */
+    .header-text { flex: 1; min-width: 0; }
+    .header-date { font-size: 12px; color: #999; }
+    .header-plan {
+      font-size: 15px;
+      font-weight: bold;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+    .badge-notif {
+      width: 36px; height: 36px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 10px; color: #888;
+      position: relative;
+      cursor: pointer;
+    }
+    .badge-dot {
+      position: absolute;
+      top: 6px; right: 6px;
+      width: 7px; height: 7px;
+      background: #888;
+      border-radius: 50%;
+      border: 2px solid #fff;
+    }
+    .avatar {
+      width: 36px; height: 36px;
+      border: 1px solid #ccc;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 11px; font-weight: bold; color: #777;
+      background: #e8e8e8;
+      cursor: pointer;
+    }
+
+    /* trainer note */
+    blockquote.trainer-note {
+      background: #f8f8f8;
+      border-left: 3px solid #ccc;
+      border-radius: 0 4px 4px 0;
+      padding: 12px 14px;
+      font-size: 14px;
+      font-style: italic;
+      color: #444;
+    }
+    .trainer-meta {
+      font-size: 12px;
+      color: #aaa;
+      margin-top: 8px;
+    }
+
+    /* session info */
+    .session-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 12px;
+    }
+    .session-day { font-size: 16px; font-weight: bold; }
+    .session-meta { font-size: 12px; color: #999; }
+
+    /* exercise cards */
+    article.ex-card {
+      border: 1px solid #d8d8d8;
+      border-radius: 4px;
+      padding: 11px 13px;
+      margin-bottom: 8px;
+    }
+    article.ex-card:last-of-type { margin-bottom: 0; }
+    .ex-name { font-size: 14px; font-weight: bold; margin-bottom: 3px; }
+    .ex-params { font-size: 13px; color: #555; }
+    .ex-rest { font-size: 12px; color: #aaa; margin-top: 2px; }
+
+    /* CTA button */
+    .btn-start {
+      display: block;
+      width: 100%;
+      min-height: 52px;
+      background: #333;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      font-size: 17px;
+      font-weight: bold;
+      cursor: pointer;
+      padding: 14px;
+      text-align: center;
+      text-decoration: none;
+    }
+    .btn-caption {
+      margin-top: 7px;
+      font-size: 10px;
+      color: #bbb;
+      text-align: center;
+    }
+
+    /* nutrition summary */
+    .kcal-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 8px;
+    }
+    .kcal-value { font-size: 21px; font-weight: bold; }
+    .kcal-target { font-size: 12px; color: #aaa; }
+    .ph-bar {
+      height: 8px;
+      background: #e8e8e8;
+      border-radius: 4px;
+      margin-bottom: 11px;
+      position: relative;
+      overflow: hidden;
+    }
+    .ph-bar-fill {
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 77%;
+      background: #c0c0c0;
+      border-radius: 4px;
+    }
+    .macros-row { display: flex; }
+    .macro-item {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      padding-right: 10px;
+    }
+    .macro-item + .macro-item {
+      padding-left: 10px;
+      border-left: 1px solid #eeeeee;
+    }
+    .macro-label { font-size: 9px; color: #bbb; text-transform: uppercase; letter-spacing: .05em; }
+    .macro-value { font-size: 14px; font-weight: bold; }
+    .summary-link {
+      display: inline-block;
+      margin-top: 11px;
+      font-size: 12px;
+      color: #666;
+      text-decoration: underline;
+      text-decoration-color: #ccc;
+    }
+
+    /* bottom nav */
+    .phone-nav a {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      font-size: 11px;
+      color: #aaa;
+      gap: 3px;
+      min-height: 44px;
+      border-top: 2px solid transparent;
+      padding: 6px 0;
+    }
+    .phone-nav a[aria-current="page"] {
+      color: #333;
+      border-top-color: #555;
+      font-weight: bold;
+    }
+    .nav-icon { font-size: 11px; color: inherit; }
+
+    /* header-back */
+    .header-back { font-size: 13px; color: #555; text-decoration: none; padding: 6px 4px; flex-shrink: 0; }
+
+  </style>
+</head>
+<body>
+
+<div class="page-layout">
+
+  <!-- ═══════════════════════════════════════════════════════════
+       LEFT NAV SIDEBAR
+       Структура бере зі: _screens.md (MAIN JOB) і sitemap.md (решта)
+       ● — поточна сторінка
+       ○ — існуючий файл
+       (сірий) — заплановано, файл ще не створено
+  ══════════════════════════════════════════════════════════════ -->
+  <nav class="wf-nav" aria-label="Навігація вайрфреймами Forge">
+
+    <div class="wf-nav-title">Forge · Вайрфрейми</div>
+
+    <ul class="wf-tree">
+
+      <!-- ── АТЛЕТ · MAIN JOB (J3+J4) — з _screens.md ── -->
+      <li class="tree-section">Атлет [A] · Main Job (J3+J4)</li>
+
+      <li class="tree-screen">
+        <span class="screen-name">Сьогодні — план на день</span>
+        <ul class="tree-states">
+          <li><a href="today.html">план завантажено</a></li>
+          <li><a href="athlete-today-loading.html">завантаження</a></li>
+          <li><a href="athlete-today-empty.html">порожній</a></li>
+          <li><a href="athlete-today-error.html">помилка</a></li>
+        </ul>
+      </li>
+
+      <li class="tree-screen">
+        <span class="screen-name">Активне тренування / Логер</span>
+        <ul class="tree-states">
+          <li><a href="workout.html">поля заповнені</a></li>
+          <li><a href="workout-empty.html">поля порожні</a></li>
+          <li><a href="workout-error.html">помилка збереження</a></li>
+        </ul>
+      </li>
+
+      <li class="tree-screen">
+        <span class="screen-name">Завершення тренування</span>
+        <ul class="tree-states">
+          <li><a href="finish.html">успіх · PR badge</a></li>
+        </ul>
+      </li>
+
+      <!-- ── АТЛЕТ · решта екранів (крок 8) — з sitemap.md ── -->
+      <li class="tree-section">Атлет [A] · крок 8</li>
+
+      <li class="tree-screen">
+        <span class="screen-name">Харчування — сьогодні</span>
+        <ul class="tree-states">
+          <li><a href="nutrition.html">записи за день</a></li>
+          <li><a href="nutrition-empty.html">порожній</a></li>
+          <li><a href="nutrition-error.html">помилка мережі</a></li>
+          <li><a href="nutrition-loading.html">завантаження</a></li>
+        </ul>
+      </li>
+
+      <li class="tree-screen">
+        <span class="screen-name">Додати їжу</span>
+        <ul class="tree-states">
+          <li><a href="add-food.html" aria-current="page">форма введення</a></li>
+        </ul>
+      </li>
+
+      <li class="tree-screen">
+        <span class="screen-name">Прогрес</span>
+        <ul class="tree-states">
+          <li><a href="progress.html">дашборд</a></li>
+        </ul>
+      </li>
+
+      <li class="tree-screen">
+        <span class="screen-name">Історія тренувань</span>
+        <ul class="tree-states">
+          <li><a href="history.html">список</a></li>
+          <li><a href="history-empty.html">порожній</a></li>
+        </ul>
+      </li>
+
+      <li class="tree-screen">
+        <span class="screen-name">Записати замір тіла</span>
+        <ul class="tree-states">
+          <li><a href="body-log.html">форма</a></li>
+        </ul>
+      </li>
+
+      <!-- ── ТРЕНЕР · крок 8 — з sitemap.md ── -->
+      <li class="tree-section">Тренер [T] · крок 8</li>
+
+      <li class="tree-screen">
+        <span class="screen-name">Мої атлети — огляд</span>
+        <ul class="tree-states">
+          <li><a href="trainer-clients.html">список клієнтів</a></li>
+          <li><a href="trainer-clients-empty.html">немає атлетів</a></li>
+        </ul>
+      </li>
+
+      <li class="tree-screen">
+        <span class="screen-name">Атлет — активність і фідбек</span>
+        <ul class="tree-states">
+          <li><a href="trainer-athlete.html">картка клієнта</a></li>
+          <li><a href="trainer-athlete-loading.html">завантаження</a></li>
+          <li><a href="trainer-athlete-error.html">помилка мережі</a></li>
+        </ul>
+      </li>
+
+      <li class="tree-screen">
+        <span class="screen-name">Деталі тренування (тренер-вид)</span>
+        <ul class="tree-states">
+          <li><a href="trainer-workout.html">деталі сесії</a></li>
+        </ul>
+      </li>
+
+      <li class="tree-screen">
+        <span class="screen-name">Залишити фідбек</span>
+        <ul class="tree-states">
+          <li><a href="trainer-feedback.html">форма коментаря</a></li>
+          <li><a href="trainer-feedback-error.html">помилка відправки</a></li>
+        </ul>
+      </li>
+
+      <li class="tree-screen">
+        <span class="screen-name">Програми — список</span>
+        <ul class="tree-states">
+          <li><a href="programs.html">список програм</a></li>
+          <li><a href="programs-empty.html">порожній</a></li>
+        </ul>
+      </li>
+
+      <li class="tree-screen">
+        <span class="screen-name">Конструктор програми</span>
+        <ul class="tree-states">
+          <li><a href="program-builder.html">редактор</a></li>
+        </ul>
+      </li>
+
+      <li class="tree-screen">
+        <span class="screen-name">Редактор дня / сесії</span>
+        <ul class="tree-states">
+          <li><a href="program-session.html">список вправ дня</a></li>
+        </ul>
+      </li>
+
+      <li class="tree-screen">
+        <span class="screen-name">Призначити програму атлету</span>
+        <ul class="tree-states">
+          <li><a href="program-assign.html">вибір атлета і дати</a></li>
+          <li><a href="program-assign-empty.html">немає підключених атлетів</a></li>
+        </ul>
+      </li>
+
+      <li class="tree-screen">
+        <span class="screen-name">Запросити атлета (інвайт)</span>
+        <ul class="tree-states">
+          <li><a href="invite.html">генерація коду</a></li>
+        </ul>
+      </li>
+
+      <!-- ── AUTH + СПІЛЬНІ — з sitemap.md ── -->
+      <li class="tree-section">Auth + Спільні [TA]</li>
+
+      <li class="tree-screen">
+        <span class="screen-name">Реєстрація</span>
+        <ul class="tree-states">
+          <li><a href="register.html">вибір ролі + дані</a></li>
+        </ul>
+      </li>
+
+      <li class="tree-screen">
+        <span class="screen-name">Вхід</span>
+        <ul class="tree-states">
+          <li><a href="login.html">email + пароль</a></li>
+        </ul>
+      </li>
+
+      <li class="tree-screen">
+        <span class="screen-name">Профіль / Налаштування</span>
+        <ul class="tree-states">
+          <li><a href="profile.html">профіль</a></li>
+        </ul>
+      </li>
+
+    </ul>
+  </nav><!-- /wf-nav -->
+
+
+  <!-- ═══════════════════════════════════════════════════════════
+       CANVAS + PHONE FRAME
+  ══════════════════════════════════════════════════════════════ -->
+  <div class="wf-canvas">
+    <div class="wf-frame-wrap">
+
+      <nav class="state-nav" aria-label="Стани екрана «Додати їжу»">
+        <span>Стани:</span>
+        <a href="add-food.html" aria-current="page">форма введення</a>
+      </nav>
+
+    <div class="phone-frame">
+
+      <!-- ───────────────────────────────────────────────────
+           HEADER
+           Зона: шапка з кнопкою «назад» і назвою екрана
+           Дія: повернутися до nutrition.html
+      ─────────────────────────────────────────────────────── -->
+      <header>
+        <a href="nutrition.html" class="header-back">[←]</a>
+        <div class="header-text">
+          <p class="header-plan">Додати їжу</p>
+        </div>
+      </header>
+
+      <main>
+
+        <!-- flow-step: wireframe annotation, не частина UI -->
+        <div class="flow-step" role="note">
+          <strong>nutrition — форма введення страви.</strong> Лише назва і ккал обов'язкові. Макроси опціонально. Після збереження → оновлений підсумок на nutrition.html.
+        </div>
+
+        <!-- ──────────────────────────────────────────────
+             SECTION 1: Тип прийому їжі
+             Дія: обрати прийом (Сніданок / Обід / Вечеря / Перекус)
+        ─────────────────────────────────────────────── -->
+        <section aria-labelledby="lbl-meal-type">
+          <span class="zone-label" id="lbl-meal-type">
+            Тип прийому їжі
+            <em>Дія: обрати прийом (Сніданок / Обід / Вечеря / Перекус)</em>
+          </span>
+          <div class="section-body">
+            <div style="display:flex;gap:6px;flex-wrap:wrap;">
+              <span style="padding:7px 14px;border:1px solid #ccc;border-radius:20px;font-size:13px;background:#e8e8e8;font-weight:bold;">Сніданок</span>
+              <span style="padding:7px 14px;border:1px solid #e0e0e0;border-radius:20px;font-size:13px;color:#888;">Обід</span>
+              <span style="padding:7px 14px;border:1px solid #e0e0e0;border-radius:20px;font-size:13px;color:#888;">Вечеря</span>
+              <span style="padding:7px 14px;border:1px solid #e0e0e0;border-radius:20px;font-size:13px;color:#888;">Перекус</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- ──────────────────────────────────────────────
+             SECTION 2: Страва
+             Дія: ввести назву страви і калорії (обов'язково)
+        ─────────────────────────────────────────────── -->
+        <section aria-labelledby="lbl-food">
+          <span class="zone-label" id="lbl-food">
+            Страва
+            <em>Дія: ввести назву страви і калорії (обов'язково)</em>
+          </span>
+          <div class="section-body">
+            <form>
+              <label for="food-name" style="display:block;font-size:13px;color:#888;margin-bottom:4px;">Назва страви <span style="color:#333;">*</span></label>
+              <input id="food-name" type="text" placeholder="Наприклад: Вівсянка з бананом" style="width:100%;border:1px solid #ccc;border-radius:4px;padding:10px;font-size:15px;color:#333;margin-bottom:14px;" />
+
+              <label for="food-kcal" style="display:block;font-size:13px;color:#888;margin-bottom:4px;">Калорійність, ккал <span style="color:#333;">*</span></label>
+              <input id="food-kcal" type="number" placeholder="0" style="width:100%;border:1px solid #ccc;border-radius:4px;padding:10px;font-size:15px;color:#333;" />
+            </form>
+          </div>
+        </section>
+
+        <!-- ──────────────────────────────────────────────
+             SECTION 3: Макроси (необов'язково)
+             Дія: ввести БЖВ — якщо знаєш точні дані
+        ─────────────────────────────────────────────── -->
+        <section aria-labelledby="lbl-macros">
+          <span class="zone-label" id="lbl-macros">
+            Макроси (необов'язково)
+            <em>Дія: ввести БЖВ — якщо знаєш точні дані</em>
+          </span>
+          <div class="section-body">
+            <form>
+              <div style="display:flex;gap:8px;">
+                <div style="flex:1;">
+                  <label style="display:block;font-size:11px;color:#aaa;margin-bottom:4px;text-transform:uppercase;letter-spacing:.05em;">Білки, г</label>
+                  <input type="number" placeholder="0" style="width:100%;border:1px solid #ccc;border-radius:4px;padding:10px;font-size:15px;text-align:center;" />
+                </div>
+                <div style="flex:1;">
+                  <label style="display:block;font-size:11px;color:#aaa;margin-bottom:4px;text-transform:uppercase;letter-spacing:.05em;">Жири, г</label>
+                  <input type="number" placeholder="0" style="width:100%;border:1px solid #ccc;border-radius:4px;padding:10px;font-size:15px;text-align:center;" />
+                </div>
+                <div style="flex:1;">
+                  <label style="display:block;font-size:11px;color:#aaa;margin-bottom:4px;text-transform:uppercase;letter-spacing:.05em;">Вугл, г</label>
+                  <input type="number" placeholder="0" style="width:100%;border:1px solid #ccc;border-radius:4px;padding:10px;font-size:15px;text-align:center;" />
+                </div>
+              </div>
+            </form>
+          </div>
+        </section>
+
+        <!-- ──────────────────────────────────────────────
+             SECTION 4: Зберегти
+             Дія: зберегти запис → оновити денний підсумок
+        ─────────────────────────────────────────────── -->
+        <section aria-labelledby="lbl-save">
+          <span class="zone-label" id="lbl-save">
+            Зберегти
+            <em>Дія: зберегти запис → оновити денний підсумок</em>
+          </span>
+          <div class="section-body">
+            <button type="submit" style="display:block;width:100%;min-height:52px;background:#333;color:#fff;border:none;border-radius:4px;font-size:17px;font-weight:bold;cursor:pointer;">Зберегти</button>
+            <p style="margin-top:7px;font-size:10px;color:#bbb;text-align:center;">→ nutrition.html · запис додано до денного підсумку</p>
+          </div>
+        </section>
+
+      </main>
+
+    </div><!-- /phone-frame -->
+    </div><!-- /wf-frame-wrap -->
+  </div><!-- /wf-canvas -->
+
+</div><!-- /page-layout -->
+
+</body>
+</html>

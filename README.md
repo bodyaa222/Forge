@@ -97,6 +97,28 @@ Information Architecture: sitemap, user flows, traceability matrix.
 
 ---
 
+## Вайрфрейми (Wireframes, Lesson 4)
+
+Low-fidelity HTML wireframes — статичні файли, відкриваються без сервера. 35 екранів у 390×844 px phone frame. Палітра без кольору (bg `#fff`, межі `#ccc`, текст `#333`). Кожен стан (loading / empty / error) — окремий файл.
+
+| Група | Екрани |
+|---|---|
+| Атлет · Main Job | `today`, `workout`, `finish` + 7 станів |
+| Атлет · Харчування | `nutrition`, `add-food` + 4 стани |
+| Атлет · Прогрес | `progress`, `history`, `body-log` + 2 стани |
+| Тренер | `trainer-clients`, `trainer-athlete`, `trainer-workout`, `trainer-feedback` + 7 станів |
+| Тренер · Програми | `programs`, `program-builder`, `program-session`, `program-assign` + 2 стани |
+| Auth + Спільні | `register`, `login`, `invite`, `profile` |
+
+| Файл | Що всередині |
+|---|---|
+| [`wireframes/_conventions.md`](wireframes/_conventions.md) | Повні конвенції: палітра, розмітка, CSS-патерни, заборони |
+| [`wireframes/_critique.md`](wireframes/_critique.md) | Аудит-лог: 12 дефектів (STYLE / MISSING STATE / DEAD END), усі виправлено |
+
+→ **Відкрити wireframes: [today.html](https://bodyaa222.github.io/Forge/wireframes/today.html)** (GitHub Pages)
+
+---
+
 ## Stack
 | | |
 |---|---|

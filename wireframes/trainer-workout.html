@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>trainer-workout.html — Деталі тренування (тренер-вид) · Forge Wireframes</title>
+  <style>
+
+    /* ═══════════════════════════════════════════════════════
+       PAGE CHROME — двоколонковий layout: nav-tree + phone frame
+    ════════════════════════════════════════════════════════ */
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      height: 100%;
+      font-family: sans-serif;
+      font-size: 14px;
+      color: #333;
+      background: #ebebeb;
+    }
+
+    .page-layout {
+      display: flex;
+      min-height: 100vh;
+      align-items: flex-start;
+    }
+
+    /* ═══════════════════════════════════════════════════════
+       LEFT NAV SIDEBAR — дерево вайрфреймів
+    ════════════════════════════════════════════════════════ */
+
+    .wf-nav {
+      width: 224px;
+      min-width: 224px;
+      flex-shrink: 0;
+      height: 100vh;
+      position: sticky;
+      top: 0;
+      overflow-y: auto;
+      background: #fafafa;
+      border-right: 1px solid #d0d0d0;
+    }
+
+    .wf-nav-title {
+      padding: 14px 14px 12px;
+      font-size: 11px;
+      font-weight: bold;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #888;
+      border-bottom: 1px solid #e0e0e0;
+    }
+
+    /* tree root */
+    .wf-tree {
+      list-style: none;
+      padding: 6px 0 24px;
+    }
+
+    /* section header (GROUP LABEL) */
+    .wf-tree .tree-section {
+      padding: 12px 14px 4px;
+      font-size: 9px;
+      font-weight: bold;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #bbb;
+      border-top: 1px solid #eeeeee;
+      margin-top: 6px;
+      list-style: none;
+    }
+    .wf-tree > li:first-child.tree-section {
+      border-top: none;
+      margin-top: 0;
+    }
+
+    /* screen name row */
+    .wf-tree .tree-screen {
+      list-style: none;
+      padding: 6px 0 2px;
+    }
+    .screen-name {
+      display: block;
+      padding: 3px 14px 2px 20px;
+      font-size: 12px;
+      font-weight: bold;
+      color: #555;
+      line-height: 1.4;
+    }
+
+    /* state links */
+    .tree-states {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .tree-states li {
+      list-style: none;
+    }
+    .tree-states li a {
+      display: block;
+      padding: 3px 14px 3px 32px;
+      font-size: 11px;
+      color: #888;
+      text-decoration: none;
+      line-height: 1.45;
+      border-left: 2px solid transparent;
+    }
+    .tree-states li a::before {
+      content: "○ ";
+      color: #ccc;
+    }
+    .tree-states li a:hover {
+      color: #444;
+      background: #f0f0f0;
+    }
+
+    /* current page */
+    .tree-states li a[aria-current="page"] {
+      color: #222;
+      font-weight: bold;
+      background: #eaeaea;
+      border-left-color: #888;
+    }
+    .tree-states li a[aria-current="page"]::before {
+      content: "● ";
+      color: #555;
+    }
+
+    /* planned — файл ще не створено */
+    .tree-states li a.planned {
+      color: #ccc;
+    }
+    .tree-states li a.planned::before {
+      color: #ddd;
+    }
+    .tree-states li a.planned:hover {
+      background: none;
+      cursor: default;
+      color: #ccc;
+    }
+
+    /* standalone screen link (без станів) */
+    .tree-screen-link {
+      display: block;
+      padding: 3px 14px 3px 20px;
+      font-size: 11px;
+      color: #bbb;
+      text-decoration: none;
+      line-height: 1.45;
+    }
+    .tree-screen-link::before {
+      content: "○ ";
+      color: #ddd;
+    }
+
+    /* ═══════════════════════════════════════════════════════
+       CANVAS — центрує phone frame
+    ════════════════════════════════════════════════════════ */
+
+    .wf-canvas {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 28px 32px;
+    }
+
+    .wf-frame-wrap { display: flex; flex-direction: column; }
+    .state-nav { width: 390px; background: #f2f2f2; border: 1px solid #ccc; border-bottom: none; padding: 7px 12px; display: flex; align-items: center; gap: 5px; flex-wrap: wrap; font-size: 11px; }
+    .state-nav > span { font-size: 9px; font-weight: bold; text-transform: uppercase; letter-spacing: .08em; color: #bbb; margin-right: 3px; flex-shrink: 0; }
+    .state-nav a { color: #888; text-decoration: none; padding: 2px 7px; border: 1px solid #d4d4d4; border-radius: 3px; background: #fff; white-space: nowrap; }
+    .state-nav a:hover { color: #444; border-color: #bbb; }
+    .state-nav a[aria-current="page"] { color: #333; font-weight: bold; background: #e2e2e2; border-color: #aaa; }
+
+    /* ═══════════════════════════════════════════════════════
+       PHONE FRAME — 390px mobile container
+    ════════════════════════════════════════════════════════ */
+
+    .phone-frame {
+      width: 390px;
+      flex-shrink: 0;
+      height: 844px;
+      background: #fff;
+      border: 1px solid #bbb;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      /* subtle frame shadow for depth */
+    }
+
+    /* ── phone header ── */
+    .phone-frame header {
+      flex-shrink: 0;
+      height: 58px;
+      background: #fff;
+      border-bottom: 1px solid #ccc;
+      display: flex;
+      align-items: center;
+      padding: 0 16px;
+      gap: 12px;
+    }
+
+    /* ── phone main ── */
+    .phone-frame main {
+      flex: 1;
+      overflow-y: auto;
+      background: #fff;
+      padding-bottom: 20px;
+    }
+
+    /* ──────────────────────────────────────────────────────
+       WIREFRAME COMPONENT STYLES (scoped to phone-frame)
+       Палітра: фон #fff · рамки #ccc · заливка #e8e8e8 · текст #333
+    ────────────────────────────────────────────────────── */
+
+    /* zone annotation labels */
+    .zone-label {
+      display: block;
+      font-size: 9px;
+      font-weight: bold;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #aaa;
+      background: #f7f7f7;
+      border-left: 3px solid #d0d0d0;
+      padding: 5px 12px 4px;
+      line-height: 1.5;
+    }
+    .zone-label em {
+      display: block;
+      font-weight: normal;
+      font-style: italic;
+      color: #c0c0c0;
+      margin-top: 1px;
+      text-transform: none;
+      letter-spacing: 0;
+    }
+
+    /* flow-step annotation (wireframe-only meta) */
+    .flow-step {
+      background: #f5f5f5;
+      border: 1px dashed #c8c8c8;
+      padding: 8px 16px;
+      font-size: 11px;
+      color: #888;
+      line-height: 1.5;
+    }
+    .flow-step strong { color: #555; }
+
+    /* sections */
+    .phone-frame section {
+      border-bottom: 1px solid #eeeeee;
+    }
+    .section-body {
+      padding: 14px 16px;
+    }
+
+    /* header internals */
+    .header-back { font-size: 13px; color: #555; text-decoration: none; padding: 6px 4px; flex-shrink: 0; }
+    .header-text { flex: 1; min-width: 0; }
+    .header-date { font-size: 12px; color: #999; }
+    .header-plan {
+      font-size: 15px;
+      font-weight: bold;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* trainer note */
+    blockquote.trainer-note {
+      background: #f8f8f8;
+      border-left: 3px solid #ccc;
+      border-radius: 0 4px 4px 0;
+      padding: 12px 14px;
+      font-size: 14px;
+      font-style: italic;
+      color: #444;
+    }
+
+    /* stats row */
+    .stats-row {
+      display: flex;
+      gap: 0;
+    }
+    .stat-item {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      padding: 0 12px 0 0;
+    }
+    .stat-item + .stat-item {
+      padding-left: 12px;
+      border-left: 1px solid #eeeeee;
+    }
+    .stat-label { font-size: 9px; color: #bbb; text-transform: uppercase; letter-spacing: .05em; }
+    .stat-value { font-size: 16px; font-weight: bold; }
+
+    /* plan vs fact table */
+    .pf-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+    .pf-table thead th {
+      text-align: left;
+      font-size: 9px;
+      font-weight: bold;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #bbb;
+      padding: 0 6px 8px 6px;
+      border-bottom: 1px solid #e0e0e0;
+    }
+    .pf-table thead th:first-child { padding-left: 0; }
+    .pf-table tbody td {
+      padding: 8px 6px;
+      border-bottom: 1px solid #eeeeee;
+      vertical-align: top;
+      color: #333;
+    }
+    .pf-table tbody td:first-child { padding-left: 0; }
+    .pf-table tbody tr:last-child td { border-bottom: none; }
+    .tag-pr {
+      display: inline-block;
+      font-size: 9px;
+      font-weight: bold;
+      color: #555;
+      background: #e8e8e8;
+      border: 1px solid #ccc;
+      border-radius: 3px;
+      padding: 1px 4px;
+      margin-left: 3px;
+      vertical-align: middle;
+    }
+    .tag-fail {
+      font-size: 11px;
+      color: #999;
+    }
+
+    /* CTA button */
+    .btn-start {
+      display: block;
+      width: 100%;
+      min-height: 52px;
+      background: #333;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      font-size: 17px;
+      font-weight: bold;
+      cursor: pointer;
+      padding: 14px;
+      text-align: center;
+      text-decoration: none;
+    }
+    .btn-caption {
+      margin-top: 7px;
+      font-size: 10px;
+      color: #bbb;
+      text-align: center;
+    }
+
+  </style>
+</head>
+<body>
+
+<div class="page-layout">
+
+  <!-- ═══════════════════════════════════════════════════════════
+       LEFT NAV SIDEBAR
+       ● — поточна сторінка
+       ○ — існуючий файл
+       (сірий) — заплановано, файл ще не створено
+  ══════════════════════════════════════════════════════════════ -->
+  <nav class="wf-nav" aria-label="Навігація вайрфреймами Forge">
+
+    <div class="wf-nav-title">Forge · Вайрфрейми</div>
+
+    <ul class="wf-tree">
+
+      <!-- ── АТЛЕТ · MAIN JOB (J3+J4) — з _screens.md ── -->
+      <li class="tree-section">Атлет [A] · Main Job (J3+J4)</li>
+
+      <li class="tree-screen">
+        <span class="screen-name">Сьогодні — план на день</span>
+        <ul class="tree-states">
+          <li><a href="today.html">план завантажено</a></li>
+          <li><a href="athlete-today-loading.html">завантаження</a></li>
+          <li><a href="athlete-today-empty.html">порожній</a></li>
+          <li><a href="athlete-today-error.html">помилка</a></li>
+        </ul>
+      </li>
+
+      <li class="tree-screen">
+        <span class="screen-name">Активне тренування / Логер</span>
+        <ul class="tree-states">
+          <li><a href="workout.html">поля заповнені</a></li>
+          <li><a href="workout-empty.html">поля порожні</a></li>
+          <li><a href="workout-error.html">помилка збереження</a></li>
+        </ul>
+      </li>
+
+      <li class="tree-screen">
+        <span class="screen-name">Завершення тренування</span>
+        <ul class="tree-states">
+          <li><a href="finish.html">успіх · PR badge</a></li>
+        </ul>
+      </li>
+
+      <!-- ── АТЛЕТ · решта екранів (крок 8) — з sitemap.md ── -->
+      <li class="tree-section">Атлет [A] · крок 8</li>
+
+      <li class="tree-screen">
+        <span class="screen-name">Харчування — сьогодні</span>
+        <ul class="tree-states">
+          <li><a href="nutrition.html">записи за день</a></li>
+          <li><a href="nutrition-empty.html">порожній</a></li>
+          <li><a href="nutrition-error.html">помилка мережі</a></li>
+          <li><a href="nutrition-loading.html">завантаження</a></li>
+        </ul>
+      </li>
+
+      <li class="tree-screen">
+        <span class="screen-name">Додати їжу</span>
+        <ul class="tree-states">
+          <li><a href="add-food.html">форма введення</a></li>
+        </ul>
+      </li>
+
+      <li class="tree-screen">
+        <span class="screen-name">Прогрес</span>
+        <ul class="tree-states">
+          <li><a href="progress.html">дашборд</a></li>
+        </ul>
+      </li>
+
+      <li class="tree-screen">
+        <span class="screen-name">Історія тренувань</span>
+        <ul class="tree-states">
+          <li><a href="history.html">список</a></li>
+          <li><a href="history-empty.html">порожній</a></li>
+        </ul>
+      </li>
+
+      <li class="tree-screen">
+        <span class="screen-name">Записати замір тіла</span>
+        <ul class="tree-states">
+          <li><a href="body-log.html">форма</a></li>
+        </ul>
+      </li>
+
+      <!-- ── ТРЕНЕР · крок 8 — з sitemap.md ── -->
+      <li class="tree-section">Тренер [T] · крок 8</li>
+
+      <li class="tree-screen">
+        <span class="screen-name">Мої атлети — огляд</span>
+        <ul class="tree-states">
+          <li><a href="trainer-clients.html">список клієнтів</a></li>
+          <li><a href="trainer-clients-empty.html">немає атлетів</a></li>
+        </ul>
+      </li>
+
+      <li class="tree-screen">
+        <span class="screen-name">Атлет — активність і фідбек</span>
+        <ul class="tree-states">
+          <li><a href="trainer-athlete.html">картка клієнта</a></li>
+          <li><a href="trainer-athlete-loading.html">завантаження</a></li>
+          <li><a href="trainer-athlete-error.html">помилка мережі</a></li>
+        </ul>
+      </li>
+
+      <li class="tree-screen">
+        <span class="screen-name">Деталі тренування (тренер-вид)</span>
+        <ul class="tree-states">
+          <li><a href="trainer-workout.html" aria-current="page">деталі сесії</a></li>
+        </ul>
+      </li>
+
+      <li class="tree-screen">
+        <span class="screen-name">Залишити фідбек</span>
+        <ul class="tree-states">
+          <li><a href="trainer-feedback.html">форма коментаря</a></li>
+          <li><a href="trainer-feedback-error.html">помилка відправки</a></li>
+        </ul>
+      </li>
+
+      <li class="tree-screen">
+        <span class="screen-name">Програми — список</span>
+        <ul class="tree-states">
+          <li><a href="programs.html">список програм</a></li>
+          <li><a href="programs-empty.html">порожній</a></li>
+        </ul>
+      </li>
+
+      <li class="tree-screen">
+        <span class="screen-name">Конструктор програми</span>
+        <ul class="tree-states">
+          <li><a href="program-builder.html">редактор</a></li>
+        </ul>
+      </li>
+
+      <li class="tree-screen">
+        <span class="screen-name">Редактор дня / сесії</span>
+        <ul class="tree-states">
+          <li><a href="program-session.html">список вправ дня</a></li>
+        </ul>
+      </li>
+
+      <li class="tree-screen">
+        <span class="screen-name">Призначити програму атлету</span>
+        <ul class="tree-states">
+          <li><a href="program-assign.html">вибір атлета і дати</a></li>
+          <li><a href="program-assign-empty.html">немає підключених атлетів</a></li>
+        </ul>
+      </li>
+
+      <li class="tree-screen">
+        <span class="screen-name">Запросити атлета (інвайт)</span>
+        <ul class="tree-states">
+          <li><a href="invite.html">генерація коду</a></li>
+        </ul>
+      </li>
+
+      <!-- ── AUTH + СПІЛЬНІ — з sitemap.md ── -->
+      <li class="tree-section">Auth + Спільні [TA]</li>
+
+      <li class="tree-screen">
+        <span class="screen-name">Реєстрація</span>
+        <ul class="tree-states">
+          <li><a href="register.html">вибір ролі + дані</a></li>
+        </ul>
+      </li>
+
+      <li class="tree-screen">
+        <span class="screen-name">Вхід</span>
+        <ul class="tree-states">
+          <li><a href="login.html">email + пароль</a></li>
+        </ul>
+      </li>
+
+      <li class="tree-screen">
+        <span class="screen-name">Профіль / Налаштування</span>
+        <ul class="tree-states">
+          <li><a href="profile.html">профіль</a></li>
+        </ul>
+      </li>
+
+    </ul>
+  </nav><!-- /wf-nav -->
+
+
+  <!-- ═══════════════════════════════════════════════════════════
+       CANVAS + PHONE FRAME
+  ══════════════════════════════════════════════════════════════ -->
+  <div class="wf-canvas">
+    <div class="wf-frame-wrap">
+
+      <nav class="state-nav" aria-label="Стани екрана «Деталі тренування»">
+        <span>Стани:</span>
+        <a href="trainer-workout.html" aria-current="page">деталі сесії</a>
+      </nav>
+
+    <div class="phone-frame">
+
+      <!-- ───────────────────────────────────────────────────
+           HEADER
+      ─────────────────────────────────────────────────────── -->
+      <header>
+        <a href="trainer-athlete.html" class="header-back">[←]</a>
+        <div class="header-text">
+          <p class="header-plan">День A — Ноги та кор</p>
+          <p class="header-date">Оля Ткаченко · 12 жовтня 2026</p>
+        </div>
+      </header>
+
+      <main>
+
+        <!-- flow-step: wireframe annotation, не частина UI -->
+        <div class="flow-step" role="note">
+          <strong>J2 — тренер бачить деталі тренування.</strong> Порівняння план↔факт по кожній вправі. Вихід → залишити фідбек (trainer-feedback.html).
+        </div>
+
+        <!-- ──────────────────────────────────────────────
+             SECTION 1: Загальна статистика
+        ─────────────────────────────────────────────── -->
+        <section aria-labelledby="lbl-stats">
+          <span class="zone-label" id="lbl-stats">
+            Загальна статистика
+            <em>Дія: огляд — тривалість, підходи, відповідність плану</em>
+          </span>
+          <div class="section-body">
+            <div class="stats-row">
+              <div class="stat-item">
+                <span class="stat-label">Час</span>
+                <span class="stat-value">01:02:14</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-label">Підходів</span>
+                <span class="stat-value">18 / 20 план</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-label">Вправ</span>
+                <span class="stat-value">5 / 5</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ──────────────────────────────────────────────
+             SECTION 2: Деталі вправ — план vs факт
+        ─────────────────────────────────────────────── -->
+        <section aria-labelledby="lbl-exercises">
+          <span class="zone-label" id="lbl-exercises">
+            Деталі вправ — план vs факт
+            <em>Дія: виявити відхилення від плану</em>
+          </span>
+          <div class="section-body">
+            <table class="pf-table">
+              <thead>
+                <tr>
+                  <th>Вправа</th>
+                  <th>Підходів</th>
+                  <th>Повт (план→факт)</th>
+                  <th>Вага (план→факт)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Присідання зі штангою</td>
+                  <td>4/4 ✓</td>
+                  <td>8→8</td>
+                  <td>80 кг → 82.5 кг <span class="tag-pr">[PR]</span></td>
+                </tr>
+                <tr>
+                  <td>Румунська тяга</td>
+                  <td>4/4 ✓</td>
+                  <td>10→10</td>
+                  <td>65 кг → 65 кг</td>
+                </tr>
+                <tr>
+                  <td>Жим ногами</td>
+                  <td>3/3 ✓</td>
+                  <td>12→11</td>
+                  <td>120 кг → 120 кг</td>
+                </tr>
+                <tr>
+                  <td>Згинання ніг лежачи</td>
+                  <td>3/3 ✓</td>
+                  <td>12→12</td>
+                  <td>35 кг → 35 кг</td>
+                </tr>
+                <tr>
+                  <td>Підйом литок стоячи</td>
+                  <td>2/4 ✗</td>
+                  <td>15→15</td>
+                  <td>55 кг → 55 кг <span class="tag-fail">(не завершила)</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- ──────────────────────────────────────────────
+             SECTION 3: Нотатка атлета після тренування
+        ─────────────────────────────────────────────── -->
+        <section aria-labelledby="lbl-note">
+          <span class="zone-label" id="lbl-note">
+            Нотатка атлета після тренування
+            <em>Дія: читати — контекст від атлета</em>
+          </span>
+          <div class="section-body">
+            <blockquote class="trainer-note">
+              Присідання дались добре, але на литки вже не вистачило сил. Наступного разу спробую їх на початку.
+            </blockquote>
+          </div>
+        </section>
+
+        <!-- ──────────────────────────────────────────────
+             SECTION 4: Головна дія
+        ─────────────────────────────────────────────── -->
+        <section aria-labelledby="lbl-cta">
+          <span class="zone-label" id="lbl-cta">
+            Головна дія
+            <em>Дія: перейти до написання фідбеку</em>
+          </span>
+          <div class="section-body">
+            <a href="trainer-feedback.html" class="btn-start">Залишити фідбек</a>
+            <p class="btn-caption">→ trainer-feedback.html · J2·E2</p>
+          </div>
+        </section>
+
+      </main>
+
+    </div><!-- /phone-frame -->
+    </div><!-- /wf-frame-wrap -->
+  </div><!-- /wf-canvas -->
+
+</div><!-- /page-layout -->
+
+</body>
+</html>

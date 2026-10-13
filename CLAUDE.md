@@ -132,6 +132,40 @@ Full files: `research/personas.md` · `research/jtbd.md` · Visual: `research/pe
 
 ---
 
+## Вайрфрейми (Wireframes, Lesson 4)
+
+Розташування: `wireframes/` · Конвенції: `wireframes/_conventions.md` · Аудит: `wireframes/_critique.md`
+
+### Файли (35 HTML, статичні — відкриваються без сервера)
+
+| Група | Екрани | Стани |
+|---|---|---|
+| **Атлет · Main Job (J3+J4)** | `today`, `workout`, `finish` | `*-loading`, `*-empty`, `*-error` |
+| **Атлет · Харчування** | `nutrition`, `add-food` | `*-loading`, `*-empty`, `*-error` |
+| **Атлет · Прогрес** | `progress`, `history`, `body-log` | `*-empty` (history, progress implied via cards) |
+| **Тренер** | `trainer-clients`, `trainer-athlete`, `trainer-workout`, `trainer-feedback` | `*-loading`, `*-empty`, `*-error` для кожного |
+| **Тренер · Програми** | `programs`, `program-builder`, `program-session`, `program-assign` | `*-empty` |
+| **Auth + Спільні** | `register`, `login`, `invite`, `profile` | — |
+
+### Конвенції
+
+- **Палітра**: bg `#fff`, межі `#ccc`, заповнення `#e8e8e8`, текст `#333`. Ніяких кольорів, тіней, зовнішніх шрифтів.
+- **Phone frame**: 390×844 px; header `flex-shrink:0`, main `flex:1 overflow-y:auto`, bottom-nav `flex-shrink:0`.
+- **Структура**: `.wf-nav` (224 px sidebar-дерево) + `.wf-canvas` (phone frame + state-nav).
+- **Суфікси станів**: `_empty` = порожній, `_error` = помилка/мережа, `_loading` = skeleton (`.sk-*` класи).
+- **CTA**: `<a href>` замість `<button>`; відключені — `aria-disabled="true"` + `pointer-events:none`.
+- **Навігація**: `aria-current="page"` на поточному екрані; `class="planned"` на ще не створених.
+
+### Як переглянути
+
+```bash
+open wireframes/today.html   # або будь-який інший файл
+```
+
+Або GitHub Pages: `https://bodyaa222.github.io/Forge/wireframes/today.html`
+
+---
+
 ## Information Architecture
 
 Full sitemap: `sitemap.md` · User flows: `flows.md` · IA visual: `ia.html`

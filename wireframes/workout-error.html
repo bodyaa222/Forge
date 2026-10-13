@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>workout-error.html — Активне тренування / Логер (помилка збереження) · Forge Wireframes</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; font-family: sans-serif; font-size: 14px; color: #333; background: #ebebeb; }
+    .page-layout { display: flex; min-height: 100vh; align-items: flex-start; }
+
+    /* ── Left nav sidebar ── */
+    .wf-nav { width: 224px; min-width: 224px; flex-shrink: 0; height: 100vh; position: sticky; top: 0; overflow-y: auto; background: #fafafa; border-right: 1px solid #d0d0d0; }
+    .wf-nav-title { padding: 14px 14px 12px; font-size: 11px; font-weight: bold; letter-spacing: .08em; text-transform: uppercase; color: #888; border-bottom: 1px solid #e0e0e0; }
+    .wf-tree { list-style: none; padding: 6px 0 24px; }
+    .wf-tree .tree-section { padding: 12px 14px 4px; font-size: 9px; font-weight: bold; letter-spacing: .12em; text-transform: uppercase; color: #bbb; border-top: 1px solid #eee; margin-top: 6px; list-style: none; }
+    .wf-tree > li:first-child.tree-section { border-top: none; margin-top: 0; }
+    .wf-tree .tree-screen { list-style: none; padding: 6px 0 2px; }
+    .screen-name { display: block; padding: 3px 14px 2px 20px; font-size: 12px; font-weight: bold; color: #555; line-height: 1.4; }
+    .tree-states { list-style: none; padding: 0; margin: 0; }
+    .tree-states li { list-style: none; }
+    .tree-states li a { display: block; padding: 3px 14px 3px 32px; font-size: 11px; color: #888; text-decoration: none; line-height: 1.45; border-left: 2px solid transparent; }
+    .tree-states li a::before { content: "○ "; color: #ccc; }
+    .tree-states li a:hover { color: #444; background: #f0f0f0; }
+    .tree-states li a[aria-current="page"] { color: #222; font-weight: bold; background: #eaeaea; border-left-color: #888; }
+    .tree-states li a[aria-current="page"]::before { content: "● "; color: #555; }
+    .tree-states li a.planned { color: #ccc; pointer-events: none; }
+    .tree-states li a.planned::before { color: #ddd; }
+
+    /* ── Canvas + frame wrap ── */
+    .wf-canvas { flex: 1; display: flex; justify-content: center; align-items: flex-start; padding: 28px 32px; }
+    .wf-frame-wrap { display: flex; flex-direction: column; }
+    .state-nav { width: 390px; background: #f2f2f2; border: 1px solid #ccc; border-bottom: none; padding: 7px 12px; display: flex; align-items: center; gap: 5px; flex-wrap: wrap; font-size: 11px; }
+    .state-nav > span { font-size: 9px; font-weight: bold; text-transform: uppercase; letter-spacing: .08em; color: #bbb; margin-right: 3px; flex-shrink: 0; }
+    .state-nav a { color: #888; text-decoration: none; padding: 2px 7px; border: 1px solid #d4d4d4; border-radius: 3px; background: #fff; white-space: nowrap; }
+    .state-nav a:hover { color: #444; border-color: #bbb; }
+    .state-nav a[aria-current="page"] { color: #333; font-weight: bold; background: #e2e2e2; border-color: #aaa; }
+
+    /* ── Phone frame ── */
+    .phone-frame header { flex-shrink: 0; height: 58px; background: #fff; border-bottom: 1px solid #ccc; display: flex; align-items: center; padding: 0 16px; gap: 10px; }
+    .phone-frame main { flex: 1; overflow-y: auto; background: #fff; }
+
+    /* ── Wireframe component styles ── */
+    .zone-label { display: block; font-size: 9px; font-weight: bold; letter-spacing: .1em; text-transform: uppercase; color: #aaa; background: #f7f7f7; border-left: 3px solid #d0d0d0; padding: 5px 12px 4px; line-height: 1.5; }
+    .zone-label em { display: block; font-weight: normal; font-style: italic; color: #c0c0c0; margin-top: 1px; text-transform: none; letter-spacing: 0; }
+    .flow-step { background: #f5f5f5; border: 1px dashed #c8c8c8; padding: 8px 16px; font-size: 11px; color: #888; line-height: 1.5; }
+    .flow-step strong { color: #555; }
+    .phone-frame section { border-bottom: 1px solid #eee; }
+    .section-body { padding: 14px 16px; }
+
+    /* ── Workout-error screen styles ── */
+    .header-back { background: none; border: 1px solid #ddd; border-radius: 4px; padding: 6px 10px; font-size: 14px; cursor: pointer; color: #555; flex-shrink: 0; min-height: 44px; min-width: 44px; text-decoration: none; display: inline-flex; align-items: center; justify-content: center; }
+    .header-text { flex: 1; min-width: 0; }
+    .header-screen { font-size: 13px; font-weight: bold; }
+    .header-timer { font-size: 11px; color: #999; }
+    .header-end { width: 36px; height: 36px; border: 1px solid #ddd; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 10px; color: #888; flex-shrink: 0; }
+    .ex-progress-list { list-style: none; padding: 0; margin: 0; }
+    .ex-progress-item { display: flex; align-items: center; gap: 10px; padding: 7px 0; border-bottom: 1px solid #f2f2f2; font-size: 13px; }
+    .ex-progress-item:last-child { border-bottom: none; }
+    .ex-progress-item.done { color: #bbb; }
+    .ex-progress-item.current { font-weight: bold; color: #222; border-left: 3px solid #888; padding-left: 8px; margin-left: -11px; }
+    .ex-progress-item.pending { color: #aaa; }
+    .ex-check { width: 18px; flex-shrink: 0; text-align: center; font-size: 12px; }
+    .ex-progress-name { flex: 1; }
+    .ex-progress-sets { font-size: 11px; color: #aaa; white-space: nowrap; }
+    .ex-progress-item.current .ex-progress-sets { color: #666; }
+    .current-ex { border: 1px solid #d0d0d0; border-radius: 4px; padding: 14px; }
+    .current-ex-name { font-size: 17px; font-weight: bold; margin-bottom: 4px; }
+    .current-ex-set { font-size: 13px; color: #888; margin-bottom: 4px; }
+    .current-ex-target { font-size: 13px; color: #555; }
+    .log-form { display: block; }
+    .input-row { display: flex; gap: 12px; }
+    .input-group { flex: 1; display: flex; flex-direction: column; gap: 6px; }
+    .input-label { font-size: 12px; color: #888; font-weight: bold; letter-spacing: .04em; text-transform: uppercase; }
+    .input-field { width: 100%; height: 64px; border: 2px solid #ccc; border-radius: 6px; font-size: 28px; font-weight: bold; text-align: center; color: #222; background: #fff; -moz-appearance: textfield; }
+    .input-field::-webkit-inner-spin-button { -webkit-appearance: none; }
+    .sets-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    .sets-table th { text-align: left; font-size: 10px; color: #bbb; text-transform: uppercase; letter-spacing: .06em; padding: 4px 8px 6px; border-bottom: 1px solid #eee; }
+    .sets-table td { padding: 8px 8px; border-bottom: 1px solid #f5f5f5; }
+    .sets-table td:first-child { color: #aaa; width: 52px; }
+    .set-check { color: #888; font-size: 12px; text-align: right; }
+    .set-current td { background: #f8f8f8; font-style: italic; color: #aaa; }
+    .set-in-progress { font-size: 11px; }
+    .set-pending td { color: #ddd; }
+    .error-block { border: 1px dashed #d0d0d0; border-radius: 4px; padding: 20px 16px 16px; text-align: center; background: #fafafa; margin-bottom: 12px; }
+    .error-icon { font-size: 22px; color: #bbb; margin-bottom: 10px; }
+    .error-title { font-size: 15px; font-weight: bold; color: #444; margin-bottom: 8px; }
+    .error-text { font-size: 13px; color: #888; line-height: 1.5; margin-bottom: 14px; }
+    .btn-retry { display: block; width: 100%; min-height: 52px; background: #333; color: #fff; border: none; border-radius: 6px; font-size: 17px; font-weight: bold; cursor: pointer; padding: 12px; text-align: center; text-decoration: none; }
+    .flow-note { margin-top: 12px; padding: 8px 10px; font-size: 11px; color: #bbb; line-height: 1.5; border: 1px dashed #e0e0e0; border-radius: 4px; margin-bottom: 10px; }
+    .flow-note strong { color: #aaa; }
+    .btn-finish { display: block; width: 100%; min-height: 44px; background: #fff; color: #ccc; border: 1px solid #e8e8e8; border-radius: 6px; font-size: 15px; font-weight: bold; padding: 10px; text-align: center; margin-top: 10px; text-decoration: none; }
+    .btn-finish[aria-disabled="true"] { pointer-events: none; cursor: default; }
+    .btn-caption { margin-top: 5px; font-size: 10px; color: #bbb; text-align: center; }
+  </style>
+</head>
+<body>
+
+<div class="page-layout">
+
+  <!-- ═══ LEFT NAV SIDEBAR ═══ -->
+  <nav class="wf-nav" aria-label="Навігація вайрфреймами Forge">
+    <div class="wf-nav-title">Forge · Вайрфрейми</div>
+    <ul class="wf-tree">
+
+      <li class="tree-section">Атлет [A] · Main Job (J3+J4)</li>
+
+      <li class="tree-screen">
+        <span class="screen-name">Сьогодні — план на день</span>
+        <ul class="tree-states">
+          <li><a href="today.html">план завантажено</a></li>
+          <li><a href="athlete-today-loading.html">завантаження</a></li>
+          <li><a href="athlete-today-empty.html">порожній</a></li>
+          <li><a href="athlete-today-error.html">помилка</a></li>
+        </ul>
+      </li>
+
+      <li class="tree-screen">
+        <span class="screen-name">Активне тренування / Логер</span>
+        <ul class="tree-states">
+          <li><a href="workout.html">поля заповнені</a></li>
+          <li><a href="workout-empty.html">поля порожні</a></li>
+          <li><a href="workout-error.html" aria-current="page">помилка збереження</a></li>
+        </ul>
+      </li>
+
+      <li class="tree-screen">
+        <span class="screen-name">Завершення тренування</span>
+        <ul class="tree-states">
+          <li><a href="finish.html">успіх · PR badge</a></li>
+        </ul>
+      </li>
+
+      <li class="tree-section">Атлет [A] · крок 8</li>
+      <li class="tree-screen"><span class="screen-name">Харчування — сьогодні</span><ul class="tree-states"><li><a href="nutrition.html">записи за день</a></li><li><a href="nutrition-empty.html">порожній</a></li><li><a href="nutrition-error.html">помилка мережі</a></li>
+          <li><a href="nutrition-loading.html">завантаження</a></li></ul></li>
+      <li class="tree-screen"><span class="screen-name">Додати їжу</span><ul class="tree-states"><li><a href="add-food.html">форма введення</a></li></ul></li>
+      <li class="tree-screen"><span class="screen-name">Прогрес</span><ul class="tree-states"><li><a href="progress.html">дашборд</a></li></ul></li>
+      <li class="tree-screen"><span class="screen-name">Історія тренувань</span><ul class="tree-states"><li><a href="history.html">список</a></li><li><a href="history-empty.html">порожній</a></li></ul></li>
+      <li class="tree-screen"><span class="screen-name">Записати замір тіла</span><ul class="tree-states"><li><a href="body-log.html">форма</a></li></ul></li>
+
+      <li class="tree-section">Тренер [T] · крок 8</li>
+      <li class="tree-screen"><span class="screen-name">Мої атлети — огляд</span><ul class="tree-states"><li><a href="trainer-clients.html">список клієнтів</a></li><li><a href="trainer-clients-empty.html">немає атлетів</a></li></ul></li>
+      <li class="tree-screen"><span class="screen-name">Атлет — активність і фідбек</span><ul class="tree-states"><li><a href="trainer-athlete.html">картка клієнта</a></li>
+          <li><a href="trainer-athlete-loading.html">завантаження</a></li>
+          <li><a href="trainer-athlete-error.html">помилка мережі</a></li></ul></li>
+      <li class="tree-screen"><span class="screen-name">Деталі тренування (тренер-вид)</span><ul class="tree-states"><li><a href="trainer-workout.html">деталі сесії</a></li></ul></li>
+      <li class="tree-screen"><span class="screen-name">Залишити фідбек</span><ul class="tree-states"><li><a href="trainer-feedback.html">форма коментаря</a></li>
+          <li><a href="trainer-feedback-error.html">помилка відправки</a></li></ul></li>
+      <li class="tree-screen"><span class="screen-name">Програми — список</span><ul class="tree-states"><li><a href="programs.html">список програм</a></li><li><a href="programs-empty.html">порожній</a></li></ul></li>
+      <li class="tree-screen"><span class="screen-name">Конструктор програми</span><ul class="tree-states"><li><a href="program-builder.html">редактор</a></li></ul></li>
+      <li class="tree-screen"><span class="screen-name">Редактор дня / сесії</span><ul class="tree-states"><li><a href="program-session.html">список вправ дня</a></li></ul></li>
+      <li class="tree-screen"><span class="screen-name">Призначити програму атлету</span><ul class="tree-states"><li><a href="program-assign.html">вибір атлета і дати</a></li>
+          <li><a href="program-assign-empty.html">немає підключених атлетів</a></li></ul></li>
+      <li class="tree-screen"><span class="screen-name">Запросити атлета (інвайт)</span><ul class="tree-states"><li><a href="invite.html">генерація коду</a></li></ul></li>
+
+      <li class="tree-section">Auth + Спільні [TA]</li>
+      <li class="tree-screen"><span class="screen-name">Реєстрація</span><ul class="tree-states"><li><a href="register.html">вибір ролі + дані</a></li></ul></li>
+      <li class="tree-screen"><span class="screen-name">Вхід</span><ul class="tree-states"><li><a href="login.html">email + пароль</a></li></ul></li>
+      <li class="tree-screen"><span class="screen-name">Профіль / Налаштування</span><ul class="tree-states"><li><a href="profile.html">профіль</a></li></ul></li>
+
+    </ul>
+  </nav>
+
+  <!-- ═══ CANVAS ═══ -->
+  <div class="wf-canvas">
+    <div class="wf-frame-wrap">
+
+      <nav class="state-nav" aria-label="Стани екрана «Активне тренування»">
+        <span>Стани:</span>
+        <a href="workout.html">поля заповнені</a>
+        <a href="workout-empty.html">поля порожні</a>
+        <a href="workout-error.html" aria-current="page">помилка збереження</a>
+      </nav>
+
+      <div class="phone-frame">
+
+        <header>
+          <a href="today.html" class="header-back" aria-label="Назад до плану">[←]</a>
+          <div class="header-text">
+            <p class="header-screen">Активне тренування</p>
+            <p class="header-timer">00:27:14 · 12 жовт</p>
+          </div>
+          <div class="header-end" aria-label="Пройдено часу">[годинник]</div>
+        </header>
+
+        <main>
+
+          <div class="flow-step" role="note">
+            <strong>J4 — помилка збереження (flows.md · вузол U→Z4):</strong> підхід 2 / 4 не зберігся. Вихід: «Спробувати ще» (1 тап) → retry. Якщо відмовляється — тупик Z4: дані підходу втрачено.
+          </div>
+
+          <!-- ── SECTION: Вправи дня ── -->
+          <section aria-labelledby="lbl-exercises">
+            <span class="zone-label" id="lbl-exercises">
+              Вправи дня · 1 з 5 завершено
+              <em>Дія: орієнтація у тренуванні — поточна вправа виділена</em>
+            </span>
+            <div class="section-body">
+              <ul class="ex-progress-list" aria-label="Список вправ тренування">
+                <li class="ex-progress-item done">
+                  <span class="ex-check" aria-label="Виконано">[✓]</span>
+                  <span class="ex-progress-name">Присідання зі штангою</span>
+                  <span class="ex-progress-sets">4 / 4 підходи</span>
+                </li>
+                <li class="ex-progress-item current" aria-current="true">
+                  <span class="ex-check" aria-label="Поточна">[→]</span>
+                  <span class="ex-progress-name">Румунська тяга</span>
+                  <span class="ex-progress-sets">2 / 4 підходи</span>
+                </li>
+                <li class="ex-progress-item pending">
+                  <span class="ex-check" aria-label="Очікує">[ ]</span>
+                  <span class="ex-progress-name">Жим ногами</span>
+                  <span class="ex-progress-sets">0 / 3 підходи</span>
+                </li>
+                <li class="ex-progress-item pending">
+                  <span class="ex-check" aria-label="Очікує">[ ]</span>
+                  <span class="ex-progress-name">Згинання ніг лежачи</span>
+                  <span class="ex-progress-sets">0 / 3 підходи</span>
+                </li>
+                <li class="ex-progress-item pending">
+                  <span class="ex-check" aria-label="Очікує">[ ]</span>
+                  <span class="ex-progress-name">Підйом литок стоячи</span>
+                  <span class="ex-progress-sets">0 / 4 підходи</span>
+                </li>
+              </ul>
+            </div>
+          </section>
+
+          <!-- ── SECTION: Поточна вправа ── -->
+          <section aria-labelledby="lbl-current-ex">
+            <span class="zone-label" id="lbl-current-ex">
+              Поточна вправа · Підхід 2 / 4
+              <em>Румунська тяга · підхід не зберігся</em>
+            </span>
+            <div class="section-body">
+              <article class="current-ex">
+                <p class="current-ex-name">Румунська тяга</p>
+                <p class="current-ex-set">Підхід 2 / 4</p>
+                <p class="current-ex-target">Ціль: 10 повт · 65 кг · відпочинок 90 с</p>
+              </article>
+            </div>
+          </section>
+
+          <!-- ── SECTION: Введення факту ── -->
+          <section aria-labelledby="lbl-input">
+            <span class="zone-label" id="lbl-input">
+              Введення факту
+              <em>Поля заповнені — підхід не зберігся, дані збережено в полях</em>
+            </span>
+            <div class="section-body">
+              <form class="log-form" id="log-form" aria-label="Введення підходу">
+                <div class="input-row">
+                  <div class="input-group">
+                    <label class="input-label" for="reps">Повторення</label>
+                    <input class="input-field" id="reps" type="number" inputmode="numeric" value="10" min="1" max="99">
+                  </div>
+                  <div class="input-group">
+                    <label class="input-label" for="weight">Вага (кг)</label>
+                    <input class="input-field" id="weight" type="number" inputmode="decimal" value="65" min="0" step="0.5">
+                  </div>
+                </div>
+              </form>
+            </div>
+          </section>
+
+          <!-- ── SECTION: Збережені підходи ── -->
+          <section aria-labelledby="lbl-sets">
+            <span class="zone-label" id="lbl-sets">
+              Збережені підходи · Румунська тяга
+              <em>Поточна вправа · виконано 1 з 4 · підхід 2 — помилка</em>
+            </span>
+            <div class="section-body">
+              <table class="sets-table" aria-label="Підходи поточної вправи">
+                <thead>
+                  <tr>
+                    <th scope="col">Підхід</th>
+                    <th scope="col">Повт</th>
+                    <th scope="col">Кг</th>
+                    <th scope="col"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>1</td>
+                    <td>10</td>
+                    <td>65</td>
+                    <td class="set-check">[✓]</td>
+                  </tr>
+                  <tr class="set-current">
+                    <td>2</td>
+                    <td colspan="3" class="set-in-progress">вводиться…</td>
+                  </tr>
+                  <tr class="set-pending">
+                    <td>3</td>
+                    <td>—</td>
+                    <td>—</td>
+                    <td></td>
+                  </tr>
+                  <tr class="set-pending">
+                    <td>4</td>
+                    <td>—</td>
+                    <td>—</td>
+                    <td></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <!-- ── SECTION: Головна дія — ПОМИЛКА ── -->
+          <section aria-labelledby="lbl-action">
+            <span class="zone-label" id="lbl-action">
+              Головна дія
+              <em>Стан: помилка збереження — потрібен retry</em>
+            </span>
+            <div class="section-body">
+              <div class="error-block" role="alert">
+                <p class="error-icon">[!]</p>
+                <p class="error-title">Підхід не зберігся</p>
+                <p class="error-text">Перевір з'єднання і спробуй ще раз. Дані в полях збережено.</p>
+                <a href="workout.html" class="btn-retry">Спробувати ще</a>
+                <p class="btn-caption">→ workout.html · retry (flows.md V→так→S)</p>
+              </div>
+              <p class="flow-note"><strong>Тупик Z4 (flows.md):</strong> якщо атлет відмовляється від retry — дані підходу втрачено. Рекомендація: зберігати чернетку Set Log локально (post-MVP).</p>
+              <a href="finish.html" class="btn-finish" aria-disabled="true">Завершити тренування</a>
+              <p class="btn-caption">→ finish.html · активується після останнього підходу останньої вправи</p>
+            </div>
+          </section>
+
+        </main>
+        <!-- NO phone-nav: workout is a focused flow, no bottom tabs -->
+
+      </div><!-- /phone-frame -->
+    </div><!-- /wf-frame-wrap -->
+  </div><!-- /wf-canvas -->
+
+</div><!-- /page-layout -->
+</body>
+</html>
