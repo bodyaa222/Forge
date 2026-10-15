@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>trainer-feedback.html — Залишити фідбек · Forge Wireframes</title>
+  <title>trainer-feedback.html — Залишити коментар · Forge Wireframes</title>
   <style>
 
     /* ═══════════════════════════════════════════════════════
@@ -328,7 +328,7 @@
       <li class="tree-screen">
         <span class="screen-name">Завершення тренування</span>
         <ul class="tree-states">
-          <li><a href="finish.html">успіх · PR badge</a></li>
+          <li><a href="finish.html">успіх · плашка рекорду</a></li>
         </ul>
       </li>
 
@@ -346,7 +346,7 @@
       </li>
 
       <li class="tree-screen">
-        <span class="screen-name">Додати їжу</span>
+        <span class="screen-name">Нова страва</span>
         <ul class="tree-states">
           <li><a href="add-food.html">форма введення</a></li>
         </ul>
@@ -368,7 +368,7 @@
       </li>
 
       <li class="tree-screen">
-        <span class="screen-name">Записати замір тіла</span>
+        <span class="screen-name">Новий замір</span>
         <ul class="tree-states">
           <li><a href="body-log.html">форма</a></li>
         </ul>
@@ -380,15 +380,15 @@
       <li class="tree-screen">
         <span class="screen-name">Мої атлети — огляд</span>
         <ul class="tree-states">
-          <li><a href="trainer-clients.html">список клієнтів</a></li>
+          <li><a href="trainer-clients.html">список атлетів</a></li>
           <li><a href="trainer-clients-empty.html">немає атлетів</a></li>
         </ul>
       </li>
 
       <li class="tree-screen">
-        <span class="screen-name">Атлет — активність і фідбек</span>
+        <span class="screen-name">Атлет — активність і коментарі</span>
         <ul class="tree-states">
-          <li><a href="trainer-athlete.html">картка клієнта</a></li>
+          <li><a href="trainer-athlete.html">картка атлета</a></li>
           <li><a href="trainer-athlete-loading.html">завантаження</a></li>
           <li><a href="trainer-athlete-error.html">помилка мережі</a></li>
         </ul>
@@ -397,12 +397,12 @@
       <li class="tree-screen">
         <span class="screen-name">Деталі тренування (тренер-вид)</span>
         <ul class="tree-states">
-          <li><a href="trainer-workout.html">деталі сесії</a></li>
+          <li><a href="trainer-workout.html">деталі тренування</a></li>
         </ul>
       </li>
 
       <li class="tree-screen">
-        <span class="screen-name">Залишити фідбек</span>
+        <span class="screen-name">Залишити коментар</span>
         <ul class="tree-states">
           <li><a href="trainer-feedback.html" aria-current="page">форма коментаря</a>
         <a href="trainer-feedback-error.html">помилка відправки</a></li>
@@ -425,7 +425,7 @@
       </li>
 
       <li class="tree-screen">
-        <span class="screen-name">Редактор дня / сесії</span>
+        <span class="screen-name">Редактор тренування</span>
         <ul class="tree-states">
           <li><a href="program-session.html">список вправ дня</a></li>
         </ul>
@@ -440,7 +440,7 @@
       </li>
 
       <li class="tree-screen">
-        <span class="screen-name">Запросити атлета (інвайт)</span>
+        <span class="screen-name">Запрошення атлета</span>
         <ul class="tree-states">
           <li><a href="invite.html">генерація коду</a></li>
         </ul>
@@ -487,7 +487,7 @@
       <header>
         <a href="trainer-workout.html" class="header-back">[←]</a>
         <div class="header-text">
-          <p class="header-plan">Фідбек · Оля Ткаченко · 12 жовт</p>
+          <p class="header-plan">Коментар · Оля Ткаченко · 12 жовтня</p>
         </div>
       </header>
 
@@ -495,7 +495,7 @@
 
         <!-- flow-step: wireframe annotation, не частина UI -->
         <div class="flow-step" role="note">
-          <strong>J2·E2 — тренер пише async фідбек.</strong> Порожнє поле → кнопка неактивна (blocked by empty). Після відправки → SUCCESS1 (тупик resolved, атлет бачить фідбек у Прогресі).
+          <strong>J2·E2 — тренер пише async коментар.</strong> Порожнє поле → кнопка неактивна (blocked by empty). Після відправки → SUCCESS1 (тупик resolved, атлет бачить коментар у Прогресі).
         </div>
 
         <!-- ──────────────────────────────────────────────
@@ -504,11 +504,11 @@
         <section aria-labelledby="lbl-context">
           <span class="zone-label" id="lbl-context">
             Тренування — коротко
-            <em>Дія: читати — контекст перед написанням фідбеку</em>
+            <em>Дія: читати — контекст перед написанням коментаря</em>
           </span>
           <div class="section-body">
             <p class="context-day">День A — Ноги та кор · 12 жовтня</p>
-            <p class="context-stats">18/20 підходів · 01:02 · Присідання PR: 82.5 кг</p>
+            <p class="context-stats">16 з 18 підходів · 1 год 2 хв · новий рекорд · Присідання зі штангою 82,5 кг (+2,5 кг)</p>
           </div>
         </section>
 
@@ -523,7 +523,7 @@
           <div class="section-body">
             <form>
               <label for="feedback-text">Твій коментар</label>
-              <textarea id="feedback-text" name="feedback" rows="6" placeholder="Напиши що хотів зазначити: техніка, прогрес, що змінити наступного разу…" style="width:100%; border:1px solid #ccc; border-radius:4px; padding:10px; font-size:14px; resize:vertical; color:#333; font-family:sans-serif;"></textarea>
+              <textarea id="feedback-text" name="feedback" rows="6" placeholder="Що змінити наступного разу, на що звернути увагу" style="width:100%; border:1px solid #ccc; border-radius:4px; padding:10px; font-size:14px; resize:vertical; color:#333; font-family:sans-serif;"></textarea>
             </form>
           </div>
         </section>
@@ -534,10 +534,10 @@
         <section aria-labelledby="lbl-submit">
           <span class="zone-label" id="lbl-submit">
             Відправити
-            <em>Дія: підтвердити → фідбек стає видимим атлету</em>
+            <em>Дія: підтвердити → коментар стає видимим атлету</em>
           </span>
           <div class="section-body">
-            <button type="submit" disabled aria-disabled="true" style="display:block;width:100%;min-height:52px;background:#e8e8e8;color:#999;border:none;border-radius:4px;font-size:17px;font-weight:bold;cursor:default;">Надіслати фідбек</button>
+            <button type="submit" disabled aria-disabled="true" style="display:block;width:100%;min-height:52px;background:#e8e8e8;color:#999;border:none;border-radius:4px;font-size:17px;font-weight:bold;cursor:default;">Надіслати коментар</button>
             <p style="margin-top:7px;font-size:10px;color:#bbb;text-align:center;">Кнопка активна після введення коментаря</p>
           </div>
         </section>

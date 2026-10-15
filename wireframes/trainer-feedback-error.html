@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>trainer-feedback-error.html — Залишити фідбек (помилка відправки) · Forge Wireframes</title>
+  <title>trainer-feedback-error.html — Залишити коментар (помилка відправки) · Forge Wireframes</title>
   <style>
 
     /* ═══════════════════════════════════════════════════════
@@ -351,7 +351,7 @@
       <li class="tree-screen">
         <span class="screen-name">Завершення тренування</span>
         <ul class="tree-states">
-          <li><a href="finish.html">успіх · PR badge</a></li>
+          <li><a href="finish.html">успіх · плашка рекорду</a></li>
         </ul>
       </li>
 
@@ -369,7 +369,7 @@
       </li>
 
       <li class="tree-screen">
-        <span class="screen-name">Додати їжу</span>
+        <span class="screen-name">Нова страва</span>
         <ul class="tree-states">
           <li><a href="add-food.html">форма введення</a></li>
         </ul>
@@ -391,7 +391,7 @@
       </li>
 
       <li class="tree-screen">
-        <span class="screen-name">Записати замір тіла</span>
+        <span class="screen-name">Новий замір</span>
         <ul class="tree-states">
           <li><a href="body-log.html">форма</a></li>
         </ul>
@@ -403,15 +403,15 @@
       <li class="tree-screen">
         <span class="screen-name">Мої атлети — огляд</span>
         <ul class="tree-states">
-          <li><a href="trainer-clients.html">список клієнтів</a></li>
+          <li><a href="trainer-clients.html">список атлетів</a></li>
           <li><a href="trainer-clients-empty.html">немає атлетів</a></li>
         </ul>
       </li>
 
       <li class="tree-screen">
-        <span class="screen-name">Атлет — активність і фідбек</span>
+        <span class="screen-name">Атлет — активність і коментарі</span>
         <ul class="tree-states">
-          <li><a href="trainer-athlete.html">картка клієнта</a></li>
+          <li><a href="trainer-athlete.html">картка атлета</a></li>
           <li><a href="trainer-athlete-loading.html">завантаження</a></li>
           <li><a href="trainer-athlete-error.html">помилка мережі</a></li>
         </ul>
@@ -420,12 +420,12 @@
       <li class="tree-screen">
         <span class="screen-name">Деталі тренування (тренер-вид)</span>
         <ul class="tree-states">
-          <li><a href="trainer-workout.html">деталі сесії</a></li>
+          <li><a href="trainer-workout.html">деталі тренування</a></li>
         </ul>
       </li>
 
       <li class="tree-screen">
-        <span class="screen-name">Залишити фідбек</span>
+        <span class="screen-name">Залишити коментар</span>
         <ul class="tree-states">
           <li><a href="trainer-feedback.html">форма коментаря</a></li>
           <li><a href="trainer-feedback-error.html" aria-current="page">помилка відправки</a></li>
@@ -448,7 +448,7 @@
       </li>
 
       <li class="tree-screen">
-        <span class="screen-name">Редактор дня / сесії</span>
+        <span class="screen-name">Редактор тренування</span>
         <ul class="tree-states">
           <li><a href="program-session.html">список вправ дня</a></li>
         </ul>
@@ -463,7 +463,7 @@
       </li>
 
       <li class="tree-screen">
-        <span class="screen-name">Запросити атлета (інвайт)</span>
+        <span class="screen-name">Запрошення атлета</span>
         <ul class="tree-states">
           <li><a href="invite.html">генерація коду</a></li>
         </ul>
@@ -510,7 +510,7 @@
       <header>
         <a href="trainer-workout.html" class="header-back">[←]</a>
         <div class="header-text">
-          <p class="header-plan">Фідбек · Оля Ткаченко · 12 жовт</p>
+          <p class="header-plan">Коментар · Оля Ткаченко · 12 жовтня</p>
         </div>
       </header>
 
@@ -518,7 +518,7 @@
 
         <!-- flow-step: wireframe annotation, не частина UI -->
         <div class="flow-step" role="note">
-          <strong>J2·E2 — error state: не вдалося надіслати фідбек (збій мережі або сервера).</strong> Вихід: спробувати ще (retry) — повертає до форми з введеним текстом. flows.md: Z→Z4 (відмова) або Z→W (retry).
+          <strong>J2·E2 — error state: не вдалося надіслати коментар (збій мережі або сервера).</strong> Вихід: спробувати ще (retry) — повертає до форми з введеним текстом. flows.md: Z→Z4 (відмова) або Z→W (retry).
         </div>
 
         <!-- ──────────────────────────────────────────────
@@ -527,11 +527,11 @@
         <section aria-labelledby="lbl-context">
           <span class="zone-label" id="lbl-context">
             Тренування — коротко
-            <em>Дія: читати — контекст перед написанням фідбеку</em>
+            <em>Дія: читати — контекст перед написанням коментаря</em>
           </span>
           <div class="section-body">
             <p class="context-day">День A — Ноги та кор · 12 жовтня</p>
-            <p class="context-stats">18/20 підходів · 01:02 · Присідання PR: 82.5 кг</p>
+            <p class="context-stats">16 з 18 підходів · 1 год 2 хв · новий рекорд · Присідання зі штангою 82,5 кг (+2,5 кг)</p>
           </div>
         </section>
 
@@ -555,14 +555,14 @@
         <section aria-labelledby="lbl-error">
           <span class="zone-label" id="lbl-error">
             Помилка відправки
-            <em>Стан: фідбек не надіслано — помилка зв'язку</em>
+            <em>Стан: коментар не надіслано — помилка зв'язку</em>
           </span>
           <div class="section-body">
             <div style="background:#f8f8f8;border:1px solid #ccc;border-radius:4px;padding:14px;display:flex;align-items:flex-start;gap:12px;margin-bottom:14px;">
               <span style="font-size:20px;flex-shrink:0;color:#888;">[!]</span>
               <div>
-                <p style="font-weight:bold;font-size:14px;margin-bottom:4px;">Фідбек не надіслано</p>
-                <p style="font-size:13px;color:#777;">Перевір з'єднання і спробуй ще раз. Текст коментаря збережений.</p>
+                <p style="font-weight:bold;font-size:14px;margin-bottom:4px;">Коментар не надіслано</p>
+                <p style="font-size:13px;color:#777;">Перевір з'єднання і спробуй ще раз. Текст збережено.</p>
               </div>
             </div>
             <a href="trainer-feedback.html" class="btn-start">Спробувати ще</a>

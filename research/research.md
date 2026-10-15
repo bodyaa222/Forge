@@ -184,3 +184,69 @@ Annual vs Monthly з "Save 16%" тегом. Feature list: Active Intelligence, N
 | «Telegram + Google Sheets» — єдиний стан тренера | Гіпотеза | **Частково хибно** — professional platforms існують і використовуються |
 | Google Sheets як відправна точка тренера | Гіпотеза | **Підтверджено** (Capterra: кілька реальних тренерів) |
 | Фрикція логування → відмова від апки | Гіпотеза | **Підтверджено** (дослідження 2022; 90% відтік за 30 днів) |
+
+---
+
+## Мова конкурентів
+
+*Зібрано 15.10.2026: сторінки в App Store, головні сторінки сайтів (скріни в `research/screens/`) і форуми користувачів. Мова оригіналу збережена. Позначки: **дослівно** — рядок скопійовано з першоджерела; **переказ** — рядок відомий лише зі слів користувача, точне формулювання апки не підтверджене.*
+
+### Обіцянки результату й трансформації
+
+| Апка | Рядок | Де | Статус |
+|---|---|---|---|
+| Fitbod | «Build muscle, gain strength and lose weight with a customized workout plan just for you.» | App Store, опис | дослівно |
+| Fitbod | «Make lasting progress with Fitbod – your own AI trainer guiding you to your strongest self» | App Store, опис | дослівно |
+| Fitbod | «LESS PLANNING. MORE PROGRESS.» | fitbod.me, hero (`screens/fitbod-home.png`) | дослівно |
+| Fitbod | «Know exactly what to do next—without second guessing what's best for you.» | fitbod.me, hero | дослівно |
+| TrueCoach | «start getting real results with TrueCoach today.» | App Store, опис | дослівно |
+| MyFitnessPal | «Achieve your nutrition, calorie, macro & fitness goals with MyFitnessPal» | App Store, опис | дослівно |
+
+### Соціальний доказ і «№1»
+
+| Апка | Рядок | Де | Статус |
+|---|---|---|---|
+| MyFitnessPal | «The world's #1 nutrition tracking app» · «Join over 280 million people on their journey to eat better» | myfitnesspal.com, hero (`screens/myfitnesspal-home.png`) | дослівно |
+| MyFitnessPal | «Join the millions of users who've created over 100 billion food logs and counting!» | App Store, опис | дослівно |
+| Strong | «join over 1.2 million people who have downloaded Strong to stay on track in the gym.» | App Store, опис | дослівно |
+| TrueCoach | «TrueCoach is the number one platform for coaches and trainers who want to manage more clients with less admin work.» | App Store, опис | дослівно |
+
+### Швидкість і простота (атлет у залі)
+
+| Апка | Рядок | Де | Статус |
+|---|---|---|---|
+| Strong | «Strong is the simplest and most intuitive workout tracker, designed to help you get better results from your workouts.» | App Store, опис | дослівно |
+| Strong | «record your workouts as effortlessly and as quickly as possible.» | App Store, опис | дослівно |
+| MyFitnessPal | «Log meals effortlessly from 20.5M+ foods» | App Store, опис | дослівно |
+
+### Мотивація як механіка: стріки, бейджі, нагадування
+
+| Апка | Рядок | Де | Статус |
+|---|---|---|---|
+| Trainerize | «Stay motivated with streaks, badges, and personalized reminders.» | App Store, опис (клієнтська частина) | дослівно |
+| Trainerize | «Keep clients engaged with messaging, challenges, reminders, and badges.» | App Store, опис (тренерська частина) | дослівно |
+| TrueCoach | «We want to help eliminate accountability issues» | App Store, опис | дослівно |
+
+### Рекорди і повідомлення: що бачить людина
+
+| Апка | Рядок | Де | Статус |
+|---|---|---|---|
+| Trainerize | «Client achieved personal best» — сповіщення тренеру. Тред тренерів має назву «"Client achieved personal best" — Great but WHAT?»: «we have to go through tabs and pages and pages to find out what they achieved». Відповідь підтримки: «there is no way to get a notification that shows the exact personal bests» | ideas.abcfitness.com, форум ідей | дослівно (текст сповіщення взято з назви треду) |
+| Trainerize | Бейджі «don't explain what was achieved or how much the client improved» | ideas.abcfitness.com, форум ідей | переказ скарги |
+| Strong | «Advanced Statistics show your personal records and progression» | App Store, опис | дослівно |
+| MyFitnessPal | «you are likely not eating enough» — попередження після «Complete Diary». Користувачі просять його прибрати | community.myfitnesspal.com (es), тред «Retirar el comentario de you are likely not eating enough» | дослівно (за цитатою користувача) |
+| MyFitnessPal | Прогноз після «Complete Diary»: «if every day were like today, I would weigh 262 kg in 5 weeks» (користувач з'їв ~1 200 ккал) | community.myfitnesspal.com, тред «The prediction of future weight seems to be broken» | переказ |
+
+### Чого не знайшли
+
+- Бадьорих вигуків на кшталт «You crushed it!» в описах у сторах цих п'яти апок **немає**. Вони обіцяють результат («strongest self», «real results») і продають масштаб («#1», «280 million»), а не вигукують. Вигуків у самих апках (екрани завершення, пуші) ми не бачили: офіційних текстів у відкритому доступі немає, а в акаунти ми не заходили. Це **[?]**, і перевірити його можна на тестовому акаунті.
+- Тексти листів тренера клієнтам у TrueCoach і Trainerize у відкритому доступі не знайдено. **[?]**
+
+### Що спільне в мові ринку
+
+1. **Обіцянка тіла замість опису дії:** «lose weight», «strongest self», «real results».
+2. **Мотивація як механіка утримання:** стріки, бейджі, нагадування. Людина отримує сигнал, але не зміст: «Client achieved personal best» без вправи і ваги.
+3. **Харчування з оцінкою:** «not eating enough», прогноз ваги через 5 тижнів, який користувачі вважають зламаним.
+4. **Виняток — Strong:** говорить про швидкість і статистику («as quickly as possible», «personal records and progression») без обіцянок тіла. Найближчий до тону Forge.
+
+*Джерела: apps.apple.com/us/app/id464254577 (Strong) · apps.apple.com/us/app/id1041517543 (Fitbod) · apps.apple.com/us/app/id341232718 (MyFitnessPal) · apps.apple.com/app/516851502 (ABC Trainerize) · apps.apple.com/app/id1439127794 (TrueCoach) · ideas.abcfitness.com/forums/167887/suggestions/46580929 · community.myfitnesspal.com/de/discussion/1478019 · community.myfitnesspal.com/es/discussion/1469616 · fitbod.me · myfitnesspal.com*

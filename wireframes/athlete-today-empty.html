@@ -116,7 +116,7 @@
       <li class="tree-screen">
         <span class="screen-name">Завершення тренування</span>
         <ul class="tree-states">
-          <li><a href="finish.html">успіх · PR badge</a></li>
+          <li><a href="finish.html">успіх · плашка рекорду</a></li>
         </ul>
       </li>
 
@@ -132,7 +132,7 @@
         </ul>
       </li>
       <li class="tree-screen">
-        <span class="screen-name">Додати їжу</span>
+        <span class="screen-name">Нова страва</span>
         <ul class="tree-states"><li><a href="add-food.html">форма введення</a></li></ul>
       </li>
       <li class="tree-screen">
@@ -147,7 +147,7 @@
         </ul>
       </li>
       <li class="tree-screen">
-        <span class="screen-name">Записати замір тіла</span>
+        <span class="screen-name">Новий замір</span>
         <ul class="tree-states"><li><a href="body-log.html">форма</a></li></ul>
       </li>
 
@@ -156,22 +156,22 @@
       <li class="tree-screen">
         <span class="screen-name">Мої атлети — огляд</span>
         <ul class="tree-states">
-          <li><a href="trainer-clients.html">список клієнтів</a></li>
+          <li><a href="trainer-clients.html">список атлетів</a></li>
           <li><a href="trainer-clients-empty.html">немає атлетів</a></li>
         </ul>
       </li>
       <li class="tree-screen">
-        <span class="screen-name">Атлет — активність і фідбек</span>
-        <ul class="tree-states"><li><a href="trainer-athlete.html">картка клієнта</a></li>
+        <span class="screen-name">Атлет — активність і коментарі</span>
+        <ul class="tree-states"><li><a href="trainer-athlete.html">картка атлета</a></li>
           <li><a href="trainer-athlete-loading.html">завантаження</a></li>
           <li><a href="trainer-athlete-error.html">помилка мережі</a></li></ul>
       </li>
       <li class="tree-screen">
         <span class="screen-name">Деталі тренування (тренер-вид)</span>
-        <ul class="tree-states"><li><a href="trainer-workout.html">деталі сесії</a></li></ul>
+        <ul class="tree-states"><li><a href="trainer-workout.html">деталі тренування</a></li></ul>
       </li>
       <li class="tree-screen">
-        <span class="screen-name">Залишити фідбек</span>
+        <span class="screen-name">Залишити коментар</span>
         <ul class="tree-states"><li><a href="trainer-feedback.html">форма коментаря</a></li>
           <li><a href="trainer-feedback-error.html">помилка відправки</a></li></ul>
       </li>
@@ -187,7 +187,7 @@
         <ul class="tree-states"><li><a href="program-builder.html">редактор</a></li></ul>
       </li>
       <li class="tree-screen">
-        <span class="screen-name">Редактор дня / сесії</span>
+        <span class="screen-name">Редактор тренування</span>
         <ul class="tree-states"><li><a href="program-session.html">список вправ дня</a></li></ul>
       </li>
       <li class="tree-screen">
@@ -196,7 +196,7 @@
           <li><a href="program-assign-empty.html">немає підключених атлетів</a></li></ul>
       </li>
       <li class="tree-screen">
-        <span class="screen-name">Запросити атлета (інвайт)</span>
+        <span class="screen-name">Запрошення атлета</span>
         <ul class="tree-states"><li><a href="invite.html">генерація коду</a></li></ul>
       </li>
 
@@ -229,7 +229,7 @@
         <!-- HEADER — та сама зона, той самий вміст -->
         <header>
           <div class="header-text">
-            <p class="header-date">Понеділок, 12 жовтня 2026</p>
+            <p class="header-date">Понеділок, 12 жовтня</p>
             <p class="header-plan">Силовий цикл — осінь</p>
           </div>
           <div class="header-actions">
@@ -252,7 +252,7 @@
               <em>Стан: порожній — тренер не залишив нотатки</em>
             </span>
             <div class="section-body">
-              <p class="no-content-text">Тренер ще не залишив нотатку на сьогодні.</p>
+              <p class="no-content-text">Нотатки від тренера на сьогодні немає.</p>
             </div>
           </section>
 
@@ -270,9 +270,9 @@
                 <div class="empty-block">
                   <p class="empty-icon">[○]</p>
                   <p class="empty-title">Тренера ще немає</p>
-                  <p class="empty-text">Ти ще не підключений до тренера. Введи інвайт-код, щоб отримати план тренувань.</p>
-                  <a href="athlete-today-loading.html" class="btn-primary">Ввести інвайт-код тренера</a>
-                  <p class="btn-caption">→ athlete-today-loading.html · після введення інвайту — перевірка плану (flows.md D→так→G)</p>
+                  <p class="empty-text">Введи код запрошення від тренера, щоб отримати програму.</p>
+                  <a href="athlete-today-loading.html" class="btn-primary">Ввести код запрошення</a>
+                  <p class="btn-caption">→ athlete-today-loading.html · після введення коду запрошення — перевірка плану (flows.md D→так→G)</p>
                 </div>
               </div>
 
@@ -283,11 +283,8 @@
                 <span class="subcase-label">Варіант B · підключений, план не призначено (flows.md K→ні→M)</span>
                 <div class="empty-block">
                   <p class="empty-icon">[○]</p>
-                  <p class="empty-title">На сьогодні плану немає</p>
-                  <p class="empty-text">Тренер ще не додав тренування на сьогодні. Плани зазвичай з'являються напередодні.</p>
-                  <button class="btn-secondary" type="button" disabled aria-disabled="true">Написати тренеру [?]</button>
-                  <p class="btn-caption">post-MVP — чат поза MVP. Z3 (flows.md).</p>
-                  <a href="profile.html" style="display:inline-block;margin-top:10px;font-size:13px;color:#666;text-decoration:underline;text-decoration-color:#ccc;">Перевірити профіль і підключення →</a>
+                  <p class="empty-title">На сьогодні тренування немає</p>
+                  <p class="empty-text">Тренер ще не додав його в програму.</p>
                 </div>
               </div>
 
@@ -319,7 +316,7 @@
                 <span class="kcal-value">1 850 ккал</span>
                 <span class="kcal-target">з 2 400 ккал</span>
               </div>
-              <div class="ph-bar" role="img" aria-label="Прогрес ккал: 77%">
+              <div class="ph-bar" role="img" aria-label="Калорії: 1 850 з 2 400 ккал (77%)">
                 <div class="ph-bar-fill"></div>
               </div>
               <div class="macros-row">
@@ -336,7 +333,7 @@
                   <span class="macro-value">210 г</span>
                 </div>
               </div>
-              <a href="nutrition.html" class="summary-link">Додати прийом їжі →</a>
+              <a href="nutrition.html" class="summary-link">Додати страву</a>
             </div>
           </section>
 
@@ -354,6 +351,10 @@
           <a href="progress.html">
             <i class="nav-icon" aria-hidden="true">[графік]</i>
             Прогрес
+          </a>
+          <a href="#" class="planned">
+            <i class="nav-icon" aria-hidden="true">[профіль]</i>
+            Профіль
           </a>
         </nav>
 

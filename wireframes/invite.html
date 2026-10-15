@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>invite.html — Запросити атлета (інвайт) · Forge Wireframes</title>
+  <title>invite.html — Запрошення атлета · Forge Wireframes</title>
   <style>
 
     /* ═══════════════════════════════════════════════════════
@@ -481,7 +481,7 @@
       <li class="tree-screen">
         <span class="screen-name">Завершення тренування</span>
         <ul class="tree-states">
-          <li><a href="finish.html">успіх · PR badge</a></li>
+          <li><a href="finish.html">успіх · плашка рекорду</a></li>
         </ul>
       </li>
 
@@ -499,7 +499,7 @@
       </li>
 
       <li class="tree-screen">
-        <span class="screen-name">Додати їжу</span>
+        <span class="screen-name">Нова страва</span>
         <ul class="tree-states">
           <li><a href="add-food.html">форма введення</a></li>
         </ul>
@@ -521,7 +521,7 @@
       </li>
 
       <li class="tree-screen">
-        <span class="screen-name">Записати замір тіла</span>
+        <span class="screen-name">Новий замір</span>
         <ul class="tree-states">
           <li><a href="body-log.html">форма</a></li>
         </ul>
@@ -533,15 +533,15 @@
       <li class="tree-screen">
         <span class="screen-name">Мої атлети — огляд</span>
         <ul class="tree-states">
-          <li><a href="trainer-clients.html">список клієнтів</a></li>
+          <li><a href="trainer-clients.html">список атлетів</a></li>
           <li><a href="trainer-clients-empty.html">немає атлетів</a></li>
         </ul>
       </li>
 
       <li class="tree-screen">
-        <span class="screen-name">Атлет — активність і фідбек</span>
+        <span class="screen-name">Атлет — активність і коментарі</span>
         <ul class="tree-states">
-          <li><a href="trainer-athlete.html">картка клієнта</a></li>
+          <li><a href="trainer-athlete.html">картка атлета</a></li>
           <li><a href="trainer-athlete-loading.html">завантаження</a></li>
           <li><a href="trainer-athlete-error.html">помилка мережі</a></li>
         </ul>
@@ -550,12 +550,12 @@
       <li class="tree-screen">
         <span class="screen-name">Деталі тренування (тренер-вид)</span>
         <ul class="tree-states">
-          <li><a href="trainer-workout.html">деталі сесії</a></li>
+          <li><a href="trainer-workout.html">деталі тренування</a></li>
         </ul>
       </li>
 
       <li class="tree-screen">
-        <span class="screen-name">Залишити фідбек</span>
+        <span class="screen-name">Залишити коментар</span>
         <ul class="tree-states">
           <li><a href="trainer-feedback.html">форма коментаря</a></li>
           <li><a href="trainer-feedback-error.html">помилка відправки</a></li>
@@ -578,7 +578,7 @@
       </li>
 
       <li class="tree-screen">
-        <span class="screen-name">Редактор дня / сесії</span>
+        <span class="screen-name">Редактор тренування</span>
         <ul class="tree-states">
           <li><a href="program-session.html">список вправ дня</a></li>
         </ul>
@@ -593,7 +593,7 @@
       </li>
 
       <li class="tree-screen">
-        <span class="screen-name">Запросити атлета (інвайт)</span>
+        <span class="screen-name">Запрошення атлета</span>
         <ul class="tree-states">
           <li><a href="invite.html" aria-current="page">генерація коду</a></li>
         </ul>
@@ -642,7 +642,7 @@
       <header>
         <a href="profile.html" class="header-back">[←]</a>
         <div class="header-text">
-          <p class="header-plan">Запросити атлета</p>
+          <p class="header-plan">Запрошення атлета</p>
         </div>
       </header>
 
@@ -650,7 +650,7 @@
 
         <!-- flow-step: wireframe annotation, не частина UI -->
         <div class="flow-step" role="note">
-          Connection prereq — тренер генерує інвайт-код. Атлет вводить код при реєстрації або в профілі. Після активації → зв'язок встановлено, тренер може призначити план (J1).
+          Connection prereq — тренер генерує код запрошення. Атлет вводить код при реєстрації або в профілі. Після активації → зв'язок встановлено, тренер може призначити план (J1).
         </div>
 
         <!-- ──────────────────────────────────────────────
@@ -659,14 +659,14 @@
         ─────────────────────────────────────────────── -->
         <section aria-labelledby="lbl-code">
           <span class="zone-label" id="lbl-code">
-            Твій інвайт-код
+            Твій код запрошення
             <em>Дія: скопіювати код і надіслати атлету</em>
           </span>
           <div class="section-body">
             <div style="background:#f8f8f8;border:2px dashed #ccc;border-radius:6px;padding:20px;text-align:center;margin-bottom:12px;">
-              <p style="font-size:11px;color:#aaa;text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px;">Інвайт-код</p>
+              <p style="font-size:11px;color:#aaa;text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px;">Код запрошення</p>
               <p style="font-size:32px;font-weight:bold;letter-spacing:.15em;color:#333;font-family:sans-serif;">FORGE-7X2K</p>
-              <p style="font-size:11px;color:#bbb;margin-top:8px;">Термін дії: 7 днів</p>
+              <p style="font-size:11px;color:#bbb;margin-top:8px;">Діє до 19 жовтня</p>
             </div>
             <button type="button" style="display:block;width:100%;padding:12px;border:1px solid #ccc;border-radius:4px;background:#fff;font-size:14px;color:#555;cursor:pointer;">[copy] Скопіювати код</button>
           </div>
@@ -684,7 +684,7 @@
           <div class="section-body">
             <div style="display:flex;align-items:center;gap:8px;padding:10px 12px;border:1px solid #ccc;border-radius:4px;background:#fafafa;">
               <span style="flex:1;font-size:13px;color:#666;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">forge.app/invite/7X2K</span>
-              <button type="button" style="flex-shrink:0;padding:6px 12px;border:1px solid #ccc;border-radius:3px;background:#fff;font-size:12px;color:#555;cursor:pointer;">[copy]</button>
+              <button type="button" style="flex-shrink:0;padding:6px 12px;border:1px solid #ccc;border-radius:3px;background:#fff;font-size:12px;color:#555;cursor:pointer;" aria-label="Скопіювати посилання">[copy]</button>
             </div>
           </div>
         </section>
@@ -702,7 +702,7 @@
             <ol style="padding-left:20px;margin:0;font-size:14px;color:#555;line-height:1.7;">
               <li>Надішли код або посилання атлету (Telegram, SMS, email)</li>
               <li>Атлет реєструється у Forge і вводить код</li>
-              <li>Ви підключені — можна призначити програму</li>
+              <li>Атлет з'являється у вкладці «Мої атлети», і ти можеш призначити програму</li>
             </ol>
           </div>
         </section>
@@ -718,10 +718,27 @@
           </span>
           <div class="section-body">
             <button type="button" style="display:block;width:100%;min-height:44px;padding:10px;border:1px solid #ccc;border-radius:4px;background:#fff;font-size:14px;color:#555;cursor:pointer;">[↻] Згенерувати новий код</button>
-            <p style="font-size:11px;color:#bbb;text-align:center;margin-top:6px;">Попередній код стане недійсним</p>
+            <p style="font-size:11px;color:#bbb;text-align:center;margin-top:6px;">Попередній код перестане працювати: атлети, які ще його не ввели, не зможуть підключитися.</p>
           </div>
         </section>
 
+      
+        <section aria-labelledby="lbl-confirm-regen">
+          <span class="zone-label" id="lbl-confirm-regen">
+            Підтвердження
+            <em>Стан: діалог після тапу «Згенерувати новий код» — до виконання дії</em>
+          </span>
+          <div class="section-body">
+            <div role="dialog" aria-modal="true" aria-labelledby="dlg-regen" style="border:1px solid #ccc;border-radius:6px;padding:14px;">
+                <p id="dlg-regen" style="font-size:15px;font-weight:bold;margin-bottom:6px;">Згенерувати новий код?</p>
+                <p style="font-size:13px;color:#555;margin-bottom:12px;">Код FORGE-7X2K перестане працювати: атлети, які ще його не ввели, не зможуть підключитися.</p>
+                <div style="display:flex;gap:8px;">
+                  <button type="button" style="display:block;flex:1;min-height:44px;border-radius:4px;font-size:14px;cursor:pointer;border:1px solid #ccc;background:#fff;color:#333;">Скасувати</button>
+                  <button type="button" style="display:block;flex:1;min-height:44px;border-radius:4px;font-size:14px;cursor:pointer;border:none;background:#333;color:#fff;">Згенерувати новий код</button>
+                </div>
+            </div>
+          </div>
+        </section>
       </main>
 
     </div><!-- /phone-frame -->

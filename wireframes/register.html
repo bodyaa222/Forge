@@ -479,7 +479,7 @@
       <li class="tree-screen">
         <span class="screen-name">Завершення тренування</span>
         <ul class="tree-states">
-          <li><a href="finish.html">успіх · PR badge</a></li>
+          <li><a href="finish.html">успіх · плашка рекорду</a></li>
         </ul>
       </li>
 
@@ -497,7 +497,7 @@
       </li>
 
       <li class="tree-screen">
-        <span class="screen-name">Додати їжу</span>
+        <span class="screen-name">Нова страва</span>
         <ul class="tree-states">
           <li><a href="add-food.html">форма введення</a></li>
         </ul>
@@ -519,7 +519,7 @@
       </li>
 
       <li class="tree-screen">
-        <span class="screen-name">Записати замір тіла</span>
+        <span class="screen-name">Новий замір</span>
         <ul class="tree-states">
           <li><a href="body-log.html">форма</a></li>
         </ul>
@@ -531,15 +531,15 @@
       <li class="tree-screen">
         <span class="screen-name">Мої атлети — огляд</span>
         <ul class="tree-states">
-          <li><a href="trainer-clients.html">список клієнтів</a></li>
+          <li><a href="trainer-clients.html">список атлетів</a></li>
           <li><a href="trainer-clients-empty.html">немає атлетів</a></li>
         </ul>
       </li>
 
       <li class="tree-screen">
-        <span class="screen-name">Атлет — активність і фідбек</span>
+        <span class="screen-name">Атлет — активність і коментарі</span>
         <ul class="tree-states">
-          <li><a href="trainer-athlete.html">картка клієнта</a></li>
+          <li><a href="trainer-athlete.html">картка атлета</a></li>
           <li><a href="trainer-athlete-loading.html">завантаження</a></li>
           <li><a href="trainer-athlete-error.html">помилка мережі</a></li>
         </ul>
@@ -548,12 +548,12 @@
       <li class="tree-screen">
         <span class="screen-name">Деталі тренування (тренер-вид)</span>
         <ul class="tree-states">
-          <li><a href="trainer-workout.html">деталі сесії</a></li>
+          <li><a href="trainer-workout.html">деталі тренування</a></li>
         </ul>
       </li>
 
       <li class="tree-screen">
-        <span class="screen-name">Залишити фідбек</span>
+        <span class="screen-name">Залишити коментар</span>
         <ul class="tree-states">
           <li><a href="trainer-feedback.html">форма коментаря</a></li>
           <li><a href="trainer-feedback-error.html">помилка відправки</a></li>
@@ -576,7 +576,7 @@
       </li>
 
       <li class="tree-screen">
-        <span class="screen-name">Редактор дня / сесії</span>
+        <span class="screen-name">Редактор тренування</span>
         <ul class="tree-states">
           <li><a href="program-session.html">список вправ дня</a></li>
         </ul>
@@ -591,7 +591,7 @@
       </li>
 
       <li class="tree-screen">
-        <span class="screen-name">Запросити атлета (інвайт)</span>
+        <span class="screen-name">Запрошення атлета</span>
         <ul class="tree-states">
           <li><a href="invite.html">генерація коду</a></li>
         </ul>
@@ -644,7 +644,7 @@
 
         <!-- flow-step: wireframe annotation, не частина UI -->
         <div class="flow-step" role="note">
-          <strong>prereq — реєстрація.</strong> Один екран з двома гілками: тренер або атлет. Роль незмінна після вибору. Атлет може ввести інвайт-код одразу (якщо є).
+          <strong>prereq — реєстрація.</strong> Один екран з двома гілками: тренер або атлет. Роль незмінна після вибору. Атлет може ввести код запрошення одразу (якщо є).
         </div>
 
         <!-- ──────────────────────────────────────────────
@@ -682,7 +682,7 @@
             <form style="display:flex;flex-direction:column;gap:12px;">
               <div>
                 <label for="reg-name" style="display:block;font-size:13px;color:#888;margin-bottom:4px;">Повне ім'я</label>
-                <input id="reg-name" type="text" placeholder="Максим Коваль" style="width:100%;border:1px solid #ccc;border-radius:4px;padding:10px;font-size:15px;color:#333;" />
+                <input id="reg-name" type="text" placeholder="Наприклад, Максим Коваль" style="width:100%;border:1px solid #ccc;border-radius:4px;padding:10px;font-size:15px;color:#333;" />
               </div>
               <div>
                 <label for="reg-email" style="display:block;font-size:13px;color:#888;margin-bottom:4px;">Email</label>
@@ -690,7 +690,7 @@
               </div>
               <div>
                 <label for="reg-pass" style="display:block;font-size:13px;color:#888;margin-bottom:4px;">Пароль</label>
-                <input id="reg-pass" type="password" placeholder="мін. 8 символів" style="width:100%;border:1px solid #ccc;border-radius:4px;padding:10px;font-size:15px;color:#333;" />
+                <input id="reg-pass" type="password" placeholder="Щонайменше 8 символів" style="width:100%;border:1px solid #ccc;border-radius:4px;padding:10px;font-size:15px;color:#333;" />
               </div>
             </form>
           </div>
@@ -702,14 +702,14 @@
         ─────────────────────────────────────────────── -->
         <section aria-labelledby="lbl-invite">
           <span class="zone-label" id="lbl-invite">
-            Інвайт-код (якщо атлет)
-            <em>Дія: атлет вводить інвайт-код тренера — якщо вже є (необов'язково)</em>
+            Код запрошення (якщо атлет)
+            <em>Дія: атлет вводить код запрошення тренера — якщо вже є (необов'язково)</em>
           </span>
           <div class="section-body">
             <div style="background:#f8f8f8;border:1px dashed #ccc;border-radius:4px;padding:12px;">
               <p style="font-size:12px;color:#aaa;margin-bottom:8px;">Показується коли обрано роль «Атлет»</p>
-              <label for="invite-code" style="display:block;font-size:13px;color:#888;margin-bottom:4px;">Інвайт-код тренера (необов'язково)</label>
-              <input id="invite-code" type="text" placeholder="FORGE-XXXX" style="width:100%;border:1px solid #ccc;border-radius:4px;padding:10px;font-size:15px;font-family:sans-serif;color:#333;letter-spacing:.1em;" />
+              <label for="invite-code" style="display:block;font-size:13px;color:#888;margin-bottom:4px;">Код запрошення від тренера (необов'язково)</label>
+              <input id="invite-code" type="text" placeholder="Наприклад, FORGE-7X2K" style="width:100%;border:1px solid #ccc;border-radius:4px;padding:10px;font-size:15px;font-family:sans-serif;color:#333;letter-spacing:.1em;" />
             </div>
           </div>
         </section>
@@ -724,7 +724,7 @@
             <em>Дія: створити акаунт → перейти до домашнього екрана</em>
           </span>
           <div class="section-body">
-            <button type="submit" style="display:block;width:100%;min-height:52px;background:#333;color:#fff;border:none;border-radius:4px;font-size:17px;font-weight:bold;cursor:pointer;">Зареєструватись</button>
+            <button type="submit" style="display:block;width:100%;min-height:52px;background:#333;color:#fff;border:none;border-radius:4px;font-size:17px;font-weight:bold;cursor:pointer;">Зареєструватися</button>
             <p style="text-align:center;margin-top:12px;font-size:13px;color:#888;">Вже є акаунт? <a href="login.html" style="color:#555;text-decoration:underline;">Увійти</a></p>
           </div>
         </section>

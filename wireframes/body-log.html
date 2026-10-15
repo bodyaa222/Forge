@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>body-log.html — Записати замір тіла · Forge Wireframes</title>
+  <title>body-log.html — Новий замір · Forge Wireframes</title>
   <style>
 
     /* ═══════════════════════════════════════════════════════
@@ -472,7 +472,7 @@
       <li class="tree-screen">
         <span class="screen-name">Завершення тренування</span>
         <ul class="tree-states">
-          <li><a href="finish.html">успіх · PR badge</a></li>
+          <li><a href="finish.html">успіх · плашка рекорду</a></li>
         </ul>
       </li>
 
@@ -490,7 +490,7 @@
       </li>
 
       <li class="tree-screen">
-        <span class="screen-name">Додати їжу</span>
+        <span class="screen-name">Нова страва</span>
         <ul class="tree-states">
           <li><a href="add-food.html">форма введення</a></li>
         </ul>
@@ -512,7 +512,7 @@
       </li>
 
       <li class="tree-screen">
-        <span class="screen-name">Записати замір тіла</span>
+        <span class="screen-name">Новий замір</span>
         <ul class="tree-states">
           <li><a href="body-log.html" aria-current="page">форма</a></li>
         </ul>
@@ -524,15 +524,15 @@
       <li class="tree-screen">
         <span class="screen-name">Мої атлети — огляд</span>
         <ul class="tree-states">
-          <li><a href="trainer-clients.html">список клієнтів</a></li>
+          <li><a href="trainer-clients.html">список атлетів</a></li>
           <li><a href="trainer-clients-empty.html">немає атлетів</a></li>
         </ul>
       </li>
 
       <li class="tree-screen">
-        <span class="screen-name">Атлет — активність і фідбек</span>
+        <span class="screen-name">Атлет — активність і коментарі</span>
         <ul class="tree-states">
-          <li><a href="trainer-athlete.html">картка клієнта</a></li>
+          <li><a href="trainer-athlete.html">картка атлета</a></li>
           <li><a href="trainer-athlete-loading.html">завантаження</a></li>
           <li><a href="trainer-athlete-error.html">помилка мережі</a></li>
         </ul>
@@ -541,12 +541,12 @@
       <li class="tree-screen">
         <span class="screen-name">Деталі тренування (тренер-вид)</span>
         <ul class="tree-states">
-          <li><a href="trainer-workout.html">деталі сесії</a></li>
+          <li><a href="trainer-workout.html">деталі тренування</a></li>
         </ul>
       </li>
 
       <li class="tree-screen">
-        <span class="screen-name">Залишити фідбек</span>
+        <span class="screen-name">Залишити коментар</span>
         <ul class="tree-states">
           <li><a href="trainer-feedback.html">форма коментаря</a></li>
           <li><a href="trainer-feedback-error.html">помилка відправки</a></li>
@@ -569,7 +569,7 @@
       </li>
 
       <li class="tree-screen">
-        <span class="screen-name">Редактор дня / сесії</span>
+        <span class="screen-name">Редактор тренування</span>
         <ul class="tree-states">
           <li><a href="program-session.html">список вправ дня</a></li>
         </ul>
@@ -584,7 +584,7 @@
       </li>
 
       <li class="tree-screen">
-        <span class="screen-name">Запросити атлета (інвайт)</span>
+        <span class="screen-name">Запрошення атлета</span>
         <ul class="tree-states">
           <li><a href="invite.html">генерація коду</a></li>
         </ul>
@@ -633,7 +633,7 @@
       <header>
         <a href="progress.html" class="header-back">[←]</a>
         <div class="header-text">
-          <p class="header-plan">Записати замір тіла</p>
+          <p class="header-plan">Новий замір</p>
           <p class="header-date">Оля Ткаченко</p>
         </div>
       </header>
@@ -642,7 +642,7 @@
 
         <!-- flow-step: wireframe annotation, не частина UI -->
         <div class="flow-step" role="note">
-          J5 — атлет фіксує вимірювання тіла. Вага обов'язкова. Обміри — опціонально. Після збереження → прогрес-графік оновлюється.
+          J5 — атлет додає замір тіла. Вага обов'язкова. Обхвати — необов'язково. Після збереження → прогрес-графік оновлюється.
         </div>
 
         <!-- ──────────────────────────────────────────────
@@ -651,7 +651,7 @@
         ─────────────────────────────────────────────── -->
         <section aria-labelledby="lbl-date">
           <span class="zone-label" id="lbl-date">
-            Дата виміру
+            Дата заміру
             <em>Дія: підтвердити або змінити дату</em>
           </span>
           <div class="section-body">
@@ -674,8 +674,8 @@
           <div class="section-body">
             <form>
               <label for="body-weight" style="display:block;font-size:13px;color:#888;margin-bottom:4px;">Вага тіла, кг <span style="color:#333;">*</span></label>
-              <input id="body-weight" type="number" step="0.1" placeholder="0.0" value="67.0" style="width:100%;border:2px solid #ccc;border-radius:4px;padding:14px;font-size:24px;text-align:center;font-weight:bold;color:#333;" />
-              <p style="font-size:12px;color:#aaa;margin-top:6px;text-align:center;">Попередній замір: 66.5 кг · 7 жовтня 2026</p>
+              <input id="body-weight" type="number" step="0.1" placeholder="Наприклад, 67,5" value="67" style="width:100%;border:2px solid #ccc;border-radius:4px;padding:14px;font-size:24px;text-align:center;font-weight:bold;color:#333;" />
+              <p style="font-size:12px;color:#aaa;margin-top:6px;text-align:center;">Попередній замір 66,5 кг · 7 жовтня</p>
             </form>
           </div>
         </section>
@@ -686,23 +686,23 @@
         ─────────────────────────────────────────────── -->
         <section aria-labelledby="lbl-measurements">
           <span class="zone-label" id="lbl-measurements">
-            Обміри (необов'язково)
-            <em>Дія: записати додаткові обміри — якщо вимірював сьогодні</em>
+            Заміри (необов'язково)
+            <em>Дія: додати обхвати — якщо є заміри за сьогодні</em>
           </span>
           <div class="section-body">
             <form>
               <div style="display:flex;flex-direction:column;gap:12px;">
                 <div>
                   <label for="waist" style="display:block;font-size:13px;color:#888;margin-bottom:4px;">Обхват талії, см</label>
-                  <input id="waist" type="number" placeholder="—" style="width:100%;border:1px solid #ccc;border-radius:4px;padding:10px;font-size:15px;color:#333;" />
+                  <input id="waist" type="number" placeholder="Наприклад, 78" style="width:100%;border:1px solid #ccc;border-radius:4px;padding:10px;font-size:15px;color:#333;" />
                 </div>
                 <div>
                   <label for="chest" style="display:block;font-size:13px;color:#888;margin-bottom:4px;">Обхват грудей, см</label>
-                  <input id="chest" type="number" placeholder="—" style="width:100%;border:1px solid #ccc;border-radius:4px;padding:10px;font-size:15px;color:#333;" />
+                  <input id="chest" type="number" placeholder="Наприклад, 92" style="width:100%;border:1px solid #ccc;border-radius:4px;padding:10px;font-size:15px;color:#333;" />
                 </div>
                 <div>
                   <label for="hips" style="display:block;font-size:13px;color:#888;margin-bottom:4px;">Обхват стегон, см</label>
-                  <input id="hips" type="number" placeholder="—" style="width:100%;border:1px solid #ccc;border-radius:4px;padding:10px;font-size:15px;color:#333;" />
+                  <input id="hips" type="number" placeholder="Наприклад, 98" style="width:100%;border:1px solid #ccc;border-radius:4px;padding:10px;font-size:15px;color:#333;" />
                 </div>
               </div>
             </form>
@@ -716,12 +716,12 @@
         <section aria-labelledby="lbl-note">
           <span class="zone-label" id="lbl-note">
             Нотатка (необов'язково)
-            <em>Дія: додати контекст до виміру</em>
+            <em>Дія: додати контекст до заміру</em>
           </span>
           <div class="section-body">
             <form>
               <label for="body-note" style="display:block;font-size:13px;color:#888;margin-bottom:4px;">Нотатка</label>
-              <textarea id="body-note" rows="2" placeholder="Наприклад: ранок, після прокидання, натщесерце" style="width:100%;border:1px solid #ccc;border-radius:4px;padding:10px;font-size:14px;color:#333;resize:vertical;font-family:sans-serif;"></textarea>
+              <textarea id="body-note" rows="2" placeholder="Наприклад, вранці після прокидання, натщесерце" style="width:100%;border:1px solid #ccc;border-radius:4px;padding:10px;font-size:14px;color:#333;resize:vertical;font-family:sans-serif;"></textarea>
             </form>
           </div>
         </section>
@@ -733,7 +733,7 @@
         <section aria-labelledby="lbl-save">
           <span class="zone-label" id="lbl-save">
             Зберегти
-            <em>Дія: записати замір → оновити графік ваги у Прогресі</em>
+            <em>Дія: додати замір → оновити графік ваги у Прогресі</em>
           </span>
           <div class="section-body">
             <button type="submit" style="display:block;width:100%;min-height:52px;background:#333;color:#fff;border:none;border-radius:4px;font-size:17px;font-weight:bold;cursor:pointer;">Зберегти замір</button>

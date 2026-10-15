@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>add-food.html — Додати їжу · Forge Wireframes</title>
+  <title>add-food.html — Нова страва · Forge Wireframes</title>
   <style>
 
     /* ═══════════════════════════════════════════════════════
@@ -472,7 +472,7 @@
       <li class="tree-screen">
         <span class="screen-name">Завершення тренування</span>
         <ul class="tree-states">
-          <li><a href="finish.html">успіх · PR badge</a></li>
+          <li><a href="finish.html">успіх · плашка рекорду</a></li>
         </ul>
       </li>
 
@@ -490,7 +490,7 @@
       </li>
 
       <li class="tree-screen">
-        <span class="screen-name">Додати їжу</span>
+        <span class="screen-name">Нова страва</span>
         <ul class="tree-states">
           <li><a href="add-food.html" aria-current="page">форма введення</a></li>
         </ul>
@@ -512,7 +512,7 @@
       </li>
 
       <li class="tree-screen">
-        <span class="screen-name">Записати замір тіла</span>
+        <span class="screen-name">Новий замір</span>
         <ul class="tree-states">
           <li><a href="body-log.html">форма</a></li>
         </ul>
@@ -524,15 +524,15 @@
       <li class="tree-screen">
         <span class="screen-name">Мої атлети — огляд</span>
         <ul class="tree-states">
-          <li><a href="trainer-clients.html">список клієнтів</a></li>
+          <li><a href="trainer-clients.html">список атлетів</a></li>
           <li><a href="trainer-clients-empty.html">немає атлетів</a></li>
         </ul>
       </li>
 
       <li class="tree-screen">
-        <span class="screen-name">Атлет — активність і фідбек</span>
+        <span class="screen-name">Атлет — активність і коментарі</span>
         <ul class="tree-states">
-          <li><a href="trainer-athlete.html">картка клієнта</a></li>
+          <li><a href="trainer-athlete.html">картка атлета</a></li>
           <li><a href="trainer-athlete-loading.html">завантаження</a></li>
           <li><a href="trainer-athlete-error.html">помилка мережі</a></li>
         </ul>
@@ -541,12 +541,12 @@
       <li class="tree-screen">
         <span class="screen-name">Деталі тренування (тренер-вид)</span>
         <ul class="tree-states">
-          <li><a href="trainer-workout.html">деталі сесії</a></li>
+          <li><a href="trainer-workout.html">деталі тренування</a></li>
         </ul>
       </li>
 
       <li class="tree-screen">
-        <span class="screen-name">Залишити фідбек</span>
+        <span class="screen-name">Залишити коментар</span>
         <ul class="tree-states">
           <li><a href="trainer-feedback.html">форма коментаря</a></li>
           <li><a href="trainer-feedback-error.html">помилка відправки</a></li>
@@ -569,7 +569,7 @@
       </li>
 
       <li class="tree-screen">
-        <span class="screen-name">Редактор дня / сесії</span>
+        <span class="screen-name">Редактор тренування</span>
         <ul class="tree-states">
           <li><a href="program-session.html">список вправ дня</a></li>
         </ul>
@@ -584,7 +584,7 @@
       </li>
 
       <li class="tree-screen">
-        <span class="screen-name">Запросити атлета (інвайт)</span>
+        <span class="screen-name">Запрошення атлета</span>
         <ul class="tree-states">
           <li><a href="invite.html">генерація коду</a></li>
         </ul>
@@ -633,7 +633,7 @@
       <header>
         <a href="nutrition.html" class="header-back">[←]</a>
         <div class="header-text">
-          <p class="header-plan">Додати їжу</p>
+          <p class="header-plan">Нова страва</p>
         </div>
       </header>
 
@@ -641,7 +641,7 @@
 
         <!-- flow-step: wireframe annotation, не частина UI -->
         <div class="flow-step" role="note">
-          <strong>nutrition — форма введення страви.</strong> Лише назва і ккал обов'язкові. Макроси опціонально. Після збереження → оновлений підсумок на nutrition.html.
+          <strong>nutrition — форма введення страви.</strong> Лише назва і ккал обов'язкові. БЖВ необов'язково. Після збереження → оновлений підсумок на nutrition.html.
         </div>
 
         <!-- ──────────────────────────────────────────────
@@ -675,10 +675,10 @@
           <div class="section-body">
             <form>
               <label for="food-name" style="display:block;font-size:13px;color:#888;margin-bottom:4px;">Назва страви <span style="color:#333;">*</span></label>
-              <input id="food-name" type="text" placeholder="Наприклад: Вівсянка з бананом" style="width:100%;border:1px solid #ccc;border-radius:4px;padding:10px;font-size:15px;color:#333;margin-bottom:14px;" />
+              <input id="food-name" type="text" placeholder="Наприклад, вівсянка з бананом" style="width:100%;border:1px solid #ccc;border-radius:4px;padding:10px;font-size:15px;color:#333;margin-bottom:14px;" />
 
               <label for="food-kcal" style="display:block;font-size:13px;color:#888;margin-bottom:4px;">Калорійність, ккал <span style="color:#333;">*</span></label>
-              <input id="food-kcal" type="number" placeholder="0" style="width:100%;border:1px solid #ccc;border-radius:4px;padding:10px;font-size:15px;color:#333;" />
+              <input id="food-kcal" type="number" placeholder="Наприклад, 380" style="width:100%;border:1px solid #ccc;border-radius:4px;padding:10px;font-size:15px;color:#333;" />
             </form>
           </div>
         </section>
@@ -689,7 +689,7 @@
         ─────────────────────────────────────────────── -->
         <section aria-labelledby="lbl-macros">
           <span class="zone-label" id="lbl-macros">
-            Макроси (необов'язково)
+            БЖВ (необов'язково)
             <em>Дія: ввести БЖВ — якщо знаєш точні дані</em>
           </span>
           <div class="section-body">
@@ -697,15 +697,15 @@
               <div style="display:flex;gap:8px;">
                 <div style="flex:1;">
                   <label style="display:block;font-size:11px;color:#aaa;margin-bottom:4px;text-transform:uppercase;letter-spacing:.05em;">Білки, г</label>
-                  <input type="number" placeholder="0" style="width:100%;border:1px solid #ccc;border-radius:4px;padding:10px;font-size:15px;text-align:center;" />
+                  <input type="number" placeholder="Наприклад, 12" style="width:100%;border:1px solid #ccc;border-radius:4px;padding:10px;font-size:15px;text-align:center;" />
                 </div>
                 <div style="flex:1;">
                   <label style="display:block;font-size:11px;color:#aaa;margin-bottom:4px;text-transform:uppercase;letter-spacing:.05em;">Жири, г</label>
-                  <input type="number" placeholder="0" style="width:100%;border:1px solid #ccc;border-radius:4px;padding:10px;font-size:15px;text-align:center;" />
+                  <input type="number" placeholder="Наприклад, 6" style="width:100%;border:1px solid #ccc;border-radius:4px;padding:10px;font-size:15px;text-align:center;" />
                 </div>
                 <div style="flex:1;">
-                  <label style="display:block;font-size:11px;color:#aaa;margin-bottom:4px;text-transform:uppercase;letter-spacing:.05em;">Вугл, г</label>
-                  <input type="number" placeholder="0" style="width:100%;border:1px solid #ccc;border-radius:4px;padding:10px;font-size:15px;text-align:center;" />
+                  <label style="display:block;font-size:11px;color:#aaa;margin-bottom:4px;text-transform:uppercase;letter-spacing:.05em;">Вуглеводи, г</label>
+                  <input type="number" placeholder="Наприклад, 62" style="width:100%;border:1px solid #ccc;border-radius:4px;padding:10px;font-size:15px;text-align:center;" />
                 </div>
               </div>
             </form>
@@ -722,7 +722,7 @@
             <em>Дія: зберегти запис → оновити денний підсумок</em>
           </span>
           <div class="section-body">
-            <button type="submit" style="display:block;width:100%;min-height:52px;background:#333;color:#fff;border:none;border-radius:4px;font-size:17px;font-weight:bold;cursor:pointer;">Зберегти</button>
+            <button type="submit" style="display:block;width:100%;min-height:52px;background:#333;color:#fff;border:none;border-radius:4px;font-size:17px;font-weight:bold;cursor:pointer;">Зберегти страву</button>
             <p style="margin-top:7px;font-size:10px;color:#bbb;text-align:center;">→ nutrition.html · запис додано до денного підсумку</p>
           </div>
         </section>

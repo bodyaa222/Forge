@@ -19,6 +19,8 @@ A mobile-first web platform connecting athletes and personal trainers — traini
 | [`design-system/`](./design-system/) | Full design system documentation |
 | [`handoff/`](./handoff/) | Dev-ready specs, export assets, implementation notes |
 | [`CLAUDE.md`](./CLAUDE.md) | Full product brief (roles, MVP scope, stack, decisions) |
+| [`voice.md`](./voice.md) | Voice: principles, dictionary, forbidden list, microcopy rules |
+| [`microcopy.md`](./microcopy.md) | Every UI string, before → after; source of truth for product copy |
 
 ---
 
@@ -116,6 +118,25 @@ Low-fidelity HTML wireframes — статичні файли, відкриваю
 | [`wireframes/_critique.md`](wireframes/_critique.md) | Аудит-лог: 12 дефектів (STYLE / MISSING STATE / DEAD END), усі виправлено |
 
 → **Відкрити wireframes: [today.html](https://bodyaa222.github.io/Forge/wireframes/today.html)** (GitHub Pages)
+
+---
+
+## Voice (Lesson 5)
+
+Forge говорить як тренер у залі: коротко, по ділу, з цифрами. Мотивує даними, а не вигуками. Оцінку дає тренер, а не продукт.
+
+| Файл | Що всередині |
+|---|---|
+| [`voice.md`](voice.md) | 4 принципи (з опорою на ресерч), словник «одне поняття — одне слово», одиниці й формати, звертання, англіцизми, заборонене, правила мікрокопі за типами елементів (кнопка, заголовок, поле, порожній стан, помилка, завантаження, успіх, рекорд, небезпечна дія) |
+| [`microcopy.md`](microcopy.md) | Таблиця всіх рядків інтерфейсу з 35 екранів: роль, екран, зона, «було» → «стало», тип, автор (Forge / текст користувача), мітки розбіжностей; звірка між екранами й ролями; аудит |
+| [`research/research.md`](research/research.md) → «Мова конкурентів» | Дослівні рядки Strong, Fitbod, MyFitnessPal, Trainerize, TrueCoach з App Store і форумів: від чого ми відштовхуємось |
+
+| Було | Стало |
+|---|---|
+| 4 підходи · 8 повторень · 80 кг | 4 × 8 × 80 кг |
+| Залишити фідбек | Залишити коментар |
+| Присідання PR: 82.5 кг | Новий рекорд · Присідання зі штангою 82,5 кг · +2,5 кг до 7 жовтня |
+| Ти ще не підключений до тренера. Введи інвайт-код… | Введи код запрошення від тренера, щоб отримати програму. |
 
 ---
 

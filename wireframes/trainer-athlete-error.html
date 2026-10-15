@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>trainer-athlete-error.html — Атлет — активність і фідбек (помилка) · Forge Wireframes</title>
+  <title>trainer-athlete-error.html — Атлет — активність і коментарі (помилка) · Forge Wireframes</title>
   <style>
 
     /* ═══════════════════════════════════════════════════════
@@ -379,7 +379,7 @@
       <li class="tree-screen">
         <span class="screen-name">Завершення тренування</span>
         <ul class="tree-states">
-          <li><a href="finish.html">успіх · PR badge</a></li>
+          <li><a href="finish.html">успіх · плашка рекорду</a></li>
         </ul>
       </li>
 
@@ -397,7 +397,7 @@
       </li>
 
       <li class="tree-screen">
-        <span class="screen-name">Додати їжу</span>
+        <span class="screen-name">Нова страва</span>
         <ul class="tree-states">
           <li><a href="add-food.html">форма введення</a></li>
         </ul>
@@ -419,7 +419,7 @@
       </li>
 
       <li class="tree-screen">
-        <span class="screen-name">Записати замір тіла</span>
+        <span class="screen-name">Новий замір</span>
         <ul class="tree-states">
           <li><a href="body-log.html">форма</a></li>
         </ul>
@@ -431,15 +431,15 @@
       <li class="tree-screen">
         <span class="screen-name">Мої атлети — огляд</span>
         <ul class="tree-states">
-          <li><a href="trainer-clients.html">список клієнтів</a></li>
+          <li><a href="trainer-clients.html">список атлетів</a></li>
           <li><a href="trainer-clients-empty.html">немає атлетів</a></li>
         </ul>
       </li>
 
       <li class="tree-screen">
-        <span class="screen-name">Атлет — активність і фідбек</span>
+        <span class="screen-name">Атлет — активність і коментарі</span>
         <ul class="tree-states">
-          <li><a href="trainer-athlete.html">картка клієнта</a></li>
+          <li><a href="trainer-athlete.html">картка атлета</a></li>
           <li><a href="trainer-athlete-loading.html">завантаження</a></li>
           <li><a href="trainer-athlete-error.html" aria-current="page">помилка</a></li>
         </ul>
@@ -448,12 +448,12 @@
       <li class="tree-screen">
         <span class="screen-name">Деталі тренування (тренер-вид)</span>
         <ul class="tree-states">
-          <li><a href="trainer-workout.html">деталі сесії</a></li>
+          <li><a href="trainer-workout.html">деталі тренування</a></li>
         </ul>
       </li>
 
       <li class="tree-screen">
-        <span class="screen-name">Залишити фідбек</span>
+        <span class="screen-name">Залишити коментар</span>
         <ul class="tree-states">
           <li><a href="trainer-feedback.html">форма коментаря</a></li>
           <li><a href="trainer-feedback-error.html">помилка відправки</a></li>
@@ -476,7 +476,7 @@
       </li>
 
       <li class="tree-screen">
-        <span class="screen-name">Редактор дня / сесії</span>
+        <span class="screen-name">Редактор тренування</span>
         <ul class="tree-states">
           <li><a href="program-session.html">список вправ дня</a></li>
         </ul>
@@ -491,7 +491,7 @@
       </li>
 
       <li class="tree-screen">
-        <span class="screen-name">Запросити атлета (інвайт)</span>
+        <span class="screen-name">Запрошення атлета</span>
         <ul class="tree-states">
           <li><a href="invite.html">генерація коду</a></li>
         </ul>
@@ -549,7 +549,7 @@
 
         <!-- flow-step: wireframe annotation, не частина UI -->
         <div class="flow-step" role="note">
-          <strong>J2 — error state: не вдалося завантажити дані клієнта.</strong> Вихід: спробувати ще → trainer-athlete.html (retry). flows.md: L→N→Z3.
+          <strong>J2 — error state: не вдалося завантажити дані атлета.</strong> Вихід: спробувати ще → trainer-athlete.html (retry). flows.md: L→N→Z3.
         </div>
 
         <!-- ──────────────────────────────────────────────
@@ -558,14 +558,14 @@
         <section aria-labelledby="lbl-error">
           <span class="zone-label" id="lbl-error">
             Помилка завантаження
-            <em>Стан: мережева помилка — дані клієнта недоступні</em>
+            <em>Стан: мережева помилка — дані атлета недоступні</em>
           </span>
           <div class="section-body">
             <div style="background:#f8f8f8;border:1px solid #ccc;border-radius:4px;padding:16px;display:flex;align-items:flex-start;gap:12px;">
               <span style="font-size:20px;flex-shrink:0;color:#888;">[!]</span>
               <div>
                 <p style="font-weight:bold;font-size:14px;margin-bottom:4px;">Не вдалося завантажити дані атлета</p>
-                <p style="font-size:13px;color:#777;">Перевір з'єднання з інтернетом і спробуй ще раз.</p>
+                <p style="font-size:13px;color:#777;">Перевір з'єднання і спробуй ще раз.</p>
               </div>
             </div>
           </div>
@@ -593,11 +593,15 @@
       <nav class="phone-nav" aria-label="Головна навігація тренера">
         <a href="trainer-clients.html" aria-current="page">
           <i class="nav-icon" aria-hidden="true">[атлети]</i>
-          Атлети
+          Мої атлети
         </a>
         <a href="programs.html">
           <i class="nav-icon" aria-hidden="true">[програми]</i>
           Програми
+        </a>
+        <a href="invite.html">
+          <i class="nav-icon" aria-hidden="true">[+]</i>
+          Запросити
         </a>
         <a href="profile.html">
           <i class="nav-icon" aria-hidden="true">[профіль]</i>

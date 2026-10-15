@@ -341,7 +341,7 @@
       <li class="tree-screen">
         <span class="screen-name">Завершення тренування</span>
         <ul class="tree-states">
-          <li><a href="finish.html">успіх · PR badge</a></li>
+          <li><a href="finish.html">успіх · плашка рекорду</a></li>
         </ul>
       </li>
 
@@ -359,7 +359,7 @@
       </li>
 
       <li class="tree-screen">
-        <span class="screen-name">Додати їжу</span>
+        <span class="screen-name">Нова страва</span>
         <ul class="tree-states">
           <li><a href="add-food.html">форма введення</a></li>
         </ul>
@@ -381,7 +381,7 @@
       </li>
 
       <li class="tree-screen">
-        <span class="screen-name">Записати замір тіла</span>
+        <span class="screen-name">Новий замір</span>
         <ul class="tree-states">
           <li><a href="body-log.html">форма</a></li>
         </ul>
@@ -393,15 +393,15 @@
       <li class="tree-screen">
         <span class="screen-name">Мої атлети — огляд</span>
         <ul class="tree-states">
-          <li><a href="trainer-clients.html">список клієнтів</a></li>
+          <li><a href="trainer-clients.html">список атлетів</a></li>
           <li><a href="trainer-clients-empty.html">немає атлетів</a></li>
         </ul>
       </li>
 
       <li class="tree-screen">
-        <span class="screen-name">Атлет — активність і фідбек</span>
+        <span class="screen-name">Атлет — активність і коментарі</span>
         <ul class="tree-states">
-          <li><a href="trainer-athlete.html">картка клієнта</a></li>
+          <li><a href="trainer-athlete.html">картка атлета</a></li>
           <li><a href="trainer-athlete-loading.html">завантаження</a></li>
           <li><a href="trainer-athlete-error.html">помилка мережі</a></li>
         </ul>
@@ -410,12 +410,12 @@
       <li class="tree-screen">
         <span class="screen-name">Деталі тренування (тренер-вид)</span>
         <ul class="tree-states">
-          <li><a href="trainer-workout.html">деталі сесії</a></li>
+          <li><a href="trainer-workout.html">деталі тренування</a></li>
         </ul>
       </li>
 
       <li class="tree-screen">
-        <span class="screen-name">Залишити фідбек</span>
+        <span class="screen-name">Залишити коментар</span>
         <ul class="tree-states">
           <li><a href="trainer-feedback.html">форма коментаря</a></li>
           <li><a href="trainer-feedback-error.html">помилка відправки</a></li>
@@ -438,7 +438,7 @@
       </li>
 
       <li class="tree-screen">
-        <span class="screen-name">Редактор дня / сесії</span>
+        <span class="screen-name">Редактор тренування</span>
         <ul class="tree-states">
           <li><a href="program-session.html">список вправ дня</a></li>
         </ul>
@@ -453,7 +453,7 @@
       </li>
 
       <li class="tree-screen">
-        <span class="screen-name">Запросити атлета (інвайт)</span>
+        <span class="screen-name">Запрошення атлета</span>
         <ul class="tree-states">
           <li><a href="invite.html">генерація коду</a></li>
         </ul>
@@ -500,7 +500,7 @@
       <header>
         <a href="programs.html" class="header-back">[←]</a>
         <div class="header-text">
-          <p class="header-plan">Призначити програму</p>
+          <p class="header-plan">Призначення програми</p>
         </div>
       </header>
 
@@ -522,8 +522,8 @@
           <div class="section-body">
             <article class="ex-card">
               <p class="ex-name">Силовий цикл — осінь</p>
-              <p class="ex-params">6 тижнів · 3 дні/тиж (П, С, П)</p>
-              <p class="ex-rest">15 сесій · ~65 хв/тренування</p>
+              <p class="ex-params">6 тижнів · Пн · Ср · Пт</p>
+              <p class="ex-rest">18 тренувань · ~65 хв кожне</p>
             </article>
           </div>
         </section>
@@ -539,7 +539,7 @@
           <div class="section-body">
             <p style="font-size:14px;color:#aaa;text-align:center;padding:24px 0;">
               Ще немає підключених атлетів.<br>
-              Запроси першого — і зможеш призначити програму.
+              Запроси атлета: коли код запрошення буде введено, ти зможеш призначити програму.
             </p>
           </div>
         </section>
@@ -550,10 +550,10 @@
         <section aria-labelledby="lbl-invite">
           <span class="zone-label" id="lbl-invite">
             Запросити атлета
-            <em>Дія: перейти до генерації інвайт-коду → invite.html</em>
+            <em>Дія: перейти до генерації коду запрошення → invite.html</em>
           </span>
           <div class="section-body">
-            <a href="invite.html" class="btn-start">Запросити атлета [+]</a>
+            <a href="invite.html" class="btn-start">[+] Запросити атлета</a>
             <p class="btn-caption">→ invite.html · Connection prereq (flows.md: W→X)</p>
           </div>
         </section>

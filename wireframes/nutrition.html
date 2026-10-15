@@ -477,7 +477,7 @@
       <li class="tree-screen">
         <span class="screen-name">Завершення тренування</span>
         <ul class="tree-states">
-          <li><a href="finish.html">успіх · PR badge</a></li>
+          <li><a href="finish.html">успіх · плашка рекорду</a></li>
         </ul>
       </li>
 
@@ -495,7 +495,7 @@
       </li>
 
       <li class="tree-screen">
-        <span class="screen-name">Додати їжу</span>
+        <span class="screen-name">Нова страва</span>
         <ul class="tree-states">
           <li><a href="add-food.html">форма введення</a></li>
         </ul>
@@ -517,7 +517,7 @@
       </li>
 
       <li class="tree-screen">
-        <span class="screen-name">Записати замір тіла</span>
+        <span class="screen-name">Новий замір</span>
         <ul class="tree-states">
           <li><a href="body-log.html">форма</a></li>
         </ul>
@@ -529,15 +529,15 @@
       <li class="tree-screen">
         <span class="screen-name">Мої атлети — огляд</span>
         <ul class="tree-states">
-          <li><a href="trainer-clients.html">список клієнтів</a></li>
+          <li><a href="trainer-clients.html">список атлетів</a></li>
           <li><a href="trainer-clients-empty.html">немає атлетів</a></li>
         </ul>
       </li>
 
       <li class="tree-screen">
-        <span class="screen-name">Атлет — активність і фідбек</span>
+        <span class="screen-name">Атлет — активність і коментарі</span>
         <ul class="tree-states">
-          <li><a href="trainer-athlete.html">картка клієнта</a></li>
+          <li><a href="trainer-athlete.html">картка атлета</a></li>
           <li><a href="trainer-athlete-loading.html">завантаження</a></li>
           <li><a href="trainer-athlete-error.html">помилка мережі</a></li>
         </ul>
@@ -546,12 +546,12 @@
       <li class="tree-screen">
         <span class="screen-name">Деталі тренування (тренер-вид)</span>
         <ul class="tree-states">
-          <li><a href="trainer-workout.html">деталі сесії</a></li>
+          <li><a href="trainer-workout.html">деталі тренування</a></li>
         </ul>
       </li>
 
       <li class="tree-screen">
-        <span class="screen-name">Залишити фідбек</span>
+        <span class="screen-name">Залишити коментар</span>
         <ul class="tree-states">
           <li><a href="trainer-feedback.html">форма коментаря</a></li>
           <li><a href="trainer-feedback-error.html">помилка відправки</a></li>
@@ -574,7 +574,7 @@
       </li>
 
       <li class="tree-screen">
-        <span class="screen-name">Редактор дня / сесії</span>
+        <span class="screen-name">Редактор тренування</span>
         <ul class="tree-states">
           <li><a href="program-session.html">список вправ дня</a></li>
         </ul>
@@ -589,7 +589,7 @@
       </li>
 
       <li class="tree-screen">
-        <span class="screen-name">Запросити атлета (інвайт)</span>
+        <span class="screen-name">Запрошення атлета</span>
         <ul class="tree-states">
           <li><a href="invite.html">генерація коду</a></li>
         </ul>
@@ -635,7 +635,7 @@
       ─────────────────────────────────────────────────────── -->
       <header>
         <div class="header-text">
-          <p class="header-date">Понеділок, 12 жовтня 2026</p>
+          <p class="header-date">Понеділок, 12 жовтня</p>
           <p class="header-plan">Харчування</p>
         </div>
         <div class="header-actions">
@@ -647,7 +647,7 @@
 
         <!-- flow-step: wireframe annotation, не частина UI -->
         <div class="flow-step" role="note">
-          <strong>nutrition — атлет відкрив вкладку Харчування.</strong> Бачить підсумок дня і список записів. Дія: додати ще один прийом їжі → add-food.html.
+          <strong>nutrition — атлет відкрив вкладку Харчування.</strong> Бачить підсумок дня і список записів. Дія: додати ще одну страву → add-food.html.
         </div>
 
         <!-- ──────────────────────────────────────────────
@@ -656,14 +656,14 @@
         <section aria-labelledby="lbl-summary">
           <span class="zone-label" id="lbl-summary">
             Підсумок дня
-            <em>Дія: огляд — ккал і макроси за сьогодні</em>
+            <em>Дія: огляд — ккал і БЖВ за сьогодні</em>
           </span>
           <div class="section-body">
             <div class="kcal-row">
               <span class="kcal-value">1 850 ккал</span>
               <span class="kcal-target">з 2 400 ккал</span>
             </div>
-            <div class="ph-bar" role="img" aria-label="Прогрес ккал: 1850 з 2400 (77%)">
+            <div class="ph-bar" role="img" aria-label="Калорії: 1 850 з 2 400 ккал (77%)">
               <div class="ph-bar-fill"></div>
             </div>
             <div class="macros-row">
@@ -689,7 +689,7 @@
         <section aria-labelledby="lbl-meals">
           <span class="zone-label" id="lbl-meals">
             Записи за сьогодні
-            <em>Дія: переглянути прийоми їжі</em>
+            <em>Дія: переглянути страви</em>
           </span>
           <div class="section-body">
 
@@ -719,11 +719,11 @@
         ─────────────────────────────────────────────── -->
         <section aria-labelledby="lbl-add">
           <span class="zone-label" id="lbl-add">
-            Додати їжу
-            <em>Дія: записати наступний прийом їжі → add-food.html</em>
+            Додати страву
+            <em>Дія: додати наступну страву → add-food.html</em>
           </span>
           <div class="section-body">
-            <a href="add-food.html" class="btn-start">+ Додати їжу</a>
+            <a href="add-food.html" class="btn-start">Додати страву</a>
             <p class="btn-caption">→ add-food.html · nutrition flow</p>
           </div>
         </section>
@@ -745,6 +745,10 @@
         <a href="progress.html">
           <i class="nav-icon" aria-hidden="true">[графік]</i>
           Прогрес
+        </a>
+        <a href="#" class="planned">
+          <i class="nav-icon" aria-hidden="true">[профіль]</i>
+          Профіль
         </a>
       </nav>
 

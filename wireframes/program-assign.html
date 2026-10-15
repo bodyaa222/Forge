@@ -340,7 +340,7 @@
       <li class="tree-screen">
         <span class="screen-name">Завершення тренування</span>
         <ul class="tree-states">
-          <li><a href="finish.html">успіх · PR badge</a></li>
+          <li><a href="finish.html">успіх · плашка рекорду</a></li>
         </ul>
       </li>
 
@@ -358,7 +358,7 @@
       </li>
 
       <li class="tree-screen">
-        <span class="screen-name">Додати їжу</span>
+        <span class="screen-name">Нова страва</span>
         <ul class="tree-states">
           <li><a href="add-food.html">форма введення</a></li>
         </ul>
@@ -380,7 +380,7 @@
       </li>
 
       <li class="tree-screen">
-        <span class="screen-name">Записати замір тіла</span>
+        <span class="screen-name">Новий замір</span>
         <ul class="tree-states">
           <li><a href="body-log.html">форма</a></li>
         </ul>
@@ -392,15 +392,15 @@
       <li class="tree-screen">
         <span class="screen-name">Мої атлети — огляд</span>
         <ul class="tree-states">
-          <li><a href="trainer-clients.html">список клієнтів</a></li>
+          <li><a href="trainer-clients.html">список атлетів</a></li>
           <li><a href="trainer-clients-empty.html">немає атлетів</a></li>
         </ul>
       </li>
 
       <li class="tree-screen">
-        <span class="screen-name">Атлет — активність і фідбек</span>
+        <span class="screen-name">Атлет — активність і коментарі</span>
         <ul class="tree-states">
-          <li><a href="trainer-athlete.html">картка клієнта</a></li>
+          <li><a href="trainer-athlete.html">картка атлета</a></li>
           <li><a href="trainer-athlete-loading.html">завантаження</a></li>
           <li><a href="trainer-athlete-error.html">помилка мережі</a></li>
         </ul>
@@ -409,12 +409,12 @@
       <li class="tree-screen">
         <span class="screen-name">Деталі тренування (тренер-вид)</span>
         <ul class="tree-states">
-          <li><a href="trainer-workout.html">деталі сесії</a></li>
+          <li><a href="trainer-workout.html">деталі тренування</a></li>
         </ul>
       </li>
 
       <li class="tree-screen">
-        <span class="screen-name">Залишити фідбек</span>
+        <span class="screen-name">Залишити коментар</span>
         <ul class="tree-states">
           <li><a href="trainer-feedback.html">форма коментаря</a></li>
           <li><a href="trainer-feedback-error.html">помилка відправки</a></li>
@@ -437,7 +437,7 @@
       </li>
 
       <li class="tree-screen">
-        <span class="screen-name">Редактор дня / сесії</span>
+        <span class="screen-name">Редактор тренування</span>
         <ul class="tree-states">
           <li><a href="program-session.html">список вправ дня</a></li>
         </ul>
@@ -452,7 +452,7 @@
       </li>
 
       <li class="tree-screen">
-        <span class="screen-name">Запросити атлета (інвайт)</span>
+        <span class="screen-name">Запрошення атлета</span>
         <ul class="tree-states">
           <li><a href="invite.html">генерація коду</a></li>
         </ul>
@@ -499,7 +499,7 @@
       <header>
         <a href="programs.html" class="header-back">[←]</a>
         <div class="header-text">
-          <p class="header-plan">Призначити програму</p>
+          <p class="header-plan">Призначення програми</p>
         </div>
       </header>
 
@@ -521,8 +521,8 @@
           <div class="section-body">
             <article class="ex-card">
               <p class="ex-name">Силовий цикл — осінь</p>
-              <p class="ex-params">6 тижнів · 3 дні/тиж (П, С, П)</p>
-              <p class="ex-rest">15 сесій · ~65 хв/тренування</p>
+              <p class="ex-params">6 тижнів · Пн · Ср · Пт</p>
+              <p class="ex-rest">18 тренувань · ~65 хв кожне</p>
             </article>
           </div>
         </section>
@@ -539,21 +539,21 @@
             <form>
 
               <div style="display:flex;align-items:center;gap:10px;padding:12px;border:2px solid #ccc;border-radius:4px;margin-bottom:8px;background:#f8f8f8;">
-                <input type="radio" name="athlete" id="a1" checked style="width:18px;height:18px;" />
-                <label for="a1" style="font-size:14px;font-weight:bold;cursor:pointer;">Оля Ткаченко</label>
-                <span style="font-size:12px;color:#aaa;margin-left:auto;">поточна програма завершується 22 жовт</span>
+                <input type="radio" name="athlete" id="a1" style="width:18px;height:18px;" />
+                <label for="a1" style="font-size:14px;cursor:pointer;">Оля Ткаченко</label>
+                <span style="font-size:12px;color:#aaa;margin-left:auto;">Силовий цикл — осінь · Тиждень 2 з 6</span>
               </div>
 
               <div style="display:flex;align-items:center;gap:10px;padding:12px;border:1px solid #ccc;border-radius:4px;margin-bottom:8px;">
                 <input type="radio" name="athlete" id="a2" style="width:18px;height:18px;" />
                 <label for="a2" style="font-size:14px;cursor:pointer;">Дмитро Ворона</label>
-                <span style="font-size:12px;color:#aaa;margin-left:auto;">без активної програми</span>
+                <span style="font-size:12px;color:#aaa;margin-left:auto;">Силовий цикл — осінь · Тиждень 2 з 6</span>
               </div>
 
               <div style="display:flex;align-items:center;gap:10px;padding:12px;border:1px solid #ccc;border-radius:4px;">
-                <input type="radio" name="athlete" id="a3" style="width:18px;height:18px;" />
-                <label for="a3" style="font-size:14px;cursor:pointer;">Іван Савченко</label>
-                <span style="font-size:12px;color:#aaa;margin-left:auto;">Гіпертрофія Б · тиж 1/8</span>
+                <input type="radio" name="athlete" id="a3" checked style="width:18px;height:18px;" />
+                <label for="a3" style="font-size:14px;font-weight:bold;cursor:pointer;">Іван Савченко</label>
+                <span style="font-size:12px;color:#aaa;margin-left:auto;">без активної програми</span>
               </div>
 
             </form>
@@ -572,7 +572,7 @@
             <form>
               <label for="start-date" style="display:block;font-size:13px;color:#888;margin-bottom:4px;">Дата початку</label>
               <input id="start-date" type="date" value="2026-10-19" style="width:100%;border:1px solid #ccc;border-radius:4px;padding:10px;font-size:15px;color:#333;" />
-              <p style="font-size:12px;color:#aaa;margin-top:6px;">Наступний понеділок · перший тренувальний день</p>
+              <p style="font-size:12px;color:#aaa;margin-top:6px;">Наступний понеділок · перше тренування</p>
             </form>
           </div>
         </section>
@@ -586,7 +586,7 @@
             <em>Дія: зберегти призначення → атлет побачить план на Сьогодні</em>
           </span>
           <div class="section-body">
-            <a href="programs.html" class="btn-start">Підтвердити призначення</a>
+            <a href="programs.html" class="btn-start">Призначити програму</a>
             <p class="btn-caption">→ programs.html · SUCCESS1 (flows.md J1)</p>
           </div>
         </section>

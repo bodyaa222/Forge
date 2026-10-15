@@ -489,7 +489,7 @@
       <li class="tree-screen">
         <span class="screen-name">Завершення тренування</span>
         <ul class="tree-states">
-          <li><a href="finish.html">успіх · PR badge</a></li>
+          <li><a href="finish.html">успіх · плашка рекорду</a></li>
         </ul>
       </li>
 
@@ -507,7 +507,7 @@
       </li>
 
       <li class="tree-screen">
-        <span class="screen-name">Додати їжу</span>
+        <span class="screen-name">Нова страва</span>
         <ul class="tree-states">
           <li><a href="add-food.html">форма введення</a></li>
         </ul>
@@ -529,7 +529,7 @@
       </li>
 
       <li class="tree-screen">
-        <span class="screen-name">Записати замір тіла</span>
+        <span class="screen-name">Новий замір</span>
         <ul class="tree-states">
           <li><a href="body-log.html">форма</a></li>
         </ul>
@@ -541,15 +541,15 @@
       <li class="tree-screen">
         <span class="screen-name">Мої атлети — огляд</span>
         <ul class="tree-states">
-          <li><a href="trainer-clients.html">список клієнтів</a></li>
+          <li><a href="trainer-clients.html">список атлетів</a></li>
           <li><a href="trainer-clients-empty.html">немає атлетів</a></li>
         </ul>
       </li>
 
       <li class="tree-screen">
-        <span class="screen-name">Атлет — активність і фідбек</span>
+        <span class="screen-name">Атлет — активність і коментарі</span>
         <ul class="tree-states">
-          <li><a href="trainer-athlete.html">картка клієнта</a></li>
+          <li><a href="trainer-athlete.html">картка атлета</a></li>
           <li><a href="trainer-athlete-loading.html">завантаження</a></li>
           <li><a href="trainer-athlete-error.html">помилка мережі</a></li>
         </ul>
@@ -558,12 +558,12 @@
       <li class="tree-screen">
         <span class="screen-name">Деталі тренування (тренер-вид)</span>
         <ul class="tree-states">
-          <li><a href="trainer-workout.html">деталі сесії</a></li>
+          <li><a href="trainer-workout.html">деталі тренування</a></li>
         </ul>
       </li>
 
       <li class="tree-screen">
-        <span class="screen-name">Залишити фідбек</span>
+        <span class="screen-name">Залишити коментар</span>
         <ul class="tree-states">
           <li><a href="trainer-feedback.html">форма коментаря</a></li>
           <li><a href="trainer-feedback-error.html">помилка відправки</a></li>
@@ -586,7 +586,7 @@
       </li>
 
       <li class="tree-screen">
-        <span class="screen-name">Редактор дня / сесії</span>
+        <span class="screen-name">Редактор тренування</span>
         <ul class="tree-states">
           <li><a href="program-session.html">список вправ дня</a></li>
         </ul>
@@ -601,7 +601,7 @@
       </li>
 
       <li class="tree-screen">
-        <span class="screen-name">Запросити атлета (інвайт)</span>
+        <span class="screen-name">Запрошення атлета</span>
         <ul class="tree-states">
           <li><a href="invite.html">генерація коду</a></li>
         </ul>
@@ -659,7 +659,7 @@
 
         <!-- flow-step: wireframe annotation, не частина UI -->
         <div class="flow-step" role="note">
-          J5 — дашборд прогресу. Атлет бачить особисті рекорди, динаміку ваги, фідбек тренера. Вихід: перейти до історії або записати замір.
+          J5 — дашборд прогресу. Атлет бачить особисті рекорди, динаміку ваги, коментар тренера. Вихід: перейти до історії або додати замір.
         </div>
 
         <!-- ──────────────────────────────────────────────
@@ -667,30 +667,30 @@
         ─────────────────────────────────────────────── -->
         <section aria-labelledby="lbl-prs">
           <span class="zone-label" id="lbl-prs">
-            Особисті рекорди
+            Рекорди
             <em>Дія: огляд — топ PRs по вправах</em>
           </span>
           <div class="section-body">
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
               <article style="border:1px solid #d8d8d8;border-radius:4px;padding:11px 13px;">
-                <p style="font-size:11px;color:#aaa;margin-bottom:4px;">Присідання</p>
-                <p style="font-size:20px;font-weight:bold;">82.5 кг</p>
-                <p style="font-size:11px;color:#aaa;">12 жовт 2026</p>
+                <p style="font-size:11px;color:#aaa;margin-bottom:4px;">Присідання зі штангою</p>
+                <p style="font-size:20px;font-weight:bold;">82,5 кг</p>
+                <p style="font-size:11px;color:#aaa;">12 жовтня</p>
               </article>
               <article style="border:1px solid #d8d8d8;border-radius:4px;padding:11px 13px;">
                 <p style="font-size:11px;color:#aaa;margin-bottom:4px;">Жим лежачи</p>
                 <p style="font-size:20px;font-weight:bold;">75 кг</p>
-                <p style="font-size:11px;color:#aaa;">8 жовт 2026</p>
+                <p style="font-size:11px;color:#aaa;">9 жовтня</p>
               </article>
               <article style="border:1px solid #d8d8d8;border-radius:4px;padding:11px 13px;">
-                <p style="font-size:11px;color:#aaa;margin-bottom:4px;">Тяга штанги</p>
-                <p style="font-size:20px;font-weight:bold;">95 кг</p>
-                <p style="font-size:11px;color:#aaa;">6 жовт 2026</p>
+                <p style="font-size:11px;color:#aaa;margin-bottom:4px;">Жим ногами</p>
+                <p style="font-size:20px;font-weight:bold;">120 кг</p>
+                <p style="font-size:11px;color:#aaa;">2 жовтня</p>
               </article>
               <article style="border:1px solid #d8d8d8;border-radius:4px;padding:11px 13px;">
                 <p style="font-size:11px;color:#aaa;margin-bottom:4px;">Румунська тяга</p>
                 <p style="font-size:20px;font-weight:bold;">65 кг</p>
-                <p style="font-size:11px;color:#aaa;">10 жовт 2026</p>
+                <p style="font-size:11px;color:#aaa;">7 жовтня</p>
               </article>
             </div>
           </div>
@@ -706,8 +706,8 @@
           </span>
           <div class="section-body">
             <div class="placeholder" style="height:120px;" aria-label="графік ваги тіла за 8 тижнів">графік ваги тіла за 8 тижнів</div>
-            <p style="font-size:13px;color:#555;margin-top:10px;">Поточна: 67.0 кг · Ціль: 70 кг · +3.0 кг за 8 тижнів</p>
-            <a href="body-log.html" class="summary-link">Записати замір →</a>
+            <p style="font-size:13px;color:#555;margin-top:10px;">Вага 67 кг · ціль 70 кг · +3 кг за 8 тижнів</p>
+            <a href="body-log.html" class="summary-link">Додати замір</a>
           </div>
         </section>
 
@@ -716,14 +716,14 @@
         ─────────────────────────────────────────────── -->
         <section aria-labelledby="lbl-feedback">
           <span class="zone-label" id="lbl-feedback">
-            Останній фідбек тренера
-            <em>Дія: читати — фідбек від тренера після останнього тренування</em>
+            Коментар тренера
+            <em>Дія: читати — коментар від тренера після останнього тренування</em>
           </span>
           <div class="section-body">
             <blockquote class="trainer-note">
               «Добре, що дотрималась паузи внизу. На наступному тижні +2.5 кг на присіданнях. З литками — поміняємо порядок вправ.»
             </blockquote>
-            <p class="trainer-meta">Максим Коваль · 12 жовтня 2026 · День A — Ноги та кор</p>
+            <p class="trainer-meta">Максим Коваль · 12 жовтня · День A — Ноги та кор</p>
           </div>
         </section>
 
@@ -733,11 +733,11 @@
         <section aria-labelledby="lbl-history-nav">
           <span class="zone-label" id="lbl-history-nav">
             Історія та навігація
-            <em>Дія: переглянути всі тренування або записати замір</em>
+            <em>Дія: переглянути всі тренування або додати замір</em>
           </span>
           <div class="section-body">
-            <a href="history.html" class="btn-start" style="display:block;width:100%;min-height:44px;background:#e8e8e8;color:#333;border:none;border-radius:4px;font-size:15px;font-weight:bold;text-align:center;padding:12px;text-decoration:none;">Всі тренування →</a>
-            <a href="body-log.html" style="display:block;text-align:center;margin-top:10px;font-size:13px;color:#666;text-decoration:underline;text-decoration-color:#ccc;">Записати замір тіла</a>
+            <a href="history.html" class="btn-start" style="display:block;width:100%;min-height:44px;background:#e8e8e8;color:#333;border:none;border-radius:4px;font-size:15px;font-weight:bold;text-align:center;padding:12px;text-decoration:none;">Переглянути всі тренування</a>
+            <a href="body-log.html" style="display:block;text-align:center;margin-top:10px;font-size:13px;color:#666;text-decoration:underline;text-decoration-color:#ccc;">Додати замір</a>
           </div>
         </section>
 
@@ -758,6 +758,10 @@
         <a href="progress.html" aria-current="page">
           <i class="nav-icon" aria-hidden="true">[графік]</i>
           Прогрес
+        </a>
+        <a href="#" class="planned">
+          <i class="nav-icon" aria-hidden="true">[профіль]</i>
+          Профіль
         </a>
       </nav>
 

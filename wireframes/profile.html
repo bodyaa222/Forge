@@ -479,7 +479,7 @@
       <li class="tree-screen">
         <span class="screen-name">Завершення тренування</span>
         <ul class="tree-states">
-          <li><a href="finish.html">успіх · PR badge</a></li>
+          <li><a href="finish.html">успіх · плашка рекорду</a></li>
         </ul>
       </li>
 
@@ -497,7 +497,7 @@
       </li>
 
       <li class="tree-screen">
-        <span class="screen-name">Додати їжу</span>
+        <span class="screen-name">Нова страва</span>
         <ul class="tree-states">
           <li><a href="add-food.html">форма введення</a></li>
         </ul>
@@ -519,7 +519,7 @@
       </li>
 
       <li class="tree-screen">
-        <span class="screen-name">Записати замір тіла</span>
+        <span class="screen-name">Новий замір</span>
         <ul class="tree-states">
           <li><a href="body-log.html">форма</a></li>
         </ul>
@@ -531,15 +531,15 @@
       <li class="tree-screen">
         <span class="screen-name">Мої атлети — огляд</span>
         <ul class="tree-states">
-          <li><a href="trainer-clients.html">список клієнтів</a></li>
+          <li><a href="trainer-clients.html">список атлетів</a></li>
           <li><a href="trainer-clients-empty.html">немає атлетів</a></li>
         </ul>
       </li>
 
       <li class="tree-screen">
-        <span class="screen-name">Атлет — активність і фідбек</span>
+        <span class="screen-name">Атлет — активність і коментарі</span>
         <ul class="tree-states">
-          <li><a href="trainer-athlete.html">картка клієнта</a></li>
+          <li><a href="trainer-athlete.html">картка атлета</a></li>
           <li><a href="trainer-athlete-loading.html">завантаження</a></li>
           <li><a href="trainer-athlete-error.html">помилка мережі</a></li>
         </ul>
@@ -548,12 +548,12 @@
       <li class="tree-screen">
         <span class="screen-name">Деталі тренування (тренер-вид)</span>
         <ul class="tree-states">
-          <li><a href="trainer-workout.html">деталі сесії</a></li>
+          <li><a href="trainer-workout.html">деталі тренування</a></li>
         </ul>
       </li>
 
       <li class="tree-screen">
-        <span class="screen-name">Залишити фідбек</span>
+        <span class="screen-name">Залишити коментар</span>
         <ul class="tree-states">
           <li><a href="trainer-feedback.html">форма коментаря</a></li>
           <li><a href="trainer-feedback-error.html">помилка відправки</a></li>
@@ -576,7 +576,7 @@
       </li>
 
       <li class="tree-screen">
-        <span class="screen-name">Редактор дня / сесії</span>
+        <span class="screen-name">Редактор тренування</span>
         <ul class="tree-states">
           <li><a href="program-session.html">список вправ дня</a></li>
         </ul>
@@ -591,7 +591,7 @@
       </li>
 
       <li class="tree-screen">
-        <span class="screen-name">Запросити атлета (інвайт)</span>
+        <span class="screen-name">Запрошення атлета</span>
         <ul class="tree-states">
           <li><a href="invite.html">генерація коду</a></li>
         </ul>
@@ -667,10 +667,10 @@
               <div>
                 <p style="font-size:17px;font-weight:bold;margin-bottom:2px;">Максим Коваль</p>
                 <p style="font-size:13px;color:#aaa;">maksym@email.com</p>
-                <p style="font-size:12px;color:#aaa;margin-top:2px;">Тренер · з вересня 2026</p>
+                <p style="font-size:12px;color:#aaa;margin-top:2px;">Тренер · з вересня</p>
               </div>
             </div>
-            <label style="display:block;font-size:13px;color:#888;margin-bottom:4px;">Bio (видима атлетам)</label>
+            <label style="display:block;font-size:13px;color:#888;margin-bottom:4px;">Про себе (бачать атлети)</label>
             <textarea rows="2" style="width:100%;border:1px solid #ccc;border-radius:4px;padding:10px;font-size:14px;color:#333;resize:vertical;font-family:sans-serif;">Сертифікований тренер, 4 роки онлайн-коучингу. 8 активних клієнтів.</textarea>
             <p style="font-size:11px;color:#bbb;margin-top:4px;">S1 — атлет бачить це перед підключенням</p>
           </div>
@@ -683,11 +683,11 @@
         <section aria-labelledby="lbl-invite">
           <span class="zone-label" id="lbl-invite">
             Запросити атлета
-            <em>Дія: перейти до генерації інвайт-коду → invite.html</em>
+            <em>Дія: перейти до генерації коду запрошення → invite.html</em>
           </span>
           <div class="section-body">
             <a href="invite.html" class="btn-start" style="display:block;width:100%;min-height:44px;background:#e8e8e8;color:#333;border:none;border-radius:4px;font-size:15px;font-weight:bold;text-align:center;padding:12px;text-decoration:none;">[+] Запросити атлета</a>
-            <p style="font-size:11px;color:#bbb;text-align:center;margin-top:6px;">→ invite.html · генерація інвайт-коду</p>
+            <p style="font-size:11px;color:#bbb;text-align:center;margin-top:6px;">→ invite.html · генерація коду запрошення</p>
           </div>
         </section>
 
@@ -708,6 +708,22 @@
           </div>
         </section>
 
+      
+        <section aria-labelledby="lbl-confirm-logout">
+          <span class="zone-label" id="lbl-confirm-logout">
+            Підтвердження
+            <em>Стан: діалог після тапу «Вийти з акаунту» — до виконання дії</em>
+          </span>
+          <div class="section-body">
+            <div role="dialog" aria-modal="true" aria-labelledby="dlg-logout" style="border:1px solid #ccc;border-radius:6px;padding:14px;">
+                <p id="dlg-logout" style="font-size:15px;font-weight:bold;margin-bottom:6px;">Вийти з акаунту?</p>
+                <div style="display:flex;gap:8px;">
+                  <button type="button" style="display:block;flex:1;min-height:44px;border-radius:4px;font-size:14px;cursor:pointer;border:1px solid #ccc;background:#fff;color:#333;">Скасувати</button>
+                  <button type="button" style="display:block;flex:1;min-height:44px;border-radius:4px;font-size:14px;cursor:pointer;border:none;background:#333;color:#fff;">Вийти</button>
+                </div>
+            </div>
+          </div>
+        </section>
       </main>
 
       <!-- ──────────────────────────────────────────────
@@ -717,11 +733,15 @@
       <nav class="phone-nav" aria-label="Головна навігація тренера">
         <a href="trainer-clients.html">
           <i class="nav-icon" aria-hidden="true">[атлети]</i>
-          Атлети
+          Мої атлети
         </a>
         <a href="programs.html">
           <i class="nav-icon" aria-hidden="true">[програми]</i>
           Програми
+        </a>
+        <a href="invite.html">
+          <i class="nav-icon" aria-hidden="true">[+]</i>
+          Запросити
         </a>
         <a href="profile.html" aria-current="page">
           <i class="nav-icon" aria-hidden="true">[профіль]</i>

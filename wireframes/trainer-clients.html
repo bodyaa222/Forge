@@ -494,7 +494,7 @@
       <li class="tree-screen">
         <span class="screen-name">Завершення тренування</span>
         <ul class="tree-states">
-          <li><a href="finish.html">успіх · PR badge</a></li>
+          <li><a href="finish.html">успіх · плашка рекорду</a></li>
         </ul>
       </li>
 
@@ -512,7 +512,7 @@
       </li>
 
       <li class="tree-screen">
-        <span class="screen-name">Додати їжу</span>
+        <span class="screen-name">Нова страва</span>
         <ul class="tree-states">
           <li><a href="add-food.html">форма введення</a></li>
         </ul>
@@ -534,7 +534,7 @@
       </li>
 
       <li class="tree-screen">
-        <span class="screen-name">Записати замір тіла</span>
+        <span class="screen-name">Новий замір</span>
         <ul class="tree-states">
           <li><a href="body-log.html">форма</a></li>
         </ul>
@@ -546,15 +546,15 @@
       <li class="tree-screen">
         <span class="screen-name">Мої атлети — огляд</span>
         <ul class="tree-states">
-          <li><a href="trainer-clients.html" aria-current="page">список клієнтів</a></li>
+          <li><a href="trainer-clients.html" aria-current="page">список атлетів</a></li>
           <li><a href="trainer-clients-empty.html">немає атлетів</a></li>
         </ul>
       </li>
 
       <li class="tree-screen">
-        <span class="screen-name">Атлет — активність і фідбек</span>
+        <span class="screen-name">Атлет — активність і коментарі</span>
         <ul class="tree-states">
-          <li><a href="trainer-athlete.html">картка клієнта</a></li>
+          <li><a href="trainer-athlete.html">картка атлета</a></li>
           <li><a href="trainer-athlete-loading.html">завантаження</a></li>
           <li><a href="trainer-athlete-error.html">помилка мережі</a></li>
         </ul>
@@ -563,12 +563,12 @@
       <li class="tree-screen">
         <span class="screen-name">Деталі тренування (тренер-вид)</span>
         <ul class="tree-states">
-          <li><a href="trainer-workout.html">деталі сесії</a></li>
+          <li><a href="trainer-workout.html">деталі тренування</a></li>
         </ul>
       </li>
 
       <li class="tree-screen">
-        <span class="screen-name">Залишити фідбек</span>
+        <span class="screen-name">Залишити коментар</span>
         <ul class="tree-states">
           <li><a href="trainer-feedback.html">форма коментаря</a></li>
           <li><a href="trainer-feedback-error.html">помилка відправки</a></li>
@@ -591,7 +591,7 @@
       </li>
 
       <li class="tree-screen">
-        <span class="screen-name">Редактор дня / сесії</span>
+        <span class="screen-name">Редактор тренування</span>
         <ul class="tree-states">
           <li><a href="program-session.html">список вправ дня</a></li>
         </ul>
@@ -606,7 +606,7 @@
       </li>
 
       <li class="tree-screen">
-        <span class="screen-name">Запросити атлета (інвайт)</span>
+        <span class="screen-name">Запрошення атлета</span>
         <ul class="tree-states">
           <li><a href="invite.html">генерація коду</a></li>
         </ul>
@@ -657,7 +657,7 @@
           <p class="header-plan">Мої атлети</p>
         </div>
         <div class="header-actions">
-          <div class="badge-notif" role="button" aria-label="Сповіщення — 1 новий фідбек">
+          <div class="badge-notif" role="button" aria-label="Сповіщення — 1 нове тренування без коментаря">
             [дзвін]
             <span class="badge-dot"></span>
           </div>
@@ -669,7 +669,7 @@
 
         <!-- flow-step: wireframe annotation, не частина UI -->
         <div class="flow-step" role="note">
-          <strong>J2+E1 — home screen тренера.</strong> 0 тапів від запуску. Список клієнтів з останньою активністю → дія: переглянути деталі або залишити фідбек.
+          <strong>J2+E1 — home screen тренера.</strong> 0 тапів від запуску. Список атлетів з останньою активністю → дія: переглянути деталі або залишити коментар.
         </div>
 
         <!-- ──────────────────────────────────────────────
@@ -682,7 +682,7 @@
             <em>Дія: огляд — хто тренувався, хто ні</em>
           </span>
           <div class="section-body">
-            <p class="summary-line">3 клієнти · 1 тренувалась сьогодні · 1 без фідбеку 3 дні</p>
+            <p class="summary-line">3 атлети · 1 тренування сьогодні · 1 атлет 3 дні без тренування</p>
           </div>
         </section>
 
@@ -692,33 +692,33 @@
         ─────────────────────────────────────────────── -->
         <section aria-labelledby="lbl-clients">
           <span class="zone-label" id="lbl-clients">
-            Список клієнтів
-            <em>Дія: обрати клієнта → trainer-athlete.html</em>
+            Список атлетів
+            <em>Дія: обрати атлета → trainer-athlete.html</em>
           </span>
           <div class="section-body">
 
             <!-- Card 1: Оля Ткаченко — тренувалась сьогодні -->
             <article class="ex-card">
               <p class="client-name">Оля Ткаченко</p>
-              <p class="client-status">Тренувалась сьогодні · День A — Ноги та кор · 01:02</p>
-              <p class="client-sub">Силовий цикл — осінь · Тиждень 2/6</p>
-              <a href="trainer-athlete.html" class="client-link">Переглянути →</a>
+              <p class="client-status">Тренування сьогодні · День A — Ноги та кор · 1 год 2 хв</p>
+              <p class="client-sub">Силовий цикл — осінь · Тиждень 2 з 6</p>
+              <a href="trainer-athlete.html" class="client-link">Переглянути</a>
             </article>
 
             <!-- Card 2: Дмитро Ворона — тренувався вчора -->
             <article class="ex-card">
               <p class="client-name">Дмитро Ворона</p>
-              <p class="client-status">Тренувався вчора · День B — Жим і плечі · 58 хв</p>
-              <p class="client-sub">Силовий цикл — осінь · Тиждень 2/6</p>
-              <a href="trainer-athlete.html" class="client-link">Переглянути →</a>
+              <p class="client-status">Тренування 9 жовтня · День B — Жим і плечі · 58 хв</p>
+              <p class="client-sub">Силовий цикл — осінь · Тиждень 2 з 6</p>
+              <a href="trainer-athlete.html" class="client-link">Переглянути</a>
             </article>
 
             <!-- Card 3: Іван Савченко — потребує уваги (підсилена ліва рамка, без кольору) -->
-            <article class="ex-card attention" aria-label="Потребує уваги — без тренування 3 дні">
+            <article class="ex-card attention" aria-label="Іван Савченко · 3 дні без тренування">
               <p class="client-name">Іван Савченко</p>
-              <p class="client-status">Не тренувався 3 дні · Фідбек не залишено</p>
-              <p class="client-sub">Гіпертрофія Б · Тиждень 1/8</p>
-              <a href="trainer-athlete.html" class="client-link">Переглянути →</a>
+              <p class="client-status">3 дні без тренування · Без коментаря</p>
+              <p class="client-sub">Без активної програми</p>
+              <a href="trainer-athlete.html" class="client-link">Переглянути</a>
             </article>
             <!-- zone note: потребує уваги — border-left: 3px solid #bbb, не колір -->
 
@@ -734,11 +734,15 @@
       <nav class="phone-nav" aria-label="Головна навігація тренера">
         <a href="trainer-clients.html" aria-current="page">
           <i class="nav-icon" aria-hidden="true">[атлети]</i>
-          Атлети
+          Мої атлети
         </a>
         <a href="programs.html">
           <i class="nav-icon" aria-hidden="true">[програми]</i>
           Програми
+        </a>
+        <a href="invite.html">
+          <i class="nav-icon" aria-hidden="true">[+]</i>
+          Запросити
         </a>
         <a href="profile.html">
           <i class="nav-icon" aria-hidden="true">[профіль]</i>

@@ -402,7 +402,7 @@
       <li class="tree-screen">
         <span class="screen-name">Завершення тренування</span>
         <ul class="tree-states">
-          <li><a href="finish.html">успіх · PR badge</a></li>
+          <li><a href="finish.html">успіх · плашка рекорду</a></li>
         </ul>
       </li>
 
@@ -420,7 +420,7 @@
       </li>
 
       <li class="tree-screen">
-        <span class="screen-name">Додати їжу</span>
+        <span class="screen-name">Нова страва</span>
         <ul class="tree-states">
           <li><a href="add-food.html">форма введення</a></li>
         </ul>
@@ -442,7 +442,7 @@
       </li>
 
       <li class="tree-screen">
-        <span class="screen-name">Записати замір тіла</span>
+        <span class="screen-name">Новий замір</span>
         <ul class="tree-states">
           <li><a href="body-log.html">форма</a></li>
         </ul>
@@ -454,15 +454,15 @@
       <li class="tree-screen">
         <span class="screen-name">Мої атлети — огляд</span>
         <ul class="tree-states">
-          <li><a href="trainer-clients.html">список клієнтів</a></li>
+          <li><a href="trainer-clients.html">список атлетів</a></li>
           <li><a href="trainer-clients-empty.html">немає атлетів</a></li>
         </ul>
       </li>
 
       <li class="tree-screen">
-        <span class="screen-name">Атлет — активність і фідбек</span>
+        <span class="screen-name">Атлет — активність і коментарі</span>
         <ul class="tree-states">
-          <li><a href="trainer-athlete.html">картка клієнта</a></li>
+          <li><a href="trainer-athlete.html">картка атлета</a></li>
           <li><a href="trainer-athlete-loading.html">завантаження</a></li>
           <li><a href="trainer-athlete-error.html">помилка мережі</a></li>
         </ul>
@@ -471,12 +471,12 @@
       <li class="tree-screen">
         <span class="screen-name">Деталі тренування (тренер-вид)</span>
         <ul class="tree-states">
-          <li><a href="trainer-workout.html" aria-current="page">деталі сесії</a></li>
+          <li><a href="trainer-workout.html" aria-current="page">деталі тренування</a></li>
         </ul>
       </li>
 
       <li class="tree-screen">
-        <span class="screen-name">Залишити фідбек</span>
+        <span class="screen-name">Залишити коментар</span>
         <ul class="tree-states">
           <li><a href="trainer-feedback.html">форма коментаря</a></li>
           <li><a href="trainer-feedback-error.html">помилка відправки</a></li>
@@ -499,7 +499,7 @@
       </li>
 
       <li class="tree-screen">
-        <span class="screen-name">Редактор дня / сесії</span>
+        <span class="screen-name">Редактор тренування</span>
         <ul class="tree-states">
           <li><a href="program-session.html">список вправ дня</a></li>
         </ul>
@@ -514,7 +514,7 @@
       </li>
 
       <li class="tree-screen">
-        <span class="screen-name">Запросити атлета (інвайт)</span>
+        <span class="screen-name">Запрошення атлета</span>
         <ul class="tree-states">
           <li><a href="invite.html">генерація коду</a></li>
         </ul>
@@ -562,7 +562,7 @@
         <a href="trainer-athlete.html" class="header-back">[←]</a>
         <div class="header-text">
           <p class="header-plan">День A — Ноги та кор</p>
-          <p class="header-date">Оля Ткаченко · 12 жовтня 2026</p>
+          <p class="header-date">Оля Ткаченко · 12 жовтня</p>
         </div>
       </header>
 
@@ -570,7 +570,7 @@
 
         <!-- flow-step: wireframe annotation, не частина UI -->
         <div class="flow-step" role="note">
-          <strong>J2 — тренер бачить деталі тренування.</strong> Порівняння план↔факт по кожній вправі. Вихід → залишити фідбек (trainer-feedback.html).
+          <strong>J2 — тренер бачить деталі тренування.</strong> Порівняння план↔факт по кожній вправі. Вихід → залишити коментар (trainer-feedback.html).
         </div>
 
         <!-- ──────────────────────────────────────────────
@@ -584,16 +584,16 @@
           <div class="section-body">
             <div class="stats-row">
               <div class="stat-item">
-                <span class="stat-label">Час</span>
-                <span class="stat-value">01:02:14</span>
+                <span class="stat-label">Тривалість</span>
+                <span class="stat-value">1 год 2 хв</span>
               </div>
               <div class="stat-item">
                 <span class="stat-label">Підходів</span>
-                <span class="stat-value">18 / 20 план</span>
+                <span class="stat-value">16 з 18</span>
               </div>
               <div class="stat-item">
                 <span class="stat-label">Вправ</span>
-                <span class="stat-value">5 / 5</span>
+                <span class="stat-value">5 з 5</span>
               </div>
             </div>
           </div>
@@ -604,7 +604,7 @@
         ─────────────────────────────────────────────── -->
         <section aria-labelledby="lbl-exercises">
           <span class="zone-label" id="lbl-exercises">
-            Деталі вправ — план vs факт
+            Деталі вправ — план і факт
             <em>Дія: виявити відхилення від плану</em>
           </span>
           <div class="section-body">
@@ -613,40 +613,40 @@
                 <tr>
                   <th>Вправа</th>
                   <th>Підходів</th>
-                  <th>Повт (план→факт)</th>
-                  <th>Вага (план→факт)</th>
+                  <th>Повтори</th>
+                  <th>Вага</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
                   <td>Присідання зі штангою</td>
-                  <td>4/4 ✓</td>
-                  <td>8→8</td>
-                  <td>80 кг → 82.5 кг <span class="tag-pr">[PR]</span></td>
+                  <td aria-label="4 з 4 підходів, виконано">4 з 4 ✓</td>
+                  <td>план 8 · факт 8</td>
+                  <td>план 80 кг · факт 82,5 кг <span class="tag-pr">Новий рекорд</span></td>
                 </tr>
                 <tr>
                   <td>Румунська тяга</td>
-                  <td>4/4 ✓</td>
-                  <td>10→10</td>
-                  <td>65 кг → 65 кг</td>
+                  <td aria-label="4 з 4 підходів, виконано">4 з 4 ✓</td>
+                  <td>план 10 · факт 10</td>
+                  <td>план 65 кг · факт 65 кг</td>
                 </tr>
                 <tr>
                   <td>Жим ногами</td>
-                  <td>3/3 ✓</td>
-                  <td>12→11</td>
-                  <td>120 кг → 120 кг</td>
+                  <td aria-label="3 з 3 підходів, виконано">3 з 3 ✓</td>
+                  <td>план 12 · факт 11</td>
+                  <td>план 120 кг · факт 120 кг</td>
                 </tr>
                 <tr>
                   <td>Згинання ніг лежачи</td>
-                  <td>3/3 ✓</td>
-                  <td>12→12</td>
-                  <td>35 кг → 35 кг</td>
+                  <td aria-label="3 з 3 підходів, виконано">3 з 3 ✓</td>
+                  <td>план 12 · факт 12</td>
+                  <td>план 35 кг · факт 35 кг</td>
                 </tr>
                 <tr>
                   <td>Підйом литок стоячи</td>
-                  <td>2/4 ✗</td>
-                  <td>15→15</td>
-                  <td>55 кг → 55 кг <span class="tag-fail">(не завершила)</span></td>
+                  <td aria-label="2 з 4 підходів, не завершено">2 з 4 ✗</td>
+                  <td>план 15 · факт 15</td>
+                  <td>план 55 кг · факт 55 кг <span class="tag-fail">(не завершено)</span></td>
                 </tr>
               </tbody>
             </table>
@@ -674,10 +674,10 @@
         <section aria-labelledby="lbl-cta">
           <span class="zone-label" id="lbl-cta">
             Головна дія
-            <em>Дія: перейти до написання фідбеку</em>
+            <em>Дія: перейти до написання коментаря</em>
           </span>
           <div class="section-body">
-            <a href="trainer-feedback.html" class="btn-start">Залишити фідбек</a>
+            <a href="trainer-feedback.html" class="btn-start">Залишити коментар</a>
             <p class="btn-caption">→ trainer-feedback.html · J2·E2</p>
           </div>
         </section>

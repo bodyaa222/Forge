@@ -334,7 +334,7 @@
       <li class="tree-screen">
         <span class="screen-name">Завершення тренування</span>
         <ul class="tree-states">
-          <li><a href="finish.html">успіх · PR badge</a></li>
+          <li><a href="finish.html">успіх · плашка рекорду</a></li>
         </ul>
       </li>
 
@@ -352,7 +352,7 @@
       </li>
 
       <li class="tree-screen">
-        <span class="screen-name">Додати їжу</span>
+        <span class="screen-name">Нова страва</span>
         <ul class="tree-states">
           <li><a href="add-food.html">форма введення</a></li>
         </ul>
@@ -374,7 +374,7 @@
       </li>
 
       <li class="tree-screen">
-        <span class="screen-name">Записати замір тіла</span>
+        <span class="screen-name">Новий замір</span>
         <ul class="tree-states">
           <li><a href="body-log.html">форма</a></li>
         </ul>
@@ -386,15 +386,15 @@
       <li class="tree-screen">
         <span class="screen-name">Мої атлети — огляд</span>
         <ul class="tree-states">
-          <li><a href="trainer-clients.html">список клієнтів</a></li>
+          <li><a href="trainer-clients.html">список атлетів</a></li>
           <li><a href="trainer-clients-empty.html">немає атлетів</a></li>
         </ul>
       </li>
 
       <li class="tree-screen">
-        <span class="screen-name">Атлет — активність і фідбек</span>
+        <span class="screen-name">Атлет — активність і коментарі</span>
         <ul class="tree-states">
-          <li><a href="trainer-athlete.html">картка клієнта</a></li>
+          <li><a href="trainer-athlete.html">картка атлета</a></li>
           <li><a href="trainer-athlete-loading.html">завантаження</a></li>
           <li><a href="trainer-athlete-error.html">помилка мережі</a></li>
         </ul>
@@ -403,12 +403,12 @@
       <li class="tree-screen">
         <span class="screen-name">Деталі тренування (тренер-вид)</span>
         <ul class="tree-states">
-          <li><a href="trainer-workout.html">деталі сесії</a></li>
+          <li><a href="trainer-workout.html">деталі тренування</a></li>
         </ul>
       </li>
 
       <li class="tree-screen">
-        <span class="screen-name">Залишити фідбек</span>
+        <span class="screen-name">Залишити коментар</span>
         <ul class="tree-states">
           <li><a href="trainer-feedback.html">форма коментаря</a></li>
           <li><a href="trainer-feedback-error.html">помилка відправки</a></li>
@@ -431,7 +431,7 @@
       </li>
 
       <li class="tree-screen">
-        <span class="screen-name">Редактор дня / сесії</span>
+        <span class="screen-name">Редактор тренування</span>
         <ul class="tree-states">
           <li><a href="program-session.html">список вправ дня</a></li>
         </ul>
@@ -446,7 +446,7 @@
       </li>
 
       <li class="tree-screen">
-        <span class="screen-name">Запросити атлета (інвайт)</span>
+        <span class="screen-name">Запрошення атлета</span>
         <ul class="tree-states">
           <li><a href="invite.html">генерація коду</a></li>
         </ul>
@@ -500,7 +500,7 @@
 
         <!-- flow-step: wireframe annotation, не частина UI -->
         <div class="flow-step" role="note">
-          <strong>J1 — тренер вводить назву, обирає дні тижня, додає сесії (дні).</strong> Дія: зберегти → program-assign.html або додати день → program-session.html.
+          <strong>J1 — тренер вводить назву, обирає дні тижня, додає тренування.</strong> Дія: зберегти → program-assign.html або додати день → program-session.html.
         </div>
 
         <!-- ──────────────────────────────────────────────
@@ -517,7 +517,7 @@
               <label for="prog-name" style="display:block;font-size:13px;color:#888;margin-bottom:4px;">Назва програми</label>
               <input id="prog-name" type="text" value="Силовий цикл — осінь" style="width:100%;border:1px solid #ccc;border-radius:4px;padding:10px;font-size:15px;color:#333;" />
               <label for="prog-desc" style="display:block;font-size:13px;color:#888;margin-top:12px;margin-bottom:4px;">Опис (необов'язково)</label>
-              <textarea id="prog-desc" rows="2" style="width:100%;border:1px solid #ccc;border-radius:4px;padding:10px;font-size:14px;color:#333;resize:vertical;" placeholder="Ціль програми, особливості…">Силово-гіпертрофічний цикл, 3 дні/тиж. Акцент — ноги і жим.</textarea>
+              <textarea id="prog-desc" rows="2" style="width:100%;border:1px solid #ccc;border-radius:4px;padding:10px;font-size:14px;color:#333;resize:vertical;" placeholder="Для кого програма і на чому акцент">Силово-гіпертрофічний цикл, 3 дні/тиж. Акцент — ноги і жим.</textarea>
             </form>
           </div>
         </section>
@@ -533,15 +533,15 @@
           </span>
           <div class="section-body">
             <div style="display:flex;gap:6px;flex-wrap:wrap;">
-              <span style="padding:6px 12px;border:1px solid #ccc;border-radius:20px;font-size:13px;background:#e8e8e8;font-weight:bold;">П</span>
-              <span style="padding:6px 12px;border:1px solid #e8e8e8;border-radius:20px;font-size:13px;color:#bbb;">В</span>
-              <span style="padding:6px 12px;border:1px solid #ccc;border-radius:20px;font-size:13px;background:#e8e8e8;font-weight:bold;">С</span>
-              <span style="padding:6px 12px;border:1px solid #e8e8e8;border-radius:20px;font-size:13px;color:#bbb;">Ч</span>
-              <span style="padding:6px 12px;border:1px solid #ccc;border-radius:20px;font-size:13px;background:#e8e8e8;font-weight:bold;">П</span>
-              <span style="padding:6px 12px;border:1px solid #e8e8e8;border-radius:20px;font-size:13px;color:#bbb;">С</span>
-              <span style="padding:6px 12px;border:1px solid #e8e8e8;border-radius:20px;font-size:13px;color:#bbb;">Н</span>
+              <span style="padding:6px 12px;border:1px solid #ccc;border-radius:20px;font-size:13px;background:#e8e8e8;font-weight:bold;">Пн</span>
+              <span style="padding:6px 12px;border:1px solid #e8e8e8;border-radius:20px;font-size:13px;color:#bbb;">Вт</span>
+              <span style="padding:6px 12px;border:1px solid #ccc;border-radius:20px;font-size:13px;background:#e8e8e8;font-weight:bold;">Ср</span>
+              <span style="padding:6px 12px;border:1px solid #e8e8e8;border-radius:20px;font-size:13px;color:#bbb;">Чт</span>
+              <span style="padding:6px 12px;border:1px solid #ccc;border-radius:20px;font-size:13px;background:#e8e8e8;font-weight:bold;">Пт</span>
+              <span style="padding:6px 12px;border:1px solid #e8e8e8;border-radius:20px;font-size:13px;color:#bbb;">Сб</span>
+              <span style="padding:6px 12px;border:1px solid #e8e8e8;border-radius:20px;font-size:13px;color:#bbb;">Нд</span>
             </div>
-            <p style="font-size:12px;color:#aaa;margin-top:10px;">Обрані: Понеділок, Середа, П'ятниця (3 дні/тиж)</p>
+            <p style="font-size:12px;color:#aaa;margin-top:10px;">Обрані: Пн · Ср · Пт · 3 тренування на тиждень</p>
           </div>
         </section>
 
@@ -551,7 +551,7 @@
         ─────────────────────────────────────────────── -->
         <section aria-labelledby="lbl-sessions">
           <span class="zone-label" id="lbl-sessions">
-            Тренувальні дні (сесії)
+            Тренування
             <em>Дія: додати / відредагувати день → program-session.html</em>
           </span>
           <div class="section-body">
@@ -559,16 +559,16 @@
             <article class="ex-card">
               <p class="ex-name">День A — Ноги та кор</p>
               <p class="ex-params">5 вправ · ~65 хв</p>
-              <a href="program-session.html" style="display:inline-block;margin-top:6px;font-size:13px;color:#555;text-decoration:underline;text-decoration-color:#ccc;">Редагувати →</a>
+              <a href="program-session.html" style="display:inline-block;margin-top:6px;font-size:13px;color:#555;text-decoration:underline;text-decoration-color:#ccc;">Редагувати</a>
             </article>
 
             <article class="ex-card">
               <p class="ex-name">День B — Жим і плечі</p>
               <p class="ex-params">4 вправи · ~55 хв</p>
-              <a href="program-session.html" style="display:inline-block;margin-top:6px;font-size:13px;color:#555;text-decoration:underline;text-decoration-color:#ccc;">Редагувати →</a>
+              <a href="program-session.html" style="display:inline-block;margin-top:6px;font-size:13px;color:#555;text-decoration:underline;text-decoration-color:#ccc;">Редагувати</a>
             </article>
 
-            <a href="program-session.html" style="display:block;width:100%;padding:12px;border:1px dashed #ccc;border-radius:4px;text-align:center;font-size:14px;color:#888;text-decoration:none;margin-top:4px;">+ Додати день</a>
+            <a href="program-session.html" style="display:block;width:100%;padding:12px;border:1px dashed #ccc;border-radius:4px;text-align:center;font-size:14px;color:#888;text-decoration:none;margin-top:4px;">Додати тренування</a>
 
           </div>
         </section>
