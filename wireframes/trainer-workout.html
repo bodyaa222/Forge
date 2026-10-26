@@ -210,7 +210,6 @@
        Палітра: фон #fff · рамки #ccc · заливка #e8e8e8 · текст #333
     ────────────────────────────────────────────────────── */
 
-    /* zone annotation labels */
     .zone-label {
       display: block;
       font-size: 9px;
@@ -223,26 +222,6 @@
       padding: 5px 12px 4px;
       line-height: 1.5;
     }
-    .zone-label em {
-      display: block;
-      font-weight: normal;
-      font-style: italic;
-      color: #c0c0c0;
-      margin-top: 1px;
-      text-transform: none;
-      letter-spacing: 0;
-    }
-
-    /* flow-step annotation (wireframe-only meta) */
-    .flow-step {
-      background: #f5f5f5;
-      border: 1px dashed #c8c8c8;
-      padding: 8px 16px;
-      font-size: 11px;
-      color: #888;
-      line-height: 1.5;
-    }
-    .flow-step strong { color: #555; }
 
     /* sections */
     .phone-frame section {
@@ -352,12 +331,6 @@
       text-align: center;
       text-decoration: none;
     }
-    .btn-caption {
-      margin-top: 7px;
-      font-size: 10px;
-      color: #bbb;
-      text-align: center;
-    }
 
   </style>
 </head>
@@ -365,19 +338,12 @@
 
 <div class="page-layout">
 
-  <!-- ═══════════════════════════════════════════════════════════
-       LEFT NAV SIDEBAR
-       ● — поточна сторінка
-       ○ — існуючий файл
-       (сірий) — заплановано, файл ще не створено
-  ══════════════════════════════════════════════════════════════ -->
   <nav class="wf-nav" aria-label="Навігація вайрфреймами Forge">
 
     <div class="wf-nav-title">Forge · Вайрфрейми</div>
 
     <ul class="wf-tree">
 
-      <!-- ── АТЛЕТ · MAIN JOB (J3+J4) — з _screens.md ── -->
       <li class="tree-section">Атлет [A] · Main Job (J3+J4)</li>
 
       <li class="tree-screen">
@@ -406,7 +372,6 @@
         </ul>
       </li>
 
-      <!-- ── АТЛЕТ · решта екранів (крок 8) — з sitemap.md ── -->
       <li class="tree-section">Атлет [A] · крок 8</li>
 
       <li class="tree-screen">
@@ -448,7 +413,6 @@
         </ul>
       </li>
 
-      <!-- ── ТРЕНЕР · крок 8 — з sitemap.md ── -->
       <li class="tree-section">Тренер [T] · крок 8</li>
 
       <li class="tree-screen">
@@ -520,7 +484,6 @@
         </ul>
       </li>
 
-      <!-- ── AUTH + СПІЛЬНІ — з sitemap.md ── -->
       <li class="tree-section">Auth + Спільні [TA]</li>
 
       <li class="tree-screen">
@@ -545,19 +508,13 @@
       </li>
 
     </ul>
-  </nav><!-- /wf-nav -->
+  </nav>
 
-  <!-- ═══════════════════════════════════════════════════════════
-       CANVAS + PHONE FRAME
-  ══════════════════════════════════════════════════════════════ -->
   <div class="wf-canvas">
     <div class="wf-frame-wrap">
 
     <div class="phone-frame">
 
-      <!-- ───────────────────────────────────────────────────
-           HEADER
-      ─────────────────────────────────────────────────────── -->
       <header>
         <a href="trainer-athlete.html" class="header-back">[←]</a>
         <div class="header-text">
@@ -568,18 +525,10 @@
 
       <main>
 
-        <!-- flow-step: wireframe annotation, не частина UI -->
-        <div class="flow-step" role="note">
-          <strong>J2 — тренер бачить деталі тренування.</strong> Порівняння план↔факт по кожній вправі. Вихід → залишити коментар (trainer-feedback.html).
-        </div>
 
-        <!-- ──────────────────────────────────────────────
-             SECTION 1: Загальна статистика
-        ─────────────────────────────────────────────── -->
         <section aria-labelledby="lbl-stats">
           <span class="zone-label" id="lbl-stats">
             Загальна статистика
-            <em>Дія: огляд — тривалість, підходи, відповідність плану</em>
           </span>
           <div class="section-body">
             <div class="stats-row">
@@ -599,13 +548,9 @@
           </div>
         </section>
 
-        <!-- ──────────────────────────────────────────────
-             SECTION 2: Деталі вправ — план vs факт
-        ─────────────────────────────────────────────── -->
         <section aria-labelledby="lbl-exercises">
           <span class="zone-label" id="lbl-exercises">
             Деталі вправ — план і факт
-            <em>Дія: виявити відхилення від плану</em>
           </span>
           <div class="section-body">
             <table class="pf-table">
@@ -653,13 +598,9 @@
           </div>
         </section>
 
-        <!-- ──────────────────────────────────────────────
-             SECTION 3: Нотатка атлета після тренування
-        ─────────────────────────────────────────────── -->
         <section aria-labelledby="lbl-note">
           <span class="zone-label" id="lbl-note">
             Нотатка атлета після тренування
-            <em>Дія: читати — контекст від атлета</em>
           </span>
           <div class="section-body">
             <blockquote class="trainer-note">
@@ -668,27 +609,22 @@
           </div>
         </section>
 
-        <!-- ──────────────────────────────────────────────
-             SECTION 4: Головна дія
-        ─────────────────────────────────────────────── -->
         <section aria-labelledby="lbl-cta">
           <span class="zone-label" id="lbl-cta">
             Головна дія
-            <em>Дія: перейти до написання коментаря</em>
           </span>
           <div class="section-body">
             <a href="trainer-feedback.html" class="btn-start">Залишити коментар</a>
-            <p class="btn-caption">→ trainer-feedback.html · J2·E2</p>
           </div>
         </section>
 
       </main>
 
-    </div><!-- /phone-frame -->
-    </div><!-- /wf-frame-wrap -->
-  </div><!-- /wf-canvas -->
+    </div>
+    </div>
+  </div>
 
-</div><!-- /page-layout -->
+</div>
 
 </body>
 </html>

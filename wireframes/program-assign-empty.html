@@ -210,7 +210,6 @@
        Палітра: фон #fff · рамки #ccc · заливка #e8e8e8 · текст #333
     ────────────────────────────────────────────────────── */
 
-    /* zone annotation labels */
     .zone-label {
       display: block;
       font-size: 9px;
@@ -223,26 +222,6 @@
       padding: 5px 12px 4px;
       line-height: 1.5;
     }
-    .zone-label em {
-      display: block;
-      font-weight: normal;
-      font-style: italic;
-      color: #c0c0c0;
-      margin-top: 1px;
-      text-transform: none;
-      letter-spacing: 0;
-    }
-
-    /* flow-step annotation (wireframe-only meta) */
-    .flow-step {
-      background: #f5f5f5;
-      border: 1px dashed #c8c8c8;
-      padding: 8px 16px;
-      font-size: 11px;
-      color: #888;
-      line-height: 1.5;
-    }
-    .flow-step strong { color: #555; }
 
     /* sections */
     .phone-frame section {
@@ -291,12 +270,6 @@
       text-align: center;
       text-decoration: none;
     }
-    .btn-caption {
-      margin-top: 7px;
-      font-size: 10px;
-      color: #bbb;
-      text-align: center;
-    }
 
   </style>
 </head>
@@ -304,19 +277,12 @@
 
 <div class="page-layout">
 
-  <!-- ═══════════════════════════════════════════════════════════
-       LEFT NAV SIDEBAR
-       ● — поточна сторінка
-       ○ — існуючий файл
-       (сірий) — заплановано, файл ще не створено
-  ══════════════════════════════════════════════════════════════ -->
   <nav class="wf-nav" aria-label="Навігація вайрфреймами Forge">
 
     <div class="wf-nav-title">Forge · Вайрфрейми</div>
 
     <ul class="wf-tree">
 
-      <!-- ── АТЛЕТ · MAIN JOB (J3+J4) — з _screens.md ── -->
       <li class="tree-section">Атлет [A] · Main Job (J3+J4)</li>
 
       <li class="tree-screen">
@@ -345,7 +311,6 @@
         </ul>
       </li>
 
-      <!-- ── АТЛЕТ · решта екранів (крок 8) — з sitemap.md ── -->
       <li class="tree-section">Атлет [A] · крок 8</li>
 
       <li class="tree-screen">
@@ -387,7 +352,6 @@
         </ul>
       </li>
 
-      <!-- ── ТРЕНЕР · крок 8 — з sitemap.md ── -->
       <li class="tree-section">Тренер [T] · крок 8</li>
 
       <li class="tree-screen">
@@ -459,7 +423,6 @@
         </ul>
       </li>
 
-      <!-- ── AUTH + СПІЛЬНІ — з sitemap.md ── -->
       <li class="tree-section">Auth + Спільні [TA]</li>
 
       <li class="tree-screen">
@@ -484,19 +447,13 @@
       </li>
 
     </ul>
-  </nav><!-- /wf-nav -->
+  </nav>
 
-  <!-- ═══════════════════════════════════════════════════════════
-       CANVAS + PHONE FRAME
-  ══════════════════════════════════════════════════════════════ -->
   <div class="wf-canvas">
     <div class="wf-frame-wrap">
 
     <div class="phone-frame">
 
-      <!-- ───────────────────────────────────────────────────
-           HEADER
-      ─────────────────────────────────────────────────────── -->
       <header>
         <a href="programs.html" class="header-back">[←]</a>
         <div class="header-text">
@@ -506,18 +463,10 @@
 
       <main>
 
-        <!-- flow-step: wireframe annotation, не частина UI -->
-        <div class="flow-step" role="note">
-          <strong>J1 — empty state: тренер хоче призначити програму, але немає підключених атлетів (flows.md: V→W→X).</strong> Вихід: запросити атлета → invite.html.
-        </div>
 
-        <!-- ──────────────────────────────────────────────
-             SECTION 1: Програма
-        ─────────────────────────────────────────────── -->
         <section aria-labelledby="lbl-program">
           <span class="zone-label" id="lbl-program">
             Програма
-            <em>Дія: переконатись що обрана правильна програма</em>
           </span>
           <div class="section-body">
             <article class="ex-card">
@@ -528,13 +477,9 @@
           </div>
         </section>
 
-        <!-- ──────────────────────────────────────────────
-             SECTION 2: Немає атлетів
-        ─────────────────────────────────────────────── -->
         <section aria-labelledby="lbl-empty">
           <span class="zone-label" id="lbl-empty">
             Немає атлетів
-            <em>Стан: немає підключених атлетів — спочатку запроси атлета</em>
           </span>
           <div class="section-body">
             <p style="font-size:14px;color:#aaa;text-align:center;padding:24px 0;">
@@ -544,27 +489,22 @@
           </div>
         </section>
 
-        <!-- ──────────────────────────────────────────────
-             SECTION 3: Запросити атлета
-        ─────────────────────────────────────────────── -->
         <section aria-labelledby="lbl-invite">
           <span class="zone-label" id="lbl-invite">
             Запросити атлета
-            <em>Дія: перейти до генерації коду запрошення → invite.html</em>
           </span>
           <div class="section-body">
             <a href="invite.html" class="btn-start">[+] Запросити атлета</a>
-            <p class="btn-caption">→ invite.html · Connection prereq (flows.md: W→X)</p>
           </div>
         </section>
 
       </main>
 
-    </div><!-- /phone-frame -->
-    </div><!-- /wf-frame-wrap -->
-  </div><!-- /wf-canvas -->
+    </div>
+    </div>
+  </div>
 
-</div><!-- /page-layout -->
+</div>
 
 </body>
 </html>

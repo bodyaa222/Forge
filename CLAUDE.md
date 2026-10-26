@@ -110,7 +110,7 @@ Full analysis: `research/research.md` · Screenshots: `research/screens/ui/` · 
 - **Pill-row day selector** (S M T W T F S) — for training plan assignment (seen in Pushr)
 - **In-workout bottom sheet** — Reps / Weight / Flag / Guide during active workout (seen in Future Pro)
 - **Macro progress bars** — Carbs / Protein / Fat with daily kcal line (seen in Lifesum)
-- **Dark premium UI** — Future Pro, Oura, Garmin all chose dark theme for athletic feel
+- **Dark premium UI** — Oura and Garmin chose dark theme for athletic feel (Future Pro on Mobbin is now light; checked Oct 2026)
 
 ### Design direction confirmed
 Dark theme. Strong typography. Data-first cards. No generic fitness aesthetic.
@@ -149,7 +149,8 @@ Full files: `research/personas.md` · `research/jtbd.md` · Visual: `research/pe
 
 ### Конвенції
 
-- **Палітра**: bg `#fff`, межі `#ccc`, заповнення `#e8e8e8`, текст `#333`. Ніяких кольорів, тіней, зовнішніх шрифтів.
+- **Палітра**: bg `#fff`, межі `#ccc`, заповнення `#e8e8e8`, текст `#333`. Ніяких кольорів, тіней, зовнішніх шрифтів. **Виняток:** `today` + `athlete-today-*` і `workout` + `workout-*` уже пофарбовані мовою «Чавун» (див. «Концепт»); їхній CSS однаковий у всіх 7 файлах.
+- **Анотації прибрано (19.10.2026)**: `flow-step`, `<em>` «Дія / Стан» під зонами, «→ файл.html», HTML-коментарі. Лишились назви зон (`zone-label`, на пофарбованих екранах це `<h2>`) і бічне меню `.wf-nav`.
 - **Phone frame**: 390×844 px; header `flex-shrink:0`, main `flex:1 overflow-y:auto`, bottom-nav `flex-shrink:0`.
 - **Структура**: `.wf-nav` (224 px sidebar-дерево) + `.wf-canvas` (phone frame + state-nav).
 - **Суфікси станів**: `_empty` = порожній, `_error` = помилка/мережа, `_loading` = skeleton (`.sk-*` класи).
@@ -243,3 +244,30 @@ Full sitemap: `sitemap.md` · User flows: `flows.md` · IA visual: `ia.html`
 
 ### Не чіпаємо
 Текст користувача: нотатки й коментарі тренера, назви програм, тренувань і вправ, нотатки атлета, назви страв, імена. Пишемо лише підписи й підказки навколо нього.
+
+---
+
+## Концепт (Concept, Lesson 6)
+
+Розташування: `concept/` · Рішення й атрибути: `concept/concept.md` · Стенд мови: `concept/concept.html` · Три напрями: `concept/directions.html` · Референси: `concept/references.md` (+ `.html`, скріни Mobbin у `concept/refs/`) · Продукт для impeccable: `PRODUCT.md`
+
+### Обраний напрям: «Чавун»
+Число вилите, а не надруковане. Стан показано матеріалом залу: накатка грифа на активному підході, отвори стійки для зроблених тренувань, жовта фарба безпеки на головній дії. Фото немає.
+
+| Токен | Hex | Роль |
+|---|---|---|
+| Чавун · лиття · накатка · отвір | `#18191B` · `#222427` · `#2B2E32` · `#101113` | ґрунт · картка · активний рядок · поле вводу |
+| Сталь · графіт · лінія | `#ECEAE4` · `#9C9EA1` · `#34373C` | текст · підписи (мін. 12 px) · межі 1 px |
+| Фарба безпеки | `#F2C230` (рант `#FFE38A`, текст на ній `#1A1600`) | лише стан і головна дія, ≤ 10 % екрана; успіх = ✓, рекорд = суцільний бейдж + медаль |
+| Помилка | `#D3242A` | лише іконка й рамка 2 px, текст сталевий (3,0 : 1 на литті — не для тексту) |
+
+- **Шрифти:** Unbounded (числа й назви; пропорційні цифри в рекордах, табличні в рядках і полях) + Manrope (слова). Шкала цифр: N1 56 · N2 30 · N3 20 · N4 15 («4 × 8 × 80»).
+- **Форма:** радіуси 6 / 4 / 2; тіні: лиття, заглиблення, фарба; відступи кроком 4; зона натиску ≥ 48 px, у логері 56 px (кнопка) і 64 px (поле).
+- **Іконки:** Solar Bold.
+- **Атрибути** (`concept.md`): цифра головна · зібрано під пальцем · яскраво, не кислотно · нагорода з числом, не з вогником · дві щільності однієї мови.
+- **Заборонено:** неон на чорному, градієнти й вогники в гейміфікації, стріки, емодзі замість даних, стокові фото тіл, кольорова смуга зліва > 1 px, кільця прогресу.
+
+### Перевірки (жовтень 2026)
+- `/impeccable critique` «Сьогодні»: 28/40 до правок; знімок у `.impeccable/critique/`.
+- `/impeccable audit` + звірка з `concept.md` (26.10.2026): 24 дефекти, усі виправлено; контраст тексту ≥ 5,1 : 1 на всіх пофарбованих екранах.
+- Інші 28 вайрфреймів ще без мови «Чавун». Продуктовий `DESIGN.md` — наступний урок.

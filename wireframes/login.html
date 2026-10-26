@@ -218,7 +218,6 @@
        Палітра: фон #fff · рамки #ccc · заливка #e8e8e8 · текст #333
     ────────────────────────────────────────────────────── */
 
-    /* zone annotation labels */
     .zone-label {
       display: block;
       font-size: 9px;
@@ -231,26 +230,6 @@
       padding: 5px 12px 4px;
       line-height: 1.5;
     }
-    .zone-label em {
-      display: block;
-      font-weight: normal;
-      font-style: italic;
-      color: #c0c0c0;
-      margin-top: 1px;
-      text-transform: none;
-      letter-spacing: 0;
-    }
-
-    /* flow-step annotation (wireframe-only meta) */
-    .flow-step {
-      background: #f5f5f5;
-      border: 1px dashed #c8c8c8;
-      padding: 8px 16px;
-      font-size: 11px;
-      color: #888;
-      line-height: 1.5;
-    }
-    .flow-step strong { color: #555; }
 
     /* sections */
     .phone-frame section {
@@ -357,12 +336,6 @@
       text-align: center;
       text-decoration: none;
     }
-    .btn-caption {
-      margin-top: 7px;
-      font-size: 10px;
-      color: #bbb;
-      text-align: center;
-    }
 
     /* nutrition summary */
     .kcal-row {
@@ -441,20 +414,12 @@
 
 <div class="page-layout">
 
-  <!-- ═══════════════════════════════════════════════════════════
-       LEFT NAV SIDEBAR
-       Структура бере зі: _screens.md (MAIN JOB) і sitemap.md (решта)
-       ● — поточна сторінка
-       ○ — існуючий файл
-       (сірий) — заплановано, файл ще не створено
-  ══════════════════════════════════════════════════════════════ -->
   <nav class="wf-nav" aria-label="Навігація вайрфреймами Forge">
 
     <div class="wf-nav-title">Forge · Вайрфрейми</div>
 
     <ul class="wf-tree">
 
-      <!-- ── АТЛЕТ · MAIN JOB (J3+J4) — з _screens.md ── -->
       <li class="tree-section">Атлет [A] · Main Job (J3+J4)</li>
 
       <li class="tree-screen">
@@ -483,7 +448,6 @@
         </ul>
       </li>
 
-      <!-- ── АТЛЕТ · решта екранів (крок 8) — з sitemap.md ── -->
       <li class="tree-section">Атлет [A] · крок 8</li>
 
       <li class="tree-screen">
@@ -525,7 +489,6 @@
         </ul>
       </li>
 
-      <!-- ── ТРЕНЕР · крок 8 — з sitemap.md ── -->
       <li class="tree-section">Тренер [T] · крок 8</li>
 
       <li class="tree-screen">
@@ -597,7 +560,6 @@
         </ul>
       </li>
 
-      <!-- ── AUTH + СПІЛЬНІ — з sitemap.md ── -->
       <li class="tree-section">Auth + Спільні [TA]</li>
 
       <li class="tree-screen">
@@ -622,39 +584,23 @@
       </li>
 
     </ul>
-  </nav><!-- /wf-nav -->
+  </nav>
 
-  <!-- ═══════════════════════════════════════════════════════════
-       CANVAS + PHONE FRAME
-  ══════════════════════════════════════════════════════════════ -->
   <div class="wf-canvas">
     <div class="wf-frame-wrap">
 
     <div class="phone-frame">
 
-      <!-- ───────────────────────────────────────────────────
-           HEADER
-           Зона: шапка — назва застосунку (entry screen, без back)
-      ─────────────────────────────────────────────────────── -->
       <header>
         <div style="flex:1;text-align:center;font-size:20px;font-weight:bold;">Forge</div>
       </header>
 
       <main>
 
-        <!-- flow-step: wireframe annotation, не частина UI -->
-        <div class="flow-step" role="note">
-          <strong>prereq — infrastructure screen.</strong> Вхід в систему не є job, але є gate до всіх jobs. Мінімальна форма: email + пароль → перевірка → redirect до home screen ролі.
-        </div>
 
-        <!-- ──────────────────────────────────────────────
-             SECTION: Вхід
-             Дія: ввести email і пароль → увійти
-        ─────────────────────────────────────────────── -->
         <section aria-labelledby="lbl-login">
           <span class="zone-label" id="lbl-login">
             Вхід
-            <em>Дія: ввести email і пароль → увійти</em>
           </span>
           <div class="section-body">
             <form style="display:flex;flex-direction:column;gap:12px;">
@@ -670,14 +616,9 @@
           </div>
         </section>
 
-        <!-- ──────────────────────────────────────────────
-             SECTION: Підтвердити
-             Дія: увійти → redirect на home screen (тренер → trainer-clients.html, атлет → today.html)
-        ─────────────────────────────────────────────── -->
         <section aria-labelledby="lbl-submit">
           <span class="zone-label" id="lbl-submit">
             Підтвердити
-            <em>Дія: увійти → redirect на home screen (тренер → trainer-clients.html, атлет → today.html)</em>
           </span>
           <div class="section-body">
             <button type="submit" style="display:block;width:100%;min-height:52px;background:#333;color:#fff;border:none;border-radius:4px;font-size:17px;font-weight:bold;cursor:pointer;">Увійти</button>
@@ -687,13 +628,12 @@
 
       </main>
 
-      <!-- No bottom nav for auth screens — role not yet established -->
 
-    </div><!-- /phone-frame -->
-    </div><!-- /wf-frame-wrap -->
-  </div><!-- /wf-canvas -->
+    </div>
+    </div>
+  </div>
 
-</div><!-- /page-layout -->
+</div>
 
 </body>
 </html>

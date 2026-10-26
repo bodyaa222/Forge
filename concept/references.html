@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Forge — Візуальні референси</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#080808;--bg2:#0f0f0f;--bg3:#161616;
+  --line:#1e1e1e;--line2:#282828;
+  --text:#e2e2e2;--text2:#777;--text3:#444;
+  --accent:#F2C230;
+}
+::selection{background:var(--accent);color:#000}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg);color:var(--text);
+  font-family:'Inter',system-ui,sans-serif;
+  font-size:15px;line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+a{color:inherit}
+.wrap{max-width:1400px;margin:0 auto;padding:0 56px}
+
+/* header */
+header{padding:64px 0 48px;border-bottom:1px solid var(--line)}
+.brand{font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--text3);margin-bottom:20px}
+h1{font-family:'DM Serif Display',Georgia,serif;font-size:clamp(44px,6vw,84px);font-weight:400;line-height:.95;letter-spacing:-.02em}
+h1 em{font-style:italic;color:var(--text3)}
+.lede{margin-top:24px;max-width:720px;color:var(--text2)}
+.lede strong{color:var(--text);font-weight:600}
+
+/* nav */
+nav{position:sticky;top:0;z-index:5;background:rgba(8,8,8,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+nav .wrap{display:flex;gap:6px;overflow-x:auto;padding-top:12px;padding-bottom:12px}
+nav a{flex-shrink:0;text-decoration:none;font-size:13px;color:var(--text2);padding:6px 12px;border:1px solid var(--line2);border-radius:999px}
+nav a:hover{color:var(--text);border-color:var(--text3)}
+
+section{padding:56px 0;border-bottom:1px solid var(--line)}
+.kicker{font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);margin-bottom:10px}
+h2{font-family:'DM Serif Display',Georgia,serif;font-size:40px;font-weight:400;line-height:1.05;margin-bottom:12px}
+.sub{color:var(--text2);max-width:760px;margin-bottom:32px}
+
+/* apps */
+.apps{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.app{background:var(--bg2);border:1px solid var(--line);border-radius:16px;padding:20px}
+.app .n{font-size:12px;color:var(--text3);font-weight:700}
+.app h3{font-size:20px;font-weight:700;margin:6px 0 4px}
+.app .role{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:3px 8px;border-radius:999px;background:var(--bg3);color:var(--text2);margin-bottom:12px}
+.app.base{border-color:var(--accent)}
+.app.base .role{background:var(--accent);color:#000}
+.app p{font-size:14px;color:var(--text2)}
+
+/* screens */
+.screens{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:24px}
+.screens.wide{grid-template-columns:repeat(auto-fill,minmax(220px,1fr))}
+figure{background:var(--bg2);border:1px solid var(--line);border-radius:16px;overflow:hidden;display:flex;flex-direction:column}
+figure img{width:100%;display:block;cursor:zoom-in;background:#000;aspect-ratio:1180/2676;object-fit:cover;object-position:top}
+figure.web{grid-column:span 2}
+figure.web img{aspect-ratio:1920/1320}
+figcaption{padding:14px 16px 16px;font-size:13px;color:var(--text2);flex:1;display:flex;flex-direction:column;gap:6px}
+figcaption .app-name{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--text)}
+figcaption .app-name.base{color:var(--accent)}
+figcaption b{color:var(--text);font-weight:600}
+figcaption a{margin-top:auto;font-size:12px;color:var(--text3);text-decoration:none}
+figcaption a:hover{color:var(--accent)}
+.note{margin-top:24px;padding:16px 20px;border:1px dashed var(--line2);border-radius:12px;color:var(--text2);font-size:14px;max-width:900px}
+.note strong{color:var(--text)}
+
+/* techniques */
+.tech{display:grid;gap:16px}
+.t{display:grid;grid-template-columns:96px 1fr 1fr 1fr;gap:24px;align-items:start;background:var(--bg2);border:1px solid var(--line);border-radius:16px;padding:20px}
+.t img{width:96px;border-radius:10px;cursor:zoom-in;display:block}
+.t .num{font-size:12px;font-weight:700;color:var(--accent);margin-bottom:4px}
+.t h4{font-size:16px;font-weight:600;margin-bottom:6px}
+.t .src{font-size:12px;color:var(--text3)}
+.t .lbl{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--text3);margin-bottom:6px}
+.t p{font-size:14px;color:var(--text2)}
+.t .fear{color:var(--text)}
+.t .fear q{color:var(--accent);quotes:"«" "»"}
+
+/* numbers */
+.facts{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.fact{background:var(--bg2);border:1px solid var(--line);border-radius:16px;padding:20px}
+.fact .big{font-size:40px;font-weight:800;letter-spacing:-.02em;line-height:1}
+.fact .big span{color:var(--accent)}
+.fact p{margin-top:10px;font-size:14px;color:var(--text2)}
+
+footer{padding:40px 0 64px;color:var(--text3);font-size:13px}
+
+/* lightbox */
+#lb{position:fixed;inset:0;background:rgba(0,0,0,.92);display:none;align-items:center;justify-content:center;z-index:20;cursor:zoom-out;padding:24px}
+#lb.on{display:flex}
+#lb img{max-height:100%;max-width:100%;border-radius:12px}
+
+@media (max-width:1000px){
+  .apps{grid-template-columns:repeat(2,1fr)}
+  .t{grid-template-columns:72px 1fr}
+  .t img{width:72px}
+  .t > div:nth-child(n+3){grid-column:2}
+  .facts{grid-template-columns:1fr}
+}
+@media (max-width:600px){
+  .wrap{padding:0 16px}
+  .apps{grid-template-columns:1fr}
+  figure.web{grid-column:auto}
+  h2{font-size:32px}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <div class="brand">Forge · Concept · 17 жовтня 2026</div>
+    <h1>Візуальні<br><em>референси</em></h1>
+    <p class="lede">4 силові застосунки з темною темою, по 2–4 екрани на кожен запит. <strong>Основа: Ladder.</strong> Від Gymshark, WHOOP і Garmin Connect беремо конкретні прийоми, а не загальне враження. Джерело: Mobbin. Текстова версія з усіма деталями: <a href="references.md">references.md</a>.</p>
+  </div>
+</header>
+
+<nav><div class="wrap">
+  <a href="#apps">Застосунки</a>
+  <a href="#log">Логування підходу</a>
+  <a href="#chart">Графік прогресу</a>
+  <a href="#pr">Рекорди</a>
+  <a href="#clients">Список атлетів</a>
+  <a href="#tech">Що беремо</a>
+  <a href="#nums">Акцент і щільність</a>
+</div></nav>
+
+<main class="wrap">
+
+<section id="apps">
+  <div class="kicker">01 · Застосунки</div>
+  <h2>Чотири темні силові апки</h2>
+  <p class="sub">Критерій відбору: силові тренування, темна тема, напрям «преміальна · мотивуюча · атлетична · сильна типографіка й дані».</p>
+  <div class="apps">
+    <div class="app base"><div class="n">01</div><h3>Ladder</h3><span class="role">Основа</span><p>Чорний фон і один лаймовий акцент. Жирний широкий гротеск капсом. Тренер присутній у кожному тренуванні, таблиця підходів у bottom sheet.</p></div>
+    <div class="app"><div class="n">02</div><h3>Gymshark Training</h3><span class="role">Графіки рекордів</span><p>Темні картки «Squat (PB)» із великою цифрою, лінією і тултіпом дати.</p></div>
+    <div class="app"><div class="n">03</div><h3>WHOOP</h3><span class="role">Логер · цифра</span><p>Мінімальний логер «Reps / Weight» і кільце з однією цифрою ≈96 px.</p></div>
+    <div class="app"><div class="n">04</div><h3>Garmin Connect</h3><span class="role">Щільність · рекорди</span><p>Список рекордів, дворядкові рядки, кольорова смуга типу кроку.</p></div>
+  </div>
+</section>
+
+<section id="log">
+  <div class="kicker">02 · Запит</div>
+  <h2>Логування підходу</h2>
+  <p class="sub">Вага, повтори, підходи. Тут закривається J4: атлет логує між підходами за секунди.</p>
+  <div class="screens">
+    <figure><img src="refs/ladder-logger.webp" alt="Ladder: таблиця підходів"><figcaption><span class="app-name base">Ladder</span><span><b>Таблиця «Log It»</b> у bottom sheet. Зроблений підхід = лаймова галочка + смуга зліва; «1 of 3» лаймом угорі.</span><a href="https://mobbin.com/screens/3daed3ec-2832-48af-9f73-0aab0d428f51" target="_blank">Mobbin ↗</a></figcaption></figure>
+    <figure><img src="refs/ladder-squat.webp" alt="Ladder: кілька вправ"><figcaption><span class="app-name base">Ladder</span><span><b>Комірки-пігулки</b> ≈40 px з обводкою; Effort помаранчевим; Notes і View History поруч.</span><a href="https://mobbin.com/screens/4ef1fb96-cf30-4356-a8d3-3c7c2e911b35" target="_blank">Mobbin ↗</a></figcaption></figure>
+    <figure><img src="refs/whoop-logger.webp" alt="WHOOP: логер"><figcaption><span class="app-name">WHOOP</span><span><b>Лише REPS і WEIGHT</b>, поля ≈48 px, «ADD SET +», одна кнопка SAVE.</span><a href="https://mobbin.com/screens/5ed82947-4ee7-4151-bafe-c036f82b979a" target="_blank">Mobbin ↗</a></figcaption></figure>
+    <figure><img src="refs/gymshark-logger.webp" alt="Gymshark: активне тренування"><figcaption><span class="app-name">Gymshark</span><span><b>Зроблений підхід = рядок залитий цілком</b>; таймер жирним курсивом угорі.</span><a href="https://mobbin.com/screens/25eebc84-2d43-4fdd-8474-2f05dea50098" target="_blank">Mobbin ↗</a></figcaption></figure>
+    <figure><img src="refs/garmin-steps.webp" alt="Garmin: кроки тренування"><figcaption><span class="app-name">Garmin Connect</span><span><b>Кольорова смуга ≈4 px</b> = тип кроку (розминка, вправа, відпочинок).</span><a href="https://mobbin.com/screens/4315b785-3b48-4369-9c95-d9c14d627faa" target="_blank">Mobbin ↗</a></figcaption></figure>
+  </div>
+</section>
+
+<section id="chart">
+  <div class="kicker">03 · Запит</div>
+  <h2>Графік прогресу</h2>
+  <p class="sub">Вага тіла й силові показники. Дані мають читатися за секунду, а не як клітинки таблиці.</p>
+  <div class="screens">
+    <figure><img src="refs/gymshark-pb.webp" alt="Gymshark: PB-графіки"><figcaption><span class="app-name">Gymshark</span><span><b>Картка на вправу:</b> «Bench Press (PB)», «100 lb», лінія на всю ширину, тултіп дати білою пігулкою.</span><a href="https://mobbin.com/screens/9e5ab8b6-48c8-4025-b2f0-4d251f925256" target="_blank">Mobbin ↗</a></figcaption></figure>
+    <figure><img src="refs/gymshark-charts.webp" alt="Gymshark: Progress Charts"><figcaption><span class="app-name">Gymshark</span><span><b>Лінія із заливкою</b> «Squat (PB) · Month 140 kg», тултіп «4 AUG 132KG».</span><a href="https://mobbin.com/screens/cccd7c66-42c2-495f-86f7-bac8c397ecf4" target="_blank">Mobbin ↗</a></figcaption></figure>
+    <figure><img src="refs/whoop-strain.webp" alt="WHOOP: Strain"><figcaption><span class="app-name">WHOOP</span><span><b>Одна цифра ≈96 px</b> у кільці-прогресі + одне речення пояснення.</span><a href="https://mobbin.com/screens/aac78ccc-35b7-459d-abe3-5256ba4dfd6b" target="_blank">Mobbin ↗</a></figcaption></figure>
+  </div>
+</section>
+
+<section id="pr">
+  <div class="kicker">04 · Запит</div>
+  <h2>Рекорд і досягнення</h2>
+  <p class="sub">Рекорд має одразу казати, <em>що</em> і <em>на скільки</em>. Саме на це скаржаться тренери Trainerize: «personal best — Great but WHAT?».</p>
+  <div class="screens">
+    <figure><img src="refs/ladder-milestones.webp" alt="Ladder: Workout Milestones"><figcaption><span class="app-name base">Ladder</span><span><b>Металевий «блін»-медаль</b> із цифрою і шкалою 1→50; сітка темних бейджів 3 у ряд.</span><a href="https://mobbin.com/screens/60bc772a-da3f-43b1-96ac-061676306250" target="_blank">Mobbin ↗</a></figcaption></figure>
+    <figure><img src="refs/garmin-pr.webp" alt="Garmin: Personal Records"><figcaption><span class="app-name">Garmin Connect</span><span><b>Нові рекорди позначені крапкою</b>; порожні показано, а не сховано.</span><a href="https://mobbin.com/screens/215766d3-2e3f-446a-a209-8704edb2313f" target="_blank">Mobbin ↗</a></figcaption></figure>
+    <figure><img src="refs/garmin-pr-banner.webp" alt="Garmin: New Personal Record"><figcaption><span class="app-name">Garmin Connect</span><span><b>Банер над тренуванням.</b> Мінус: «Congratulations…» без цифри. Так у Forge не робимо.</span><a href="https://mobbin.com/screens/41fb0e36-3211-40c9-9b4f-1404871ee555" target="_blank">Mobbin ↗</a></figcaption></figure>
+    <figure><img src="refs/gymshark-summary.webp" alt="Gymshark: підсумок тренування"><figcaption><span class="app-name">Gymshark</span><span><b>Підсумок тренування:</b> назва капсом, тривалість, таблиця Set · Units · Reps.</span><a href="https://mobbin.com/screens/309f26c9-5829-4e20-a0e0-2838565ecf68" target="_blank">Mobbin ↗</a></figcaption></figure>
+  </div>
+</section>
+
+<section id="clients">
+  <div class="kicker">05 · Запит</div>
+  <h2>Список атлетів тренера</h2>
+  <p class="sub">iOS + web. Тренер має бачити, хто відстає, не відкриваючи кожного атлета.</p>
+  <div class="screens">
+    <figure><img src="refs/ladder-teammates.webp" alt="Ladder: Teammates Working Out"><figcaption><span class="app-name base">Ladder · iOS</span><span><b>Аватар у лаймовому кільці прогресу</b> + бейдж із числом тренувань.</span><a href="https://mobbin.com/screens/bac00ac0-a683-470b-8110-f067120870ff" target="_blank">Mobbin ↗</a></figcaption></figure>
+    <figure><img src="refs/ladder-home-coach.webp" alt="Ladder: тренер на картці"><figcaption><span class="app-name base">Ladder · iOS</span><span><b>Тренер на картці тренування</b>: «Coach Nicole» + аватар; «33 Min | Full Body Strength».</span><a href="https://mobbin.com/screens/cd65371c-7c65-4b1f-a7e7-1ea7b24ca134" target="_blank">Mobbin ↗</a></figcaption></figure>
+    <figure class="web"><img src="refs/jobber-clients.webp" alt="Jobber: Clients"><figcaption><span class="app-name">Jobber · web · лише структура</span><span><b>Лічильники над таблицею</b>, колонки Status (крапка) і <b>Last activity</b>. Це не фітнес, беремо лише будову.</span><a href="https://mobbin.com/screens/ef1dc589-8552-457d-a35e-ac87efff11d1" target="_blank">Mobbin ↗</a></figcaption></figure>
+  </div>
+  <p class="note"><strong>[?] Прогалина:</strong> темного тренерського кабінету силової апки в Mobbin немає (Trainerize і TrueCoach відсутні). Web-референс узято з Jobber.</p>
+</section>
+
+<section id="tech">
+  <div class="kicker">06 · Рішення</div>
+  <h2>Що беремо і навіщо</h2>
+  <p class="sub">Основа Ladder: чорний фон, один акцент лише на стані, жирний гротеск капсом, тренер на картці. Не беремо емодзі-реакції, стіну селфі й фото-фони під кожним екраном.</p>
+  <div class="tech">
+    <div class="t"><img src="refs/ladder-logger.webp" alt=""><div><div class="num">01</div><h4>Смуга + галочка на зробленому підході; «1 of 3» акцентом</h4><div class="src">Ladder</div></div><div><div class="lbl">У Forge</div><p>Колонки Підхід · План · Вага · Повтори · ✓; рядок ≈48 px; угорі «Підхід 2 з 4».</p></div><div><div class="lbl">Знімає тривогу</div><p class="fear"><q>Чи не загубився я посеред тренування</q>: зроблене й поточне видно кольором.</p></div></div>
+    <div class="t"><img src="refs/whoop-logger.webp" alt=""><div><div class="num">02</div><h4>Лише два поля і одна кнопка</h4><div class="src">WHOOP</div></div><div><div class="lbl">У Forge</div><p>Активний підхід: вага й повтори, передзаповнені планом, кнопка «Зберегти підхід». J4 ≤ 15 с.</p></div><div><div class="lbl">Знімає тривогу</div><p class="fear"><q>Чи не загубився я посеред тренування</q>: одна дія, один рядок.</p></div></div>
+    <div class="t"><img src="refs/gymshark-pb.webp" alt=""><div><div class="num">03</div><h4>Картка «Вправа · рекорд»: цифра + лінія + тултіп</h4><div class="src">Gymshark</div></div><div><div class="lbl">У Forge</div><p>«Присідання зі штангою · 8 тижнів», «85 кг», лінія робочої ваги, радіус ≈20 px.</p></div><div><div class="lbl">Знімає тривогу</div><p class="fear"><q>Чи це не чергова нудна таблиця</q>: картинка замість клітинок Sheets.</p></div></div>
+    <div class="t"><img src="refs/garmin-pr.webp" alt=""><div><div class="num">04</div><h4>Нові рекорди позначені крапкою, порожні показані</h4><div class="src">Garmin Connect</div></div><div><div class="lbl">У Forge</div><p>«Новий рекорд · 85 кг · +5 кг до 5 жовтня»; без рекорду = «—».</p></div><div><div class="lbl">Знімає тривогу</div><p class="fear"><q>Чи це не чергова нудна таблиця</q> + «Great but WHAT?» тренерів.</p></div></div>
+    <div class="t"><img src="refs/ladder-teammates.webp" alt=""><div><div class="num">05</div><h4>Аватар у кільці прогресу + бейдж</h4><div class="src">Ladder</div></div><div><div class="lbl">У Forge</div><p>«Мої атлети»: кільце = тренувань цього тижня з плану (2 з 3), поруч ім'я й факт.</p></div><div><div class="lbl">Знімає тривогу</div><p class="fear">Тренер: <q>контроль, а не хаос</q>. Хто відстає, видно одразу.</p></div></div>
+    <div class="t"><img src="refs/jobber-clients.webp" alt="" style="aspect-ratio:1;object-fit:cover"><div><div class="num">06</div><h4>Колонка «Last activity» + статус-крапка</h4><div class="src">Jobber (структура)</div></div><div><div class="lbl">У Forge</div><p>Web-кабінет: Атлет · Програма · Тиждень N з M · Останнє тренування · Новий рекорд.</p></div><div><div class="lbl">Знімає тривогу</div><p class="fear">Атлет: <q>чи бачить тренер мої реальні дані</q>.</p></div></div>
+    <div class="t"><img src="refs/ladder-home-coach.webp" alt=""><div><div class="num">07</div><h4>Тренер на картці тренування</h4><div class="src">Ladder</div></div><div><div class="lbl">У Forge</div><p>«Сьогодні»: аватар + «Програма від Максима»; на завершенні «Тренер побачить: 4 вправи · 16 підходів».</p></div><div><div class="lbl">Знімає тривогу</div><p class="fear"><q>Чи бачить тренер мої реальні дані</q>: тренер присутній візуально.</p></div></div>
+  </div>
+</section>
+
+<section id="nums">
+  <div class="kicker">07 · Правила</div>
+  <h2>Акцент і щільність</h2>
+  <p class="sub">Оцінено на око з превʼю Mobbin, перераховано на кадр 390 px.</p>
+  <div class="facts">
+    <div class="fact"><div class="big">≤ <span>10</span> %</div><p>Площа акцентного кольору на екрані. Ladder ≈5–10 %, Gymshark і WHOOP &lt; 5 %. Один колір, лише на стані й головному CTA.</p></div>
+    <div class="fact"><div class="big"><span>48</span> px</div><p>Висота згорнутого рядка підходу. Активний підхід розгорнутий (WHOOP), решта рядки зі смугою стану (Ladder).</p></div>
+    <div class="fact"><div class="big"><span>6–8</span></div><p>Стільки підходів видно на 390×844 без прокрутки.</p></div>
+  </div>
+</section>
+
+</main>
+
+<footer><div class="wrap">Джерело скрінів: Mobbin (mobbin.com), зібрано 17.10.2026. Скріни збережено локально в <code>concept/refs/</code> для внутрішнього навчального використання.</div></footer>
+
+<div id="lb"><img alt=""></div>
+<script>
+const lb=document.getElementById('lb'),lbi=lb.querySelector('img');
+document.querySelectorAll('figure img,.t img').forEach(i=>i.addEventListener('click',()=>{lbi.src=i.src;lb.classList.add('on')}));
+lb.addEventListener('click',()=>lb.classList.remove('on'));
+document.addEventListener('keydown',e=>{if(e.key==='Escape')lb.classList.remove('on')});
+</script>
+</body>
+</html>

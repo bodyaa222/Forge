@@ -13,7 +13,7 @@ A mobile-first web platform connecting athletes and personal trainers — traini
 | [`research/`](./research/) | Competitor analysis, benchmarks, UX patterns, conclusions |
 | [`research/screens/ui/`](./research/screens/ui/) | 56 real UI screenshots from Mobbin — 7 fitness apps |
 | [`wireframes/`](./wireframes/) | Low-fidelity wireframes (flows, layout sketches) |
-| [`concept/`](./concept/) | Visual direction, moodboard, style exploration |
+| [`concept/`](./concept/) | Visual direction «Чавун»: references, three directions, language test stand, attributes |
 | [`tokens/`](./tokens/) | Design tokens — colors, typography, spacing, shadows |
 | [`components/`](./components/) | Individual component specs and states |
 | [`design-system/`](./design-system/) | Full design system documentation |
@@ -101,7 +101,7 @@ Information Architecture: sitemap, user flows, traceability matrix.
 
 ## Вайрфрейми (Wireframes, Lesson 4)
 
-Low-fidelity HTML wireframes — статичні файли, відкриваються без сервера. 35 екранів у 390×844 px phone frame. Палітра без кольору (bg `#fff`, межі `#ccc`, текст `#333`). Кожен стан (loading / empty / error) — окремий файл.
+Low-fidelity HTML wireframes — статичні файли, відкриваються без сервера. 35 екранів у 390×844 px phone frame. Палітра без кольору (bg `#fff`, межі `#ccc`, текст `#333`), крім «Сьогодні» і «Активного тренування» з усіма станами: вони вже пофарбовані мовою «Чавун». Кожен стан (loading / empty / error) — окремий файл. Службові анотації прибрано.
 
 | Група | Екрани |
 |---|---|
@@ -137,6 +137,22 @@ Forge говорить як тренер у залі: коротко, по ді�
 | Залишити фідбек | Залишити коментар |
 | Присідання PR: 82.5 кг | Новий рекорд · Присідання зі штангою 82,5 кг · +2,5 кг до 7 жовтня |
 | Ти ще не підключений до тренера. Введи інвайт-код… | Введи код запрошення від тренера, щоб отримати програму. |
+
+---
+
+## Concept (Lesson 6)
+
+Мова «Чавун»: число вилите, а не надруковане. Темне лиття, сталевий текст, одна тепла фарба безпеки `#F2C230` лише на стані й головній дії, Unbounded для чисел і Manrope для слів, Solar Bold, без фото.
+
+| Файл | Що всередині |
+|---|---|
+| [`concept/references.md`](concept/references.md) · [`.html`](https://bodyaa222.github.io/Forge/concept/references.html) | 4 темні силові застосунки з Mobbin (Ladder, Gymshark, WHOOP, Garmin Connect), екрани за запитами, 7 запозичених прийомів |
+| [`concept/concept.md`](concept/concept.md) | Смак дизайнера, 5 пар атрибутів із джерелами, обраний і відкладені напрями, семантичні кольори |
+| [`concept/directions.html`](https://bodyaa222.github.io/Forge/concept/directions.html) | Три контрастні напрями на тих самих даних: «Чавун», «Диски», «Талон» |
+| [`concept/concept.html`](https://bodyaa222.github.io/Forge/concept/concept.html) | Пробний стенд мови: живі екрани атлета й тренера, палітра з контрастом, шкали тексту й цифр, форма, іконки, 3 живі компоненти |
+| [`PRODUCT.md`](PRODUCT.md) | Продуктова правда для impeccable (користувачі, обмеження, WCAG 2.1 AA) |
+
+→ **Пофарбовані екрани: [today.html](https://bodyaa222.github.io/Forge/wireframes/today.html) · [workout.html](https://bodyaa222.github.io/Forge/wireframes/workout.html)**
 
 ---
 

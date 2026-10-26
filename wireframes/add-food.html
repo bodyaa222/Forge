@@ -210,7 +210,6 @@
        Палітра: фон #fff · рамки #ccc · заливка #e8e8e8 · текст #333
     ────────────────────────────────────────────────────── */
 
-    /* zone annotation labels */
     .zone-label {
       display: block;
       font-size: 9px;
@@ -223,26 +222,6 @@
       padding: 5px 12px 4px;
       line-height: 1.5;
     }
-    .zone-label em {
-      display: block;
-      font-weight: normal;
-      font-style: italic;
-      color: #c0c0c0;
-      margin-top: 1px;
-      text-transform: none;
-      letter-spacing: 0;
-    }
-
-    /* flow-step annotation (wireframe-only meta) */
-    .flow-step {
-      background: #f5f5f5;
-      border: 1px dashed #c8c8c8;
-      padding: 8px 16px;
-      font-size: 11px;
-      color: #888;
-      line-height: 1.5;
-    }
-    .flow-step strong { color: #555; }
 
     /* sections */
     .phone-frame section {
@@ -349,12 +328,6 @@
       text-align: center;
       text-decoration: none;
     }
-    .btn-caption {
-      margin-top: 7px;
-      font-size: 10px;
-      color: #bbb;
-      text-align: center;
-    }
 
     /* nutrition summary */
     .kcal-row {
@@ -434,20 +407,12 @@
 
 <div class="page-layout">
 
-  <!-- ═══════════════════════════════════════════════════════════
-       LEFT NAV SIDEBAR
-       Структура бере зі: _screens.md (MAIN JOB) і sitemap.md (решта)
-       ● — поточна сторінка
-       ○ — існуючий файл
-       (сірий) — заплановано, файл ще не створено
-  ══════════════════════════════════════════════════════════════ -->
   <nav class="wf-nav" aria-label="Навігація вайрфреймами Forge">
 
     <div class="wf-nav-title">Forge · Вайрфрейми</div>
 
     <ul class="wf-tree">
 
-      <!-- ── АТЛЕТ · MAIN JOB (J3+J4) — з _screens.md ── -->
       <li class="tree-section">Атлет [A] · Main Job (J3+J4)</li>
 
       <li class="tree-screen">
@@ -476,7 +441,6 @@
         </ul>
       </li>
 
-      <!-- ── АТЛЕТ · решта екранів (крок 8) — з sitemap.md ── -->
       <li class="tree-section">Атлет [A] · крок 8</li>
 
       <li class="tree-screen">
@@ -518,7 +482,6 @@
         </ul>
       </li>
 
-      <!-- ── ТРЕНЕР · крок 8 — з sitemap.md ── -->
       <li class="tree-section">Тренер [T] · крок 8</li>
 
       <li class="tree-screen">
@@ -590,7 +553,6 @@
         </ul>
       </li>
 
-      <!-- ── AUTH + СПІЛЬНІ — з sitemap.md ── -->
       <li class="tree-section">Auth + Спільні [TA]</li>
 
       <li class="tree-screen">
@@ -615,21 +577,13 @@
       </li>
 
     </ul>
-  </nav><!-- /wf-nav -->
+  </nav>
 
-  <!-- ═══════════════════════════════════════════════════════════
-       CANVAS + PHONE FRAME
-  ══════════════════════════════════════════════════════════════ -->
   <div class="wf-canvas">
     <div class="wf-frame-wrap">
 
     <div class="phone-frame">
 
-      <!-- ───────────────────────────────────────────────────
-           HEADER
-           Зона: шапка з кнопкою «назад» і назвою екрана
-           Дія: повернутися до nutrition.html
-      ─────────────────────────────────────────────────────── -->
       <header>
         <a href="nutrition.html" class="header-back">[←]</a>
         <div class="header-text">
@@ -639,19 +593,10 @@
 
       <main>
 
-        <!-- flow-step: wireframe annotation, не частина UI -->
-        <div class="flow-step" role="note">
-          <strong>nutrition — форма введення страви.</strong> Лише назва і ккал обов'язкові. БЖВ необов'язково. Після збереження → оновлений підсумок на nutrition.html.
-        </div>
 
-        <!-- ──────────────────────────────────────────────
-             SECTION 1: Тип прийому їжі
-             Дія: обрати прийом (Сніданок / Обід / Вечеря / Перекус)
-        ─────────────────────────────────────────────── -->
         <section aria-labelledby="lbl-meal-type">
           <span class="zone-label" id="lbl-meal-type">
             Тип прийому їжі
-            <em>Дія: обрати прийом (Сніданок / Обід / Вечеря / Перекус)</em>
           </span>
           <div class="section-body">
             <div style="display:flex;gap:6px;flex-wrap:wrap;">
@@ -663,14 +608,9 @@
           </div>
         </section>
 
-        <!-- ──────────────────────────────────────────────
-             SECTION 2: Страва
-             Дія: ввести назву страви і калорії (обов'язково)
-        ─────────────────────────────────────────────── -->
         <section aria-labelledby="lbl-food">
           <span class="zone-label" id="lbl-food">
             Страва
-            <em>Дія: ввести назву страви і калорії (обов'язково)</em>
           </span>
           <div class="section-body">
             <form>
@@ -683,14 +623,9 @@
           </div>
         </section>
 
-        <!-- ──────────────────────────────────────────────
-             SECTION 3: Макроси (необов'язково)
-             Дія: ввести БЖВ — якщо знаєш точні дані
-        ─────────────────────────────────────────────── -->
         <section aria-labelledby="lbl-macros">
           <span class="zone-label" id="lbl-macros">
             БЖВ (необов'язково)
-            <em>Дія: ввести БЖВ — якщо знаєш точні дані</em>
           </span>
           <div class="section-body">
             <form>
@@ -712,28 +647,22 @@
           </div>
         </section>
 
-        <!-- ──────────────────────────────────────────────
-             SECTION 4: Зберегти
-             Дія: зберегти запис → оновити денний підсумок
-        ─────────────────────────────────────────────── -->
         <section aria-labelledby="lbl-save">
           <span class="zone-label" id="lbl-save">
             Зберегти
-            <em>Дія: зберегти запис → оновити денний підсумок</em>
           </span>
           <div class="section-body">
             <button type="submit" style="display:block;width:100%;min-height:52px;background:#333;color:#fff;border:none;border-radius:4px;font-size:17px;font-weight:bold;cursor:pointer;">Зберегти страву</button>
-            <p style="margin-top:7px;font-size:10px;color:#bbb;text-align:center;">→ nutrition.html · запис додано до денного підсумку</p>
           </div>
         </section>
 
       </main>
 
-    </div><!-- /phone-frame -->
-    </div><!-- /wf-frame-wrap -->
-  </div><!-- /wf-canvas -->
+    </div>
+    </div>
+  </div>
 
-</div><!-- /page-layout -->
+</div>
 
 </body>
 </html>

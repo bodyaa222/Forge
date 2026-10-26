@@ -210,7 +210,6 @@
        Палітра: фон #fff · рамки #ccc · заливка #e8e8e8 · текст #333
     ────────────────────────────────────────────────────── */
 
-    /* zone annotation labels */
     .zone-label {
       display: block;
       font-size: 9px;
@@ -223,26 +222,6 @@
       padding: 5px 12px 4px;
       line-height: 1.5;
     }
-    .zone-label em {
-      display: block;
-      font-weight: normal;
-      font-style: italic;
-      color: #c0c0c0;
-      margin-top: 1px;
-      text-transform: none;
-      letter-spacing: 0;
-    }
-
-    /* flow-step annotation (wireframe-only meta) */
-    .flow-step {
-      background: #f5f5f5;
-      border: 1px dashed #c8c8c8;
-      padding: 8px 16px;
-      font-size: 11px;
-      color: #888;
-      line-height: 1.5;
-    }
-    .flow-step strong { color: #555; }
 
     /* sections */
     .phone-frame section {
@@ -349,12 +328,6 @@
       text-align: center;
       text-decoration: none;
     }
-    .btn-caption {
-      margin-top: 7px;
-      font-size: 10px;
-      color: #bbb;
-      text-align: center;
-    }
 
     /* nutrition summary */
     .kcal-row {
@@ -434,20 +407,12 @@
 
 <div class="page-layout">
 
-  <!-- ═══════════════════════════════════════════════════════════
-       LEFT NAV SIDEBAR
-       Структура бере зі: _screens.md (MAIN JOB) і sitemap.md (решта)
-       ● — поточна сторінка
-       ○ — існуючий файл
-       (сірий) — заплановано, файл ще не створено
-  ══════════════════════════════════════════════════════════════ -->
   <nav class="wf-nav" aria-label="Навігація вайрфреймами Forge">
 
     <div class="wf-nav-title">Forge · Вайрфрейми</div>
 
     <ul class="wf-tree">
 
-      <!-- ── АТЛЕТ · MAIN JOB (J3+J4) — з _screens.md ── -->
       <li class="tree-section">Атлет [A] · Main Job (J3+J4)</li>
 
       <li class="tree-screen">
@@ -476,7 +441,6 @@
         </ul>
       </li>
 
-      <!-- ── АТЛЕТ · решта екранів (крок 8) — з sitemap.md ── -->
       <li class="tree-section">Атлет [A] · крок 8</li>
 
       <li class="tree-screen">
@@ -518,7 +482,6 @@
         </ul>
       </li>
 
-      <!-- ── ТРЕНЕР · крок 8 — з sitemap.md ── -->
       <li class="tree-section">Тренер [T] · крок 8</li>
 
       <li class="tree-screen">
@@ -590,7 +553,6 @@
         </ul>
       </li>
 
-      <!-- ── AUTH + СПІЛЬНІ — з sitemap.md ── -->
       <li class="tree-section">Auth + Спільні [TA]</li>
 
       <li class="tree-screen">
@@ -615,21 +577,13 @@
       </li>
 
     </ul>
-  </nav><!-- /wf-nav -->
+  </nav>
 
-  <!-- ═══════════════════════════════════════════════════════════
-       CANVAS + PHONE FRAME
-  ══════════════════════════════════════════════════════════════ -->
   <div class="wf-canvas">
     <div class="wf-frame-wrap">
 
     <div class="phone-frame">
 
-      <!-- ───────────────────────────────────────────────────
-           HEADER
-           Зона: шапка з кнопкою назад і заголовком екрана
-           Дія: повернутись до progress.html або зчитати контекст
-      ─────────────────────────────────────────────────────── -->
       <header>
         <a href="progress.html" class="header-back">[←]</a>
         <div class="header-text">
@@ -640,19 +594,10 @@
 
       <main>
 
-        <!-- flow-step: wireframe annotation, не частина UI -->
-        <div class="flow-step" role="note">
-          J5 — атлет додає замір тіла. Вага обов'язкова. Обхвати — необов'язково. Після збереження → прогрес-графік оновлюється.
-        </div>
 
-        <!-- ──────────────────────────────────────────────
-             SECTION 1: Дата виміру
-             Дія: підтвердити або змінити дату
-        ─────────────────────────────────────────────── -->
         <section aria-labelledby="lbl-date">
           <span class="zone-label" id="lbl-date">
             Дата заміру
-            <em>Дія: підтвердити або змінити дату</em>
           </span>
           <div class="section-body">
             <form>
@@ -662,14 +607,9 @@
           </div>
         </section>
 
-        <!-- ──────────────────────────────────────────────
-             SECTION 2: Вага тіла
-             Дія: ввести поточну вагу (обов'язково)
-        ─────────────────────────────────────────────── -->
         <section aria-labelledby="lbl-weight">
           <span class="zone-label" id="lbl-weight">
             Вага тіла
-            <em>Дія: ввести поточну вагу (обов'язково)</em>
           </span>
           <div class="section-body">
             <form>
@@ -680,14 +620,9 @@
           </div>
         </section>
 
-        <!-- ──────────────────────────────────────────────
-             SECTION 3: Обміри (необов'язково)
-             Дія: записати додаткові обміри — якщо вимірював сьогодні
-        ─────────────────────────────────────────────── -->
         <section aria-labelledby="lbl-measurements">
           <span class="zone-label" id="lbl-measurements">
             Заміри (необов'язково)
-            <em>Дія: додати обхвати — якщо є заміри за сьогодні</em>
           </span>
           <div class="section-body">
             <form>
@@ -709,14 +644,9 @@
           </div>
         </section>
 
-        <!-- ──────────────────────────────────────────────
-             SECTION 4: Нотатка (необов'язково)
-             Дія: додати контекст до виміру
-        ─────────────────────────────────────────────── -->
         <section aria-labelledby="lbl-note">
           <span class="zone-label" id="lbl-note">
             Нотатка (необов'язково)
-            <em>Дія: додати контекст до заміру</em>
           </span>
           <div class="section-body">
             <form>
@@ -726,28 +656,22 @@
           </div>
         </section>
 
-        <!-- ──────────────────────────────────────────────
-             SECTION 5: Зберегти
-             Дія: записати замір → оновити графік ваги у Прогресі
-        ─────────────────────────────────────────────── -->
         <section aria-labelledby="lbl-save">
           <span class="zone-label" id="lbl-save">
             Зберегти
-            <em>Дія: додати замір → оновити графік ваги у Прогресі</em>
           </span>
           <div class="section-body">
             <button type="submit" style="display:block;width:100%;min-height:52px;background:#333;color:#fff;border:none;border-radius:4px;font-size:17px;font-weight:bold;cursor:pointer;">Зберегти замір</button>
-            <p style="margin-top:7px;font-size:10px;color:#bbb;text-align:center;">→ progress.html · графік ваги оновиться</p>
           </div>
         </section>
 
       </main>
 
-    </div><!-- /phone-frame -->
-    </div><!-- /wf-frame-wrap -->
-  </div><!-- /wf-canvas -->
+    </div>
+    </div>
+  </div>
 
-</div><!-- /page-layout -->
+</div>
 
 </body>
 </html>

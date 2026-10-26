@@ -1,0 +1,7 @@
+# local Claude Code settings
+.claude/settings.local.json
+# impeccable: binary downloads on first run; review screenshots and live sessions are scratch
+.claude/skills/impeccable/scripts/bin/
+.impeccable/review/
+.impeccable/live/
+.impeccable/config.local.json

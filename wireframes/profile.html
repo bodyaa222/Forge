@@ -218,7 +218,6 @@
        Палітра: фон #fff · рамки #ccc · заливка #e8e8e8 · текст #333
     ────────────────────────────────────────────────────── */
 
-    /* zone annotation labels */
     .zone-label {
       display: block;
       font-size: 9px;
@@ -231,26 +230,6 @@
       padding: 5px 12px 4px;
       line-height: 1.5;
     }
-    .zone-label em {
-      display: block;
-      font-weight: normal;
-      font-style: italic;
-      color: #c0c0c0;
-      margin-top: 1px;
-      text-transform: none;
-      letter-spacing: 0;
-    }
-
-    /* flow-step annotation (wireframe-only meta) */
-    .flow-step {
-      background: #f5f5f5;
-      border: 1px dashed #c8c8c8;
-      padding: 8px 16px;
-      font-size: 11px;
-      color: #888;
-      line-height: 1.5;
-    }
-    .flow-step strong { color: #555; }
 
     /* sections */
     .phone-frame section {
@@ -357,12 +336,6 @@
       text-align: center;
       text-decoration: none;
     }
-    .btn-caption {
-      margin-top: 7px;
-      font-size: 10px;
-      color: #bbb;
-      text-align: center;
-    }
 
     /* nutrition summary */
     .kcal-row {
@@ -441,20 +414,12 @@
 
 <div class="page-layout">
 
-  <!-- ═══════════════════════════════════════════════════════════
-       LEFT NAV SIDEBAR
-       Структура бере зі: _screens.md (MAIN JOB) і sitemap.md (решта)
-       ● — поточна сторінка
-       ○ — існуючий файл
-       (сірий) — заплановано, файл ще не створено
-  ══════════════════════════════════════════════════════════════ -->
   <nav class="wf-nav" aria-label="Навігація вайрфреймами Forge">
 
     <div class="wf-nav-title">Forge · Вайрфрейми</div>
 
     <ul class="wf-tree">
 
-      <!-- ── АТЛЕТ · MAIN JOB (J3+J4) — з _screens.md ── -->
       <li class="tree-section">Атлет [A] · Main Job (J3+J4)</li>
 
       <li class="tree-screen">
@@ -483,7 +448,6 @@
         </ul>
       </li>
 
-      <!-- ── АТЛЕТ · решта екранів (крок 8) — з sitemap.md ── -->
       <li class="tree-section">Атлет [A] · крок 8</li>
 
       <li class="tree-screen">
@@ -525,7 +489,6 @@
         </ul>
       </li>
 
-      <!-- ── ТРЕНЕР · крок 8 — з sitemap.md ── -->
       <li class="tree-section">Тренер [T] · крок 8</li>
 
       <li class="tree-screen">
@@ -597,7 +560,6 @@
         </ul>
       </li>
 
-      <!-- ── AUTH + СПІЛЬНІ — з sitemap.md ── -->
       <li class="tree-section">Auth + Спільні [TA]</li>
 
       <li class="tree-screen">
@@ -622,20 +584,13 @@
       </li>
 
     </ul>
-  </nav><!-- /wf-nav -->
+  </nav>
 
-  <!-- ═══════════════════════════════════════════════════════════
-       CANVAS + PHONE FRAME
-  ══════════════════════════════════════════════════════════════ -->
   <div class="wf-canvas">
     <div class="wf-frame-wrap">
 
     <div class="phone-frame">
 
-      <!-- ───────────────────────────────────────────────────
-           HEADER
-           Зона: шапка — назва розділу і аватар тренера
-      ─────────────────────────────────────────────────────── -->
       <header>
         <div class="header-text">
           <p class="header-plan">Профіль</p>
@@ -647,19 +602,10 @@
 
       <main>
 
-        <!-- flow-step: wireframe annotation, не частина UI -->
-        <div class="flow-step" role="note">
-          <strong>SIROTA — профіль не закриває job напряму.</strong> Цінність: тут живе invite flow (J1 prereq) і bio тренера (S1). Мінімальна сторінка.
-        </div>
 
-        <!-- ──────────────────────────────────────────────
-             SECTION: Профіль
-             Дія: переглянути і редагувати особисті дані
-        ─────────────────────────────────────────────── -->
         <section aria-labelledby="lbl-profile">
           <span class="zone-label" id="lbl-profile">
             Профіль
-            <em>Дія: переглянути і редагувати особисті дані</em>
           </span>
           <div class="section-body">
             <div style="display:flex;align-items:center;gap:16px;margin-bottom:16px;">
@@ -672,33 +618,21 @@
             </div>
             <label style="display:block;font-size:13px;color:#888;margin-bottom:4px;">Про себе (бачать атлети)</label>
             <textarea rows="2" style="width:100%;border:1px solid #ccc;border-radius:4px;padding:10px;font-size:14px;color:#333;resize:vertical;font-family:sans-serif;">Сертифікований тренер, 4 роки онлайн-коучингу. 8 активних клієнтів.</textarea>
-            <p style="font-size:11px;color:#bbb;margin-top:4px;">S1 — атлет бачить це перед підключенням</p>
           </div>
         </section>
 
-        <!-- ──────────────────────────────────────────────
-             SECTION: Запросити атлета
-             Дія: перейти до генерації інвайт-коду → invite.html
-        ─────────────────────────────────────────────── -->
         <section aria-labelledby="lbl-invite">
           <span class="zone-label" id="lbl-invite">
             Запросити атлета
-            <em>Дія: перейти до генерації коду запрошення → invite.html</em>
           </span>
           <div class="section-body">
             <a href="invite.html" class="btn-start" style="display:block;width:100%;min-height:44px;background:#e8e8e8;color:#333;border:none;border-radius:4px;font-size:15px;font-weight:bold;text-align:center;padding:12px;text-decoration:none;">[+] Запросити атлета</a>
-            <p style="font-size:11px;color:#bbb;text-align:center;margin-top:6px;">→ invite.html · генерація коду запрошення</p>
           </div>
         </section>
 
-        <!-- ──────────────────────────────────────────────
-             SECTION: Налаштування
-             Дія: вийти з акаунту або змінити пароль
-        ─────────────────────────────────────────────── -->
         <section aria-labelledby="lbl-settings">
           <span class="zone-label" id="lbl-settings">
             Налаштування
-            <em>Дія: вийти з акаунту або змінити пароль</em>
           </span>
           <div class="section-body">
             <div style="display:flex;flex-direction:column;gap:8px;">
@@ -712,7 +646,6 @@
         <section aria-labelledby="lbl-confirm-logout">
           <span class="zone-label" id="lbl-confirm-logout">
             Підтвердження
-            <em>Стан: діалог після тапу «Вийти з акаунту» — до виконання дії</em>
           </span>
           <div class="section-body">
             <div role="dialog" aria-modal="true" aria-labelledby="dlg-logout" style="border:1px solid #ccc;border-radius:6px;padding:14px;">
@@ -726,10 +659,6 @@
         </section>
       </main>
 
-      <!-- ──────────────────────────────────────────────
-           BOTTOM NAV — глобальна навігація тренера
-           Профіль — активна вкладка
-      ─────────────────────────────────────────────── -->
       <nav class="phone-nav" aria-label="Головна навігація тренера">
         <a href="trainer-clients.html">
           <i class="nav-icon" aria-hidden="true">[атлети]</i>
@@ -749,11 +678,11 @@
         </a>
       </nav>
 
-    </div><!-- /phone-frame -->
-    </div><!-- /wf-frame-wrap -->
-  </div><!-- /wf-canvas -->
+    </div>
+    </div>
+  </div>
 
-</div><!-- /page-layout -->
+</div>
 
 </body>
 </html>

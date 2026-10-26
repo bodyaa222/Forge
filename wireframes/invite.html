@@ -219,7 +219,6 @@
        Палітра: фон #fff · рамки #ccc · заливка #e8e8e8 · текст #333
     ────────────────────────────────────────────────────── */
 
-    /* zone annotation labels */
     .zone-label {
       display: block;
       font-size: 9px;
@@ -232,26 +231,6 @@
       padding: 5px 12px 4px;
       line-height: 1.5;
     }
-    .zone-label em {
-      display: block;
-      font-weight: normal;
-      font-style: italic;
-      color: #c0c0c0;
-      margin-top: 1px;
-      text-transform: none;
-      letter-spacing: 0;
-    }
-
-    /* flow-step annotation (wireframe-only meta) */
-    .flow-step {
-      background: #f5f5f5;
-      border: 1px dashed #c8c8c8;
-      padding: 8px 16px;
-      font-size: 11px;
-      color: #888;
-      line-height: 1.5;
-    }
-    .flow-step strong { color: #555; }
 
     /* sections */
     .phone-frame section {
@@ -358,12 +337,6 @@
       text-align: center;
       text-decoration: none;
     }
-    .btn-caption {
-      margin-top: 7px;
-      font-size: 10px;
-      color: #bbb;
-      text-align: center;
-    }
 
     /* nutrition summary */
     .kcal-row {
@@ -443,20 +416,12 @@
 
 <div class="page-layout">
 
-  <!-- ═══════════════════════════════════════════════════════════
-       LEFT NAV SIDEBAR
-       Структура бере зі: _screens.md (MAIN JOB) і sitemap.md (решта)
-       ● — поточна сторінка
-       ○ — існуючий файл
-       (сірий) — заплановано, файл ще не створено
-  ══════════════════════════════════════════════════════════════ -->
   <nav class="wf-nav" aria-label="Навігація вайрфреймами Forge">
 
     <div class="wf-nav-title">Forge · Вайрфрейми</div>
 
     <ul class="wf-tree">
 
-      <!-- ── АТЛЕТ · MAIN JOB (J3+J4) — з _screens.md ── -->
       <li class="tree-section">Атлет [A] · Main Job (J3+J4)</li>
 
       <li class="tree-screen">
@@ -485,7 +450,6 @@
         </ul>
       </li>
 
-      <!-- ── АТЛЕТ · решта екранів (крок 8) — з sitemap.md ── -->
       <li class="tree-section">Атлет [A] · крок 8</li>
 
       <li class="tree-screen">
@@ -527,7 +491,6 @@
         </ul>
       </li>
 
-      <!-- ── ТРЕНЕР · крок 8 — з sitemap.md ── -->
       <li class="tree-section">Тренер [T] · крок 8</li>
 
       <li class="tree-screen">
@@ -599,7 +562,6 @@
         </ul>
       </li>
 
-      <!-- ── AUTH + СПІЛЬНІ — з sitemap.md ── -->
       <li class="tree-section">Auth + Спільні [TA]</li>
 
       <li class="tree-screen">
@@ -624,21 +586,13 @@
       </li>
 
     </ul>
-  </nav><!-- /wf-nav -->
+  </nav>
 
-  <!-- ═══════════════════════════════════════════════════════════
-       CANVAS + PHONE FRAME
-  ══════════════════════════════════════════════════════════════ -->
   <div class="wf-canvas">
     <div class="wf-frame-wrap">
 
     <div class="phone-frame">
 
-      <!-- ───────────────────────────────────────────────────
-           HEADER
-           Зона: шапка з кнопкою назад і назвою екрана
-           Дія: повернутись до профілю
-      ─────────────────────────────────────────────────────── -->
       <header>
         <a href="profile.html" class="header-back">[←]</a>
         <div class="header-text">
@@ -648,19 +602,10 @@
 
       <main>
 
-        <!-- flow-step: wireframe annotation, не частина UI -->
-        <div class="flow-step" role="note">
-          Connection prereq — тренер генерує код запрошення. Атлет вводить код при реєстрації або в профілі. Після активації → зв'язок встановлено, тренер може призначити план (J1).
-        </div>
 
-        <!-- ──────────────────────────────────────────────
-             SECTION 1: Твій інвайт-код
-             Дія: скопіювати код і надіслати атлету
-        ─────────────────────────────────────────────── -->
         <section aria-labelledby="lbl-code">
           <span class="zone-label" id="lbl-code">
             Твій код запрошення
-            <em>Дія: скопіювати код і надіслати атлету</em>
           </span>
           <div class="section-body">
             <div style="background:#f8f8f8;border:2px dashed #ccc;border-radius:6px;padding:20px;text-align:center;margin-bottom:12px;">
@@ -672,14 +617,9 @@
           </div>
         </section>
 
-        <!-- ──────────────────────────────────────────────
-             SECTION 2: Або поділитись посиланням
-             Дія: скопіювати посилання для швидкого запрошення
-        ─────────────────────────────────────────────── -->
         <section aria-labelledby="lbl-link">
           <span class="zone-label" id="lbl-link">
             Або поділитись посиланням
-            <em>Дія: скопіювати посилання для швидкого запрошення</em>
           </span>
           <div class="section-body">
             <div style="display:flex;align-items:center;gap:8px;padding:10px 12px;border:1px solid #ccc;border-radius:4px;background:#fafafa;">
@@ -689,14 +629,9 @@
           </div>
         </section>
 
-        <!-- ──────────────────────────────────────────────
-             SECTION 3: Як це працює
-             Дія: читати — інструкція для атлета
-        ─────────────────────────────────────────────── -->
         <section aria-labelledby="lbl-how">
           <span class="zone-label" id="lbl-how">
             Як це працює
-            <em>Дія: читати — інструкція для атлета</em>
           </span>
           <div class="section-body">
             <ol style="padding-left:20px;margin:0;font-size:14px;color:#555;line-height:1.7;">
@@ -707,14 +642,9 @@
           </div>
         </section>
 
-        <!-- ──────────────────────────────────────────────
-             SECTION 4: Згенерувати новий код
-             Дія: скасувати поточний код і створити новий
-        ─────────────────────────────────────────────── -->
         <section aria-labelledby="lbl-regen">
           <span class="zone-label" id="lbl-regen">
             Згенерувати новий код
-            <em>Дія: скасувати поточний код і створити новий</em>
           </span>
           <div class="section-body">
             <button type="button" style="display:block;width:100%;min-height:44px;padding:10px;border:1px solid #ccc;border-radius:4px;background:#fff;font-size:14px;color:#555;cursor:pointer;">[↻] Згенерувати новий код</button>
@@ -726,7 +656,6 @@
         <section aria-labelledby="lbl-confirm-regen">
           <span class="zone-label" id="lbl-confirm-regen">
             Підтвердження
-            <em>Стан: діалог після тапу «Згенерувати новий код» — до виконання дії</em>
           </span>
           <div class="section-body">
             <div role="dialog" aria-modal="true" aria-labelledby="dlg-regen" style="border:1px solid #ccc;border-radius:6px;padding:14px;">
@@ -741,11 +670,11 @@
         </section>
       </main>
 
-    </div><!-- /phone-frame -->
-    </div><!-- /wf-frame-wrap -->
-  </div><!-- /wf-canvas -->
+    </div>
+    </div>
+  </div>
 
-</div><!-- /page-layout -->
+</div>
 
 </body>
 </html>

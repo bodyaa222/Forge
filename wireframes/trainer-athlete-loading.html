@@ -217,7 +217,6 @@
        Палітра: фон #fff · рамки #ccc · заливка #e8e8e8 · текст #333
     ────────────────────────────────────────────────────── */
 
-    /* zone annotation labels */
     .zone-label {
       display: block;
       font-size: 9px;
@@ -230,26 +229,6 @@
       padding: 5px 12px 4px;
       line-height: 1.5;
     }
-    .zone-label em {
-      display: block;
-      font-weight: normal;
-      font-style: italic;
-      color: #c0c0c0;
-      margin-top: 1px;
-      text-transform: none;
-      letter-spacing: 0;
-    }
-
-    /* flow-step annotation (wireframe-only meta) */
-    .flow-step {
-      background: #f5f5f5;
-      border: 1px dashed #c8c8c8;
-      padding: 8px 16px;
-      font-size: 11px;
-      color: #888;
-      line-height: 1.5;
-    }
-    .flow-step strong { color: #555; }
 
     /* sections */
     .phone-frame section {
@@ -305,12 +284,6 @@
       text-align: center;
       text-decoration: none;
     }
-    .btn-caption {
-      margin-top: 7px;
-      font-size: 10px;
-      color: #bbb;
-      text-align: center;
-    }
 
     /* bottom nav */
     .phone-nav a {
@@ -347,20 +320,12 @@
 
 <div class="page-layout">
 
-  <!-- ═══════════════════════════════════════════════════════════
-       LEFT NAV SIDEBAR
-       Структура бере зі: _screens.md (MAIN JOB) і sitemap.md (решта)
-       ● — поточна сторінка
-       ○ — існуючий файл
-       (сірий) — заплановано, файл ще не створено
-  ══════════════════════════════════════════════════════════════ -->
   <nav class="wf-nav" aria-label="Навігація вайрфреймами Forge">
 
     <div class="wf-nav-title">Forge · Вайрфрейми</div>
 
     <ul class="wf-tree">
 
-      <!-- ── АТЛЕТ · MAIN JOB (J3+J4) — з _screens.md ── -->
       <li class="tree-section">Атлет [A] · Main Job (J3+J4)</li>
 
       <li class="tree-screen">
@@ -389,7 +354,6 @@
         </ul>
       </li>
 
-      <!-- ── АТЛЕТ · решта екранів (крок 8) — з sitemap.md ── -->
       <li class="tree-section">Атлет [A] · крок 8</li>
 
       <li class="tree-screen">
@@ -431,7 +395,6 @@
         </ul>
       </li>
 
-      <!-- ── ТРЕНЕР · крок 8 — з sitemap.md ── -->
       <li class="tree-section">Тренер [T] · крок 8</li>
 
       <li class="tree-screen">
@@ -503,7 +466,6 @@
         </ul>
       </li>
 
-      <!-- ── AUTH + СПІЛЬНІ — з sitemap.md ── -->
       <li class="tree-section">Auth + Спільні [TA]</li>
 
       <li class="tree-screen">
@@ -528,19 +490,13 @@
       </li>
 
     </ul>
-  </nav><!-- /wf-nav -->
+  </nav>
 
-  <!-- ═══════════════════════════════════════════════════════════
-       CANVAS + PHONE FRAME
-  ══════════════════════════════════════════════════════════════ -->
   <div class="wf-canvas">
     <div class="wf-frame-wrap">
 
     <div class="phone-frame">
 
-      <!-- ───────────────────────────────────────────────────
-           HEADER
-      ─────────────────────────────────────────────────────── -->
       <header>
         <a href="trainer-clients.html" class="header-back">[←]</a>
         <div class="header-text">
@@ -554,18 +510,10 @@
 
       <main aria-busy="true" aria-label="Завантажуємо дані атлета">
 
-        <!-- flow-step: wireframe annotation, не частина UI -->
-        <div class="flow-step" role="note">
-          <strong>J2 — loading state: завантаження деталей тренувань атлета.</strong> Skeleton-плейсхолдери на місці карток тренувань.
-        </div>
 
-        <!-- ──────────────────────────────────────────────
-             SECTION 1: Поточна програма — skeleton
-        ─────────────────────────────────────────────── -->
         <section aria-labelledby="lbl-program">
           <span class="zone-label" id="lbl-program">
             Поточна програма
-            <em>Дія: інформація — яка програма зараз активна</em>
           </span>
           <div class="section-body">
             <span class="sk-block sk-title" style="width:70%;height:17px;"></span>
@@ -573,13 +521,9 @@
           </div>
         </section>
 
-        <!-- ──────────────────────────────────────────────
-             SECTION 2: Останні тренування — skeleton
-        ─────────────────────────────────────────────── -->
         <section aria-labelledby="lbl-workouts">
           <span class="zone-label" id="lbl-workouts">
             Останні тренування
-            <em>Дія: обрати тренування для перегляду → trainer-workout.html</em>
           </span>
           <div class="section-body">
 
@@ -590,13 +534,9 @@
           </div>
         </section>
 
-        <!-- ──────────────────────────────────────────────
-             SECTION 3: Головна дія — skeleton
-        ─────────────────────────────────────────────── -->
         <section aria-labelledby="lbl-cta">
           <span class="zone-label" id="lbl-cta">
             Головна дія
-            <em>Дія: переглянути деталі останнього тренування і залишити коментар</em>
           </span>
           <div class="section-body">
             <button class="sk-btn" disabled aria-hidden="true"></button>
@@ -605,9 +545,6 @@
 
       </main>
 
-      <!-- ──────────────────────────────────────────────
-           BOTTOM NAV — глобальна навігація тренера
-      ─────────────────────────────────────────────── -->
       <nav class="phone-nav" aria-label="Головна навігація тренера">
         <a href="trainer-clients.html" aria-current="page">
           <i class="nav-icon" aria-hidden="true">[атлети]</i>
@@ -627,11 +564,11 @@
         </a>
       </nav>
 
-    </div><!-- /phone-frame -->
-    </div><!-- /wf-frame-wrap -->
-  </div><!-- /wf-canvas -->
+    </div>
+    </div>
+  </div>
 
-</div><!-- /page-layout -->
+</div>
 
 </body>
 </html>

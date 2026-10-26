@@ -38,9 +38,6 @@
 
     /* ── Wireframe component styles ── */
     .zone-label { display: block; font-size: 9px; font-weight: bold; letter-spacing: .1em; text-transform: uppercase; color: #aaa; background: #f7f7f7; border-left: 3px solid #d0d0d0; padding: 5px 12px 4px; line-height: 1.5; }
-    .zone-label em { display: block; font-weight: normal; font-style: italic; color: #c0c0c0; margin-top: 1px; text-transform: none; letter-spacing: 0; }
-    .flow-step { background: #f5f5f5; border: 1px dashed #c8c8c8; padding: 8px 16px; font-size: 11px; color: #888; line-height: 1.5; }
-    .flow-step strong { color: #555; }
     .phone-frame section { border-bottom: 1px solid #eee; }
     .section-body { padding: 14px 16px; }
 
@@ -72,14 +69,12 @@
     .athlete-note-input { width: 100%; border: 1px solid #d0d0d0; border-radius: 4px; padding: 10px 12px; font-size: 14px; font-family: sans-serif; resize: vertical; color: #333; margin-top: 8px; }
     .btn-save-note { display: inline-block; margin-top: 10px; padding: 8px 16px; background: #fff; border: 1px solid #ccc; border-radius: 4px; font-size: 13px; color: #555; cursor: pointer; }
     .btn-home { display: block; width: 100%; min-height: 56px; background: #333; color: #fff; border: none; border-radius: 6px; font-size: 18px; font-weight: bold; text-decoration: none; text-align: center; padding: 16px 14px; }
-    .btn-caption { margin-top: 5px; font-size: 10px; color: #bbb; text-align: center; }
   </style>
 </head>
 <body>
 
 <div class="page-layout">
 
-  <!-- ═══ LEFT NAV SIDEBAR ═══ -->
   <nav class="wf-nav" aria-label="Навігація вайрфреймами Forge">
     <div class="wf-nav-title">Forge · Вайрфрейми</div>
     <ul class="wf-tree">
@@ -143,7 +138,6 @@
     </ul>
   </nav>
 
-  <!-- ═══ CANVAS ═══ -->
   <div class="wf-canvas">
     <div class="wf-frame-wrap">
 
@@ -159,15 +153,10 @@
 
         <main>
 
-          <div class="flow-step" role="note">
-            <strong>E2 + M — closed here (flows.md · AB→AC→SUCCESS1):</strong> тренування збережено. Тренер побачить факт виконання без додаткового звіту. Петля J1→J2 замкнута.
-          </div>
 
-          <!-- ── SECTION: Підсумок тренування ── -->
           <section aria-labelledby="lbl-summary">
             <span class="zone-label" id="lbl-summary">
               Підсумок тренування
-              <em>Факт виконання зафіксовано · E2 closed</em>
             </span>
             <div class="section-body">
               <div class="summary-card">
@@ -190,11 +179,9 @@
             </div>
           </section>
 
-          <!-- ── SECTION: Особистий рекорд ── -->
           <section aria-labelledby="lbl-pr">
             <span class="zone-label" id="lbl-pr">
               Рекорд
-              <em>Мотиваційний момент — E2 підкріплення</em>
             </span>
             <div class="section-body">
               <div class="placeholder" aria-label="Плашка рекорду">Плашка рекорду — «Новий рекорд · Присідання зі штангою 82,5 кг · +2,5 кг до 7 жовтня» · Анімація, іконка трофею, підсвітка — post-MVP деталі</div>
@@ -206,11 +193,9 @@
             </div>
           </section>
 
-          <!-- ── SECTION: Виконані вправи ── -->
           <section aria-labelledby="lbl-results">
             <span class="zone-label" id="lbl-results">
               Виконані вправи
-              <em>Дія: тренер побачить ці дані без окремого звіту (J2)</em>
             </span>
             <div class="section-body">
               <table class="results-table" aria-label="Результати тренування по вправах">
@@ -252,11 +237,9 @@
             </div>
           </section>
 
-          <!-- ── SECTION: Фідбек тренера ── -->
           <section aria-labelledby="lbl-feedback">
             <span class="zone-label" id="lbl-feedback">
               Коментар тренера
-              <em>Стан: тренер ще не переглянув — коментар очікується</em>
             </span>
             <div class="section-body">
               <div class="feedback-pending">
@@ -266,11 +249,9 @@
             </div>
           </section>
 
-          <!-- ── SECTION: Нотатка атлета ── -->
           <section aria-labelledby="lbl-note">
             <span class="zone-label" id="lbl-note">
               Нотатка після тренування
-              <em>Опціонально — самопочуття, коментар до тренування</em>
             </span>
             <div class="section-body">
               <form>
@@ -281,25 +262,21 @@
             </div>
           </section>
 
-          <!-- ── SECTION: Головна дія ── -->
           <section aria-labelledby="lbl-action">
             <span class="zone-label" id="lbl-action">
               Головна дія
-              <em>Дія: повернутись на Сьогодні → home screen</em>
             </span>
             <div class="section-body">
               <a href="today.html" class="btn-home">До «Сьогодні»</a>
-              <p class="btn-caption">→ today.html · 0 тапів до наступного тренування</p>
             </div>
           </section>
 
         </main>
-        <!-- NO phone-nav: finish is a focused post-workout screen, no bottom tabs -->
 
-      </div><!-- /phone-frame -->
-    </div><!-- /wf-frame-wrap -->
-  </div><!-- /wf-canvas -->
+      </div>
+    </div>
+  </div>
 
-</div><!-- /page-layout -->
+</div>
 </body>
 </html>

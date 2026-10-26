@@ -209,7 +209,6 @@
        Палітра: фон #fff · рамки #ccc · заливка #e8e8e8 · текст #333
     ────────────────────────────────────────────────────── */
 
-    /* zone annotation labels */
     .zone-label {
       display: block;
       font-size: 9px;
@@ -222,26 +221,6 @@
       padding: 5px 12px 4px;
       line-height: 1.5;
     }
-    .zone-label em {
-      display: block;
-      font-weight: normal;
-      font-style: italic;
-      color: #c0c0c0;
-      margin-top: 1px;
-      text-transform: none;
-      letter-spacing: 0;
-    }
-
-    /* flow-step annotation (wireframe-only meta) */
-    .flow-step {
-      background: #f5f5f5;
-      border: 1px dashed #c8c8c8;
-      padding: 8px 16px;
-      font-size: 11px;
-      color: #888;
-      line-height: 1.5;
-    }
-    .flow-step strong { color: #555; }
 
     /* sections */
     .phone-frame section {
@@ -290,12 +269,6 @@
       text-align: center;
       text-decoration: none;
     }
-    .btn-caption {
-      margin-top: 7px;
-      font-size: 10px;
-      color: #bbb;
-      text-align: center;
-    }
 
     /* editable input style */
     .ex-input {
@@ -329,19 +302,12 @@
 
 <div class="page-layout">
 
-  <!-- ═══════════════════════════════════════════════════════════
-       LEFT NAV SIDEBAR
-       ● — поточна сторінка
-       ○ — існуючий файл
-       (сірий) — заплановано, файл ще не створено
-  ══════════════════════════════════════════════════════════════ -->
   <nav class="wf-nav" aria-label="Навігація вайрфреймами Forge">
 
     <div class="wf-nav-title">Forge · Вайрфрейми</div>
 
     <ul class="wf-tree">
 
-      <!-- ── АТЛЕТ · MAIN JOB (J3+J4) — з _screens.md ── -->
       <li class="tree-section">Атлет [A] · Main Job (J3+J4)</li>
 
       <li class="tree-screen">
@@ -370,7 +336,6 @@
         </ul>
       </li>
 
-      <!-- ── АТЛЕТ · решта екранів (крок 8) — з sitemap.md ── -->
       <li class="tree-section">Атлет [A] · крок 8</li>
 
       <li class="tree-screen">
@@ -412,7 +377,6 @@
         </ul>
       </li>
 
-      <!-- ── ТРЕНЕР · крок 8 — з sitemap.md ── -->
       <li class="tree-section">Тренер [T] · крок 8</li>
 
       <li class="tree-screen">
@@ -484,7 +448,6 @@
         </ul>
       </li>
 
-      <!-- ── AUTH + СПІЛЬНІ — з sitemap.md ── -->
       <li class="tree-section">Auth + Спільні [TA]</li>
 
       <li class="tree-screen">
@@ -509,19 +472,13 @@
       </li>
 
     </ul>
-  </nav><!-- /wf-nav -->
+  </nav>
 
-  <!-- ═══════════════════════════════════════════════════════════
-       CANVAS + PHONE FRAME
-  ══════════════════════════════════════════════════════════════ -->
   <div class="wf-canvas">
     <div class="wf-frame-wrap">
 
     <div class="phone-frame">
 
-      <!-- ───────────────────────────────────────────────────
-           HEADER
-      ─────────────────────────────────────────────────────── -->
       <header>
         <a href="program-builder.html" class="header-back">[←]</a>
         <div class="header-text">
@@ -531,18 +488,10 @@
 
       <main>
 
-        <!-- flow-step: wireframe annotation, не частина UI -->
-        <div class="flow-step" role="note">
-          <strong>J1 — редактор дня всередині конструктора.</strong> Тренер додає вправи: назва, підходи, повторення, вага, відпочинок. Дія: зберегти → program-builder.html.
-        </div>
 
-        <!-- ──────────────────────────────────────────────
-             SECTION: Назва дня
-        ─────────────────────────────────────────────── -->
         <section aria-labelledby="lbl-session-name">
           <span class="zone-label" id="lbl-session-name">
             Назва тренування
-            <em>Дія: ввести або змінити назву тренувального дня</em>
           </span>
           <div class="section-body">
             <form>
@@ -552,13 +501,9 @@
           </div>
         </section>
 
-        <!-- ──────────────────────────────────────────────
-             SECTION: Вправи
-        ─────────────────────────────────────────────── -->
         <section aria-labelledby="lbl-exercises">
           <span class="zone-label" id="lbl-exercises">
             Вправи
-            <em>Дія: додати / редагувати вправи · порядок, параметри</em>
           </span>
           <div class="section-body">
 
@@ -598,17 +543,12 @@
           </div>
         </section>
 
-        <!-- ──────────────────────────────────────────────
-             SECTION: Зберегти день
-        ─────────────────────────────────────────────── -->
         <section aria-labelledby="lbl-save">
           <span class="zone-label" id="lbl-save">
             Зберегти тренування
-            <em>Дія: підтвердити зміни → повернутись до конструктора</em>
           </span>
           <div class="section-body">
             <a href="program-builder.html" class="btn-start">Зберегти тренування</a>
-            <p class="btn-caption">→ program-builder.html · J1</p>
           </div>
         </section>
 
@@ -616,7 +556,6 @@
         <section aria-labelledby="lbl-confirm-delete">
           <span class="zone-label" id="lbl-confirm-delete">
             Підтвердження
-            <em>Стан: діалог після тапу «Видалити вправу» — до виконання дії</em>
           </span>
           <div class="section-body">
             <div role="dialog" aria-modal="true" aria-labelledby="dlg-delete" style="border:1px solid #ccc;border-radius:6px;padding:14px;">
@@ -631,11 +570,11 @@
         </section>
       </main>
 
-    </div><!-- /phone-frame -->
-    </div><!-- /wf-frame-wrap -->
-  </div><!-- /wf-canvas -->
+    </div>
+    </div>
+  </div>
 
-</div><!-- /page-layout -->
+</div>
 
 </body>
 </html>

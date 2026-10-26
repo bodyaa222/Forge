@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Forge — Чавун</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;900&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  /* iron */
+  --iron:#18191B;      /* ground */
+  --cast:#222427;      /* card */
+  --knurl:#2B2E32;     /* raised / active row */
+  --pit:#101113;       /* recessed: fields, rack holes */
+  --line:#34373C;      /* 1px hairline */
+  --edge:#3A3D42;      /* cast edge, inactive bar */
+  --rim:#4A4E54;       /* medal rim, disabled ink */
+  /* ink */
+  --steel:#ECEAE4;     /* text */
+  --graphite:#9C9EA1;  /* secondary text */
+  /* paint */
+  --paint:#F2C230;     /* safety yellow: state + primary action */
+  --paint-hi:#FFE38A;  /* record highlight edge */
+  --paint-ink:#1A1600; /* text on paint */
+  /* borrowed, see spec */
+  --fault:#D3242A;     /* error: icon + ring only */
+
+  --r:6px;--r-s:4px;--r-xs:2px;
+  --s1:4px;--s2:8px;--s3:12px;--s4:16px;--s5:24px;--s6:32px;--s7:48px;
+  --hit:48px;--hit-log:56px;
+  --sh-card:0 1px 0 rgba(255,255,255,.04) inset,0 10px 24px -12px rgba(0,0,0,.6);
+  --sh-pit:inset 0 2px 4px rgba(0,0,0,.6);
+  --sh-paint:0 1px 0 rgba(255,255,255,.35) inset,0 -2px 0 rgba(0,0,0,.18) inset;
+  --cast-num:0 1px 0 rgba(255,255,255,.06),0 -1px 0 rgba(0,0,0,.75);
+}
+html{scroll-behavior:smooth;background:var(--iron);scrollbar-color:var(--rim) var(--iron)}
+body{background:var(--iron);color:var(--steel);font:500 15px/1.55 "Manrope",system-ui,sans-serif;-webkit-font-smoothing:antialiased;caret-color:var(--paint)}
+::selection{background:var(--paint);color:var(--paint-ink)}
+::-webkit-scrollbar{width:8px;height:8px}::-webkit-scrollbar-track{background:var(--iron)}::-webkit-scrollbar-thumb{background:var(--edge);border-radius:4px}
+:focus-visible{outline:2px solid var(--paint);outline-offset:3px;border-radius:var(--r)}
+a{color:var(--steel);text-decoration-color:var(--rim);text-underline-offset:3px}
+a:hover{text-decoration-color:var(--paint)}
+button{font:inherit;color:inherit;border:0;background:none;cursor:pointer}
+svg.ic{width:1em;height:1em;flex-shrink:0;display:inline-block;vertical-align:-.14em}
+
+.num{font-family:"Unbounded",sans-serif;font-weight:700;letter-spacing:-.01em;text-shadow:var(--cast-num)}
+.tnum{font-variant-numeric:tabular-nums}
+.unit{font-family:"Manrope";font-weight:600;color:var(--graphite);text-shadow:none;font-size:.45em;letter-spacing:0;margin-left:.2em}
+
+.wrap{max-width:1320px;margin:0 auto;padding:0 32px}
+header.top{padding:56px 0 40px;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:32px;align-items:end;border-bottom:1px solid var(--line)}
+header.top h1{font:900 clamp(48px,7vw,96px)/.9 "Unbounded";letter-spacing:-.03em;text-shadow:var(--cast-num)}
+header.top p{margin-top:16px;max-width:60ch;color:var(--graphite)}
+header.top p b{color:var(--steel)}
+.attrs{display:grid;gap:6px;font-size:13px;color:var(--graphite);min-width:280px}
+.attrs div{display:flex;gap:10px;align-items:center}
+
+/* attribute tag */
+.at{display:inline-flex;align-items:center;gap:6px;font:700 12px/1 "Manrope";color:var(--steel);background:var(--knurl);border-radius:var(--r-s);padding:5px 8px;box-shadow:inset 0 0 0 1px var(--line);white-space:nowrap}
+.at i{width:6px;height:6px;border-radius:50%;background:var(--paint);font-style:normal}
+
+section.block{padding:56px 0;border-bottom:1px solid var(--line)}
+h2{font:700 30px/1.1 "Unbounded";letter-spacing:-.02em;margin-bottom:8px;text-shadow:var(--cast-num)}
+.lede{color:var(--graphite);max-width:68ch;margin-bottom:32px}
+h3{font:700 16px/1.3 "Manrope";margin-bottom:12px}
+.why{font-size:13px;color:var(--graphite);margin-top:10px;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+
+/* ===== live stage ===== */
+.stage{display:grid;grid-template-columns:390px minmax(0,1fr) 390px;gap:32px;align-items:start}
+.phone{width:390px;max-width:100%;background:var(--iron);border-radius:28px;box-shadow:0 0 0 1px var(--line),0 30px 60px -30px rgba(0,0,0,.9);overflow:hidden;display:flex;flex-direction:column;height:844px}
+.phone .bar{height:44px;flex-shrink:0;display:flex;justify-content:space-between;align-items:center;padding:0 24px;font:600 13px "Manrope";color:var(--steel)}
+.phone .scr{flex:1;overflow-y:auto;padding:4px 16px 16px;scrollbar-width:none}
+.phone .scr::-webkit-scrollbar{display:none}
+.phone .ttl{display:flex;justify-content:space-between;align-items:baseline;margin:8px 0 16px}
+.phone .ttl h3{margin:0;font:900 28px/1 "Unbounded";letter-spacing:-.02em;text-shadow:var(--cast-num)}
+.phone .ttl span{font-size:13px;color:var(--graphite)}
+
+.card{background:var(--cast);border-radius:var(--r);box-shadow:var(--sh-card)}
+.wk-head{padding:16px;display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
+.wk-head .t{font:700 20px/1.15 "Unbounded";text-shadow:var(--cast-num)}
+.meta{display:flex;gap:12px;flex-wrap:wrap;font-size:12.5px;color:var(--graphite);margin-top:6px}
+.meta span{display:inline-flex;gap:5px;align-items:center}
+.meta .ic{font-size:14px}
+.rows{border-top:1px solid var(--line)}
+.row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;padding:12px 16px;border-bottom:1px solid var(--line);align-items:center;min-height:var(--hit)}
+.row:last-child{border-bottom:0}
+.row .ex{font-weight:700;font-size:15px}
+.row .ex small{display:flex;gap:10px;color:var(--graphite);font-weight:500;font-size:12.5px;margin-top:3px}
+.row .ex small span{display:inline-flex;gap:4px;align-items:center}
+.row .sch{font:500 15px "Unbounded";font-variant-numeric:tabular-nums;white-space:nowrap;text-shadow:var(--cast-num)}
+.row.active{background:
+  repeating-linear-gradient(45deg,rgba(255,255,255,.035) 0 1px,transparent 1px 5px),
+  repeating-linear-gradient(-45deg,rgba(255,255,255,.035) 0 1px,transparent 1px 5px),var(--knurl)}
+.row.done .sch{color:var(--graphite)}
+.row.done .ex{color:var(--graphite)}
+.holes{display:flex;gap:6px;margin-top:8px}
+.holes i{width:10px;height:10px;border-radius:50%;background:var(--pit);box-shadow:inset 0 1px 2px rgba(0,0,0,.9),0 1px 0 rgba(255,255,255,.06)}
+.holes i.on{background:var(--paint);box-shadow:inset 0 -1px 0 rgba(0,0,0,.25)}
+
+.note{margin:0 16px 16px;padding:12px 14px;background:var(--iron);border-radius:var(--r);font-size:13.5px;display:grid;grid-template-columns:28px 1fr;gap:10px}
+.note .who{font-size:12.5px;color:var(--graphite);margin-bottom:3px}
+.av{width:28px;height:28px;border-radius:var(--r);background:var(--knurl);display:grid;place-items:center;font:700 12px "Unbounded";color:var(--steel);flex-shrink:0}
+
+.badge{font:800 12px/1 "Manrope";padding:6px 9px;border-radius:var(--r-s);display:inline-flex;gap:6px;align-items:center;white-space:nowrap}
+.badge .ic{font-size:14px}
+.badge.rec{background:var(--paint);color:var(--paint-ink);box-shadow:inset 0 1px 0 var(--paint-hi)}
+.badge.coach{background:var(--knurl);color:var(--steel);box-shadow:inset 0 0 0 1px var(--line)}
+
+/* logger */
+.logger{padding:16px;border-top:1px solid var(--line)}
+.sheet{flex-shrink:0;background:var(--cast);border-radius:16px 16px 0 0;box-shadow:0 -12px 24px -12px rgba(0,0,0,.8),inset 0 1px 0 rgba(255,255,255,.05)}
+.sheet .logger{border-top:0;padding:14px 16px 12px}
+.sheet .pair{margin:10px 0}
+.sheet .status{min-height:0;margin-top:8px}
+.sheet .status:empty{display:none}
+.logger .lab{font-size:12.5px;color:var(--graphite);display:flex;justify-content:space-between;gap:8px}
+.logger .lab b{color:var(--paint);font-weight:700}
+.logger .pair{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0}
+
+/* numeric field */
+.nf{display:grid;gap:6px}
+.nf label{font:600 13px "Manrope";color:var(--graphite)}
+.nf .box{display:grid;grid-template-columns:var(--hit-log) minmax(0,1fr) var(--hit-log);align-items:stretch;background:var(--pit);border-radius:var(--r);box-shadow:var(--sh-pit);min-height:64px}
+.nf.compact .box{grid-template-columns:minmax(0,1fr)}
+.nf input{width:100%;min-width:0;background:transparent;border:0;color:var(--steel);font:700 30px "Unbounded";font-variant-numeric:tabular-nums;text-align:center;text-shadow:var(--cast-num);padding:0 4px}
+.nf.compact input{text-align:left;padding:0 14px}
+.nf input::placeholder{color:var(--graphite);font:600 15px "Manrope";text-shadow:none}
+.nf input:focus{outline:none}
+.nf .box:focus-within{box-shadow:var(--sh-pit),0 0 0 2px var(--paint)}
+.nf .step{display:grid;place-items:center;font-size:26px;color:var(--steel);border-radius:var(--r)}
+.nf .step:hover{color:var(--paint)}
+.nf .step:active{transform:translateY(1px)}
+.nf .hint{font-size:12.5px;color:var(--graphite);display:flex;gap:6px;align-items:flex-start}
+.nf .err{display:none;font-size:13px;color:var(--steel);gap:6px;align-items:flex-start}
+.nf .err .ic{color:var(--fault);font-size:16px;margin-top:1px}
+.nf.bad .box{box-shadow:var(--sh-pit),0 0 0 2px var(--fault)}
+.nf.bad .err{display:flex}
+.nf.bad .hint{display:none}
+
+/* button */
+.btn{width:100%;height:var(--hit-log);border-radius:var(--r);background:var(--paint);color:var(--paint-ink);font:800 16px "Manrope";display:flex;align-items:center;justify-content:center;gap:10px;box-shadow:var(--sh-paint);transition:transform .12s cubic-bezier(.16,1,.3,1),background .2s}
+.btn .ic{font-size:20px}
+.btn:hover{box-shadow:var(--sh-paint),inset 0 0 0 2px var(--paint-hi)}
+.btn:active,.btn.is-pressed{transform:translateY(1px);box-shadow:var(--sh-pit)}
+.btn[aria-disabled="true"]{background:transparent;color:var(--graphite);box-shadow:inset 0 0 0 1px var(--line);cursor:not-allowed}
+.btn.is-loading .ic{animation:spin 1s linear infinite}
+.btn.is-saved{background:var(--cast);color:var(--steel);box-shadow:inset 0 0 0 1px var(--line)}
+.btn.is-saved .ic{color:var(--paint)}
+.btn.ghost{background:var(--knurl);color:var(--steel);box-shadow:inset 0 0 0 1px var(--line)}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+.status{font-size:13px;min-height:20px;margin-top:10px;display:flex;gap:6px;align-items:flex-start;color:var(--steel)}
+.status .ic{font-size:16px;margin-top:1px}
+.status.ok .ic{color:var(--paint)}
+.status.bad .ic{color:var(--fault)}
+
+/* tab bar */
+.tabs{flex-shrink:0;display:grid;grid-template-columns:repeat(4,1fr);background:var(--cast);border-top:1px solid var(--line);padding:6px 4px 22px}
+.tab{display:grid;justify-items:center;gap:4px;padding:6px 0 2px;min-height:var(--hit);color:var(--graphite);font:700 12px/1 "Manrope";position:relative;text-decoration:none}
+.tab .ic{font-size:24px}
+.tab::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--pit);box-shadow:inset 0 1px 1px rgba(0,0,0,.9);margin-bottom:2px}
+.tab[aria-current="page"]{color:var(--steel)}
+.tab[aria-current="page"] .ic{color:var(--paint)}
+.tab[aria-current="page"]::before{background:var(--paint);box-shadow:none}
+.tab .cnt{position:absolute;top:8px;left:calc(50% + 8px);background:var(--paint);color:var(--paint-ink);font:800 12px/1 "Manrope";border-radius:999px;padding:3px 6px;min-width:18px;text-align:center}
+
+/* record */
+.rec-card{display:grid;grid-template-columns:116px minmax(0,1fr);gap:16px;align-items:center;padding:16px}
+.rec-card .what{font-size:13px;color:var(--graphite)}
+.rec-card .what b{display:block;color:var(--steel);font-size:15px;margin:8px 0}
+.rec-card .delta{font:700 15px "Unbounded";color:var(--paint)}
+.medals{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:12px}
+.medals figure{background:var(--cast);border-radius:var(--r);padding:12px;text-align:center;box-shadow:var(--sh-card)}
+.medals figcaption{font-size:12.5px;color:var(--graphite);margin-top:6px}
+.medals svg{width:84px;height:84px}
+
+/* middle column */
+.mid{display:grid;gap:32px;min-width:0}
+.btn-states{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.btn-states .cap{font-size:12.5px;color:var(--graphite);margin-top:6px}
+
+/* roster */
+.roster .hd{display:flex;justify-content:space-between;padding:14px 16px;font-size:12.5px;color:var(--graphite);border-bottom:1px solid var(--line)}
+.roster .hd b{font:700 15px "Unbounded";color:var(--steel)}
+.roster .r{display:grid;grid-template-columns:28px minmax(0,1fr) auto;gap:10px;padding:10px 16px;border-bottom:1px solid var(--line);align-items:center;font-size:13px;min-height:var(--hit)}
+.roster .r:last-child{border-bottom:0}
+.roster .r .n{font-weight:700}
+.roster .r .f{color:var(--graphite);font-size:12.5px}
+.roster .r .f b{color:var(--paint);font-weight:700}
+.roster .r .holes{margin-top:6px}
+
+/* ===== spec ===== */
+.pal{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px}
+.sw{background:var(--cast);border-radius:var(--r);overflow:hidden;box-shadow:var(--sh-card);display:flex;flex-direction:column}
+.sw .c{height:84px;display:flex;align-items:flex-end;padding:10px 12px;font:700 13px "Manrope"}
+.sw .d{padding:12px;display:grid;gap:6px;font-size:13px;flex:1}
+.sw .d .role{font:800 12px "Manrope";color:var(--graphite);letter-spacing:.02em}
+.sw .d .nm{font-weight:700;font-size:15px;display:flex;justify-content:space-between;gap:8px}
+.sw .d .nm code{font:500 13px "Unbounded";font-variant-numeric:tabular-nums;color:var(--graphite)}
+.sw .d p{color:var(--graphite)}
+.sw .d .cr{font-size:12.5px;color:var(--steel)}
+.sw .at{justify-self:start;margin-top:auto}
+
+table.t{width:100%;border-collapse:collapse;font-size:14px}
+table.t th{text-align:left;font:700 12.5px "Manrope";color:var(--graphite);padding:0 12px 10px 0;border-bottom:1px solid var(--line)}
+table.t td{padding:14px 12px 14px 0;border-bottom:1px solid var(--line);vertical-align:middle}
+table.t td.g{color:var(--graphite);font-size:13px}
+table.t .tnum{font-variant-numeric:tabular-nums}
+.tbl{overflow-x:auto}
+
+.numtest{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:24px}
+.numtest .card{padding:16px;display:grid;gap:4px;align-content:start}
+.numtest .lb{font-size:12.5px;color:var(--graphite)}
+
+.two{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:32px}
+.form-demo{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.form-demo .card{padding:16px;display:grid;gap:10px;align-content:start}
+.form-demo .lb{font-size:12.5px;color:var(--graphite)}
+.spacing{display:flex;align-items:flex-end;gap:10px;flex-wrap:wrap}
+.spacing div{display:grid;justify-items:center;gap:6px;font:500 12px "Unbounded";color:var(--graphite)}
+.spacing i{display:block;background:var(--paint);border-radius:1px}
+.hit{display:flex;gap:16px;align-items:flex-end;flex-wrap:wrap}
+.hit div{display:grid;justify-items:center;gap:8px;font-size:12.5px;color:var(--graphite)}
+.hit i{display:block;border-radius:var(--r);background:var(--knurl);box-shadow:inset 0 0 0 1px var(--line);position:relative}
+.hit i.y{background:var(--paint)}
+
+.icgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px}
+.icgrid .card{padding:14px 16px}
+.icgrid .card h3{font-size:13px;color:var(--graphite);margin-bottom:10px}
+.icgrid ul{list-style:none;display:grid;gap:8px;font-size:13.5px}
+.icgrid li{display:grid;grid-template-columns:24px 1fr;gap:10px;align-items:center}
+.icgrid li .ic{font-size:22px}
+.icgrid li small{display:block;color:var(--graphite);font-size:12px}
+
+.comps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px;align-items:start}
+.comp{display:grid;gap:16px}
+.comp .card.pad{padding:16px}
+.comp .ctrl{display:flex;gap:8px;flex-wrap:wrap}
+.chipbtn{font:700 12.5px "Manrope";color:var(--graphite);background:var(--cast);border-radius:999px;padding:0 16px;min-height:var(--hit);box-shadow:inset 0 0 0 1px var(--line)}
+.chipbtn[aria-pressed="true"]{color:var(--paint-ink);background:var(--paint);box-shadow:none}
+
+footer{padding:40px 0 64px;color:var(--graphite);font-size:13px}
+footer p{max-width:80ch}
+
+@media (max-width:1240px){
+  .stage{grid-template-columns:390px minmax(0,1fr)}
+  .stage .phone.tr{grid-column:1/-1;justify-self:center}
+  .comps{grid-template-columns:1fr 1fr}
+  .numtest,.form-demo{grid-template-columns:1fr 1fr}
+}
+@media (max-width:860px){
+  .wrap{padding:0 16px}
+  header.top{grid-template-columns:1fr}
+  .stage,.two,.comps{grid-template-columns:1fr}
+  .phone{justify-self:center;height:auto;max-height:844px}
+  .numtest,.form-demo{grid-template-columns:1fr}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="i-9a2543" viewBox="0 0 24 24"><path fill="currentColor" d="M3.92443 18.6073L5.39271 20.0756C6.08487 20.7677 6.43095 21.1138 6.861 21.1138C7.29105 21.1138 7.63713 20.7677 8.32928 20.0756L8.69636 19.7085L9.06343 20.0756L9.79757 20.8097C10.4837 21.4959 10.8268 21.8389 11.2299 21.9469C11.4939 22.0177 11.7719 22.0177 12.036 21.9469C12.4391 21.8389 12.7821 21.4959 13.4683 20.8097C14.1544 20.1236 14.4975 19.7805 14.6055 19.3774C14.6763 19.1134 14.6763 18.8353 14.6055 18.5713C14.4975 18.1682 14.1544 17.8251 13.4683 17.139L12.3671 16.0378L16.0378 12.3671L17.139 13.4683C17.8251 14.1544 18.1682 14.4975 18.5713 14.6055C18.8353 14.6763 19.1134 14.6763 19.3774 14.6055C19.7805 14.4975 20.1236 14.1544 20.8097 13.4683C21.4959 12.7821 21.8389 12.4391 21.9469 12.036C22.0177 11.7719 22.0177 11.4939 21.9469 11.2299C21.8389 10.8268 21.4959 10.4837 20.8097 9.79757L20.0756 9.06343L19.7046 8.70027L20.0756 8.32928C20.7677 7.63713 21.1138 7.29105 21.1138 6.861C21.1138 6.43095 20.7677 6.08487 20.0756 5.39271L18.6073 3.92442C17.9151 3.23227 17.5691 2.88619 17.139 2.88619C16.709 2.88619 16.3629 3.23227 15.6707 3.92442L15.3036 4.2915L14.2024 3.19028C13.5163 2.50414 13.1732 2.16107 12.7701 2.05307C12.5061 1.98231 12.2281 1.98231 11.964 2.05307C11.5609 2.16107 11.2179 2.50414 10.5317 3.19028C9.84557 3.87642 9.5025 4.21949 9.3945 4.62257C9.32374 4.88662 9.32374 5.16465 9.3945 5.42871C9.5025 5.83178 9.84557 6.17486 10.5317 6.861L11.6329 7.96221L7.96221 11.6329L6.861 10.5317C6.17486 9.84557 5.83179 9.5025 5.42871 9.3945C5.16466 9.32374 4.88662 9.32374 4.62257 9.3945C4.21949 9.5025 3.87642 9.84557 3.19028 10.5317C2.50414 11.2179 2.16107 11.5609 2.05306 11.964C1.98231 12.2281 1.98231 12.5061 2.05306 12.7701C2.16107 13.1732 2.50414 13.5163 3.19028 14.2024L4.2915 15.3036L3.92443 15.6707C3.23227 16.3629 2.88619 16.709 2.88619 17.139C2.88619 17.5691 3.23227 17.9151 3.92443 18.6073Z"/></symbol><symbol id="i-97de3c" viewBox="0 0 24 24"><g fill="currentColor" fill-rule="evenodd" clip-rule="evenodd"><path d="M12 22C16.9706 22 21 17.9706 21 13C21 8.02944 16.9706 4 12 4C7.02944 4 3 8.02944 3 13C3 17.9706 7.02944 22 12 22ZM12 8.25C12.4142 8.25 12.75 8.58579 12.75 9V13C12.75 13.4142 12.4142 13.75 12 13.75C11.5858 13.75 11.25 13.4142 11.25 13V9C11.25 8.58579 11.5858 8.25 12 8.25Z"/><path d="M9.25 2C9.25 1.58579 9.58579 1.25 10 1.25H14C14.4142 1.25 14.75 1.58579 14.75 2C14.75 2.41421 14.4142 2.75 14 2.75H10C9.58579 2.75 9.25 2.41421 9.25 2Z"/></g></symbol><symbol id="i-cd254a" viewBox="0 0 24 24"><g fill="currentColor"><path d="M12 13C15.866 13 19 14.7909 19 17C19 19.2091 15.866 21 12 21C8.13401 21 5 19.2091 5 17C5 14.7909 8.13401 13 12 13Z"/><path d="M12 2C14.2091 2 16 3.79086 16 6C16 8.20914 14.2091 10 12 10C9.79086 10 8 8.20914 8 6C8 3.79086 9.79086 2 12 2Z"/></g></symbol><symbol id="i-6d4a43" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M8.46967 2.46967C8.76256 2.17678 9.23744 2.17678 9.53033 2.46967L11.5303 4.46967C11.7448 4.68417 11.809 5.00676 11.6929 5.28701C11.5768 5.56727 11.3033 5.75 11 5.75H9C5.54822 5.75 2.75 8.54822 2.75 12C2.75 15.4517 5.54846 18.25 9.00028 18.25H9.5C9.91421 18.25 10.25 18.5858 10.25 19C10.25 19.4142 9.91421 19.75 9.5 19.75H9.00028C4.72011 19.75 1.25 16.2802 1.25 12C1.25 7.71979 4.71979 4.25 9 4.25H9.18934L8.46967 3.53033C8.17678 3.23744 8.17678 2.76256 8.46967 2.46967ZM13.75 5C13.75 4.58579 14.0858 4.25 14.5 4.25H15C19.2802 4.25 22.75 7.71979 22.75 12C22.75 16.2802 19.2802 19.75 15 19.75H14.8107L15.5303 20.4697C15.8232 20.7626 15.8232 21.2374 15.5303 21.5303C15.2374 21.8232 14.7626 21.8232 14.4697 21.5303L12.4697 19.5303C12.2552 19.3158 12.191 18.9932 12.3071 18.713C12.4232 18.4327 12.6967 18.25 13 18.25H15C18.4518 18.25 21.25 15.4518 21.25 12C21.25 8.54822 18.4518 5.75 15 5.75H14.5C14.0858 5.75 13.75 5.41421 13.75 5Z" clip-rule="evenodd"/></symbol><symbol id="i-0364d6" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12ZM16.0303 8.96967C16.3232 9.26256 16.3232 9.73744 16.0303 10.0303L11.0303 15.0303C10.7374 15.3232 10.2626 15.3232 9.96967 15.0303L7.96967 13.0303C7.67678 12.7374 7.67678 12.2626 7.96967 11.9697C8.26256 11.6768 8.73744 11.6768 9.03033 11.9697L10.5 13.4393L12.7348 11.2045L14.9697 8.96967C15.2626 8.67678 15.7374 8.67678 16.0303 8.96967Z" clip-rule="evenodd"/></symbol><symbol id="i-c6b0b4" viewBox="0 0 24 24"><g fill="currentColor"><path d="M7.75 2.5C7.75 2.08579 7.41421 1.75 7 1.75C6.58579 1.75 6.25 2.08579 6.25 2.5V4.07926C4.81067 4.19451 3.86577 4.47737 3.17157 5.17157C2.47737 5.86577 2.19451 6.81067 2.07926 8.25H21.9207C21.8055 6.81067 21.5226 5.86577 20.8284 5.17157C20.1342 4.47737 19.1893 4.19451 17.75 4.07926V2.5C17.75 2.08579 17.4142 1.75 17 1.75C16.5858 1.75 16.25 2.08579 16.25 2.5V4.0129C15.5847 4 14.839 4 14 4H10C9.16097 4 8.41527 4 7.75 4.0129V2.5Z"/><path fill-rule="evenodd" d="M22 12V14C22 17.7712 22 19.6569 20.8284 20.8284C19.6569 22 17.7712 22 14 22H10C6.22876 22 4.34315 22 3.17157 20.8284C2 19.6569 2 17.7712 2 14V12C2 11.161 2 10.4153 2.0129 9.75H21.9871C22 10.4153 22 11.161 22 12ZM16.5 18C17.3284 18 18 17.3284 18 16.5C18 15.6716 17.3284 15 16.5 15C15.6716 15 15 15.6716 15 16.5C15 17.3284 15.6716 18 16.5 18Z" clip-rule="evenodd"/></g></symbol><symbol id="i-a7dcfa" viewBox="0 0 24 24"><g fill="currentColor"><path d="M12.75 3C12.75 2.58579 12.4142 2.25 12 2.25C11.5858 2.25 11.25 2.58579 11.25 3V5C11.25 5.41421 11.5858 5.75 12 5.75C12.4142 5.75 12.75 5.41421 12.75 5V3Z"/><path fill-rule="evenodd" d="M22.75 12.0565C22.75 13.8943 22.75 15.3499 22.5969 16.4891C22.4392 17.6615 22.1071 18.6105 21.3588 19.3588C20.6104 20.1072 19.6614 20.4393 18.489 20.597C17.3498 20.7501 15.8942 20.7501 14.0565 20.7501H9.94348C8.10577 20.7501 6.65017 20.7501 5.51098 20.597C4.33856 20.4393 3.38961 20.1072 2.64124 19.3588C1.89288 18.6105 1.56076 17.6615 1.40314 16.4891C1.24997 15.3499 1.24999 13.8943 1.25 12.0565L1.25 11.7725C1.25002 11.5529 1.25011 11.3388 1.25053 11.1303C1.25132 10.7466 1.25327 10.3814 1.25806 10.034C1.27152 9.05873 1.30741 8.22316 1.40314 7.51116C1.56076 6.33873 1.89288 5.38978 2.64124 4.64142C3.38961 3.89306 4.33856 3.56094 5.51098 3.40331C6.22742 3.30699 7.069 3.27125 8.05206 3.25799C8.2173 3.25576 8.47469 3.25412 8.74859 3.25292C9.3014 3.2505 9.75 3.69873 9.75 4.25155V5.00008C9.75 6.24272 10.7574 7.25008 12 7.25008C13.2426 7.25008 14.25 6.24272 14.25 5.00008V4.25028C14.25 3.69796 14.698 3.24935 15.2503 3.25196C16.5391 3.25806 17.6086 3.28494 18.489 3.40331C19.6614 3.56094 20.6104 3.89306 21.3588 4.64142C22.1071 5.38978 22.4392 6.33873 22.5969 7.51116C22.75 8.65036 22.75 10.1059 22.75 11.9437V12.0565ZM8 9.75008C7.58579 9.75008 7.25 10.0859 7.25 10.5001C7.25 10.9143 7.58579 11.2501 8 11.2501H16C16.4142 11.2501 16.75 10.9143 16.75 10.5001C16.75 10.0859 16.4142 9.75008 16 9.75008H8ZM8 13.2501C7.58579 13.2501 7.25 13.5859 7.25 14.0001C7.25 14.4143 7.58579 14.7501 8 14.7501H13.5C13.9142 14.7501 14.25 14.4143 14.25 14.0001C14.25 13.5859 13.9142 13.2501 13.5 13.2501H8Z" clip-rule="evenodd"/></g></symbol><symbol id="i-9feb07" viewBox="0 0 24 24"><g fill="currentColor"><path d="M17.2929 2.29289C17 2.58579 17 3.05719 17 4V17C17 17.9428 17 18.4142 17.2929 18.7071C17.5858 19 18.0572 19 19 19C19.9428 19 20.4142 19 20.7071 18.7071C21 18.4142 21 17.9428 21 17V4C21 3.05719 21 2.58579 20.7071 2.29289C20.4142 2 19.9428 2 19 2C18.0572 2 17.5858 2 17.2929 2.29289Z"/><path d="M10 7C10 6.05719 10 5.58579 10.2929 5.29289C10.5858 5 11.0572 5 12 5C12.9428 5 13.4142 5 13.7071 5.29289C14 5.58579 14 6.05719 14 7V17C14 17.9428 14 18.4142 13.7071 18.7071C13.4142 19 12.9428 19 12 19C11.0572 19 10.5858 19 10.2929 18.7071C10 18.4142 10 17.9428 10 17V7Z"/><path d="M3.29289 9.29289C3 9.58579 3 10.0572 3 11V17C3 17.9428 3 18.4142 3.29289 18.7071C3.58579 19 4.05719 19 5 19C5.94281 19 6.41421 19 6.70711 18.7071C7 18.4142 7 17.9428 7 17V11C7 10.0572 7 9.58579 6.70711 9.29289C6.41421 9 5.94281 9 5 9C4.05719 9 3.58579 9 3.29289 9.29289Z"/><path d="M3 21.25C2.58579 21.25 2.25 21.5858 2.25 22C2.25 22.4142 2.58579 22.75 3 22.75H21C21.4142 22.75 21.75 22.4142 21.75 22C21.75 21.5858 21.4142 21.25 21 21.25H3Z"/></g></symbol><symbol id="i-36fd3f" viewBox="0 0 24 24"><g fill="currentColor"><path d="M21.9999 8.16234L21.9999 8.23487C21.9999 9.09561 21.9999 9.52598 21.7927 9.8781C21.5855 10.2302 21.2093 10.4392 20.4569 10.8572L19.6636 11.298C20.2102 9.44984 20.3926 7.46414 20.4601 5.76597C20.4629 5.69316 20.4662 5.61945 20.4695 5.54497L20.4718 5.49279C21.1231 5.71896 21.4887 5.88758 21.7168 6.20408C22 6.59692 22 7.11873 21.9999 8.16234Z"/><path d="M2 8.16234L2 8.23487C2.00003 9.09561 2.00004 9.52598 2.20723 9.8781C2.41442 10.2302 2.79063 10.4392 3.54305 10.8572L4.33681 11.2982C3.79007 9.45001 3.60767 7.46422 3.54025 5.76597C3.53736 5.69316 3.5341 5.61945 3.53081 5.54497L3.5285 5.49266C2.87701 5.7189 2.51126 5.88752 2.2831 6.20408C1.99996 6.59692 1.99997 7.11873 2 8.16234Z"/><path fill-rule="evenodd" d="M12.0002 2C13.7837 2 15.2531 2.15709 16.3771 2.34674C17.5159 2.53887 18.0852 2.63494 18.5609 3.22083C19.0367 3.80673 19.0115 4.43998 18.9612 5.70647C18.7886 10.0545 17.8503 15.4853 12.75 15.9657V19.5H14.1802C14.6569 19.5 15.0673 19.8365 15.1608 20.3039L15.35 21.25H18C18.4142 21.25 18.75 21.5858 18.75 22C18.75 22.4142 18.4142 22.75 18 22.75H6C5.58579 22.75 5.25 22.4142 5.25 22C5.25 21.5858 5.58579 21.25 6 21.25H8.65L8.83922 20.3039C8.93271 19.8365 9.34312 19.5 9.8198 19.5H11.25V15.9657C6.14996 15.4851 5.21169 10.0544 5.03907 5.70647C4.98879 4.43998 4.96365 3.80673 5.43937 3.22083C5.91508 2.63494 6.48445 2.53887 7.62318 2.34674C8.74724 2.15709 10.2166 2 12.0002 2ZM12.9524 6.19887L12.8541 6.02251C12.4741 5.34084 12.2841 5 12 5C11.7159 5 11.5259 5.34084 11.1459 6.02251L11.0476 6.19887C10.9397 6.39258 10.8857 6.48944 10.8015 6.55334C10.7173 6.61725 10.6125 6.64097 10.4028 6.68841L10.2119 6.73161C9.47396 6.89857 9.10501 6.98205 9.01723 7.26432C8.92945 7.54659 9.18097 7.84072 9.68403 8.42898L9.81418 8.58117C9.95713 8.74833 10.0286 8.83191 10.0608 8.93532C10.0929 9.03872 10.0821 9.15023 10.0605 9.37327L10.0408 9.57632C9.96476 10.3612 9.92674 10.7536 10.1565 10.9281C10.3864 11.1025 10.7318 10.9435 11.4227 10.6254L11.6014 10.5431C11.7978 10.4527 11.8959 10.4075 12 10.4075C12.1041 10.4075 12.2022 10.4527 12.3986 10.5431L12.5773 10.6254C13.2682 10.9435 13.6136 11.1025 13.8435 10.9281C14.0733 10.7536 14.0352 10.3612 13.9592 9.57632L13.9395 9.37327C13.9179 9.15023 13.9071 9.03872 13.9392 8.93532C13.9714 8.83191 14.0429 8.74833 14.1858 8.58117L14.316 8.42898C14.819 7.84072 15.0706 7.54659 14.9828 7.26432C14.895 6.98205 14.526 6.89857 13.7881 6.73161L13.5972 6.68841C13.3875 6.64097 13.2827 6.61725 13.1985 6.55334C13.1143 6.48944 13.0603 6.39258 12.9524 6.19887Z" clip-rule="evenodd"/></g></symbol><symbol id="i-6ca4c6" viewBox="0 0 24 24"><g fill="currentColor"><path d="M12.0789 2.25C7.2854 2.25 3.34478 5.913 2.96055 10.5833H2.00002C1.69614 10.5833 1.42229 10.7667 1.30655 11.0477C1.19081 11.3287 1.25606 11.6517 1.47178 11.8657L3.15159 13.5324C3.444 13.8225 3.91567 13.8225 4.20808 13.5324L5.88789 11.8657C6.10361 11.6517 6.16886 11.3287 6.05312 11.0477C5.93738 10.7667 5.66353 10.5833 5.35965 10.5833H4.4668C4.84652 6.75167 8.10479 3.75 12.0789 3.75C14.8484 3.75 17.2727 5.20845 18.6156 7.39279C18.8325 7.74565 19.2944 7.85585 19.6473 7.63892C20.0002 7.42199 20.1104 6.96007 19.8934 6.60721C18.2871 3.99427 15.3873 2.25 12.0789 2.25Z"/><path d="M20.8411 10.4666C20.549 10.1778 20.0789 10.1778 19.7867 10.4666L18.1005 12.1333C17.8841 12.3471 17.8184 12.6703 17.9339 12.9517C18.0495 13.233 18.3235 13.4167 18.6277 13.4167H19.5268C19.1455 17.2462 15.8759 20.25 11.8828 20.25C9.10026 20.25 6.66586 18.7903 5.31796 16.6061C5.10042 16.2536 4.63833 16.1442 4.28583 16.3618C3.93334 16.5793 3.82393 17.0414 4.04146 17.3939C5.65407 20.007 8.56406 21.75 11.8828 21.75C16.6906 21.75 20.6475 18.0892 21.0331 13.4167H22.0002C22.3043 13.4167 22.5783 13.233 22.6939 12.9517C22.8095 12.6703 22.7437 12.3471 22.5274 12.1333L20.8411 10.4666Z"/></g></symbol><symbol id="i-9c088c" viewBox="0 0 24 24"><path fill="currentColor" d="M18.2577 3.50828C18.538 3.62437 18.7207 3.89785 18.7207 4.20119V8.44383C18.7207 8.85805 18.3849 9.19383 17.9707 9.19383H13.728C13.4247 9.19383 13.1512 9.0111 13.0351 8.73085C12.9191 8.45059 12.9832 8.128 13.1977 7.9135L14.8007 6.3105C12.1674 5.20912 9.01606 5.7309 6.87348 7.87348C4.04217 10.7048 4.04217 15.2952 6.87348 18.1265C9.70478 20.9578 14.2952 20.9578 17.1265 18.1265C18.7727 16.4803 19.4622 14.2401 19.1935 12.0937C19.142 11.6827 19.4335 11.3078 19.8445 11.2563C20.2555 11.2049 20.6304 11.4963 20.6819 11.9073C21.0057 14.4934 20.1746 17.1997 18.1872 19.1872C14.7701 22.6043 9.2299 22.6043 5.81282 19.1872C2.39573 15.7701 2.39573 10.2299 5.81282 6.81282C8.55119 4.07444 12.6515 3.5312 15.9309 5.18028L17.4404 3.67086C17.6549 3.45637 17.9774 3.3922 18.2577 3.50828Z"/></symbol><symbol id="i-619acd" viewBox="0 0 24 24"><path fill="currentColor" d="M15.8351 11.6296L9.20467 5.1999C8.79094 4.79869 8 5.04189 8 5.5703L8 18.4297C8 18.9581 8.79094 19.2013 9.20467 18.8001L15.8351 12.3704C16.055 12.1573 16.0549 11.8427 15.8351 11.6296Z"/></symbol><symbol id="i-271eb8" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 13.5997 2.37562 15.1116 3.04346 16.4525C3.22094 16.8088 3.28001 17.2161 3.17712 17.6006L2.58151 19.8267C2.32295 20.793 3.20701 21.677 4.17335 21.4185L6.39939 20.8229C6.78393 20.72 7.19121 20.7791 7.54753 20.9565C8.88837 21.6244 10.4003 22 12 22ZM8 13.25C7.58579 13.25 7.25 13.5858 7.25 14C7.25 14.4142 7.58579 14.75 8 14.75H13.5C13.9142 14.75 14.25 14.4142 14.25 14C14.25 13.5858 13.9142 13.25 13.5 13.25H8ZM7.25 10.5C7.25 10.0858 7.58579 9.75 8 9.75H16C16.4142 9.75 16.75 10.0858 16.75 10.5C16.75 10.9142 16.4142 11.25 16 11.25H8C7.58579 11.25 7.25 10.9142 7.25 10.5Z" clip-rule="evenodd"/></symbol><symbol id="i-46bd39" viewBox="0 0 24 24"><g fill="currentColor"><path d="M9.00098 13.001C12.867 13.001 16.001 14.7918 16.001 17.001C16.001 19.2101 12.867 21.001 9.00098 21.001C5.13498 21.001 2.00098 19.2101 2.00098 17.001C2.00098 14.7918 5.13498 13.001 9.00098 13.001Z"/><path d="M16.4766 14.001C18.9615 14.0011 20.9996 15.3434 21 17C21 18.6569 18.9638 20 16.4785 20C17.2107 19.1997 17.7148 18.1955 17.7148 17.002C17.7148 15.8071 17.2099 14.8017 16.4766 14.001Z"/><path d="M9.00098 2C11.2101 2 13.001 3.79086 13.001 6C13.001 8.20914 11.2101 10 9.00098 10C6.79184 10 5.00098 8.20914 5.00098 6C5.00098 3.79086 6.79184 2 9.00098 2Z"/><path d="M15 3.00098C16.6567 3.00118 18 4.34425 18 6.00098C17.9999 7.6576 16.6566 9.00078 15 9.00098C14.6388 9.00098 14.2924 8.93633 13.9717 8.81934C14.4445 7.98748 14.7148 7.02523 14.7148 6C14.7148 4.97534 14.4449 4.0132 13.9727 3.18164C14.2931 3.06489 14.6392 3.00098 15 3.00098Z"/></g></symbol><symbol id="i-b1e91b" viewBox="0 0 24 24"><g fill="currentColor"><path d="M9.5 2C8.67157 2 8 2.67157 8 3.5V4.5C8 5.32843 8.67157 6 9.5 6H14.5C15.3284 6 16 5.32843 16 4.5V3.5C16 2.67157 15.3284 2 14.5 2H9.5Z"/><path fill-rule="evenodd" d="M6.5 4.03662C5.24209 4.10719 4.44798 4.30764 3.87868 4.87694C3 5.75562 3 7.16983 3 9.99826V15.9983C3 18.8267 3 20.2409 3.87868 21.1196C4.75736 21.9983 6.17157 21.9983 9 21.9983H15C17.8284 21.9983 19.2426 21.9983 20.1213 21.1196C21 20.2409 21 18.8267 21 15.9983V9.99826C21 7.16983 21 5.75562 20.1213 4.87694C19.552 4.30764 18.7579 4.10719 17.5 4.03662V4.5C17.5 6.15685 16.1569 7.5 14.5 7.5H9.5C7.84315 7.5 6.5 6.15685 6.5 4.5V4.03662ZM7 9.75C6.58579 9.75 6.25 10.0858 6.25 10.5C6.25 10.9142 6.58579 11.25 7 11.25H7.5C7.91421 11.25 8.25 10.9142 8.25 10.5C8.25 10.0858 7.91421 9.75 7.5 9.75H7ZM10.5 9.75C10.0858 9.75 9.75 10.0858 9.75 10.5C9.75 10.9142 10.0858 11.25 10.5 11.25H17C17.4142 11.25 17.75 10.9142 17.75 10.5C17.75 10.0858 17.4142 9.75 17 9.75H10.5ZM7 13.25C6.58579 13.25 6.25 13.5858 6.25 14C6.25 14.4142 6.58579 14.75 7 14.75H7.5C7.91421 14.75 8.25 14.4142 8.25 14C8.25 13.5858 7.91421 13.25 7.5 13.25H7ZM10.5 13.25C10.0858 13.25 9.75 13.5858 9.75 14C9.75 14.4142 10.0858 14.75 10.5 14.75H17C17.4142 14.75 17.75 14.4142 17.75 14C17.75 13.5858 17.4142 13.25 17 13.25H10.5ZM7 16.75C6.58579 16.75 6.25 17.0858 6.25 17.5C6.25 17.9142 6.58579 18.25 7 18.25H7.5C7.91421 18.25 8.25 17.9142 8.25 17.5C8.25 17.0858 7.91421 16.75 7.5 16.75H7ZM10.5 16.75C10.0858 16.75 9.75 17.0858 9.75 17.5C9.75 17.9142 10.0858 18.25 10.5 18.25H17C17.4142 18.25 17.75 17.9142 17.75 17.5C17.75 17.0858 17.4142 16.75 17 16.75H10.5Z" clip-rule="evenodd"/></g></symbol><symbol id="i-b5367e" viewBox="0 0 24 24"><g fill="currentColor"><path fill-rule="evenodd" d="M16.5 15C18.1499 15 18.9747 15.0001 19.4873 15.5127C19.9999 16.0253 20 16.8501 20 18.5C20 20.1499 19.9999 20.9747 19.4873 21.4873C18.9747 21.9999 18.1499 22 16.5 22C14.8501 22 14.0253 21.9999 13.5127 21.4873C13.0001 20.9747 13 20.1499 13 18.5C13 16.8501 13.0001 16.0253 13.5127 15.5127C14.0253 15.0001 14.8501 15 16.5 15ZM16.5 16.3613C16.1779 16.3613 15.9171 16.6222 15.917 16.9443V17.917H14.9443C14.6222 17.9171 14.3613 18.1779 14.3613 18.5C14.3613 18.8221 14.6222 19.0829 14.9443 19.083H15.917V20.0557C15.9171 20.3778 16.1779 20.6387 16.5 20.6387C16.8221 20.6387 17.0829 20.3778 17.083 20.0557V19.083H18.0557C18.3778 19.0829 18.6387 18.8221 18.6387 18.5C18.6387 18.1779 18.3778 17.9171 18.0557 17.917H17.083V16.9443C17.0829 16.6222 16.8221 16.3613 16.5 16.3613Z" clip-rule="evenodd"/><path d="M12 13C13.24 13 14.4049 13.1846 15.415 13.5078C15.0415 13.5166 14.6918 13.5352 14.3799 13.5771C13.737 13.6636 13.0336 13.8707 12.4521 14.4521C11.8707 15.0336 11.6636 15.737 11.5771 16.3799C11.4995 16.9576 11.4999 17.6635 11.5 18.4141V18.5859C11.4999 19.3365 11.4995 20.0424 11.5771 20.6201C11.5937 20.7432 11.6154 20.8688 11.6426 20.9951C7.94288 20.8887 5 19.1406 5 17C5 14.7909 8.13401 13 12 13Z"/><path d="M12 2C14.2091 2 16 3.79086 16 6C16 8.20914 14.2091 10 12 10C9.79086 10 8 8.20914 8 6C8 3.79086 9.79086 2 12 2Z"/></g></symbol><symbol id="i-6f9886" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22ZM12.75 9C12.75 8.58579 12.4142 8.25 12 8.25C11.5858 8.25 11.25 8.58579 11.25 9L11.25 11.25H9C8.58579 11.25 8.25 11.5858 8.25 12C8.25 12.4142 8.58579 12.75 9 12.75H11.25V15C11.25 15.4142 11.5858 15.75 12 15.75C12.4142 15.75 12.75 15.4142 12.75 15L12.75 12.75H15C15.4142 12.75 15.75 12.4142 15.75 12C15.75 11.5858 15.4142 11.25 15 11.25H12.75V9Z" clip-rule="evenodd"/></symbol><symbol id="i-462537" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12ZM15.75 12C15.75 12.4142 15.4142 12.75 15 12.75H9C8.58579 12.75 8.25 12.4142 8.25 12C8.25 11.5858 8.58579 11.25 9 11.25H15C15.4142 11.25 15.75 11.5858 15.75 12Z" clip-rule="evenodd"/></symbol><symbol id="i-519ba8" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M5.31171 10.7615C8.23007 5.58716 9.68925 3 12 3C14.3107 3 15.7699 5.58716 18.6883 10.7615L19.0519 11.4063C21.4771 15.7061 22.6897 17.856 21.5937 19.428C20.4978 21 17.7864 21 12.3637 21H11.6363C6.21356 21 3.50217 21 2.40626 19.428C1.31034 17.856 2.52291 15.7061 4.94805 11.4063L5.31171 10.7615ZM12 7.25C12.4142 7.25 12.75 7.58579 12.75 8V13C12.75 13.4142 12.4142 13.75 12 13.75C11.5858 13.75 11.25 13.4142 11.25 13V8C11.25 7.58579 11.5858 7.25 12 7.25ZM12 17C12.5523 17 13 16.5523 13 16C13 15.4477 12.5523 15 12 15C11.4477 15 11 15.4477 11 16C11 16.5523 11.4477 17 12 17Z" clip-rule="evenodd"/></symbol><symbol id="i-e01a83" viewBox="0 0 24 24"><g fill="currentColor"><path fill-rule="evenodd" d="M12 22C10.1144 22 9.17157 22 8.58579 21.4142C8 20.8284 8 19.8856 8 18C8 16.1144 8 15.1716 8.58579 14.5858C9.17157 14 10.1144 14 12 14C13.8856 14 14.8284 14 15.4142 14.5858C16 15.1716 16 16.1144 16 18C16 19.8856 16 20.8284 15.4142 21.4142C14.8284 22 13.8856 22 12 22ZM10.6936 15.7508C10.4333 15.4905 10.0112 15.4905 9.75082 15.7508C9.49047 16.0112 9.49047 16.4333 9.75082 16.6936L11.0572 18L9.75082 19.3064C9.49047 19.5667 9.49047 19.9888 9.75082 20.2492C10.0112 20.5095 10.4333 20.5095 10.6936 20.2492L12 18.9428L13.3064 20.2492C13.5667 20.5095 13.9888 20.5095 14.2492 20.2492C14.5095 19.9888 14.5095 19.5667 14.2492 19.3064L12.9428 18L14.2492 16.6936C14.5095 16.4333 14.5095 16.0112 14.2492 15.7508C13.9888 15.4905 13.5667 15.4905 13.3064 15.7508L12 17.0572L10.6936 15.7508Z" clip-rule="evenodd"/><path d="M6.50001 18L6.50001 17.9105C6.49991 17.0449 6.49981 16.2512 6.58661 15.6056C6.6822 14.8946 6.90709 14.1432 7.52514 13.5251C8.14319 12.9071 8.89464 12.6822 9.6056 12.5866C10.2512 12.4998 11.0449 12.4999 11.9105 12.5H12.0895C12.9551 12.4999 13.7488 12.4998 14.3944 12.5866C15.1054 12.6822 15.8568 12.9071 16.4749 13.5251C17.0929 14.1432 17.3178 14.8946 17.4134 15.6056C17.4989 16.2417 17.5001 17.0215 17.5 17.8722C20.0726 17.3221 22 15.0599 22 12.3529C22 9.88113 20.393 7.78024 18.1551 7.01498C17.8371 4.19371 15.4159 2 12.4762 2C9.32028 2 6.7619 4.52827 6.7619 7.64706C6.7619 8.33687 6.88706 8.9978 7.11616 9.60887C6.8475 9.55673 6.56983 9.52941 6.28571 9.52941C3.91878 9.52941 2 11.4256 2 13.7647C2 16.1038 3.91878 18 6.28571 18L6.50001 18Z"/></g></symbol><symbol id="i-e58a22" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12ZM12 17.75C12.4142 17.75 12.75 17.4142 12.75 17V11C12.75 10.5858 12.4142 10.25 12 10.25C11.5858 10.25 11.25 10.5858 11.25 11V17C11.25 17.4142 11.5858 17.75 12 17.75ZM12 7C12.5523 7 13 7.44772 13 8C13 8.55228 12.5523 9 12 9C11.4477 9 11 8.55228 11 8C11 7.44772 11.4477 7 12 7Z" clip-rule="evenodd"/></symbol></svg>
+
+<div class="wrap">
+<header class="top">
+  <div>
+    <h1>Чавун</h1>
+    <p><b>Число вилите, а не надруковане.</b> Пробний стенд мови Forge: як вона працює на живих екранах атлета й тренера, а нижче кожен токен з атрибутом, з якого він виріс. Фото тут немає й не буде: напрям тримається на цифрах і матеріалі залу.</p>
+  </div>
+  <div class="attrs" role="group" aria-label="Атрибути з concept.md">
+    <div><span class="at"><i></i>Цифра головна</span><span>не декор</span></div>
+    <div><span class="at"><i></i>Під пальцем</span><span>не метушливо</span></div>
+    <div><span class="at"><i></i>Яскраво</span><span>не кислотно</span></div>
+    <div><span class="at"><i></i>Нагорода з числом</span><span>не з вогником</span></div>
+    <div><span class="at"><i></i>Дві щільності</span><span>не два продукти</span></div>
+  </div>
+</header>
+
+<section class="block" id="live">
+  <h2>Мова живцем</h2>
+  <p class="lede">Так «Чавун» виглядав на directions.html, тепер у телефоні: атлет посеред тренування (ліворуч), тренер оглядає тиждень (праворуч). Кнопку «Зберегти підхід» можна натиснути, тоді підхід і отвори стійки рухаються.</p>
+
+  <div class="stage">
+    <div class="phone" role="group" aria-label="Екран атлета">
+      <div class="bar"><span class="tnum">18:42</span><span>Пт, 17 жовтня</span></div>
+      <div class="scr">
+        <div class="ttl"><h3>Сьогодні</h3><span>Тиждень 3 з 6</span></div>
+        <div class="card">
+          <div class="wk-head">
+            <div><div class="t">Тренування А</div>
+              <div class="meta"><span><svg class="ic" aria-hidden="true"><use href="#i-9a2543"/></svg> 4 вправи</span><span><svg class="ic" aria-hidden="true"><use href="#i-97de3c"/></svg> ≈ 55 хв</span></div></div>
+            <span class="badge coach"><svg class="ic" aria-hidden="true"><use href="#i-cd254a"/></svg> Тренер</span>
+          </div>
+          <div class="rows">
+            <div class="row active"><div class="ex">Присідання зі штангою<small><span><svg class="ic" aria-hidden="true"><use href="#i-6d4a43"/></svg> Підхід <b class="tnum" data-set>2</b> з 4</span><span><svg class="ic" aria-hidden="true"><use href="#i-97de3c"/></svg> 180 с</span></small><div class="holes" data-holes><i class="on"></i><i></i><i></i><i></i></div></div><div class="sch">4 × 5 × 90</div></div>
+            <div class="row"><div class="ex">Жим лежачи<small><span><svg class="ic" aria-hidden="true"><use href="#i-97de3c"/></svg> 120 с</span></small></div><div class="sch">4 × 8 × 60</div></div>
+            <div class="row"><div class="ex">Румунська тяга<small><span><svg class="ic" aria-hidden="true"><use href="#i-97de3c"/></svg> 90 с</span></small></div><div class="sch">3 × 10 × 70</div></div>
+            <div class="row"><div class="ex">Тяга верхнього блока<small><span><svg class="ic" aria-hidden="true"><use href="#i-97de3c"/></svg> 60 с</span></small></div><div class="sch">3 × 12 × 45</div></div>
+          </div>
+          <div class="note"><div class="av">МК</div><div><div class="who">Максим Коваль · коментар до тренування</div>Присідання: глибина до паралелі. Останній підхід можна +2,5 кг, якщо йде швидко.</div></div>
+        </div>
+      </div>
+      <div class="sheet">
+        <div class="logger">
+            <div class="lab"><span>Присідання зі штангою</span><b>Підхід <span class="tnum" data-set2>2</span> з 4 · план 5 × 90 кг</b></div>
+            <div class="pair">
+              <div class="nf compact"><label for="lw">Вага, кг</label><div class="box"><input id="lw" inputmode="decimal" placeholder="90" autocomplete="off"></div></div>
+              <div class="nf compact"><label for="lr">Повтори</label><div class="box"><input id="lr" inputmode="numeric" placeholder="5" autocomplete="off"></div></div>
+            </div>
+            <button class="btn" data-save><svg class="ic" aria-hidden="true"><use href="#i-0364d6"/></svg> Зберегти підхід</button>
+            <div class="status ok" data-status aria-live="polite"></div>
+        </div>
+      </div>
+      <nav class="tabs" aria-label="Головна навігація атлета">
+        <a class="tab" aria-current="page" href="#live"><svg class="ic" aria-hidden="true"><use href="#i-c6b0b4"/></svg>Сьогодні</a>
+        <a class="tab" href="#live"><svg class="ic" aria-hidden="true"><use href="#i-a7dcfa"/></svg>Харчування</a>
+        <a class="tab" href="#live"><svg class="ic" aria-hidden="true"><use href="#i-9feb07"/></svg>Прогрес</a>
+        <a class="tab" href="#live"><svg class="ic" aria-hidden="true"><use href="#i-cd254a"/></svg>Профіль</a>
+      </nav>
+    </div>
+
+    <div class="mid">
+      <div>
+        <h3>Картка рекорду</h3>
+        <div class="card rec-card">
+          <svg viewBox="0 0 116 116" width="116" height="116" role="img" aria-label="Медаль: присідання 100 кг">
+            <defs><linearGradient id="cast" x1="0" y1="0" x2="0" y2="1"><stop offset="0" style="stop-color:var(--edge)"/><stop offset="1" style="stop-color:var(--iron)"/></linearGradient></defs>
+            <polygon points="36,4 80,4 112,36 112,80 80,112 36,112 4,80 4,36" fill="url(#cast)" style="stroke:var(--rim)" stroke-width="1"/>
+            <polygon points="40,14 76,14 102,40 102,76 76,102 40,102 14,76 14,40" fill="none" style="stroke:var(--paint)" stroke-width="2"/>
+            <text x="58" y="64" text-anchor="middle" font-family="Unbounded" font-weight="900" font-size="30" style="fill:var(--steel)">100</text>
+            <text x="58" y="82" text-anchor="middle" font-family="Manrope" font-weight="700" font-size="12" style="fill:var(--graphite)">кг</text>
+          </svg>
+          <div class="what"><span class="badge rec"><svg class="ic" aria-hidden="true"><use href="#i-36fd3f"/></svg> Рекорд</span><b>Новий рекорд · Присідання зі штангою 100 кг</b><span class="delta">+5 кг</span> до 10 жовтня</div>
+        </div>
+        <div class="medals" role="group" aria-label="Медалі за вправами">
+          <figure><svg viewBox="0 0 100 100" role="img" aria-label="Медаль: присідання 100 кг"><defs><linearGradient id="g1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" style="stop-color:var(--edge)"/><stop offset="1" style="stop-color:var(--iron)"/></linearGradient></defs><polygon points="31,3 69,3 97,31 97,69 69,97 31,97 3,69 3,31" fill="url(#g1)" style="stroke:var(--rim)"/><polygon points="35,12 65,12 88,35 88,65 65,88 35,88 12,65 12,35" fill="none" style="stroke:var(--paint)" stroke-width="2"/><text x="50" y="50" text-anchor="middle" font-family="Unbounded" font-weight="900" font-size="24" style="fill:var(--steel)">100</text><text x="50" y="65" text-anchor="middle" font-family="Manrope" font-weight="700" font-size="10" style="fill:var(--graphite)">кг</text></svg><figcaption>Присідання</figcaption></figure>
+          <figure><svg viewBox="0 0 100 100" role="img" aria-label="Медаль: жим лежачи 70 кг"><defs><linearGradient id="g2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" style="stop-color:var(--edge)"/><stop offset="1" style="stop-color:var(--iron)"/></linearGradient></defs><circle cx="50" cy="50" r="47" fill="url(#g2)" style="stroke:var(--rim)"/><rect x="47" y="2" width="6" height="9" rx="2" style="fill:var(--iron)" transform="rotate(0 50 50)"/><rect x="47" y="2" width="6" height="9" rx="2" style="fill:var(--iron)" transform="rotate(45 50 50)"/><rect x="47" y="2" width="6" height="9" rx="2" style="fill:var(--iron)" transform="rotate(90 50 50)"/><rect x="47" y="2" width="6" height="9" rx="2" style="fill:var(--iron)" transform="rotate(135 50 50)"/><rect x="47" y="2" width="6" height="9" rx="2" style="fill:var(--iron)" transform="rotate(180 50 50)"/><rect x="47" y="2" width="6" height="9" rx="2" style="fill:var(--iron)" transform="rotate(225 50 50)"/><rect x="47" y="2" width="6" height="9" rx="2" style="fill:var(--iron)" transform="rotate(270 50 50)"/><rect x="47" y="2" width="6" height="9" rx="2" style="fill:var(--iron)" transform="rotate(315 50 50)"/><circle cx="50" cy="50" r="36" fill="none" style="stroke:var(--paint)" stroke-width="2"/><text x="50" y="52" text-anchor="middle" font-family="Unbounded" font-weight="900" font-size="26" style="fill:var(--steel)">70</text><text x="50" y="67" text-anchor="middle" font-family="Manrope" font-weight="700" font-size="10" style="fill:var(--graphite)">кг</text></svg><figcaption>Жим лежачи</figcaption></figure>
+          <figure><svg viewBox="0 0 100 100" role="img" aria-label="Медаль: станова тяга 120 кг"><defs><linearGradient id="g3" x1="0" y1="0" x2="0" y2="1"><stop offset="0" style="stop-color:var(--edge)"/><stop offset="1" style="stop-color:var(--iron)"/></linearGradient></defs><path d="M50 3 L94 16 L94 50 C94 74 74 90 50 97 C26 90 6 74 6 50 L6 16 Z" fill="url(#g3)" style="stroke:var(--rim)"/><path d="M50 13 L85 23 L85 50 C85 69 69 82 50 88 C31 82 15 69 15 50 L15 23 Z" fill="none" style="stroke:var(--paint)" stroke-width="2"/><text x="50" y="52" text-anchor="middle" font-family="Unbounded" font-weight="900" font-size="22" style="fill:var(--steel)">120</text><text x="50" y="67" text-anchor="middle" font-family="Manrope" font-weight="700" font-size="10" style="fill:var(--graphite)">кг</text></svg><figcaption>Станова тяга</figcaption></figure>
+        </div>
+        <p class="why"><span class="at"><i></i>Нагорода з числом</span>Кожна вправа має свою форму лиття, число вилите завжди. Немає вогників і стріків.</p>
+      </div>
+
+      <div>
+        <h3>Кнопки</h3>
+        <div class="btn-states">
+          <div><button class="btn"><svg class="ic" aria-hidden="true"><use href="#i-0364d6"/></svg> Зберегти підхід</button><div class="cap">Головна дія · жовта фарба</div></div>
+          <div><button class="btn is-pressed" tabindex="-1"><svg class="ic" aria-hidden="true"><use href="#i-0364d6"/></svg> Зберегти підхід</button><div class="cap">Натиснуто · кнопка просідає на 1 px, тінь іде всередину</div></div>
+          <div><button class="btn" aria-disabled="true" tabindex="-1"><svg class="ic" aria-hidden="true"><use href="#i-0364d6"/></svg> Зберегти підхід</button><div class="cap">Неактивна, поки поля порожні</div></div>
+          <div><button class="btn is-loading" tabindex="-1" aria-label="Зберігаємо підхід"><svg class="ic" aria-hidden="true"><use href="#i-6ca4c6"/></svg> Зберегти підхід</button><div class="cap">Зберігаємо · a11y: «Зберігаємо підхід»</div></div>
+          <div><button class="btn ghost"><svg class="ic" aria-hidden="true"><use href="#i-9c088c"/></svg> Спробувати ще</button><div class="cap">Другорядна дія · лиття, без фарби</div></div>
+          <div><button class="btn ghost">Переглянути <svg class="ic" aria-hidden="true"><use href="#i-619acd"/></svg></button><div class="cap">Перехід · іконка після слова</div></div>
+        </div>
+        <p class="why"><span class="at"><i></i>Яскраво, не кислотно</span>Жовтий лише в одній кнопці на екрані. Решта дій з литого металу.</p>
+      </div>
+    </div>
+
+    <div class="phone tr" role="group" aria-label="Екран тренера">
+      <div class="bar"><span class="tnum">09:15</span><span>Сб, 18 жовтня</span></div>
+      <div class="scr">
+        <div class="ttl"><h3>Мої атлети</h3><span>4 атлети</span></div>
+        <div class="card roster">
+          <div class="hd"><span>Тиждень 12–18 жовтня</span><b>8 з 11</b></div>
+          <div class="r"><div class="av">ОТ</div><div><div class="n">Оля Ткаченко</div><div class="f"><b>новий рекорд</b> · присідання 100 кг (+5 кг)</div><div class="holes"><i class="on"></i><i class="on"></i><i></i></div></div><span class="badge rec"><svg class="ic" aria-hidden="true"><use href="#i-36fd3f"/></svg> Рекорд</span></div>
+          <div class="r"><div class="av">МБ</div><div><div class="n">Марта Бойко</div><div class="f">1 з 2 · нотатка атлета до тренування</div><div class="holes"><i class="on"></i><i></i></div></div><span style="font-size:20px;color:var(--steel)"><svg class="ic" aria-hidden="true"><use href="#i-271eb8"/></svg></span></div>
+          <div class="r"><div class="av">ДС</div><div><div class="n">Дмитро Савчук</div><div class="f">3 з 3 · останнє вчора</div><div class="holes"><i class="on"></i><i class="on"></i><i class="on"></i></div></div><span></span></div>
+          <div class="r"><div class="av">ІМ</div><div><div class="n">Іван Мельник</div><div class="f">9 днів без тренування · останнє 9 жовтня</div><div class="holes"><i></i><i></i><i></i></div></div><span></span></div>
+        </div>
+        <div class="card" style="margin-top:16px">
+          <div class="wk-head"><div><div class="t" style="font-size:16px">Оля Ткаченко · Тренування А</div><div class="meta"><span><svg class="ic" aria-hidden="true"><use href="#i-c6b0b4"/></svg> 17 жовтня</span><span><svg class="ic" aria-hidden="true"><use href="#i-97de3c"/></svg> 58 хв</span></div></div><span class="badge rec"><svg class="ic" aria-hidden="true"><use href="#i-36fd3f"/></svg> Рекорд</span></div>
+          <div class="rows">
+            <div class="row"><div class="ex" style="font-size:13.5px">Присідання зі штангою<small>план 4 × 5 × 90</small></div><div class="sch">4 × 5 × 90</div></div>
+            <div class="row"><div class="ex" style="font-size:13.5px">Жим лежачи<small>план 4 × 8 × 60</small></div><div class="sch">4 × 7 × 60</div></div>
+          </div>
+        </div>
+        <p class="why" style="margin-top:12px"><span class="at"><i></i>Дві щільності</span>Ті самі рядки й отвори, щільніше: 48 px на атлета, ім'я першим.</p>
+      </div>
+      <nav class="tabs" aria-label="Головна навігація тренера">
+        <a class="tab" aria-current="page" href="#live"><svg class="ic" aria-hidden="true"><use href="#i-46bd39"/></svg>Мої атлети<span class="cnt tnum">2</span></a>
+        <a class="tab" href="#live"><svg class="ic" aria-hidden="true"><use href="#i-b1e91b"/></svg>Програми</a>
+        <a class="tab" href="#live"><svg class="ic" aria-hidden="true"><use href="#i-b5367e"/></svg>Запросити</a>
+        <a class="tab" href="#live"><svg class="ic" aria-hidden="true"><use href="#i-cd254a"/></svg>Профіль</a>
+      </nav>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="palette">
+  <h2>Палітра</h2>
+  <p class="lede">Усі hex узято з напряму «Чавун» на directions.html. Нових кольорів немає, крім одного запозиченого для помилки (див. останню картку). Стратегія Restrained: три значення заліза, сталь для тексту і одна фарба для стану. Контраст рахував за WCAG 2.1 відносно поверхні, де колір реально стоїть.</p>
+  <div class="pal">
+    <div class="sw"><div class="c" style="background:#18191B;box-shadow:inset 0 -1px 0 #34373C">Чавун</div><div class="d"><span class="role">Primary · ґрунт</span><span class="nm">Чавун <code>#18191B</code></span><p>Фон усіх екранів. Темне з матеріалу (литий диск), а не «чорне за категорією».</p><span class="at"><i></i>Яскраво, не кислотно</span></div></div>
+    <div class="sw"><div class="c" style="background:#222427">Лиття</div><div class="d"><span class="role">Primary · картка</span><span class="nm">Лиття <code>#222427</code></span><p>Картки, таб-бар, другорядні кнопки. Тінь знизу, світлий рант зверху.</p><span class="at"><i></i>Цифра головна</span></div></div>
+    <div class="sw"><div class="c" style="background:#2B2E32">Накатка</div><div class="d"><span class="role">Primary · активне</span><span class="nm">Накатка <code>#2B2E32</code></span><p>Активний підхід (з візерунком накатки), бейдж «Тренер».</p><span class="at"><i></i>Під пальцем</span></div></div>
+    <div class="sw"><div class="c" style="background:#101113">Отвір</div><div class="d"><span class="role">Primary · заглиблене</span><span class="nm">Отвір <code>#101113</code></span><p>Числові поля, порожні отвори стійки. Заглиблене = сюди вводять.</p><span class="at"><i></i>Під пальцем</span></div></div>
+    <div class="sw"><div class="c" style="background:#F2C230;color:#1A1600">Фарба безпеки</div><div class="d"><span class="role">Accent · стан і головна дія</span><span class="nm">Фарба <code>#F2C230</code></span><p>Лише: головна кнопка, «зараз / зроблено», рекорд. ≤ 10 % екрана. Теплий жовтий без зелені.</p><span class="cr">На чавуні 10,5 : 1 · на литті 9,3 : 1 · текст #1A1600 на фарбі 10,8 : 1</span><span class="at"><i></i>Яскраво, не кислотно</span></div></div>
+    <div class="sw"><div class="c" style="background:#ECEAE4;color:#18191B">Сталь</div><div class="d"><span class="role">Neutral · текст</span><span class="nm">Сталь <code>#ECEAE4</code></span><p>Числа й основний текст. Теплий сірий, не чисто білий: менше відблиску в залі.</p><span class="cr">На чавуні 14,6 : 1 · на литті 12,9 : 1 · на накатці 11,3 : 1</span><span class="at"><i></i>Цифра головна</span></div></div>
+    <div class="sw"><div class="c" style="background:#9C9EA1;color:#18191B">Графіт</div><div class="d"><span class="role">Neutral · підписи</span><span class="nm">Графіт <code>#9C9EA1</code></span><p>Підписи, одиниці, метадані. Мінімальний кегль 12 px.</p><span class="cr">На чавуні 6,6 : 1 · на литті 5,8 : 1 · на накатці 5,1 : 1 · в отворі 7,0 : 1</span><span class="at"><i></i>Цифра головна</span></div></div>
+    <div class="sw"><div class="c" style="background:#34373C">Лінія</div><div class="d"><span class="role">Neutral · межі</span><span class="nm">Лінія <code>#34373C</code></span><p>Розділювачі рядків, рівно 1 px. Ранти медалі <code style="font:inherit">#4A4E54</code>, край лиття <code style="font:inherit">#3A3D42</code>.</p><span class="cr">Декоративна, не несе стану</span><span class="at"><i></i>Під пальцем</span></div></div>
+    <div class="sw"><div class="c" style="background:#F2C230;color:#1A1600">Успіх</div><div class="d"><span class="role">Семантичний · успіх</span><span class="nm">Фарба <code>#F2C230</code></span><p>Жовта лише іконка ✓ і заповнений отвір, текст сталевий: «Підхід 2 з 4 збережено · відпочинок 180 с». Зеленого немає.</p><span class="cr">Іконка на литті 9,3 : 1</span><span class="at"><i></i>Яскраво, не кислотно</span></div></div>
+    <div class="sw"><div class="c" style="background:#F2C230;color:#1A1600;box-shadow:inset 0 3px 0 #FFE38A">Рекорд</div><div class="d"><span class="role">Семантичний · рекорд</span><span class="nm">Фарба + рант <code>#FFE38A</code></span><p>Відрізняється від успіху формою: суцільна заливка бейджа з ясним рантом і медаль. Поруч завжди число.</p><span class="cr">Текст #1A1600 на фарбі 10,8 : 1</span><span class="at"><i></i>Нагорода з числом</span></div></div>
+    <div class="sw"><div class="c" style="background:#D3242A" aria-hidden="true"></div><div class="d"><span class="role">Семантичний · помилка · запозичено</span><span class="nm">Червоний <code>#D3242A</code></span><p>У «Чавуні» червоного не було; взято з «Дисків» на directions.html (диск 25 кг). Лише іконка й рамка поля 2 px, текст помилки сталевий.</p><span class="cr">Не для тексту: на литті 3,0 : 1 (межа для іконок і рамок)</span><span class="at"><i></i>Факт без докору</span></div></div>
+  </div>
+</section>
+
+<section class="block" id="type">
+  <h2>Типографіка</h2>
+  <p class="lede">Пара: Unbounded для чисел і назв (широкий, як литі цифри на диску), Manrope для слів. Обидва з кирилицею і табличними цифрами (перевірено: «111» і «888» однакової ширини). Unbounded єдиний акцидентний шрифт від 14 до 96 px.</p>
+  <div class="two">
+    <div>
+      <h3>Шкала тексту</h3>
+      <div class="tbl"><table class="t">
+        <thead><tr><th>Роль</th><th>Зразок</th><th>Розмір / рядок</th><th>Атрибут</th></tr></thead>
+        <tbody>
+          <tr><td class="g">Display</td><td><span style="font:900 40px/1 Unbounded;text-shadow:var(--cast-num)">Сьогодні</span></td><td class="g tnum">Unbounded 900 · 40 / 40</td><td><span class="at"><i></i>Цифра головна</span></td></tr>
+          <tr><td class="g">Заголовок екрана</td><td><span style="font:900 28px/1 Unbounded">Мої атлети</span></td><td class="g tnum">Unbounded 900 · 28 / 28</td><td><span class="at"><i></i>Дві щільності</span></td></tr>
+          <tr><td class="g">Заголовок картки</td><td><span style="font:700 20px/1.15 Unbounded">Тренування А</span></td><td class="g tnum">Unbounded 700 · 20 / 23</td><td><span class="at"><i></i>Цифра головна</span></td></tr>
+          <tr><td class="g">Вправа</td><td><span style="font:700 15px/1.4 Manrope">Присідання зі штангою</span></td><td class="g tnum">Manrope 700 · 15 / 21</td><td><span class="at"><i></i>Під пальцем</span></td></tr>
+          <tr><td class="g">Текст</td><td><span style="font:500 15px/1.55 Manrope">Глибина до паралелі.</span></td><td class="g tnum">Manrope 500 · 15 / 23</td><td><span class="at"><i></i>Під пальцем</span></td></tr>
+          <tr><td class="g">Підпис</td><td><span style="font:600 13px/1.4 Manrope;color:var(--graphite)">Вага, кг</span></td><td class="g tnum">Manrope 600 · 13 / 18</td><td><span class="at"><i></i>Цифра головна</span></td></tr>
+          <tr><td class="g">Метадані</td><td><span style="font:500 12.5px/1.4 Manrope;color:var(--graphite)">відпочинок 180 с</span></td><td class="g tnum">Manrope 500 · 12,5 / 18 · мінімум</td><td><span class="at"><i></i>Під пальцем</span></td></tr>
+          <tr><td class="g">Таб / бейдж</td><td><span style="font:800 12px/1 Manrope">Рекорд</span></td><td class="g tnum">Manrope 700–800 · 12 / 12</td><td><span class="at"><i></i>Дві щільності</span></td></tr>
+        </tbody>
+      </table></div>
+    </div>
+    <div>
+      <h3>Шкала цифр</h3>
+      <div class="tbl"><table class="t">
+        <thead><tr><th>Крок</th><th>Зразок</th><th>Де</th></tr></thead>
+        <tbody>
+          <tr><td class="g">N1 · 56</td><td><span class="num" style="font-size:56px;line-height:1">100<span class="unit">кг</span></span></td><td class="g">Рекорд, підсумок. Пропорційні цифри</td></tr>
+          <tr><td class="g">N2 · 30</td><td><span class="num tnum" style="font-size:30px">82,5</span></td><td class="g">Числове поле. Табличні</td></tr>
+          <tr><td class="g">N3 · 20</td><td><span class="num tnum" style="font-size:20px">1 850<span class="unit" style="font-size:.6em">ккал</span></span></td><td class="g">Підсумок дня, картка. Табличні</td></tr>
+          <tr><td class="g">N4 · 15</td><td><span class="num tnum" style="font-size:15px;font-weight:500">4 × 8 × 80</span></td><td class="g">Рядок плану. Табличні, Medium</td></tr>
+        </tbody>
+      </table></div>
+      <p class="why"><span class="at"><i></i>Цифра головна</span>Одиниця Manrope 45 % від числа графітом, щоб «кг» не сперечалося з «100». Десяткова кома, тонкий пробіл у тисячах, «×» з пробілами.</p>
+    </div>
+  </div>
+
+  <div class="numtest">
+    <div class="card"><span class="lb">«100 кг» · N1, пропорційні</span><span class="num" style="font-size:56px;line-height:1">100<span class="unit">кг</span></span></div>
+    <div class="card"><span class="lb">«4 × 8 × 80» · N2, табличні</span><span class="num tnum" style="font-size:30px">4 × 8 × 80</span></div>
+    <div class="card"><span class="lb">«82,5» · N2, кома не губиться</span><span class="num tnum" style="font-size:30px">82,5<span class="unit">кг</span></span></div>
+    <div class="card"><span class="lb">Колонка: цифри стоять у розрядах</span><span class="num tnum" style="font-size:20px;line-height:1.35">100<br>&nbsp;82,5<br>&nbsp;&nbsp;7,5</span></div>
+  </div>
+</section>
+
+<section class="block" id="form">
+  <h2>Форма</h2>
+  <p class="lede">Машинна обробка, не м'яка пластмаса: малі радіуси, рант світла зверху, тінь знизу. Заглиблене означає «сюди вводять», опукле означає «це натискають».</p>
+  <div class="form-demo">
+    <div class="card"><span class="lb">Радіуси</span>
+      <div style="display:flex;gap:10px;align-items:flex-end">
+        <div style="display:grid;gap:4px;justify-items:center"><i style="display:block;width:56px;height:56px;background:var(--knurl);border-radius:6px"></i><span class="lb tnum">6 · картка, кнопка, поле</span></div>
+        <div style="display:grid;gap:4px;justify-items:center"><i style="display:block;width:40px;height:40px;background:var(--knurl);border-radius:4px"></i><span class="lb tnum">4 · бейдж</span></div>
+        <div style="display:grid;gap:4px;justify-items:center"><i style="display:block;width:24px;height:56px;background:var(--knurl);border-radius:2px"></i><span class="lb tnum">2 · стовпчик</span></div>
+      </div>
+      <span class="at"><i></i>Під пальцем</span></div>
+    <div class="card"><span class="lb">Тіні: три, кожна з роллю</span>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px">
+        <i style="display:block;height:48px;border-radius:6px;background:var(--cast);box-shadow:var(--sh-card)"></i>
+        <i style="display:block;height:48px;border-radius:6px;background:var(--pit);box-shadow:var(--sh-pit)"></i>
+        <i style="display:block;height:48px;border-radius:6px;background:var(--paint);box-shadow:var(--sh-paint)"></i>
+      </div>
+      <span class="lb">Лиття (картка) · заглиблення (поле) · фарба (головна кнопка). Без кольорових ореолів.</span>
+      <span class="at"><i></i>Під пальцем</span></div>
+    <div class="card"><span class="lb">Відступи · крок 4</span>
+      <div class="spacing">
+        <div><i style="width:4px;height:4px"></i>4</div><div><i style="width:8px;height:8px"></i>8</div><div><i style="width:12px;height:12px"></i>12</div><div><i style="width:16px;height:16px"></i>16</div><div><i style="width:24px;height:24px"></i>24</div><div><i style="width:32px;height:32px"></i>32</div><div><i style="width:48px;height:48px"></i>48</div>
+      </div>
+      <span class="lb">16 усередині картки і поля екрана; 12 між полями; 24–32 між блоками.</span>
+      <span class="at"><i></i>Під пальцем</span></div>
+    <div class="card"><span class="lb">Зона натиску</span>
+      <div class="hit">
+        <div><i style="width:48px;height:48px"></i><span class="tnum">48 · мінімум скрізь</span></div>
+        <div><i class="y" style="width:56px;height:56px"></i><span class="tnum">56 · логер між підходами</span></div>
+      </div>
+      <span class="lb">Кнопка й кроки ± у логері 56 px, поле 64 px заввишки, рядок вправи ≥ 48 px. Головна дія внизу, під великим пальцем.</span>
+      <span class="at"><i></i>Під пальцем</span></div>
+  </div>
+  <p class="why" style="margin-top:20px"><span class="at"><i></i>Цифра головна</span>Фото: немає. Напрям тримався на типографіці й даних, тому кадрів із залу не додаю. Місце, де конкуренти ставлять фото тіла, у Forge займає число плану.</p>
+</section>
+
+<section class="block" id="icons">
+  <h2>Іконки · Solar Bold</h2>
+  <p class="lede">Суцільні, як лиття. Колір іконки сталевий або графітовий; жовтий лише у стані «зараз / зроблено / рекорд», червоний лише в помилці. Розмір 24 у таб-барі, 20 у кнопці, 14–16 у метаданих.</p>
+  <div class="icgrid">
+    <div class="card"><h3>Таб-бар атлета</h3><ul>
+      <li><svg class="ic" aria-hidden="true"><use href="#i-c6b0b4"/></svg><span>Сьогодні<small>calendar-mark</small></span></li>
+      <li><svg class="ic" aria-hidden="true"><use href="#i-a7dcfa"/></svg><span>Харчування<small>plate</small></span></li>
+      <li><svg class="ic" aria-hidden="true"><use href="#i-9feb07"/></svg><span>Прогрес<small>chart-2</small></span></li>
+      <li><svg class="ic" aria-hidden="true"><use href="#i-cd254a"/></svg><span>Профіль<small>user-rounded</small></span></li></ul></div>
+    <div class="card"><h3>Таб-бар тренера</h3><ul>
+      <li><svg class="ic" aria-hidden="true"><use href="#i-46bd39"/></svg><span>Мої атлети<small>users-group-rounded</small></span></li>
+      <li><svg class="ic" aria-hidden="true"><use href="#i-b1e91b"/></svg><span>Програми<small>clipboard-list</small></span></li>
+      <li><svg class="ic" aria-hidden="true"><use href="#i-b5367e"/></svg><span>Запросити<small>user-plus-rounded</small></span></li>
+      <li><svg class="ic" aria-hidden="true"><use href="#i-cd254a"/></svg><span>Профіль<small>user-rounded</small></span></li></ul></div>
+    <div class="card"><h3>Метадані</h3><ul>
+      <li><svg class="ic" aria-hidden="true"><use href="#i-9a2543"/></svg><span>Вага, вправи<small>dumbbell-large</small></span></li>
+      <li><svg class="ic" aria-hidden="true"><use href="#i-6d4a43"/></svg><span>Повтори, підхід N з M<small>repeat</small></span></li>
+      <li><svg class="ic" aria-hidden="true"><use href="#i-97de3c"/></svg><span>Відпочинок, тривалість<small>stopwatch</small></span></li>
+      <li><svg class="ic" aria-hidden="true"><use href="#i-c6b0b4"/></svg><span>Дата тренування<small>calendar-mark</small></span></li></ul></div>
+    <div class="card"><h3>Бейджі</h3><ul>
+      <li><span style="color:var(--paint)"><svg class="ic" aria-hidden="true"><use href="#i-36fd3f"/></svg></span><span>Рекорд<small>cup-star · на фарбі</small></span></li>
+      <li><svg class="ic" aria-hidden="true"><use href="#i-cd254a"/></svg><span>Тренер<small>user-rounded</small></span></li>
+      <li><svg class="ic" aria-hidden="true"><use href="#i-271eb8"/></svg><span>Коментар / нотатка<small>chat-round-line</small></span></li></ul></div>
+    <div class="card"><h3>Кнопки</h3><ul>
+      <li><svg class="ic" aria-hidden="true"><use href="#i-0364d6"/></svg><span>Зберегти підхід<small>check-circle</small></span></li>
+      <li><svg class="ic" aria-hidden="true"><use href="#i-6f9886"/></svg><span>Крок + 2,5 кг<small>add-circle</small></span></li>
+      <li><svg class="ic" aria-hidden="true"><use href="#i-462537"/></svg><span>Крок − 2,5 кг<small>minus-circle</small></span></li>
+      <li><svg class="ic" aria-hidden="true"><use href="#i-619acd"/></svg><span>Переглянути<small>alt-arrow-right</small></span></li></ul></div>
+    <div class="card"><h3>Стани</h3><ul>
+      <li><span style="color:var(--paint)"><svg class="ic" aria-hidden="true"><use href="#i-0364d6"/></svg></span><span>Збережено<small>check-circle · фарба</small></span></li>
+      <li><svg class="ic" aria-hidden="true"><use href="#i-6ca4c6"/></svg><span>Зберігаємо<small>refresh · обертається</small></span></li>
+      <li><span style="color:var(--fault)"><svg class="ic" aria-hidden="true"><use href="#i-519ba8"/></svg></span><span>Помилка поля<small>danger-triangle · червоний</small></span></li>
+      <li><span style="color:var(--fault)"><svg class="ic" aria-hidden="true"><use href="#i-e01a83"/></svg></span><span>Немає з'єднання<small>cloud-cross</small></span></li>
+      <li><svg class="ic" aria-hidden="true"><use href="#i-9c088c"/></svg><span>Спробувати ще<small>restart</small></span></li></ul></div>
+  </div>
+  <p class="why"><span class="at"><i></i>Нагорода з числом</span>У наборі навмисно немає fire, bonfire чи crown: вогників і стріків у Forge немає.</p>
+</section>
+
+<section class="block" id="components">
+  <h2>Три живі компоненти</h2>
+  <p class="lede">З ними можна взаємодіяти. Тексти взято з <a href="../voice.md">voice.md</a>; нові рядки занесено в <a href="../microcopy.md">microcopy.md</a> (№ 635–637).</p>
+  <div class="comps">
+    <div class="comp">
+      <h3>Кнопка дії «Зберегти підхід»</h3>
+      <div class="card pad">
+        <button class="btn" data-demo-save><svg class="ic" aria-hidden="true"><use href="#i-0364d6"/></svg> Зберегти підхід</button>
+        <div class="status" data-demo-status aria-live="polite"></div>
+      </div>
+      <div class="ctrl" role="group" aria-label="Сценарій">
+        <button class="chipbtn" aria-pressed="true" data-mode="ok">Збережено</button>
+        <button class="chipbtn" aria-pressed="false" data-mode="fail">Немає з'єднання</button>
+      </div>
+      <p class="why"><span class="at"><i></i>Під пальцем</span>56 px, на всю ширину, внизу. Натиснув → обертання → факт «Підхід 2 з 4 збережено · відпочинок 180 с». Помилка: «Підхід не збережено. Перевір з'єднання і спробуй ще раз. Дані в полях лишились.»</p>
+    </div>
+
+    <div class="comp">
+      <h3>Картка тренування з бейджем</h3>
+      <div class="card" data-wcard>
+        <div class="wk-head"><div><div class="t">Тренування А</div><div class="meta"><span><svg class="ic" aria-hidden="true"><use href="#i-c6b0b4"/></svg> Пт, 17 жовтня</span><span><svg class="ic" aria-hidden="true"><use href="#i-9a2543"/></svg> 4 вправи</span></div></div><span data-wbadge><span class="badge coach"><svg class="ic" aria-hidden="true"><use href="#i-cd254a"/></svg> Тренер</span></span></div>
+        <div class="rows">
+          <div class="row done"><div class="ex">Присідання зі штангою<small><span><svg class="ic" aria-hidden="true"><use href="#i-6d4a43"/></svg> 4 з 4</span><span data-wrec-line>план 4 × 5 × 90</span></small><div class="holes"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></div></div><div class="sch" data-wrec-num>4 × 5 × 90</div></div>
+          <div class="row active"><div class="ex">Жим лежачи<small><span><svg class="ic" aria-hidden="true"><use href="#i-6d4a43"/></svg> 2 з 4</span><span><svg class="ic" aria-hidden="true"><use href="#i-97de3c"/></svg> 120 с</span></small><div class="holes"><i class="on"></i><i class="on"></i><i></i><i></i></div></div><div class="sch">4 × 8 × 60</div></div>
+          <div class="row"><div class="ex">Румунська тяга<small><span><svg class="ic" aria-hidden="true"><use href="#i-97de3c"/></svg> 90 с</span></small></div><div class="sch">3 × 10 × 70</div></div>
+        </div>
+      </div>
+      <div class="ctrl" role="group" aria-label="Бейдж">
+        <button class="chipbtn" aria-pressed="true" data-badge="coach">Тренер</button>
+        <button class="chipbtn" aria-pressed="false" data-badge="rec">Рекорд</button>
+      </div>
+      <p class="why"><span class="at"><i></i>Нагорода з числом</span>Бейдж «Рекорд» з'являється разом із числом у рядку: «Новий рекорд · 100 кг · +5 кг». Бейдж без числа не показуємо.</p>
+    </div>
+
+    <div class="comp">
+      <h3>Числове поле «Вага, кг»</h3>
+      <div class="card pad">
+        <div class="nf" data-nf>
+          <label for="w1">Вага, кг</label>
+          <div class="box">
+            <button class="step" type="button" aria-label="Мінус 2,5 кг" data-step="-2.5"><svg class="ic" aria-hidden="true"><use href="#i-462537"/></svg></button>
+            <input id="w1" inputmode="decimal" placeholder="Наприклад, 82,5" autocomplete="off" aria-describedby="w1h w1e">
+            <button class="step" type="button" aria-label="Плюс 2,5 кг" data-step="2.5"><svg class="ic" aria-hidden="true"><use href="#i-6f9886"/></svg></button>
+          </div>
+          <div class="hint" id="w1h"><svg class="ic" aria-hidden="true"><use href="#i-e58a22"/></svg> Крок 2,5 кг. Десяткова кома.</div>
+          <div class="err" id="w1e" role="alert"><svg class="ic" aria-hidden="true"><use href="#i-519ba8"/></svg> Вкажи вагу числом, наприклад 82,5</div>
+        </div>
+      </div>
+      <p class="why"><span class="at"><i></i>Під пальцем</span>Кроки ± 56 × 64 px, поле заглиблене, фокус = рамка фарби. Спробуй «82,5», «abc» або порожнє.</p>
+      <p class="why" style="margin-top:0"><span class="at"><i></i>Цифра головна</span>У логері атлета підказкою стоїть план («90»), а не «Наприклад, …» (voice.md, Поле форми → Ролі). «Наприклад, 82,5» для форм тренера.</p>
+    </div>
+  </div>
+</section>
+</div>
+
+<footer><div class="wrap">
+  <p>Forge · пробний стенд напряму «Чавун» · 17 жовтня 2026. Демо-дані синтетичні: Оля Ткаченко, Максим Коваль та інші атлети вигадані. Інші напрями («Диски», «Талон») записано в concept/concept.md → «Напрями».</p>
+</div></footer>
+
+<script>
+const ICON_OK="<span style=\"color:var(--paint)\"><svg class=\"ic\" aria-hidden=\"true\" xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\"><path fill=\"currentColor\" fill-rule=\"evenodd\" d=\"M22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12ZM16.0303 8.96967C16.3232 9.26256 16.3232 9.73744 16.0303 10.0303L11.0303 15.0303C10.7374 15.3232 10.2626 15.3232 9.96967 15.0303L7.96967 13.0303C7.67678 12.7374 7.67678 12.2626 7.96967 11.9697C8.26256 11.6768 8.73744 11.6768 9.03033 11.9697L10.5 13.4393L12.7348 11.2045L14.9697 8.96967C15.2626 8.67678 15.7374 8.67678 16.0303 8.96967Z\" clip-rule=\"evenodd\"/></svg></span>",ICON_CHECK="<svg class=\"ic\" aria-hidden=\"true\" xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\"><path fill=\"currentColor\" fill-rule=\"evenodd\" d=\"M22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12ZM16.0303 8.96967C16.3232 9.26256 16.3232 9.73744 16.0303 10.0303L11.0303 15.0303C10.7374 15.3232 10.2626 15.3232 9.96967 15.0303L7.96967 13.0303C7.67678 12.7374 7.67678 12.2626 7.96967 11.9697C8.26256 11.6768 8.73744 11.6768 9.03033 11.9697L10.5 13.4393L12.7348 11.2045L14.9697 8.96967C15.2626 8.67678 15.7374 8.67678 16.0303 8.96967Z\" clip-rule=\"evenodd\"/></svg>",ICON_REFRESH="<svg class=\"ic\" aria-hidden=\"true\" xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\"><g fill=\"currentColor\"><path d=\"M12.0789 2.25C7.2854 2.25 3.34478 5.913 2.96055 10.5833H2.00002C1.69614 10.5833 1.42229 10.7667 1.30655 11.0477C1.19081 11.3287 1.25606 11.6517 1.47178 11.8657L3.15159 13.5324C3.444 13.8225 3.91567 13.8225 4.20808 13.5324L5.88789 11.8657C6.10361 11.6517 6.16886 11.3287 6.05312 11.0477C5.93738 10.7667 5.66353 10.5833 5.35965 10.5833H4.4668C4.84652 6.75167 8.10479 3.75 12.0789 3.75C14.8484 3.75 17.2727 5.20845 18.6156 7.39279C18.8325 7.74565 19.2944 7.85585 19.6473 7.63892C20.0002 7.42199 20.1104 6.96007 19.8934 6.60721C18.2871 3.99427 15.3873 2.25 12.0789 2.25Z\"/><path d=\"M20.8411 10.4666C20.549 10.1778 20.0789 10.1778 19.7867 10.4666L18.1005 12.1333C17.8841 12.3471 17.8184 12.6703 17.9339 12.9517C18.0495 13.233 18.3235 13.4167 18.6277 13.4167H19.5268C19.1455 17.2462 15.8759 20.25 11.8828 20.25C9.10026 20.25 6.66586 18.7903 5.31796 16.6061C5.10042 16.2536 4.63833 16.1442 4.28583 16.3618C3.93334 16.5793 3.82393 17.0414 4.04146 17.3939C5.65407 20.007 8.56406 21.75 11.8828 21.75C16.6906 21.75 20.6475 18.0892 21.0331 13.4167H22.0002C22.3043 13.4167 22.5783 13.233 22.6939 12.9517C22.8095 12.6703 22.7437 12.3471 22.5274 12.1333L20.8411 10.4666Z\"/></g></svg>",ICON_RESTART="<svg class=\"ic\" aria-hidden=\"true\" xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\"><path fill=\"currentColor\" d=\"M18.2577 3.50828C18.538 3.62437 18.7207 3.89785 18.7207 4.20119V8.44383C18.7207 8.85805 18.3849 9.19383 17.9707 9.19383H13.728C13.4247 9.19383 13.1512 9.0111 13.0351 8.73085C12.9191 8.45059 12.9832 8.128 13.1977 7.9135L14.8007 6.3105C12.1674 5.20912 9.01606 5.7309 6.87348 7.87348C4.04217 10.7048 4.04217 15.2952 6.87348 18.1265C9.70478 20.9578 14.2952 20.9578 17.1265 18.1265C18.7727 16.4803 19.4622 14.2401 19.1935 12.0937C19.142 11.6827 19.4335 11.3078 19.8445 11.2563C20.2555 11.2049 20.6304 11.4963 20.6819 11.9073C21.0057 14.4934 20.1746 17.1997 18.1872 19.1872C14.7701 22.6043 9.2299 22.6043 5.81282 19.1872C2.39573 15.7701 2.39573 10.2299 5.81282 6.81282C8.55119 4.07444 12.6515 3.5312 15.9309 5.18028L17.4404 3.67086C17.6549 3.45637 17.9774 3.3922 18.2577 3.50828Z\"/></svg>",ICON_CLOUD="<span style=\"color:var(--fault)\"><svg class=\"ic\" aria-hidden=\"true\" xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\"><g fill=\"currentColor\"><path fill-rule=\"evenodd\" d=\"M12 22C10.1144 22 9.17157 22 8.58579 21.4142C8 20.8284 8 19.8856 8 18C8 16.1144 8 15.1716 8.58579 14.5858C9.17157 14 10.1144 14 12 14C13.8856 14 14.8284 14 15.4142 14.5858C16 15.1716 16 16.1144 16 18C16 19.8856 16 20.8284 15.4142 21.4142C14.8284 22 13.8856 22 12 22ZM10.6936 15.7508C10.4333 15.4905 10.0112 15.4905 9.75082 15.7508C9.49047 16.0112 9.49047 16.4333 9.75082 16.6936L11.0572 18L9.75082 19.3064C9.49047 19.5667 9.49047 19.9888 9.75082 20.2492C10.0112 20.5095 10.4333 20.5095 10.6936 20.2492L12 18.9428L13.3064 20.2492C13.5667 20.5095 13.9888 20.5095 14.2492 20.2492C14.5095 19.9888 14.5095 19.5667 14.2492 19.3064L12.9428 18L14.2492 16.6936C14.5095 16.4333 14.5095 16.0112 14.2492 15.7508C13.9888 15.4905 13.5667 15.4905 13.3064 15.7508L12 17.0572L10.6936 15.7508Z\" clip-rule=\"evenodd\"/><path d=\"M6.50001 18L6.50001 17.9105C6.49991 17.0449 6.49981 16.2512 6.58661 15.6056C6.6822 14.8946 6.90709 14.1432 7.52514 13.5251C8.14319 12.9071 8.89464 12.6822 9.6056 12.5866C10.2512 12.4998 11.0449 12.4999 11.9105 12.5H12.0895C12.9551 12.4999 13.7488 12.4998 14.3944 12.5866C15.1054 12.6822 15.8568 12.9071 16.4749 13.5251C17.0929 14.1432 17.3178 14.8946 17.4134 15.6056C17.4989 16.2417 17.5001 17.0215 17.5 17.8722C20.0726 17.3221 22 15.0599 22 12.3529C22 9.88113 20.393 7.78024 18.1551 7.01498C17.8371 4.19371 15.4159 2 12.4762 2C9.32028 2 6.7619 4.52827 6.7619 7.64706C6.7619 8.33687 6.88706 8.9978 7.11616 9.60887C6.8475 9.55673 6.56983 9.52941 6.28571 9.52941C3.91878 9.52941 2 11.4256 2 13.7647C2 16.1038 3.91878 18 6.28571 18L6.50001 18Z\"/></g></svg></span>",ICON_USER="<svg class=\"ic\" aria-hidden=\"true\" xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\"><g fill=\"currentColor\"><path d=\"M12 13C15.866 13 19 14.7909 19 17C19 19.2091 15.866 21 12 21C8.13401 21 5 19.2091 5 17C5 14.7909 8.13401 13 12 13Z\"/><path d=\"M12 2C14.2091 2 16 3.79086 16 6C16 8.20914 14.2091 10 12 10C9.79086 10 8 8.20914 8 6C8 3.79086 9.79086 2 12 2Z\"/></g></svg>",ICON_CUP="<svg class=\"ic\" aria-hidden=\"true\" xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\"><g fill=\"currentColor\"><path d=\"M21.9999 8.16234L21.9999 8.23487C21.9999 9.09561 21.9999 9.52598 21.7927 9.8781C21.5855 10.2302 21.2093 10.4392 20.4569 10.8572L19.6636 11.298C20.2102 9.44984 20.3926 7.46414 20.4601 5.76597C20.4629 5.69316 20.4662 5.61945 20.4695 5.54497L20.4718 5.49279C21.1231 5.71896 21.4887 5.88758 21.7168 6.20408C22 6.59692 22 7.11873 21.9999 8.16234Z\"/><path d=\"M2 8.16234L2 8.23487C2.00003 9.09561 2.00004 9.52598 2.20723 9.8781C2.41442 10.2302 2.79063 10.4392 3.54305 10.8572L4.33681 11.2982C3.79007 9.45001 3.60767 7.46422 3.54025 5.76597C3.53736 5.69316 3.5341 5.61945 3.53081 5.54497L3.5285 5.49266C2.87701 5.7189 2.51126 5.88752 2.2831 6.20408C1.99996 6.59692 1.99997 7.11873 2 8.16234Z\"/><path fill-rule=\"evenodd\" d=\"M12.0002 2C13.7837 2 15.2531 2.15709 16.3771 2.34674C17.5159 2.53887 18.0852 2.63494 18.5609 3.22083C19.0367 3.80673 19.0115 4.43998 18.9612 5.70647C18.7886 10.0545 17.8503 15.4853 12.75 15.9657V19.5H14.1802C14.6569 19.5 15.0673 19.8365 15.1608 20.3039L15.35 21.25H18C18.4142 21.25 18.75 21.5858 18.75 22C18.75 22.4142 18.4142 22.75 18 22.75H6C5.58579 22.75 5.25 22.4142 5.25 22C5.25 21.5858 5.58579 21.25 6 21.25H8.65L8.83922 20.3039C8.93271 19.8365 9.34312 19.5 9.8198 19.5H11.25V15.9657C6.14996 15.4851 5.21169 10.0544 5.03907 5.70647C4.98879 4.43998 4.96365 3.80673 5.43937 3.22083C5.91508 2.63494 6.48445 2.53887 7.62318 2.34674C8.74724 2.15709 10.2166 2 12.0002 2ZM12.9524 6.19887L12.8541 6.02251C12.4741 5.34084 12.2841 5 12 5C11.7159 5 11.5259 5.34084 11.1459 6.02251L11.0476 6.19887C10.9397 6.39258 10.8857 6.48944 10.8015 6.55334C10.7173 6.61725 10.6125 6.64097 10.4028 6.68841L10.2119 6.73161C9.47396 6.89857 9.10501 6.98205 9.01723 7.26432C8.92945 7.54659 9.18097 7.84072 9.68403 8.42898L9.81418 8.58117C9.95713 8.74833 10.0286 8.83191 10.0608 8.93532C10.0929 9.03872 10.0821 9.15023 10.0605 9.37327L10.0408 9.57632C9.96476 10.3612 9.92674 10.7536 10.1565 10.9281C10.3864 11.1025 10.7318 10.9435 11.4227 10.6254L11.6014 10.5431C11.7978 10.4527 11.8959 10.4075 12 10.4075C12.1041 10.4075 12.2022 10.4527 12.3986 10.5431L12.5773 10.6254C13.2682 10.9435 13.6136 11.1025 13.8435 10.9281C14.0733 10.7536 14.0352 10.3612 13.9592 9.57632L13.9395 9.37327C13.9179 9.15023 13.9071 9.03872 13.9392 8.93532C13.9714 8.83191 14.0429 8.74833 14.1858 8.58117L14.316 8.42898C14.819 7.84072 15.0706 7.54659 14.9828 7.26432C14.895 6.98205 14.526 6.89857 13.7881 6.73161L13.5972 6.68841C13.3875 6.64097 13.2827 6.61725 13.1985 6.55334C13.1143 6.48944 13.0603 6.39258 12.9524 6.19887Z\" clip-rule=\"evenodd\"/></g></svg>";
+const fmt=n=>String(Math.round(n*100)/100).replace('.',',');
+// live logger
+(function(){let n=2;const btn=document.querySelector('[data-save]'),st=document.querySelector('[data-status]');
+  btn.addEventListener('click',()=>{if(btn.classList.contains('is-loading'))return;
+    btn.classList.add('is-loading');btn.setAttribute('aria-label','Зберігаємо підхід');
+    setTimeout(()=>{btn.classList.remove('is-loading');btn.removeAttribute('aria-label');
+      st.innerHTML=ICON_OK+' Підхід '+n+' з 4 збережено · відпочинок 180 с';
+      n=n>=4?1:n+1;
+      document.querySelectorAll('[data-set],[data-set2]').forEach(e=>e.textContent=n);
+      document.querySelectorAll('[data-holes] i').forEach((h,i)=>h.classList.toggle('on',i<n-1));
+    },650);});})();
+
+// demo button
+(function(){let mode='ok';const b=document.querySelector('[data-demo-save]'),st=document.querySelector('[data-demo-status]');
+  document.querySelectorAll('[data-mode]').forEach(c=>c.addEventListener('click',()=>{mode=c.dataset.mode;document.querySelectorAll('[data-mode]').forEach(x=>x.setAttribute('aria-pressed',x===c));
+    b.className='btn';b.innerHTML=ICON_CHECK+' Зберегти підхід';st.className='status';st.innerHTML='';}));
+  b.addEventListener('click',()=>{if(b.classList.contains('is-loading'))return;
+    if(b.dataset.retry){delete b.dataset.retry;}
+    b.className='btn is-loading';b.innerHTML=ICON_REFRESH+' Зберегти підхід';b.setAttribute('aria-label','Зберігаємо підхід');st.className='status';st.innerHTML='';
+    setTimeout(()=>{b.removeAttribute('aria-label');
+      if(mode==='ok'){b.className='btn is-saved';b.innerHTML=ICON_CHECK+' Збережено';st.className='status ok';st.innerHTML=ICON_OK+' Підхід 2 з 4 збережено · відпочинок 180 с';
+        setTimeout(()=>{b.className='btn';b.innerHTML=ICON_CHECK+' Зберегти підхід';},1800);}
+      else{b.className='btn ghost';b.innerHTML=ICON_RESTART+' Спробувати ще';b.dataset.retry=1;st.className='status bad';st.innerHTML=ICON_CLOUD+' Підхід не збережено. Перевір з’єднання і спробуй ще раз. Дані в полях лишились.';}
+    },800);});})();
+
+// workout card badge
+(function(){const slot=document.querySelector('[data-wbadge]'),line=document.querySelector('[data-wrec-line]'),num=document.querySelector('[data-wrec-num]');
+  const COACH='<span class="badge coach">'+ICON_USER+' Тренер</span>',REC='<span class="badge rec">'+ICON_CUP+' Рекорд</span>';
+  document.querySelectorAll('[data-badge]').forEach(c=>c.addEventListener('click',()=>{document.querySelectorAll('[data-badge]').forEach(x=>x.setAttribute('aria-pressed',x===c));
+    if(c.dataset.badge==='rec'){slot.innerHTML=REC;line.innerHTML='<b style="color:var(--paint)">Новий рекорд · 100 кг · +5 кг</b>';num.textContent='4 × 5 × 100';}
+    else{slot.innerHTML=COACH;line.textContent='план 4 × 5 × 90';num.textContent='4 × 5 × 90';}}));})();
+
+// numeric field
+(function(){const f=document.querySelector('[data-nf]'),inp=f.querySelector('input');
+  const parse=v=>{v=v.trim().replace(/\s/g,'').replace(',','.');if(!/^\d{1,3}(\.\d{1,2})?$/.test(v))return null;return +v;};
+  const check=()=>{const v=inp.value;if(v==='')return f.classList.remove('bad');f.classList.toggle('bad',parse(v)===null);inp.setAttribute('aria-invalid',parse(v)===null);};
+  inp.addEventListener('blur',check);inp.addEventListener('input',()=>{if(f.classList.contains('bad'))check();});
+  f.querySelectorAll('[data-step]').forEach(b=>b.addEventListener('click',()=>{const cur=parse(inp.value)??80;inp.value=fmt(Math.max(0,cur+ +b.dataset.step));check();}));})();
+</script>
+</body>
+</html>
