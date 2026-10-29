@@ -1,0 +1,386 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-29T11:10:54+00:00",
+  "title": "Design System: Forge",
+  "extensions": {
+    "colorMeta": {
+      "iron": {
+        "role": "neutral",
+        "displayName": "Чавун",
+        "canonical": "#18191B",
+        "tonalRamp": [
+          "#0A0B0C",
+          "#232426",
+          "#3F4042",
+          "#5C5E60",
+          "#7C7D80",
+          "#9D9EA1",
+          "#C3C4C7",
+          "#EDEEF1"
+        ]
+      },
+      "cast": {
+        "role": "neutral",
+        "displayName": "Лиття",
+        "canonical": "#222427",
+        "tonalRamp": [
+          "#0A0B0D",
+          "#222427",
+          "#3E4043",
+          "#5B5E61",
+          "#7B7D81",
+          "#9C9FA2",
+          "#C2C4C8",
+          "#ECEFF3"
+        ]
+      },
+      "knurl": {
+        "role": "neutral",
+        "displayName": "Накатка",
+        "canonical": "#2B2E32",
+        "tonalRamp": [
+          "#0A0B0D",
+          "#222428",
+          "#3D4044",
+          "#5A5E62",
+          "#7A7E82",
+          "#9B9FA4",
+          "#C1C4CA",
+          "#EBEFF4"
+        ]
+      },
+      "pit": {
+        "role": "neutral",
+        "displayName": "Отвір",
+        "canonical": "#101113",
+        "tonalRamp": [
+          "#0A0B0D",
+          "#232426",
+          "#3E4042",
+          "#5C5E60",
+          "#7C7D80",
+          "#9D9EA1",
+          "#C3C4C7",
+          "#EDEEF1"
+        ]
+      },
+      "line": {
+        "role": "neutral",
+        "displayName": "Лінія",
+        "canonical": "#34373C",
+        "tonalRamp": [
+          "#0A0B0D",
+          "#222428",
+          "#3D4045",
+          "#5A5E63",
+          "#7A7D83",
+          "#9B9FA5",
+          "#C0C4CB",
+          "#EBEFF5"
+        ]
+      },
+      "edge": {
+        "role": "neutral",
+        "displayName": "Край",
+        "canonical": "#3A3D42",
+        "tonalRamp": [
+          "#0A0B0D",
+          "#222427",
+          "#3D4045",
+          "#5B5E63",
+          "#7A7D83",
+          "#9B9FA4",
+          "#C1C4CA",
+          "#EBEFF5"
+        ]
+      },
+      "rim": {
+        "role": "neutral",
+        "displayName": "Рант",
+        "canonical": "#4A4E54",
+        "tonalRamp": [
+          "#0A0B0D",
+          "#222427",
+          "#3D4045",
+          "#5A5E64",
+          "#797E84",
+          "#9A9FA6",
+          "#C0C4CC",
+          "#EAEFF6"
+        ]
+      },
+      "steel": {
+        "role": "neutral",
+        "displayName": "Сталь",
+        "canonical": "#ECEAE4",
+        "tonalRamp": [
+          "#0B0B0A",
+          "#242423",
+          "#40403E",
+          "#5E5D5B",
+          "#7E7D7A",
+          "#A09E9A",
+          "#C6C4BF",
+          "#F0EEE8"
+        ]
+      },
+      "graphite": {
+        "role": "neutral",
+        "displayName": "Графіт",
+        "canonical": "#9C9EA1",
+        "tonalRamp": [
+          "#0B0B0C",
+          "#232425",
+          "#3F4041",
+          "#5C5E5F",
+          "#7C7D80",
+          "#9C9EA1",
+          "#C2C4C7",
+          "#ECEFF2"
+        ]
+      },
+      "paint": {
+        "role": "primary",
+        "displayName": "Фарба безпеки",
+        "canonical": "#F2C230",
+        "tonalRamp": [
+          "#100A01",
+          "#2E2203",
+          "#4F3D09",
+          "#725A11",
+          "#98791A",
+          "#C09924",
+          "#EDBE2F",
+          "#FFE861"
+        ]
+      },
+      "paint-hi": {
+        "role": "primary",
+        "displayName": "Рант фарби",
+        "canonical": "#FFE38A",
+        "tonalRamp": [
+          "#0E0B04",
+          "#292411",
+          "#483F23",
+          "#695D35",
+          "#8C7C49",
+          "#B19D5E",
+          "#DBC376",
+          "#FFED94"
+        ]
+      },
+      "paint-ink": {
+        "role": "primary",
+        "displayName": "Чорнило по фарбі",
+        "canonical": "#1A1600",
+        "tonalRamp": [
+          "#0E0B00",
+          "#28240B",
+          "#444026",
+          "#635F43",
+          "#827E62",
+          "#A4A082",
+          "#CAC5A7",
+          "#F4F0D0"
+        ]
+      },
+      "fault": {
+        "role": "tertiary",
+        "displayName": "Червоний диска",
+        "canonical": "#D3242A",
+        "tonalRamp": [
+          "#1A0403",
+          "#411210",
+          "#6D2320",
+          "#9C3632",
+          "#CB4E48",
+          "#F27168",
+          "#FF978D",
+          "#FFC2B6"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "number-field": {
+        "displayName": "N2 · поле",
+        "purpose": "Значення в полях логера."
+      },
+      "number-stat": {
+        "displayName": "N3 · підсумок",
+        "purpose": "Підсумок дня."
+      },
+      "number-row": {
+        "displayName": "N4 · рядок",
+        "purpose": "Схема «4 × 8 × 80 кг» і значення в таблиці."
+      },
+      "title": {
+        "displayName": "Назва дня",
+        "purpose": "Назва тренування дня."
+      },
+      "headline": {
+        "displayName": "Шапка",
+        "purpose": "Назва плану або екрана."
+      }
+    },
+    "shadows": [
+      {
+        "name": "sh-card",
+        "value": "0 1px 0 rgba(255,255,255,.04) inset, 0 10px 24px -12px rgba(0,0,0,.6)",
+        "purpose": "Лиття: картки, списки, таблиця, блоки стану."
+      },
+      {
+        "name": "sh-pit",
+        "value": "inset 0 2px 4px rgba(0,0,0,.6)",
+        "purpose": "Заглиблення: поля, доріжка шкали, натиснута кнопка."
+      },
+      {
+        "name": "sh-paint",
+        "value": "0 1px 0 rgba(255,255,255,.35) inset, 0 -2px 0 rgba(0,0,0,.18) inset",
+        "purpose": "Шар фарби на головній кнопці."
+      },
+      {
+        "name": "cast-num",
+        "value": "0 1px 0 rgba(255,255,255,.06), 0 -1px 0 rgba(0,0,0,.75)",
+        "purpose": "Литий рельєф чисел і назв (text-shadow)."
+      }
+    ],
+    "motion": [
+      {
+        "name": "press",
+        "value": "transform .12s cubic-bezier(.16,1,.3,1)",
+        "purpose": "Просідання кнопки на 1 px."
+      },
+      {
+        "name": "skeleton-pulse",
+        "value": "1.6s cubic-bezier(.4,0,.6,1) infinite, opacity 1 → .55",
+        "purpose": "Скелетон; вимикається при prefers-reduced-motion."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "phone",
+        "value": "390px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Головна кнопка",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Єдина жовта дія екрана: «Почати тренування», «Зберегти підхід».",
+      "html": "<button class=\"ds-btn-primary\" type=\"button\">Зберегти підхід</button>",
+      "css": ".ds-btn-primary{display:flex;align-items:center;justify-content:center;width:100%;min-height:56px;padding:12px 16px;border:0;border-radius:6px;background:#F2C230;color:#1A1600;font-family:Manrope,system-ui,sans-serif;font-size:16px;font-weight:800;cursor:pointer;box-shadow:0 1px 0 rgba(255,255,255,.35) inset,0 -2px 0 rgba(0,0,0,.18) inset;transition:transform .12s cubic-bezier(.16,1,.3,1)}.ds-btn-primary:hover{box-shadow:0 1px 0 rgba(255,255,255,.35) inset,0 -2px 0 rgba(0,0,0,.18) inset,inset 0 0 0 2px #FFE38A}.ds-btn-primary:active{transform:translateY(1px);box-shadow:inset 0 2px 4px rgba(0,0,0,.6)}.ds-btn-primary:focus-visible{outline:2px solid #F2C230;outline-offset:3px}"
+    },
+    {
+      "name": "Неактивна кнопка",
+      "kind": "button",
+      "refersTo": "button-primary-disabled",
+      "description": "Дія, для якої ще бракує даних; не липне й не ловить фокус.",
+      "html": "<button class=\"ds-btn-disabled\" type=\"button\" disabled>Завершити тренування</button>",
+      "css": ".ds-btn-disabled{display:flex;align-items:center;justify-content:center;width:100%;min-height:56px;padding:12px 16px;border:0;border-radius:6px;background:transparent;color:#9C9EA1;font-family:Manrope,system-ui,sans-serif;font-size:16px;font-weight:800;box-shadow:inset 0 0 0 1px #34373C;cursor:not-allowed}"
+    },
+    {
+      "name": "Вторинна кнопка",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "Повтор після помилки; накатка, не фарба.",
+      "html": "<button class=\"ds-btn-secondary\" type=\"button\">Спробувати ще</button>",
+      "css": ".ds-btn-secondary{display:flex;align-items:center;justify-content:center;width:100%;min-height:56px;padding:12px 16px;border:0;border-radius:6px;background:#2B2E32;color:#ECEAE4;font-family:Manrope,system-ui,sans-serif;font-size:16px;font-weight:800;box-shadow:inset 0 0 0 1px #34373C;cursor:pointer}.ds-btn-secondary:hover{color:#F2C230}.ds-btn-secondary:active{transform:translateY(1px)}.ds-btn-secondary:focus-visible{outline:2px solid #F2C230;outline-offset:3px}"
+    },
+    {
+      "name": "Числове поле",
+      "kind": "input",
+      "refersTo": "input-number",
+      "description": "Поле логера: отвір 64 px, число 30 px, передзаповнене планом.",
+      "html": "<label class=\"ds-nf\"><span>Вага, кг</span><input type=\"text\" inputmode=\"decimal\" value=\"82,5\"></label>",
+      "css": ".ds-nf{display:grid;gap:6px;max-width:180px}.ds-nf span{font-family:Manrope,system-ui,sans-serif;font-size:13px;font-weight:600;color:#9C9EA1}.ds-nf input{height:64px;padding:0 14px;border:0;border-radius:6px;background:#101113;box-shadow:inset 0 2px 4px rgba(0,0,0,.6);color:#ECEAE4;font-family:Unbounded,sans-serif;font-size:30px;font-weight:700;font-variant-numeric:tabular-nums;text-shadow:0 1px 0 rgba(255,255,255,.06),0 -1px 0 rgba(0,0,0,.75);caret-color:#F2C230}.ds-nf input:focus{outline:none;box-shadow:inset 0 2px 4px rgba(0,0,0,.6),0 0 0 2px #F2C230}"
+    },
+    {
+      "name": "Картка вправи",
+      "kind": "card",
+      "refersTo": "card",
+      "description": "Назва й відпочинок ліворуч, схема литими табличними цифрами праворуч.",
+      "html": "<article class=\"ds-ex\"><p class=\"n\">Присідання зі штангою</p><p class=\"p\">4 × 8 × 80 кг</p><p class=\"r\">Відпочинок 90 с</p></article>",
+      "css": ".ds-ex{display:grid;grid-template-columns:minmax(0,1fr) auto;grid-template-areas:'n p' 'r p';column-gap:12px;row-gap:3px;align-items:center;max-width:358px;padding:12px 16px;min-height:48px;background:#222427;border-radius:6px;color:#ECEAE4;box-shadow:0 1px 0 rgba(255,255,255,.04) inset,0 10px 24px -12px rgba(0,0,0,.6)}.ds-ex p{margin:0}.ds-ex .n{grid-area:n;font-family:Manrope,system-ui,sans-serif;font-size:15px;font-weight:700}.ds-ex .p{grid-area:p;font-family:Unbounded,sans-serif;font-size:15px;font-weight:500;font-variant-numeric:tabular-nums;white-space:nowrap;text-shadow:0 1px 0 rgba(255,255,255,.06),0 -1px 0 rgba(0,0,0,.75)}.ds-ex .r{grid-area:r;font-family:Manrope,system-ui,sans-serif;font-size:12.5px;color:#9C9EA1}"
+    },
+    {
+      "name": "Список вправ зі станами",
+      "kind": "custom",
+      "refersTo": "list-row-active",
+      "description": "Підпис: стан матеріалом — ✓ виконано, накатка зараз, отвір очікує.",
+      "html": "<ul class=\"ds-rows\"><li class=\"done\"><span class=\"c\"><svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path fill=\"currentColor\" fill-rule=\"evenodd\" d=\"M22 12c0 5.523-4.477 10-10 10S2 17.523 2 12S6.477 2 12 2s10 4.477 10 10m-5.97-3.03a.75.75 0 0 1 0 1.06l-5 5a.75.75 0 0 1-1.06 0l-2-2a.75.75 0 1 1 1.06-1.06l1.47 1.47l2.235-2.235L14.97 8.97a.75.75 0 0 1 1.06 0\" clip-rule=\"evenodd\"/></svg></span><span>Присідання зі штангою</span><span class=\"s\">4 з 4</span></li><li class=\"cur\"><span class=\"c\"><svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path fill=\"currentColor\" fill-rule=\"evenodd\" d=\"M22 12c0 5.523-4.477 10-10 10S2 17.523 2 12S6.477 2 12 2s10 4.477 10 10m-5.97-3.03a.75.75 0 0 1 0 1.06l-5 5a.75.75 0 0 1-1.06 0l-2-2a.75.75 0 1 1 1.06-1.06l1.47 1.47l2.235-2.235L14.97 8.97a.75.75 0 0 1 1.06 0\" clip-rule=\"evenodd\"/></svg></span><span>Румунська тяга</span><span class=\"s\">2 з 4</span></li><li class=\"pend\"><span class=\"c\"><i></i></span><span>Жим ногами</span><span class=\"s\">0 з 3</span></li></ul>",
+      "css": ".ds-rows{list-style:none;margin:0;padding:0;max-width:358px;background:#222427;border-radius:6px;overflow:hidden;box-shadow:0 1px 0 rgba(255,255,255,.04) inset,0 10px 24px -12px rgba(0,0,0,.6)}.ds-rows li{display:grid;grid-template-columns:22px minmax(0,1fr) auto;gap:10px;align-items:center;min-height:48px;padding:12px 16px;font-family:Manrope,system-ui,sans-serif;font-size:15px;font-weight:700;color:#ECEAE4}.ds-rows li+li{border-top:1px solid #34373C}.ds-rows .done,.ds-rows .pend{color:#9C9EA1}.ds-rows .done .c{color:#F2C230}.ds-rows .cur{background:repeating-linear-gradient(45deg,rgba(255,255,255,.035) 0 1px,transparent 1px 5px),repeating-linear-gradient(-45deg,rgba(255,255,255,.035) 0 1px,transparent 1px 5px),#2B2E32}.ds-rows .c{display:flex;justify-content:center}.ds-rows .c i{width:10px;height:10px;border-radius:50%;background:#101113;box-shadow:inset 0 1px 2px rgba(0,0,0,.9),0 1px 0 rgba(255,255,255,.06)}.ds-rows .s{font-size:12.5px;font-weight:500;color:#9C9EA1;font-variant-numeric:tabular-nums}"
+    },
+    {
+      "name": "Таб-бар атлета",
+      "kind": "nav",
+      "refersTo": "tab-bar",
+      "description": "Чотири вкладки; активна — жовтий отвір і жовта іконка.",
+      "html": "<nav class=\"ds-tabs\"><a href=\"#\" aria-current=\"page\"><i></i>Сьогодні</a><a href=\"#\"><i></i>Харчування</a><a href=\"#\"><i></i>Прогрес</a><a href=\"#\"><i></i>Профіль</a></nav>",
+      "css": ".ds-tabs{display:grid;grid-template-columns:repeat(4,1fr);max-width:390px;padding:6px 4px 10px;background:#222427;border-top:1px solid #34373C}.ds-tabs a{display:grid;justify-items:center;align-content:center;gap:6px;min-height:48px;text-decoration:none;font-family:Manrope,system-ui,sans-serif;font-size:12px;font-weight:700;color:#9C9EA1}.ds-tabs i{width:6px;height:6px;border-radius:50%;background:#101113;box-shadow:inset 0 1px 1px rgba(0,0,0,.9)}.ds-tabs a[aria-current=page]{color:#ECEAE4}.ds-tabs a[aria-current=page] i{background:#F2C230;box-shadow:none}.ds-tabs a:focus-visible{outline:2px solid #F2C230;outline-offset:-2px;border-radius:6px}"
+    },
+    {
+      "name": "Блок помилки",
+      "kind": "card",
+      "refersTo": "card",
+      "description": "Тиха помилка: червоні лише іконка і рамка 2 px, текст сталевий.",
+      "html": "<div class=\"ds-err\" role=\"alert\"><p class=\"t\">Підхід не збережено</p><p class=\"x\">Перевір з'єднання і спробуй ще раз. Дані в полях лишились.</p></div>",
+      "css": ".ds-err{max-width:358px;padding:24px 16px 16px;text-align:center;background:#222427;border-radius:6px;box-shadow:0 1px 0 rgba(255,255,255,.04) inset,0 10px 24px -12px rgba(0,0,0,.6),inset 0 0 0 2px #D3242A}.ds-err p{margin:0}.ds-err .t{font-family:Unbounded,sans-serif;font-size:18px;font-weight:700;color:#ECEAE4;margin-bottom:8px}.ds-err .x{font-family:Manrope,system-ui,sans-serif;font-size:14.5px;color:#ECEAE4;line-height:1.55}"
+    }
+  ],
+  "narrative": {
+    "northStar": "Чавун",
+    "overview": "Число вилите, а не надруковане. Екран зроблено з матеріалу залу: темне литво замість «темної теми», цифри з тонким литим рельєфом, накатка грифа на тому рядку, який зараз виконують, отвори стійки там, де щось чекає, і жовта фарба безпеки лише на головній дії та на тому, що відбувається зараз. Фото немає: місце, яке в конкурентів займає тіло, тут займає план і факт.\n\nЩільність спокійна й робоча. Одна колонка з відступом 16 px. Секції підписано дрібним графітовим ярликом, а їхній вміст лежить в одному литві: картки вправ, список вправ і таблиця підходів ідуть рядками через лінію 1 px, а не окремими плитками. Атлет бачить одну дію за раз, і ця дія лежить унизу під великим пальцем.\n\nМова відкидає неоново-зелений на чорному, стокові фото тіл, вогники й стріки, а також кольорову смугу зліва й кільця прогресу.",
+    "keyCharacteristics": [
+      "Тепла темна гама, без синього відтінку; один теплий жовтий акцент.",
+      "Unbounded для чисел і назв, Manrope для слів; табличні цифри в рядках і полях.",
+      "Стан показано матеріалом (накатка, отвір, заглиблення), а не новим кольором.",
+      "Цілі натиску ≥ 48 px, головні кнопки 56 px, числові поля 64 px.",
+      "Помилка тиха: червона лише іконка і рамка 2 px."
+    ],
+    "rules": [
+      {
+        "name": "The One Paint Rule",
+        "body": "Жовтий означає «тут дія або тут зараз», і більше нічого. Він займає не більше 10 % екрана; дані, як-от шкала калорій, фарбуються графітом.",
+        "section": "colors"
+      },
+      {
+        "name": "The Quiet Fault Rule",
+        "body": "Червоний — лише іконка і рамка 2 px; текст помилки сталевий. Помилка ніколи не жовта, щоб не сплутатися з рекордом.",
+        "section": "colors"
+      },
+      {
+        "name": "The Cast Number Rule",
+        "body": "Кожне число зі схеми, факту чи підсумку набрано в Unbounded із литим рельєфом і табличними цифрами. Число в Manrope — помилка.",
+        "section": "typography"
+      },
+      {
+        "name": "The No Kicker Rule",
+        "body": "Ярлики секцій пишуться звичайним реченням, без великих літер і розрядки.",
+        "section": "typography"
+      },
+      {
+        "name": "The Pressed Not Glowing Rule",
+        "body": "Натискання просаджує кнопку на 1 px і переводить тінь усередину. Ні світіння, ні масштабу.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "**Do** набирати кожне число в Unbounded з табличними цифрами й литим рельєфом.",
+      "**Do** показувати стан накаткою, отвором і ✓, а не новим кольором.",
+      "**Do** тримати жовтий не більше ніж на 10 % екрана: головна дія плюс те, що зараз.",
+      "**Do** збирати однорідні рядки в одне литво з лінією 1 px.",
+      "**Do** давати кожній цілі ≥ 48 px, повноширинній кнопці 56 px, числовому полю 64 px.",
+      "**Do** перевіряти текст на контраст AA: графіт кладемо лише на поверхні, не світліші за накатку (там 5,1 : 1)."
+    ],
+    "donts": [
+      "**Don't** фарбувати текст червоним і не заливати червоним блок помилки.",
+      "**Don't** використовувати неоново-зелений або лаймовий акцент.",
+      "**Don't** ставити фото тіл, вогники, стріки й емодзі замість даних.",
+      "**Don't** позначати стан кольоровою смугою зліва ширшою за 1 px чи кільцем прогресу.",
+      "**Don't** вводити нові відтінки жовтого для станів кнопки: наведення — рант, натискання — заглиблення.",
+      "**Don't** писати ярлики великими літерами з розрядкою."
+    ]
+  }
+}

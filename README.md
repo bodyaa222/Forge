@@ -14,6 +14,7 @@ A mobile-first web platform connecting athletes and personal trainers — traini
 | [`research/screens/ui/`](./research/screens/ui/) | 56 real UI screenshots from Mobbin — 7 fitness apps |
 | [`wireframes/`](./wireframes/) | Low-fidelity wireframes (flows, layout sketches) |
 | [`concept/`](./concept/) | Visual direction «Чавун»: references, three directions, language test stand, attributes |
+| [`DESIGN.md`](./DESIGN.md) | Product design system «Чавун», extracted from the painted Today and Workout screens (tokens, components, rules) |
 | [`tokens/`](./tokens/) | Design tokens — colors, typography, spacing, shadows |
 | [`components/`](./components/) | Individual component specs and states |
 | [`design-system/`](./design-system/) | Full design system documentation |
