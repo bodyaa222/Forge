@@ -1,0 +1,953 @@
+<!doctype html>
+<html lang="uk">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Forge · UI-кіт</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Manrope:wght@500;600;700;800&display=swap">
+  <link rel="stylesheet" href="kit.css">
+  <style>
+    /* Вітрина: лише розкладка сторінки. Компоненти — з kit.css, без змін. */
+    :root { --sc-tile: 390px; --sc-gap: 16px; --sc-wide: 1240px; }
+    body {
+      margin: 0; background: var(--pit); color: var(--steel);
+      font: var(--fw-regular) var(--fs-body) / var(--lh-body) var(--font-text);
+      -webkit-font-smoothing: antialiased;
+    }
+    ::selection { background: var(--paint); color: var(--paint-ink); }
+    .sc-page { max-width: var(--sc-wide); margin: 0 auto; padding: var(--sp-24) var(--sp-16) calc(var(--sp-24) * 4); }
+    .sc-top h1 { font: var(--fw-bold) var(--fs-field) / var(--lh-title) var(--font-num); text-shadow: var(--cast-num); margin: 0 0 var(--sp-12); }
+    .sc-top p { color: var(--graphite); max-width: 70ch; margin: 0 0 var(--sp-8); }
+    .sc-group > p a { color: var(--steel); text-underline-offset: var(--focus-gap); text-decoration-color: var(--rim); }
+    .sc-top a, .sc-toc a { color: var(--steel); text-underline-offset: var(--focus-gap); text-decoration-color: var(--rim); }
+    .sc-top a:hover, .sc-toc a:hover { color: var(--paint); }
+    .sc-toc { display: flex; flex-wrap: wrap; gap: var(--sp-8) var(--sp-16); margin: var(--sp-16) 0 0; padding: 0; list-style: none; font-weight: var(--fw-bold); font-size: var(--fs-small); }
+    .sc-toc a { display: inline-flex; align-items: center; min-height: var(--hit); }
+    .sc-group { margin-top: calc(var(--sp-24) * 2); }
+    .sc-group > h2 { font: var(--fw-bold) var(--fs-title) / var(--lh-title) var(--font-num); text-shadow: var(--cast-num); margin: 0 0 var(--sp-4); }
+    .sc-group > p { color: var(--graphite); margin: 0 0 var(--sp-16); max-width: 70ch; }
+    .sc-spec { margin-top: var(--sp-24); padding-top: var(--sp-16); border-top: var(--bw) solid var(--line); }
+    .sc-spec > h3 { font: var(--fw-bold) var(--fs-head) / var(--lh-head) var(--font-num); margin: 0 0 var(--sp-4); }
+    .sc-src { font-size: var(--fs-meta); color: var(--graphite); margin: 0 0 var(--sp-12); max-width: 90ch; }
+    .sc-src code { font: inherit; color: var(--steel); }
+    .sc-states { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, var(--sc-tile)), 1fr)); gap: var(--sc-gap); align-items: start; }
+    .sc-states--wide { grid-template-columns: 1fr; }
+    .sc-tile { margin: 0; }
+    .sc-tile > figcaption { font-size: var(--fs-meta); font-weight: var(--fw-bold); color: var(--graphite); margin: 0 0 var(--sp-6); }
+    .sc-screen { --screen-h: auto; max-width: var(--sc-tile); border-radius: var(--r); box-shadow: var(--sh-ring); }
+    .sc-screen > .section__body:only-child { padding-top: var(--sp-16); }
+    .sc-shell { --screen-h: 720px; }
+    .sc-dialog { position: static; border-radius: var(--r); }
+    .sc-swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 180px), 1fr)); gap: var(--sp-12); }
+    .sc-sw { background: var(--cast); border-radius: var(--r); box-shadow: var(--sh-card); overflow: hidden; }
+    .sc-sw i { display: block; height: var(--hit-log); box-shadow: inset 0 calc(var(--bw) * -1) 0 var(--line); }
+    .sc-sw div { padding: var(--sp-8) var(--sp-12) var(--sp-12); font-size: var(--fs-meta); color: var(--graphite); }
+    .sc-sw b { display: block; color: var(--steel); font-size: var(--fs-small); }
+    @media (max-width: 430px) {
+      .sc-page { padding-inline: 0; }
+      .sc-top, .sc-group > h2, .sc-group > p, .sc-spec > h3, .sc-src, .sc-tile > figcaption, .sc-swatches, .sc-type { padding-inline: var(--sp-16); }
+      .sc-screen { border-radius: 0; }
+    }
+    .sc-type { display: grid; gap: var(--sp-8); }
+    .sc-type > div { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: baseline; gap: var(--sp-16); padding: var(--sp-8) 0; border-bottom: var(--bw) solid var(--line); }
+    .sc-type small { color: var(--graphite); font: var(--fw-regular) var(--fs-meta) var(--font-text); white-space: nowrap; }
+  </style>
+</head>
+<body>
+<div class="sc-page">
+
+  <header class="sc-top">
+    <h1>Forge · UI-кіт «Чавун»</h1>
+    <p>Кожен компонент з <a href="inventory.md">інвентарю</a> зі своїми станами. Стиль бере <a href="kit.css">kit.css</a>, тексти — з <code>microcopy.md</code>, мова — з <a href="../DESIGN.md">DESIGN.md</a>. Компоненти пофарбованих «Сьогодні» і «Тренування» перенесено точно; решта бере структуру зі свого сірого вайрфрейма.</p>
+    <p>Наведення й натискання живі: наведи курсор на кнопку чи посилання або натисни. Фокус видно з клавіатури (Tab).</p>
+    <p>Оболонка як розмітка: <a href="shell.html">shell.html</a>.</p>
+    <ul class="sc-toc">
+      <li><a href="#tokens">Токени</a></li>
+      <li><a href="#nav">Навігація</a></li>
+      <li><a href="#cards">Картки й списки</a></li>
+      <li><a href="#forms">Форми</a></li>
+      <li><a href="#feedback">Зворотний зв'язок</a></li>
+      <li><a href="#notes">Коментарі</a></li>
+      <li><a href="#shell">Оболонка</a></li>
+    </ul>
+  </header>
+
+  <!-- ═══════════════ ТОКЕНИ ═══════════════ -->
+  <section class="sc-group" id="tokens">
+    <h2>Токени</h2>
+    <p>Усі значення кіту стоять у <code>:root</code>. Кольори:</p>
+    <div class="sc-swatches">
+      <div class="sc-sw"><i style="background:var(--iron)"></i><div><b>Чавун</b>--iron · ґрунт</div></div>
+      <div class="sc-sw"><i style="background:var(--cast)"></i><div><b>Лиття</b>--cast · картки</div></div>
+      <div class="sc-sw"><i style="background:var(--knurl-tex),var(--knurl)"></i><div><b>Накатка</b>--knurl · «зараз»</div></div>
+      <div class="sc-sw"><i style="background:var(--pit);box-shadow:var(--sh-pit)"></i><div><b>Отвір</b>--pit · поля</div></div>
+      <div class="sc-sw"><i style="background:var(--line)"></i><div><b>Лінія</b>--line · 1 px</div></div>
+      <div class="sc-sw"><i style="background:var(--steel)"></i><div><b>Сталь</b>--steel · текст</div></div>
+      <div class="sc-sw"><i style="background:var(--graphite)"></i><div><b>Графіт</b>--graphite · підписи</div></div>
+      <div class="sc-sw"><i style="background:var(--paint);box-shadow:var(--sh-paint)"></i><div><b>Фарба безпеки</b>--paint · дія і «зараз»</div></div>
+      <div class="sc-sw"><i style="background:var(--paint-hi)"></i><div><b>Рант фарби</b>--paint-hi</div></div>
+      <div class="sc-sw"><i style="background:var(--cast);box-shadow:var(--sh-ring-fault)"></i><div><b>Червоний диска</b>--fault · лише рамка й іконка</div></div>
+    </div>
+    <div class="sc-spec">
+      <h3>Шрифт</h3>
+      <div class="sc-type">
+        <div><span style="font:var(--fw-bold) var(--fs-field) var(--font-num);text-shadow:var(--cast-num);font-variant-numeric:tabular-nums">82,5</span><small>поле · Unbounded 700 · 30</small></div>
+        <div><span style="font:var(--fw-bold) var(--fs-title)/var(--lh-title) var(--font-num);text-shadow:var(--cast-num)">День A — Ноги та кор</span><small>назва дня · 20</small></div>
+        <div><span style="font:var(--fw-bold) var(--fs-state)/var(--lh-head) var(--font-num)">Тренера ще немає</span><small>стан, діалог · 18</small></div>
+        <div><span style="font:var(--fw-bold) var(--fs-head)/var(--lh-head) var(--font-num);letter-spacing:var(--track-head)">Силовий цикл — осінь</span><small>шапка · 17</small></div>
+        <div><span style="font:var(--fw-regular) var(--fs-body) var(--font-num);font-variant-numeric:tabular-nums;text-shadow:var(--cast-num)">4 × 8 × 80 кг</span><small>схема · Unbounded 500 · 15</small></div>
+        <div><span style="font-weight:var(--fw-bold)">Присідання зі штангою</span><small>назва · Manrope 700 · 15</small></div>
+        <div><span style="font:var(--fw-heavy) var(--fs-btn) var(--font-text)">Зберегти підхід</span><small>кнопка · Manrope 800 · 16</small></div>
+        <div><span style="font-size:var(--fs-meta);color:var(--graphite)">Відпочинок 90 с</span><small>мета · 12,5</small></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════ 1. НАВІГАЦІЯ ═══════════════ -->
+  <section class="sc-group" id="nav">
+    <h2>1. Навігація</h2>
+    <p>Шапка, кнопки-іконки, аватар, таб-бар і посилання.</p>
+
+    <div class="sc-spec">
+      <h3>Шапка екрана</h3>
+      <p class="sc-src">Усі 20 екранів. Два шари: мета (дата, підзаголовок, таймер) і назва.</p>
+      <div class="sc-states">
+        <figure class="sc-tile"><figcaption>Кореневий екран атлета · <code>today</code></figcaption>
+          <div class="app sc-screen">
+            <header class="app-header">
+              <div class="app-header__text"><p class="app-header__meta">Понеділок, 12 жовтня</p><p class="app-header__title">Силовий цикл — осінь</p></div>
+              <div class="app-header__actions">
+                <button class="icon-btn" type="button" aria-label="Сповіщення — 1 нова нотатка тренера"><span class="icon icon--bell" aria-hidden="true"></span><span class="icon-btn__dot"></span></button>
+                <a class="userpic" href="#" aria-label="Профіль — Оля Ткаченко"><img src="../visuals/athlete-olia.jpg" alt=""></a>
+              </div>
+            </header>
+          </div>
+        </figure>
+        <figure class="sc-tile"><figcaption>Вкладений екран · <code>trainer-athlete</code></figcaption>
+          <div class="app sc-screen">
+            <header class="app-header">
+              <a class="icon-btn" href="#" aria-label="До «Мої атлети»"><span class="icon icon--back" aria-hidden="true"></span></a>
+              <div class="app-header__text"><p class="app-header__title">Оля Ткаченко</p><p class="app-header__meta">Силовий цикл — осінь · Тиждень 2 з 6</p></div>
+              <span class="userpic" role="img" aria-label="Аватар атлета — Оля Ткаченко"><img src="../visuals/athlete-olia.jpg" alt=""></span>
+            </header>
+          </div>
+        </figure>
+        <figure class="sc-tile"><figcaption>Тренування з таймером · <code>workout</code></figcaption>
+          <div class="app sc-screen">
+            <header class="app-header">
+              <a class="icon-btn" href="#" aria-label="До «Сьогодні»"><span class="icon icon--back" aria-hidden="true"></span></a>
+              <div class="app-header__text"><p class="app-header__title">Активне тренування</p><p class="app-header__meta app-header__meta--num">00:23:47 · 12 жовтня</p></div>
+              <span class="app-header__icon" role="img" aria-label="Пройдено часу"><span class="icon icon--timer" aria-hidden="true"></span></span>
+            </header>
+          </div>
+        </figure>
+        <figure class="sc-tile"><figcaption>Вхід і реєстрація · <code>login</code>, <code>register</code></figcaption>
+          <div class="app sc-screen">
+            <header class="app-header"><div class="app-header__text"><p class="app-header__title">Forge</p></div></header>
+          </div>
+        </figure>
+        <figure class="sc-tile"><figcaption>Завантаження · <code>athlete-today-loading</code></figcaption>
+          <div class="app sc-screen">
+            <header class="app-header">
+              <div class="app-header__text"><p class="app-header__meta">Понеділок, 12 жовтня</p><p class="app-header__title"><span class="skel skel--head" style="--skel-w:170px" aria-hidden="true"></span></p></div>
+              <div class="app-header__actions">
+                <button class="icon-btn" type="button" aria-label="Сповіщення"><span class="icon icon--bell" aria-hidden="true"></span></button>
+                <a class="userpic" href="#" aria-label="Профіль — Оля Ткаченко"><img src="../visuals/athlete-olia.jpg" alt=""></a>
+              </div>
+            </header>
+          </div>
+        </figure>
+      </div>
+    </div>
+
+    <div class="sc-spec">
+      <h3>Кнопка-іконка і аватар</h3>
+      <p class="sc-src">«Назад» стоїть на 12 екранах, сповіщення — на <code>today</code> і <code>trainer-clients</code>. Аватар — на 7 екранах: свій аватар — посилання на профіль, чужий — без дії. Фото з <code>visuals/</code>; поки людина його не додала — ініціали.</p>
+      <div class="sc-states">
+        <figure class="sc-tile"><figcaption>Сповіщення: є нове · немає нових · «назад» · свій аватар (фото) · без фото — ініціали · чужий аватар</figcaption>
+          <div class="app sc-screen"><div class="section__body">
+            <div class="app-header__actions">
+              <button class="icon-btn" type="button" aria-label="Сповіщення — 1 нове тренування без коментаря"><span class="icon icon--bell" aria-hidden="true"></span><span class="icon-btn__dot"></span></button>
+              <button class="icon-btn" type="button" aria-label="Сповіщення — немає нових"><span class="icon icon--bell" aria-hidden="true"></span></button>
+              <a class="icon-btn" href="#" aria-label="До «Сьогодні»"><span class="icon icon--back" aria-hidden="true"></span></a>
+              <a class="userpic" href="#" aria-label="Профіль — Максим Коваль"><img src="../visuals/trainer-maksym.jpg" alt=""></a>
+              <a class="userpic" href="#" aria-label="Профіль — Іван Савченко">ІС</a>
+              <span class="userpic" role="img" aria-label="Аватар атлета — Оля Ткаченко"><img src="../visuals/athlete-olia.jpg" alt=""></span>
+            </div>
+          </div></div>
+        </figure>
+      </div>
+    </div>
+
+    <div class="sc-spec">
+      <h3>Таб-бар</h3>
+      <p class="sc-src">Атлет: <code>today</code>, <code>nutrition</code>, <code>progress</code>. Тренер: <code>trainer-clients</code>, <code>trainer-athlete</code>, <code>programs</code>, <code>profile</code>. Активна вкладка має жовтий отвір і жовту іконку. «Профіль» атлета ще не створено, тому він неактивний.</p>
+      <div class="sc-states">
+        <figure class="sc-tile"><figcaption>Атлет · активна «Сьогодні» · «Профіль» неактивний</figcaption>
+          <div class="app sc-screen">
+            <nav class="tabbar" aria-label="Головна навігація атлета">
+              <a class="tabbar__item" href="#" aria-current="page"><span class="icon icon--today" aria-hidden="true"></span>Сьогодні</a>
+              <a class="tabbar__item" href="#"><span class="icon icon--nutrition" aria-hidden="true"></span>Харчування</a>
+              <a class="tabbar__item" href="#"><span class="icon icon--progress" aria-hidden="true"></span>Прогрес</a>
+              <a class="tabbar__item" aria-disabled="true"><span class="icon icon--profile" aria-hidden="true"></span>Профіль</a>
+            </nav>
+          </div>
+        </figure>
+        <figure class="sc-tile"><figcaption>Тренер · активна «Мої атлети»</figcaption>
+          <div class="app sc-screen">
+            <nav class="tabbar" aria-label="Головна навігація тренера">
+              <a class="tabbar__item" href="#" aria-current="page"><span class="icon icon--athletes" aria-hidden="true"></span>Мої атлети</a>
+              <a class="tabbar__item" href="#"><span class="icon icon--programs" aria-hidden="true"></span>Програми</a>
+              <a class="tabbar__item" href="#"><span class="icon icon--invite" aria-hidden="true"></span>Запросити</a>
+              <a class="tabbar__item" href="#"><span class="icon icon--profile" aria-hidden="true"></span>Профіль</a>
+            </nav>
+          </div>
+        </figure>
+      </div>
+    </div>
+
+    <div class="sc-spec">
+      <h3>Великий аватар, картка профілю і рядки налаштувань</h3>
+      <p class="sc-src"><code>profile</code>. Великий аватар 64 px; рядки налаштувань — литво зі стрілкою. «Вийти» — звичайний пункт: вихід нічого не знищує (D28). <em>Додано 02.11.2026.</em></p>
+      <div class="sc-states">
+        <figure class="sc-tile"><figcaption>Профіль · налаштування · <code>profile</code></figcaption>
+          <div class="app sc-screen"><div class="section__body">
+            <div class="profile-card"><span class="userpic userpic--l" role="img" aria-label="Аватар — Максим Коваль"><img src="../visuals/trainer-maksym.jpg" alt=""></span><div><p class="profile-card__name">Максим Коваль</p><p class="profile-card__meta">maksym@email.com</p><p class="profile-card__meta">Тренер · з вересня</p></div></div>
+            <div class="menu casting"><button class="menu__item" type="button">Змінити пароль<span class="icon icon--current" aria-hidden="true"></span></button><button class="menu__item" type="button">Вийти з акаунту<span class="icon icon--current" aria-hidden="true"></span></button></div>
+          </div></div>
+        </figure>
+      </div>
+    </div>
+
+    <div class="sc-spec">
+      <h3>Посилання-дія і посилання в тексті</h3>
+      <p class="sc-src">Посилання-дія: <code>today</code>, <code>history</code>, <code>progress</code>, <code>trainer-clients</code>, <code>trainer-athlete</code>, <code>programs</code>, <code>program-builder</code>, <code>program-session</code>. Посилання в тексті: <code>login</code>, <code>register</code>.</p>
+      <div class="sc-states">
+        <figure class="sc-tile"><figcaption>З іконкою · одне · пара · під списком · видалення</figcaption>
+          <div class="app sc-screen"><div class="section__body">
+            <a class="link-action" href="#"><span class="icon icon--add" aria-hidden="true"></span>Додати страву</a><br>
+            <a class="link-action" href="#">Переглянути</a>
+            <div class="link-row"><a class="link-action" href="#">Редагувати</a><a class="link-action" href="#" aria-label="Призначити програму «Силовий цикл — осінь»">Призначити програму</a></div>
+            <a class="link-action" href="#"><span class="icon icon--add" aria-hidden="true"></span>Додати вправу</a><br>
+            <button class="link-action link-action--danger" type="button"><span class="icon icon--delete" aria-hidden="true"></span>Видалити вправу</button>
+          </div></div>
+        </figure>
+        <figure class="sc-tile"><figcaption>У рядку тексту · <code>login</code></figcaption>
+          <div class="app sc-screen"><div class="section__body">
+            <p class="text-aside">Ще немає акаунту? <a class="link-inline" href="#">Зареєструватися</a></p>
+            <p class="text-aside">Вже є акаунт? <a class="link-inline" href="#">Увійти</a></p>
+          </div></div>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════ 2. КАРТКИ Й СПИСКИ ═══════════════ -->
+  <section class="sc-group" id="cards">
+    <h2>2. Картки й списки</h2>
+    <p>Однорідні рядки лежать в одному литві через лінію 1 px. Стан рядка показано матеріалом: ✓, накатка, отвір.</p>
+
+    <div class="sc-spec">
+      <h3>Картка вправи</h3>
+      <p class="sc-src"><code>today</code>, <code>workout</code> (+2), <code>program-session</code>. Схема праворуч набрана табличними цифрами.</p>
+      <div class="sc-states">
+        <figure class="sc-tile"><figcaption>Заголовок дня і план в одному литві · <code>today</code></figcaption>
+          <div class="app sc-screen"><div class="section__body">
+            <div class="list-head"><span class="list-head__title">День A — Ноги та кор</span><span class="list-head__meta"><span class="num">5</span> вправ · ~<span class="num">65 хв</span></span></div>
+            <div class="casting">
+              <article class="card"><p class="card__name">Присідання зі штангою</p><p class="card__scheme">4 × 8 × 80 кг</p><p class="card__meta"><span class="icon icon--timer" aria-hidden="true"></span>Відпочинок <span class="num">90 с</span></p></article>
+              <article class="card"><p class="card__name">Румунська тяга</p><p class="card__scheme">4 × 10 × 65 кг</p><p class="card__meta"><span class="icon icon--timer" aria-hidden="true"></span>Відпочинок <span class="num">90 с</span></p></article>
+              <article class="card"><p class="card__name">Жим ногами</p><p class="card__scheme">3 × 12 × 120 кг</p><p class="card__meta"><span class="icon icon--timer" aria-hidden="true"></span>Відпочинок <span class="num">75 с</span></p></article>
+            </div>
+          </div></div>
+        </figure>
+        <figure class="sc-tile"><figcaption>Поточна · <code>workout</code></figcaption>
+          <div class="app sc-screen"><div class="section__body">
+            <article class="card card--current"><p class="card__name">Румунська тяга</p><p class="card__scheme">4 × 10 × 65 кг</p><p class="card__meta"><span class="icon icon--timer" aria-hidden="true"></span>Відпочинок <span class="num">90 с</span></p><p class="card__set">Підхід <span class="num">2 з 4</span> · план <span class="num">10 × 65 кг</span></p></article>
+          </div></div>
+        </figure>
+        <figure class="sc-tile"><figcaption>Редагована тренером: та сама картка, назва в полі · <code>program-session</code></figcaption>
+          <div class="app sc-screen"><div class="section__body">
+            <article class="card card--edit">
+              <input class="field__input field__input--strong card__name-input" type="text" value="Присідання зі штангою" aria-label="Назва вправи">
+              <p class="card__scheme">4 × 8 × 80 кг</p>
+              <p class="card__meta"><span class="icon icon--timer" aria-hidden="true"></span>Відпочинок <span class="num">90 с</span></p>
+              <p class="card__note">«Стеж за поставою, не гони вагу»</p>
+              <div class="card__links"><button class="link-action link-action--danger" type="button"><span class="icon icon--delete" aria-hidden="true"></span>Видалити вправу</button></div>
+            </article>
+          </div></div>
+        </figure>
+        <figure class="sc-tile"><figcaption>Завантаження · <code>athlete-today-loading</code></figcaption>
+          <div class="app sc-screen"><div class="section__body">
+            <div class="list-head" aria-hidden="true"><span class="skel skel--title skel--two-lines" style="--skel-w:190px"></span><span class="skel" style="--skel-w:84px"></span></div>
+            <div class="casting" aria-hidden="true">
+              <div class="skel-card"><span class="skel skel--text" style="--skel-w:68%"></span><span class="skel" style="--skel-w:54%;--skel-h:var(--sp-16)"></span><span class="skel" style="--skel-w:32%"></span></div>
+              <div class="skel-card"><span class="skel skel--text" style="--skel-w:55%"></span><span class="skel" style="--skel-w:60%;--skel-h:var(--sp-16)"></span><span class="skel" style="--skel-w:28%"></span></div>
+              <div class="skel-card"><span class="skel skel--text" style="--skel-w:42%"></span><span class="skel" style="--skel-w:57%;--skel-h:var(--sp-16)"></span><span class="skel" style="--skel-w:36%"></span></div>
+            </div>
+          </div></div>
+        </figure>
+      </div>
+    </div>
+
+    <div class="sc-spec">
+      <h3>Список вправ зі станами</h3>
+      <p class="sc-src"><code>workout</code> (+2). Виконано — ✓ фарбою, зараз — накатка і стрілка, очікує — порожній отвір стійки. <em>Додано 02.11.2026 з пофарбованого еталона.</em></p>
+      <div class="sc-states">
+        <figure class="sc-tile"><figcaption>Виконано · зараз · очікує · <code>workout</code></figcaption>
+          <div class="app sc-screen"><div class="section__body">
+            <ul class="checklist" aria-label="Список вправ тренування">
+              <li class="checklist__item is-done"><span class="checklist__mark" role="img" aria-label="Виконано"><span class="icon icon--done" aria-hidden="true"></span></span><span class="checklist__name">Присідання зі штангою</span><span class="checklist__count"><span class="num">4 з 4</span> підходів</span></li>
+              <li class="checklist__item is-current" aria-current="true"><span class="checklist__mark" role="img" aria-label="Поточна"><span class="icon icon--current" aria-hidden="true"></span></span><span class="checklist__name">Румунська тяга</span><span class="checklist__count"><span class="num">2 з 4</span> підходів</span></li>
+              <li class="checklist__item is-pending"><span class="checklist__mark" role="img" aria-label="Очікує"></span><span class="checklist__name">Жим ногами</span><span class="checklist__count"><span class="num">0 з 3</span> підходів</span></li>
+            </ul>
+          </div></div>
+        </figure>
+      </div>
+    </div>
+
+    <div class="sc-spec">
+      <h3>Картка тренування</h3>
+      <p class="sc-src"><code>history</code>, <code>trainer-athlete</code>, <code>trainer-clients</code>, <code>program-builder</code>. Одна картка в обох ролях: назва дня, рядок «дата · підходи · час · вправи» (числа — <code>.num</code>), мета, стан (тег, бейдж рекорду). <em>Оновлено 02.11.2026 (D9, D10): у тренера дата була в назві, рекорду не було.</em></p>
+      <div class="sc-states">
+        <figure class="sc-tile"><figcaption>Завершене, з рекордом · <code>history</code></figcaption>
+          <div class="app sc-screen"><div class="section__body">
+            <div class="casting">
+              <article class="card card--stack"><p class="card__name">День A — Ноги та кор</p><p class="card__line">12 жовтня · <span class="num">16</span> підходів · <span class="num">1 год 2 хв</span> · <span class="num">5</span> вправ</p><p class="card__status"><span class="badge-record"><span class="icon icon--record" aria-hidden="true"></span>Новий рекорд</span>Присідання зі штангою <span class="num">82,5 кг</span> · <span class="num">+2,5 кг</span> до 7 жовтня</p><div class="card__links"><a class="link-action" href="#">Переглянути</a></div></article>
+              <article class="card card--stack"><p class="card__name">День B — Жим і плечі</p><p class="card__line">9 жовтня · <span class="num">16</span> підходів · <span class="num">58 хв</span> · <span class="num">4</span> вправи</p><div class="card__links"><a class="link-action" href="#">Переглянути</a></div></article>
+            </div>
+          </div></div>
+        </figure>
+        <figure class="sc-tile"><figcaption>У тренера, та сама картка: без коментаря + рекорд · коментар залишено · <code>trainer-athlete</code></figcaption>
+          <div class="app sc-screen"><div class="section__body">
+            <div class="casting">
+              <article class="card card--stack"><p class="card__name">День A — Ноги та кор</p><p class="card__line">12 жовтня · <span class="num">16</span> підходів · <span class="num">1 год 2 хв</span> · <span class="num">5</span> вправ</p><p class="card__status"><span class="tag">Без коментаря</span><span class="badge-record"><span class="icon icon--record" aria-hidden="true"></span>Новий рекорд</span>Присідання зі штангою <span class="num">82,5 кг</span> · <span class="num">+2,5 кг</span></p><div class="card__links"><a class="link-action" href="#">Переглянути</a></div></article>
+              <article class="card card--stack"><p class="card__name">День B — Жим і плечі</p><p class="card__line">9 жовтня · <span class="num">16</span> підходів · <span class="num">58 хв</span> · <span class="num">4</span> вправи</p><p class="card__meta">Коментар залишено · 10 жовтня</p><div class="card__links"><a class="link-action" href="#">Переглянути</a></div></article>
+            </div>
+          </div></div>
+        </figure>
+        <figure class="sc-tile"><figcaption>Шаблон у програмі · <code>program-builder</code></figcaption>
+          <div class="app sc-screen"><div class="section__body">
+            <div class="casting">
+              <article class="card card--stack"><p class="card__name">День A — Ноги та кор</p><p class="card__line"><span class="num">5</span> вправ · ~<span class="num">65 хв</span></p><div class="card__links"><a class="link-action" href="#">Редагувати</a></div></article>
+              <article class="card card--stack"><p class="card__name">День B — Жим і плечі</p><p class="card__line"><span class="num">4</span> вправи · ~<span class="num">55 хв</span></p><div class="card__links"><a class="link-action" href="#">Редагувати</a></div></article>
+            </div>
+            <a class="link-action" href="#"><span class="icon icon--add" aria-hidden="true"></span>Додати тренування</a>
+          </div></div>
+        </figure>
+      </div>
+    </div>
+
+    <div class="sc-spec">
+      <h3>Картка програми і ще два варіанти картки</h3>
+      <p class="sc-src">Програма: <code>programs</code>, <code>program-assign</code>. Страва (<code>nutrition</code>) і атлет (<code>trainer-clients</code>) — варіанти тієї самої картки, кожен на одному екрані. Статус атлета «3 дні без тренування» передано словами, без окремої позначки (<code>concept.md</code>, атрибут 5).</p>
+      <div class="sc-states">
+        <figure class="sc-tile"><figcaption>З двома посиланнями · <code>programs</code></figcaption>
+          <div class="app sc-screen"><div class="section__body">
+            <div class="casting">
+              <article class="card card--stack"><p class="card__name">Силовий цикл — осінь</p><p class="card__line">6 тижнів · 3 тренування на тиждень · Активна</p><p class="card__meta">Призначена: Оля Ткаченко, Дмитро Ворона</p><div class="card__links link-row"><a class="link-action" href="#">Редагувати</a><a class="link-action" href="#" aria-label="Призначити програму «Силовий цикл — осінь»">Призначити програму</a></div></article>
+              <article class="card card--stack"><p class="card__name">Гіпертрофія Б</p><p class="card__line">8 тижнів · 4 тренування на тиждень · Чернетка</p><p class="card__meta">Не призначена</p><div class="card__links link-row"><a class="link-action" href="#">Редагувати</a><a class="link-action" href="#" aria-label="Призначити програму «Гіпертрофія Б»">Призначити програму</a></div></article>
+            </div>
+          </div></div>
+        </figure>
+        <figure class="sc-tile"><figcaption>Лише інформація · <code>program-assign</code></figcaption>
+          <div class="app sc-screen"><div class="section__body">
+            <article class="card card--stack"><p class="card__name">Силовий цикл — осінь</p><p class="card__line">6 тижнів · Пн · Ср · Пт</p><p class="card__meta">18 тренувань · ~65 хв кожне</p></article>
+          </div></div>
+        </figure>
+        <figure class="sc-tile"><figcaption>Страва · <code>nutrition</code> · атлет · <code>trainer-clients</code></figcaption>
+          <div class="app sc-screen"><div class="section__body">
+            <div class="casting">
+              <article class="card card--stack"><p class="card__name">Вівсянка з бананом</p><p class="card__line">380 ккал · Б 12 г · Ж 6 г · В 62 г</p><p class="card__meta">Сніданок · 08:15</p></article>
+            </div>
+            <br>
+            <div class="casting">
+              <article class="card card--stack"><p class="card__name">Оля Ткаченко</p><p class="card__line">Тренування сьогодні · День A — Ноги та кор · <span class="num">1 год 2 хв</span></p><p class="card__meta">Силовий цикл — осінь · Тиждень <span class="num">2 з 6</span></p><p class="card__status"><span class="tag">Без коментаря</span><span class="badge-record"><span class="icon icon--record" aria-hidden="true"></span>Новий рекорд</span>Присідання зі штангою <span class="num">82,5 кг</span> · <span class="num">+2,5 кг</span></p><div class="card__links"><a class="link-action" href="#">Переглянути</a></div></article>
+              <article class="card card--stack" aria-label="Іван Савченко · 3 дні без тренування"><p class="card__name">Іван Савченко</p><p class="card__line"><span class="num">3</span> дні без тренування</p><p class="card__meta">Без активної програми</p><div class="card__links"><a class="link-action" href="#">Переглянути</a></div></article>
+            </div>
+          </div></div>
+        </figure>
+      </div>
+    </div>
+
+    <div class="sc-spec">
+      <h3>Таблиця підходів і виконані вправи</h3>
+      <p class="sc-src">Таблиця лишилась тільки в логері (<code>workout</code> +2). Виконані вправи в атлета й тренера — одна картка <code>.card--result</code>: таблиці план → факт були ширші за екран і ховали факт за прокруткою, а в ролей були дві різні моделі. Незавершене — отвір і тег, без червоного. <em>Оновлено 02.11.2026 (D7, D11).</em></p>
+      <div class="sc-states">
+        <figure class="sc-tile"><figcaption>Підходи: збережено · вводиться · очікує з планом · <code>workout</code></figcaption>
+          <div class="app sc-screen"><div class="section__body">
+            <table class="table table--sets" aria-label="Підходи поточної вправи">
+              <thead><tr><th scope="col">Підхід</th><th scope="col">Повтори</th><th scope="col">Вага, кг</th><th scope="col"></th></tr></thead>
+              <tbody>
+                <tr><td>1</td><td>10</td><td>65</td><td class="table__mark"><span class="icon icon--done" aria-hidden="true"></span><span class="sr-only">Збережено</span></td></tr>
+                <tr class="is-current"><td>2</td><td colspan="3" class="table__progress">вводиться</td></tr>
+                <tr class="is-pending"><td>3</td><td>10</td><td>65</td><td><span class="sr-only">План</span></td></tr>
+                <tr class="is-pending"><td>4</td><td>10</td><td>65</td><td><span class="sr-only">План</span></td></tr>
+              </tbody>
+            </table>
+          </div></div>
+        </figure>
+        <figure class="sc-tile"><figcaption>Виконані вправи: факт праворуч, план у меті, стан · <code>finish</code>, <code>trainer-workout</code></figcaption>
+          <div class="app sc-screen"><div class="section__body">
+            <div class="casting">
+              <article class="card card--result"><p class="card__name">Присідання зі штангою</p><p class="card__scheme">4 × 8 × 82,5 кг</p><p class="card__meta">План <span class="num">4 × 8 × 80 кг</span></p><p class="card__status"><span class="icon icon--done" aria-hidden="true"></span><span><span class="num">4 з 4</span> підходів</span><span class="badge-record"><span class="icon icon--record" aria-hidden="true"></span>Новий рекорд</span><span class="num">+2,5 кг</span></p></article>
+              <article class="card card--result"><p class="card__name">Жим ногами</p><p class="card__scheme">3 × 11 × 120 кг</p><p class="card__meta">План <span class="num">3 × 12 × 120 кг</span></p><p class="card__status"><span class="icon icon--done" aria-hidden="true"></span><span><span class="num">3 з 3</span> підходів</span></p></article>
+              <article class="card card--result"><p class="card__name">Підйом литок стоячи</p><p class="card__scheme">2 × 15 × 55 кг</p><p class="card__meta">План <span class="num">4 × 15 × 55 кг</span></p><p class="card__status"><span class="hole" aria-hidden="true"></span><span><span class="num">2 з 4</span> підходів</span><span class="tag">не завершено</span></p></article>
+            </div>
+          </div></div>
+        </figure>
+      </div>
+    </div>
+
+    <div class="sc-spec">
+      <h3>Ряд показників і підсумок калорій</h3>
+      <p class="sc-src">Показники: <code>today</code>, <code>nutrition</code>, <code>finish</code>, <code>trainer-workout</code>. Підсумок зі шкалою: <code>today</code>, <code>nutrition</code>. Шкала графітова: це дані, а не дія.</p>
+      <div class="sc-states">
+        <figure class="sc-tile"><figcaption>Заповнено · <code>today</code></figcaption>
+          <div class="app sc-screen"><div class="section__body">
+            <div class="meter-head"><span class="meter-head__value">1 850 ккал</span><span class="meter-head__target">з <span class="num">2 400 ккал</span></span></div>
+            <div class="meter" role="img" aria-label="Калорії: 1 850 з 2 400 ккал (77%)" style="--meter:77%"></div>
+            <div class="stats">
+              <div class="stat"><span class="stat__label">Білки</span><span class="stat__value">142 г</span></div>
+              <div class="stat"><span class="stat__label">Жири</span><span class="stat__value">68 г</span></div>
+              <div class="stat"><span class="stat__label">Вуглеводи</span><span class="stat__value">210 г</span></div>
+            </div>
+          </div></div>
+        </figure>
+        <figure class="sc-tile"><figcaption>Нулі · <code>nutrition-empty</code></figcaption>
+          <div class="app sc-screen"><div class="section__body">
+            <div class="meter-head"><span class="meter-head__value">0 ккал</span><span class="meter-head__target">з <span class="num">2 400 ккал</span></span></div>
+            <div class="meter" role="img" aria-label="Калорії: 0 з 2 400 ккал (0%)" style="--meter:0%"></div>
+            <div class="stats">
+              <div class="stat"><span class="stat__label">Білки</span><span class="stat__value">0 г</span></div>
+              <div class="stat"><span class="stat__label">Жири</span><span class="stat__value">0 г</span></div>
+              <div class="stat"><span class="stat__label">Вуглеводи</span><span class="stat__value">0 г</span></div>
+            </div>
+          </div></div>
+        </figure>
+        <figure class="sc-tile"><figcaption>Підсумок тренування · <code>finish</code>, <code>trainer-workout</code></figcaption>
+          <div class="app sc-screen"><div class="section__body">
+            <div class="stats">
+              <div class="stat"><span class="stat__label">Тривалість</span><span class="stat__value">1 год 2 хв</span></div>
+              <div class="stat"><span class="stat__label">Підходів</span><span class="stat__value">16 з 18</span></div>
+              <div class="stat"><span class="stat__label">Вправ</span><span class="stat__value">5 з 5</span></div>
+            </div>
+          </div></div>
+        </figure>
+        <figure class="sc-tile"><figcaption>Завантаження · <code>athlete-today-loading</code>, <code>nutrition-loading</code></figcaption>
+          <div class="app sc-screen"><div class="section__body" aria-hidden="true">
+            <div class="meter-head"><span class="skel" style="--skel-w:120px;--skel-h:var(--sp-24)"></span></div>
+            <span class="skel skel--bar"></span>
+            <div class="stats">
+              <div class="stat"><span class="stat__label">Білки</span><span class="skel skel--text" style="--skel-w:44px"></span></div>
+              <div class="stat"><span class="stat__label">Жири</span><span class="skel skel--text" style="--skel-w:44px"></span></div>
+              <div class="stat"><span class="stat__label">Вуглеводи</span><span class="skel skel--text" style="--skel-w:44px"></span></div>
+            </div>
+          </div></div>
+        </figure>
+      </div>
+    </div>
+
+    <div class="sc-spec">
+      <h3>Картка підсумку і плашка рекорду</h3>
+      <p class="sc-src"><code>finish</code>. Той самий ряд показників, що в тренера, лише крупніше (<code>.stats--lg</code>, D6). Рекорд — суцільний бейдж, вправа і вилите число з різницею. <em>Додано 02.11.2026: на <code>finish</code> це були сірі блоки.</em></p>
+      <div class="sc-states">
+        <figure class="sc-tile"><figcaption>Підсумок тренування · <code>finish</code></figcaption>
+          <div class="app sc-screen"><div class="section__body">
+            <div class="summary">
+              <div class="stats stats--lg">
+                <div class="stat"><span class="stat__label">Тривалість</span><span class="stat__value">1 год 2 хв</span></div>
+                <div class="stat"><span class="stat__label">Підходів</span><span class="stat__value">16 з 18</span></div>
+                <div class="stat"><span class="stat__label">Вправ</span><span class="stat__value">5 з 5</span></div>
+              </div>
+              <p class="summary__caption">День A — Ноги та кор</p>
+            </div>
+          </div></div>
+        </figure>
+        <figure class="sc-tile"><figcaption>Плашка рекорду · <code>finish</code></figcaption>
+          <div class="app sc-screen"><div class="section__body">
+            <div class="record">
+              <span class="badge-record"><span class="icon icon--record" aria-hidden="true"></span>Новий рекорд</span>
+              <p class="record__name">Присідання зі штангою</p>
+              <p class="record__value"><span class="record__num">82,5 кг</span> · <span class="num">+2,5 кг</span> до 7 жовтня</p>
+            </div>
+          </div></div>
+        </figure>
+      </div>
+    </div>
+
+    <div class="sc-spec">
+      <h3>Сітка рекордів і заглушка графіка</h3>
+      <p class="sc-src"><code>progress</code>. Графіка ще немає, тож на його місці заглиблене поле з підписом; під ним рядок факту. <em>Додано 02.11.2026.</em></p>
+      <div class="sc-states">
+        <figure class="sc-tile"><figcaption>Рекорди · <code>progress</code></figcaption>
+          <div class="app sc-screen"><div class="section__body">
+            <div class="record-grid">
+              <article class="record-card"><p class="record-card__name">Присідання зі штангою</p><p class="record-card__value">82,5 кг</p><p class="record-card__date">12 жовтня</p></article>
+              <article class="record-card"><p class="record-card__name">Жим лежачи</p><p class="record-card__value">75 кг</p><p class="record-card__date">9 жовтня</p></article>
+            </div>
+          </div></div>
+        </figure>
+        <figure class="sc-tile"><figcaption>Вага тіла: заглушка графіка + факт · <code>progress</code></figcaption>
+          <div class="app sc-screen"><div class="section__body">
+            <div class="chart-ph" role="img" aria-label="графік ваги тіла за 8 тижнів">графік ваги тіла за 8 тижнів</div>
+            <p class="fact-line">Вага <span class="num">67 кг</span> · ціль <span class="num">70 кг</span> · <span class="num">+3 кг</span> за <span class="num">8</span> тижнів</p>
+            <a class="link-action" href="#"><span class="icon icon--add" aria-hidden="true"></span>Додати замір</a>
+          </div></div>
+        </figure>
+      </div>
+    </div>
+
+    <div class="sc-spec">
+      <h3>Рядки «підпис · значення», кроки, картка коду і рядок посилання</h3>
+      <p class="sc-src"><code>trainer-athlete</code>, <code>invite</code>. <em>Додано 02.11.2026.</em></p>
+      <div class="sc-states">
+        <figure class="sc-tile"><figcaption>Поточна програма · <code>trainer-athlete</code></figcaption>
+          <div class="app sc-screen"><div class="section__body">
+            <dl class="kv"><dt class="sr-only">Програма</dt><dd class="kv__title">Силовий цикл — осінь</dd><dt class="kv__label">Дні</dt><dd class="kv__value">Пн · Ср · Пт</dd><dt class="kv__label">Статус</dt><dd class="kv__value">Активна · з 2 жовтня</dd></dl>
+          </div></div>
+        </figure>
+        <figure class="sc-tile"><figcaption>Код запрошення і посилання · <code>invite</code></figcaption>
+          <div class="app sc-screen"><div class="section__body">
+            <div class="code-card"><p class="code-card__label">Код запрошення</p><p class="code-card__code">FORGE-7X2K</p><p class="code-card__meta">Діє до 19 жовтня</p></div>
+            <div class="copy-row"><span class="copy-row__text">forge.app/invite/7X2K</span><button class="icon-btn" type="button" aria-label="Скопіювати посилання"><span class="icon icon--copy" aria-hidden="true"></span></button></div>
+          </div></div>
+        </figure>
+        <figure class="sc-tile"><figcaption>Як це працює · <code>invite</code></figcaption>
+          <div class="app sc-screen"><div class="section__body">
+            <ol class="steps"><li>Надішли код або посилання атлету (Telegram, SMS, email)</li><li>Атлет реєструється у Forge і вводить код</li><li>Атлет з'являється у вкладці «Мої атлети», і ти можеш призначити програму</li></ol>
+          </div></div>
+        </figure>
+      </div>
+    </div>
+
+    <div class="sc-spec">
+      <h3>Бейдж «Новий рекорд» і тег статусу</h3>
+      <p class="sc-src">Бейдж: <code>finish</code>, <code>trainer-workout</code>; він суцільний жовтий, з рантом. Тег: <code>trainer-athlete</code>, <code>trainer-workout</code>; він з накатки і без кольору.</p>
+      <div class="sc-states">
+        <figure class="sc-tile"><figcaption>Рекорд · без коментаря · не завершено</figcaption>
+          <div class="app sc-screen"><div class="section__body">
+            <p class="link-row" style="row-gap:var(--sp-8)"><span class="badge-record"><span class="icon icon--record" aria-hidden="true"></span>Новий рекорд</span> <span class="tag">Без коментаря</span> <span class="tag">не завершено</span></p>
+          </div></div>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════ 3. ФОРМИ ═══════════════ -->
+  <section class="sc-group" id="forms">
+    <h2>3. Форми</h2>
+    <p>Поля зроблено як отвори в литві. Підпис стоїть над полем, підказка під ним. Кнопки зібрано в цій же групі.</p>
+
+    <div class="sc-spec">
+      <h3>Текстове поле</h3>
+      <p class="sc-src"><code>login</code>, <code>register</code>, <code>add-food</code>, <code>program-builder</code>, <code>program-session</code>.</p>
+      <div class="sc-states">
+        <figure class="sc-tile"><figcaption>Порожнє · пароль · <code>login</code></figcaption>
+          <div class="app sc-screen"><div class="section__body form-stack">
+            <div class="field"><label class="field__label" for="k-email">Email</label><input class="field__input" id="k-email" type="email" placeholder="email@example.com"></div>
+            <div class="field"><label class="field__label" for="k-pass">Пароль</label><input class="field__input" id="k-pass" type="password" placeholder="Щонайменше 8 символів"></div>
+          </div></div>
+        </figure>
+        <figure class="sc-tile"><figcaption>Заповнене · обов'язкове · <code>program-builder</code>, <code>add-food</code></figcaption>
+          <div class="app sc-screen"><div class="section__body form-stack">
+            <div class="field"><label class="field__label" for="k-prog">Назва програми</label><input class="field__input" id="k-prog" type="text" value="Силовий цикл — осінь"></div>
+            <div class="field"><label class="field__label" for="k-food">Назва страви <span class="field__req">*</span></label><input class="field__input" id="k-food" type="text" placeholder="Наприклад, вівсянка з бананом" required></div>
+          </div></div>
+        </figure>
+      </div>
+    </div>
+
+    <div class="sc-spec">
+      <h3>Числове поле і ряд полів</h3>
+      <p class="sc-src"><code>workout</code> (+2), <code>add-food</code>, <code>body-log</code>. Поле 64 px, число 30 px.</p>
+      <div class="sc-states">
+        <figure class="sc-tile"><figcaption>Заповнене планом · <code>workout</code></figcaption>
+          <div class="app sc-screen"><div class="section__body">
+            <div class="field-row">
+              <div class="field"><label class="field__label" for="k-r1">Повтори</label><input class="field__input field__input--num" id="k-r1" type="text" inputmode="numeric" value="10" autocomplete="off"></div>
+              <div class="field"><label class="field__label" for="k-w1">Вага, кг</label><input class="field__input field__input--num" id="k-w1" type="text" inputmode="decimal" value="65" autocomplete="off"></div>
+            </div>
+          </div></div>
+        </figure>
+        <figure class="sc-tile"><figcaption>Порожнє, план як підказка · <code>workout-empty</code></figcaption>
+          <div class="app sc-screen"><div class="section__body">
+            <div class="field-row">
+              <div class="field"><label class="field__label" for="k-r2">Повтори</label><input class="field__input field__input--num" id="k-r2" type="text" inputmode="numeric" placeholder="10" autocomplete="off"></div>
+              <div class="field"><label class="field__label" for="k-w2">Вага, кг</label><input class="field__input field__input--num" id="k-w2" type="text" inputmode="decimal" placeholder="65" autocomplete="off"></div>
+            </div>
+          </div></div>
+        </figure>
+        <figure class="sc-tile"><figcaption>Помилка вводу · <code>microcopy.md</code>, рядок 636</figcaption>
+          <div class="app sc-screen"><div class="section__body">
+            <div class="field-row">
+              <div class="field"><label class="field__label" for="k-r3">Повтори</label><input class="field__input field__input--num" id="k-r3" type="text" inputmode="numeric" value="10" autocomplete="off"></div>
+              <div class="field is-error"><label class="field__label" for="k-w3">Вага, кг</label><input class="field__input field__input--num" id="k-w3" type="text" inputmode="decimal" value="6О" aria-invalid="true" aria-describedby="k-w3-err" autocomplete="off"></div>
+            </div>
+            <p class="field__error" id="k-w3-err" style="margin-top:var(--sp-8)"><span class="icon icon--alert" aria-hidden="true"></span>Вкажи вагу числом, наприклад 82,5</p>
+          </div></div>
+        </figure>
+        <figure class="sc-tile"><figcaption>Три в ряд, необов'язкові · <code>add-food</code></figcaption>
+          <div class="app sc-screen"><div class="section__body">
+            <div class="field-row field-row--3">
+              <div class="field"><label class="field__label" for="k-p">Білки, г</label><input class="field__input field__input--num" id="k-p" type="text" inputmode="decimal" placeholder="Наприклад, 12"></div>
+              <div class="field"><label class="field__label" for="k-f">Жири, г</label><input class="field__input field__input--num" id="k-f" type="text" inputmode="decimal" placeholder="Наприклад, 6"></div>
+              <div class="field"><label class="field__label" for="k-c">Вуглеводи, г</label><input class="field__input field__input--num" id="k-c" type="text" inputmode="decimal" placeholder="Наприклад, 62"></div>
+            </div>
+          </div></div>
+        </figure>
+        <figure class="sc-tile"><figcaption>З підказкою-фактом · <code>body-log</code></figcaption>
+          <div class="app sc-screen"><div class="section__body">
+            <div class="field"><label class="field__label" for="k-bw">Вага тіла, кг <span class="field__req">*</span></label><input class="field__input field__input--num" id="k-bw" type="text" inputmode="decimal" value="67" placeholder="Наприклад, 67,5"><p class="field__hint">Попередній замір 66,5 кг · 7 жовтня</p></div>
+          </div></div>
+        </figure>
+      </div>
+    </div>
+
+    <div class="sc-spec">
+      <h3>Поле дати і багаторядкове поле</h3>
+      <p class="sc-src">Дата: <code>body-log</code>, <code>program-assign</code>. Багаторядкове поле: <code>trainer-feedback</code> (+error), <code>finish</code>, <code>body-log</code>, <code>profile</code>, <code>program-builder</code>.</p>
+      <div class="sc-states">
+        <figure class="sc-tile"><figcaption>Дата з підказкою · <code>program-assign</code></figcaption>
+          <div class="app sc-screen"><div class="section__body">
+            <div class="field"><label class="field__label" for="k-date">Дата початку</label><input class="field__input" id="k-date" type="date" value="2026-10-19"><p class="field__hint">Наступний понеділок · перше тренування</p></div>
+          </div></div>
+        </figure>
+        <figure class="sc-tile"><figcaption>Порожнє з підказкою · <code>trainer-feedback</code></figcaption>
+          <div class="app sc-screen"><div class="section__body">
+            <div class="field"><label class="field__label" for="k-fb">Твій коментар</label><textarea class="field__input field__input--area" id="k-fb" rows="4" placeholder="Що змінити наступного разу, на що звернути увагу"></textarea></div>
+          </div></div>
+        </figure>
+        <figure class="sc-tile"><figcaption>Текст лишився після помилки · <code>trainer-feedback-error</code></figcaption>
+          <div class="app sc-screen"><div class="section__body">
+            <div class="field"><label class="field__label" for="k-fb2">Твій коментар</label><textarea class="field__input field__input--area" id="k-fb2" rows="4">Добре, що дотрималась паузи внизу. На наступному тижні +2.5 кг на присіданнях. З литками — поміняємо порядок вправ.</textarea></div>
+          </div></div>
+        </figure>
+      </div>
+    </div>
+
+    <div class="sc-spec">
+      <h3>Вибір із набору</h3>
+      <p class="sc-src"><code>add-food</code> (один варіант), <code>program-builder</code> (кілька). Обраний має заповнений жовтий отвір і накатку, як активна вкладка.</p>
+      <div class="sc-states">
+        <figure class="sc-tile"><figcaption>Один із чотирьох · <code>add-food</code></figcaption>
+          <div class="app sc-screen"><div class="section__body">
+            <div class="chips" role="radiogroup" aria-label="Тип прийому їжі">
+              <button class="chip" type="button" role="radio" aria-checked="true">Сніданок</button>
+              <button class="chip" type="button" role="radio" aria-checked="false">Обід</button>
+              <button class="chip" type="button" role="radio" aria-checked="false">Вечеря</button>
+              <button class="chip" type="button" role="radio" aria-checked="false">Перекус</button>
+            </div>
+          </div></div>
+        </figure>
+        <figure class="sc-tile"><figcaption>Кілька днів тижня · <code>program-builder</code></figcaption>
+          <div class="app sc-screen"><div class="section__body">
+            <div class="chips chips--week" role="group" aria-label="Дні тижня">
+              <button class="chip" type="button" aria-pressed="true">Пн</button>
+              <button class="chip" type="button" aria-pressed="false">Вт</button>
+              <button class="chip" type="button" aria-pressed="true">Ср</button>
+              <button class="chip" type="button" aria-pressed="false">Чт</button>
+              <button class="chip" type="button" aria-pressed="true">Пт</button>
+              <button class="chip" type="button" aria-pressed="false">Сб</button>
+              <button class="chip" type="button" aria-pressed="false">Нд</button>
+            </div>
+            <p class="field__hint" style="margin-top:var(--sp-8)">Обрані: Пн · Ср · Пт · 3 тренування на тиждень</p>
+          </div></div>
+        </figure>
+      </div>
+    </div>
+
+    <div class="sc-spec">
+      <h3>Вибір ролі, радіо-список і поле коду</h3>
+      <p class="sc-src"><code>register</code>, <code>program-assign</code>. Обране — накатка і жовтий отвір, як у чіпа й вкладки. Код — шрифтом чисел з розрядкою. <em>Додано 02.11.2026.</em></p>
+      <div class="sc-states">
+        <figure class="sc-tile"><figcaption>Роль: обрано · не обрано · <code>register</code></figcaption>
+          <div class="app sc-screen"><div class="section__body">
+            <div class="chips chips--tiles" role="radiogroup" aria-label="Роль"><button class="chip" type="button" role="radio" aria-checked="true"><span class="icon icon--programs" aria-hidden="true"></span>Я — тренер</button><button class="chip" type="button" role="radio" aria-checked="false"><span class="icon icon--workout" aria-hidden="true"></span>Я — атлет</button></div>
+          </div></div>
+        </figure>
+        <figure class="sc-tile"><figcaption>Атлет: обрано один · <code>program-assign</code></figcaption>
+          <div class="app sc-screen"><div class="section__body">
+            <div class="casting" role="radiogroup" aria-label="Атлет"><label class="radio-row" for="sc-a1"><input class="radio-row__input" type="radio" name="sc-ath" id="sc-a1"><span class="radio-row__name">Оля Ткаченко</span><span class="radio-row__meta">Силовий цикл — осінь · Тиждень 2 з 6</span></label><label class="radio-row" for="sc-a3"><input class="radio-row__input" type="radio" name="sc-ath" id="sc-a3" checked><span class="radio-row__name">Іван Савченко</span><span class="radio-row__meta">без активної програми</span></label></div>
+          </div></div>
+        </figure>
+        <figure class="sc-tile"><figcaption>Код запрошення · порожнє · введено · <code>register</code></figcaption>
+          <div class="app sc-screen"><div class="section__body">
+            <div class="form-stack"><div class="field"><label class="field__label" for="sc-code1">Код запрошення від тренера (необов'язково)</label><input class="field__input field__input--code" id="sc-code1" type="text" placeholder="Наприклад, FORGE-7X2K"></div><div class="field"><label class="field__label" for="sc-code2">Код запрошення від тренера (необов'язково)</label><input class="field__input field__input--code" id="sc-code2" type="text" value="FORGE-7X2K"></div></div>
+          </div></div>
+        </figure>
+      </div>
+    </div>
+
+    <div class="sc-spec">
+      <h3>Кнопки</h3>
+      <p class="sc-src">Головна стоїть на 19 з 20 екранів. Вторинна — це «Спробувати ще», «Скопіювати код», «Зберегти нотатку» і «Скасувати». Кнопка, що знищує дані, — це дія в діалозі підтвердження. Усі по 56 px.</p>
+      <div class="sc-states">
+        <figure class="sc-tile"><figcaption>Головна · з іконкою · неактивна з причиною</figcaption>
+          <div class="app sc-screen"><div class="section__body btn-stack">
+            <a class="btn btn--primary" href="#">Почати тренування</a>
+            <a class="btn btn--primary" href="#"><span class="icon icon--add" aria-hidden="true"></span>Запросити атлета</a>
+            <div><button class="btn btn--primary" type="button" disabled aria-disabled="true">Зберегти підхід</button><p class="btn-caption">Введи повтори і вагу щоб активувати</p></div>
+            <div><button class="btn btn--primary" type="button" disabled aria-disabled="true">Почати тренування</button><p class="btn-caption">Недоступно — план не призначено тренером</p></div>
+          </div></div>
+        </figure>
+        <figure class="sc-tile"><figcaption>Вторинна · неактивна без підпису</figcaption>
+          <div class="app sc-screen"><div class="section__body btn-stack">
+            <a class="btn btn--secondary" href="#"><span class="icon icon--retry" aria-hidden="true"></span>Спробувати ще</a>
+            <button class="btn btn--secondary" type="button"><span class="icon icon--copy" aria-hidden="true"></span>Скопіювати код</button>
+            <button class="btn btn--secondary" type="button">Зберегти нотатку</button>
+            <a class="btn btn--primary" href="#" aria-disabled="true" tabindex="-1">Завершити тренування</a>
+          </div></div>
+        </figure>
+        <figure class="sc-tile"><figcaption>Знищує дані: червоний лише рамкою · з підписом-наслідком · <code>invite</code></figcaption>
+          <div class="app sc-screen"><div class="section__body btn-stack">
+            <button class="btn btn--danger" type="button">Видалити вправу</button>
+            <div><button class="btn btn--secondary" type="button"><span class="icon icon--retry" aria-hidden="true"></span>Згенерувати новий код</button><p class="btn-caption">Попередній код перестане працювати: атлети, які ще його не ввели, не зможуть підключитися.</p></div>
+          </div></div>
+        </figure>
+      </div>
+    </div>
+
+    <div class="sc-spec">
+      <h3>Діалог підтвердження</h3>
+      <p class="sc-src"><code>invite</code>, <code>program-session</code>, <code>profile</code>. Тут діалог показано без затемнення. У продукті він стоїть унизу екрана, у зоні великого пальця, поверх <code>.dialog-scrim</code>.</p>
+      <div class="sc-states">
+        <figure class="sc-tile"><figcaption>З наслідком · <code>program-session</code></figcaption>
+          <div class="app sc-screen"><div class="dialog-scrim sc-dialog">
+            <div class="dialog" role="dialog" aria-modal="true" aria-labelledby="k-dlg1">
+              <p class="dialog__title" id="k-dlg1">Видалити вправу «Присідання зі штангою»?</p>
+              <p class="dialog__text">Вправа зникне з тренування «День A — Ноги та кор» у 2 атлетів, яким призначена програма. Повернути не вийде.</p>
+              <div class="btn-stack"><button class="btn btn--danger" type="button">Видалити вправу</button><button class="btn btn--secondary" type="button">Скасувати</button></div>
+            </div>
+          </div></div>
+        </figure>
+        <figure class="sc-tile"><figcaption>Без тексту наслідку · <code>profile</code></figcaption>
+          <div class="app sc-screen"><div class="dialog-scrim sc-dialog">
+            <div class="dialog" role="dialog" aria-modal="true" aria-labelledby="k-dlg2">
+              <p class="dialog__title" id="k-dlg2">Вийти з акаунту?</p>
+              <div class="btn-stack"><button class="btn btn--primary" type="button">Вийти</button><button class="btn btn--secondary" type="button">Скасувати</button></div>
+            </div>
+          </div></div>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════ 4. ЗВОРОТНИЙ ЗВ'ЯЗОК ═══════════════ -->
+  <section class="sc-group" id="feedback">
+    <h2>4. Зворотний зв'язок</h2>
+    <p>Порожній стан і помилка — один блок. У помилки червоні лише рамка й іконка, текст сталевий, а повтор стоїть усередині блоку.</p>
+
+    <div class="sc-spec">
+      <h3>Порожній стан</h3>
+      <p class="sc-src"><code>athlete-today-empty</code>, <code>nutrition-empty</code>, <code>history-empty</code>, <code>trainer-clients-empty</code>, <code>programs-empty</code>, <code>program-assign-empty</code>. Одна розмітка: іконка + (заголовок) + текст + дія, якщо вона не головна кнопка екрана. <em>Уніфіковано 02.11.2026 (D13).</em></p>
+      <div class="sc-states">
+        <figure class="sc-tile"><figcaption>Іконка, заголовок, текст, кнопка · <code>athlete-today-empty</code></figcaption>
+          <div class="app sc-screen"><div class="section__body">
+            <div class="state"><p class="state__icon"><span class="icon icon--invite" aria-hidden="true"></span></p><p class="state__title">Тренера ще немає</p><p class="state__text">Введи код запрошення від тренера, щоб отримати програму.</p><a class="btn btn--primary" href="#">Ввести код запрошення</a></div>
+          </div></div>
+        </figure>
+        <figure class="sc-tile"><figcaption>Без кнопки · <code>athlete-today-empty</code></figcaption>
+          <div class="app sc-screen"><div class="section__body">
+            <div class="state"><p class="state__icon"><span class="icon icon--workout" aria-hidden="true"></span></p><p class="state__title">На сьогодні тренування немає</p><p class="state__text">Тренер ще не додав його в програму.</p></div>
+          </div></div>
+        </figure>
+        <figure class="sc-tile"><figcaption>Іконка, текст, кнопка · <code>trainer-clients-empty</code></figcaption>
+          <div class="app sc-screen"><div class="section__body">
+            <div class="state"><p class="state__icon"><span class="icon icon--athletes" aria-hidden="true"></span></p><p class="state__text">Ще немає підключених атлетів. Запроси атлета: коли код запрошення буде введено, ти зможеш призначити програму.</p><a class="btn btn--primary" href="#"><span class="icon icon--add" aria-hidden="true"></span>Запросити атлета</a></div>
+          </div></div>
+        </figure>
+        <figure class="sc-tile"><figcaption>Іконка, текст, кнопка · <code>history-empty</code>, <code>programs-empty</code>, <code>program-assign-empty</code></figcaption>
+          <div class="app sc-screen"><div class="section__body">
+            <div class="state"><p class="state__icon"><span class="icon icon--workout" aria-hidden="true"></span></p><p class="state__text">Ще немає завершених тренувань. Тут з'являтимуться тренування, які ти завершиш.</p><a class="btn btn--secondary" href="#">До «Сьогодні»</a></div>
+          </div></div>
+        </figure>
+        <figure class="sc-tile"><figcaption>Іконка й текст, дія — головною кнопкою екрана · <code>nutrition-empty</code></figcaption>
+          <div class="app sc-screen"><div class="section__body">
+            <div class="state"><p class="state__icon"><span class="icon icon--nutrition" aria-hidden="true"></span></p><p class="state__text">Сьогодні ще немає страв. Додай першу, і калорії та БЖВ порахуються самі.</p></div>
+          </div></div>
+        </figure>
+        <figure class="sc-tile"><figcaption>Рядок у зоні · <code>athlete-today-empty</code></figcaption>
+          <div class="app sc-screen"><div class="section__body">
+            <p class="state-line">Нотатки від тренера на сьогодні немає.</p>
+          </div></div>
+        </figure>
+      </div>
+    </div>
+
+    <div class="sc-spec">
+      <h3>Блок помилки</h3>
+      <p class="sc-src"><code>athlete-today-error</code>, <code>workout-error</code>, <code>nutrition-error</code>, <code>trainer-athlete-error</code>, <code>trainer-feedback-error</code>.</p>
+      <div class="sc-states">
+        <figure class="sc-tile"><figcaption>Не завантажилось · <code>athlete-today-error</code></figcaption>
+          <div class="app sc-screen"><div class="section__body">
+            <div class="state state--error" role="alert"><p class="state__icon"><span class="icon icon--offline" aria-hidden="true"></span></p><p class="state__title">Не вдалося завантажити тренування</p><p class="state__text">Перевір з'єднання і спробуй ще раз.</p><a class="btn btn--secondary" href="#"><span class="icon icon--retry" aria-hidden="true"></span>Спробувати ще</a></div>
+          </div></div>
+        </figure>
+        <figure class="sc-tile"><figcaption>Не збереглось, дані лишились · <code>workout-error</code></figcaption>
+          <div class="app sc-screen"><div class="section__body">
+            <div class="state state--error" role="alert"><p class="state__icon"><span class="icon icon--offline" aria-hidden="true"></span></p><p class="state__title">Підхід не збережено</p><p class="state__text">Перевір з'єднання і спробуй ще раз. Дані в полях лишились.</p><a class="btn btn--secondary" href="#"><span class="icon icon--retry" aria-hidden="true"></span>Спробувати ще</a></div>
+          </div></div>
+        </figure>
+        <figure class="sc-tile"><figcaption>Не надіслано · <code>trainer-feedback-error</code></figcaption>
+          <div class="app sc-screen"><div class="section__body">
+            <div class="state state--error" role="alert"><p class="state__icon"><span class="icon icon--offline" aria-hidden="true"></span></p><p class="state__title">Коментар не надіслано</p><p class="state__text">Перевір з'єднання і спробуй ще раз. Текст збережено.</p><a class="btn btn--secondary" href="#"><span class="icon icon--retry" aria-hidden="true"></span>Спробувати ще</a></div>
+          </div></div>
+        </figure>
+        <figure class="sc-tile"><figcaption>Рядок у зоні · <code>athlete-today-error</code></figcaption>
+          <div class="app sc-screen"><div class="section__body">
+            <p class="state-line state-line--error"><span class="icon icon--alert" aria-hidden="true"></span>Не вдалося завантажити нотатку тренера.</p>
+          </div></div>
+        </figure>
+      </div>
+    </div>
+
+    <div class="sc-spec">
+      <h3>Скелетон</h3>
+      <p class="sc-src"><code>athlete-today-loading</code>, <code>nutrition-loading</code>, <code>trainer-athlete-loading</code>. Він повторює форму екрана і пульсує; при «зменшити рух» пульсація вимикається.</p>
+      <div class="sc-states">
+        <figure class="sc-tile"><figcaption>Нотатка, назва дня, кнопка · <code>athlete-today-loading</code></figcaption>
+          <div class="app sc-screen" aria-busy="true"><div class="section__body btn-stack" aria-hidden="true">
+            <span class="skel skel--block"></span>
+            <span class="skel" style="--skel-w:140px"></span>
+            <span class="skel skel--title" style="--skel-w:190px"></span>
+            <span class="skel skel--btn"></span>
+          </div></div>
+        </figure>
+        <figure class="sc-tile"><figcaption>Записи стовпчиком · <code>nutrition-loading</code></figcaption>
+          <div class="app sc-screen" aria-busy="true"><div class="section__body" aria-hidden="true">
+            <div class="casting">
+              <div class="skel-card skel-card--stack"><span class="skel skel--text" style="--skel-w:62%"></span><span class="skel" style="--skel-w:44%"></span></div>
+              <div class="skel-card skel-card--stack"><span class="skel skel--text" style="--skel-w:48%"></span><span class="skel" style="--skel-w:38%"></span></div>
+            </div>
+          </div></div>
+        </figure>
+      </div>
+    </div>
+
+    <div class="sc-spec">
+      <h3>Статус після дії</h3>
+      <p class="sc-src"><code>workout</code>. Факт і наступний крок, ✓ — фарбою; без святкування (<code>voice.md</code> → «Успіх»). Друга кнопка під ним стоїть з відступом 10 px. <em>Додано 02.11.2026 з пофарбованого еталона.</em></p>
+      <div class="sc-states">
+        <figure class="sc-tile"><figcaption>Підхід збережено · <code>workout</code></figcaption>
+          <div class="app sc-screen"><div class="section__body">
+            <a class="btn btn--primary" href="#">Зберегти підхід</a>
+            <p class="status-line" role="status"><span class="icon icon--done" aria-hidden="true"></span>Підхід 1 з 4 збережено · відпочинок 90 с</p>
+            <a class="btn" href="#" aria-disabled="true" tabindex="-1">Завершити тренування</a>
+          </div></div>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════ 5. КОМЕНТАРІ ═══════════════ -->
+  <section class="sc-group" id="notes">
+    <h2>5. Коментарі</h2>
+    <p>Чату у Forge немає: зв'язок однобічний, тренер залишає коментар, атлет — нотатку. Повторюється лише цитата з підписом.</p>
+    <div class="sc-spec">
+      <h3>Нотатка / коментар</h3>
+      <p class="sc-src"><code>today</code> (+3), <code>progress</code>, <code>trainer-workout</code>.</p>
+      <div class="sc-states">
+        <figure class="sc-tile"><figcaption>Нотатка тренера на день · <code>today</code></figcaption>
+          <div class="app sc-screen"><div class="section__body">
+            <blockquote class="note">Тримай спину прямою в присіданнях, не гони вагу. Останній сет кожної вправи — до відмови. Якщо присідання більше 82.5 кг — дочекайся страхуючого.</blockquote>
+            <p class="note__meta">Максим Коваль · тренер · 11 жовтня</p>
+          </div></div>
+        </figure>
+        <figure class="sc-tile"><figcaption>Нотатка атлета, без підпису · <code>trainer-workout</code></figcaption>
+          <div class="app sc-screen"><div class="section__body">
+            <blockquote class="note">Присідання дались добре, але на литки вже не вистачило сил. Наступного разу спробую їх на початку.</blockquote>
+          </div></div>
+        </figure>
+        <figure class="sc-tile"><figcaption>Коментар ще не залишено · <code>finish</code></figcaption>
+          <div class="app sc-screen"><div class="section__body">
+            <div class="note note--pending"><p>Максим Коваль перегляне тренування і залишить коментар.</p><p class="note__meta">Коментар з'явиться тут і в «Прогресі».</p></div>
+          </div></div>
+        </figure>
+        <figure class="sc-tile"><figcaption>Нотатки немає · не завантажено · завантаження</figcaption>
+          <div class="app sc-screen"><div class="section__body">
+            <p class="state-line">Нотатки від тренера на сьогодні немає.</p><br>
+            <p class="state-line state-line--error"><span class="icon icon--alert" aria-hidden="true"></span>Не вдалося завантажити нотатку тренера.</p><br>
+            <div aria-hidden="true"><span class="skel skel--block"></span><span class="skel" style="--skel-w:140px"></span></div>
+          </div></div>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════ ОБОЛОНКА ═══════════════ -->
+  <section class="sc-group" id="shell">
+    <h2>Оболонка</h2>
+    <p>Тут зібрано ті самі блоки, що в <a href="shell.html">shell.html</a>: двошарова шапка, вміст і таб-бар. Нижче показано «Сьогодні» з компонентів кіту і вкладений екран тренера. Головна дія липне до низу, доки активна; прокрути вміст, щоб побачити.</p>
+    <div class="sc-states">
+      <figure class="sc-tile"><figcaption>Атлет · корінь · <code>today</code></figcaption>
+        <div class="app sc-screen sc-shell">
+          <header class="app-header">
+            <div class="app-header__text"><p class="app-header__meta">Понеділок, 12 жовтня</p><h1 class="app-header__title">Силовий цикл — осінь</h1></div>
+            <div class="app-header__actions">
+              <button class="icon-btn" type="button" aria-label="Сповіщення — 1 нова нотатка тренера"><span class="icon icon--bell" aria-hidden="true"></span><span class="icon-btn__dot"></span></button>
+              <a class="userpic" href="#" aria-label="Профіль — Оля Ткаченко"><img src="../visuals/athlete-olia.jpg" alt=""></a>
+            </div>
+          </header>
+          <main class="app-main">
+            <section aria-labelledby="sh-note"><h2 class="section__label" id="sh-note">Нотатка тренера</h2>
+              <div class="section__body"><blockquote class="note">Тримай спину прямою в присіданнях, не гони вагу. Останній сет кожної вправи — до відмови. Якщо присідання більше 82.5 кг — дочекайся страхуючого.</blockquote><p class="note__meta">Максим Коваль · тренер · 11 жовтня</p></div></section>
+            <section aria-labelledby="sh-ex"><h2 class="section__label" id="sh-ex">Вправи на сьогодні</h2>
+              <div class="section__body"><div class="list-head"><span class="list-head__title">День A — Ноги та кор</span><span class="list-head__meta"><span class="num">5</span> вправ · ~<span class="num">65 хв</span></span></div><div class="casting">
+                <article class="card"><p class="card__name">Присідання зі штангою</p><p class="card__scheme">4 × 8 × 80 кг</p><p class="card__meta"><span class="icon icon--timer" aria-hidden="true"></span>Відпочинок <span class="num">90 с</span></p></article>
+                <article class="card"><p class="card__name">Румунська тяга</p><p class="card__scheme">4 × 10 × 65 кг</p><p class="card__meta"><span class="icon icon--timer" aria-hidden="true"></span>Відпочинок <span class="num">90 с</span></p></article>
+                <article class="card"><p class="card__name">Жим ногами</p><p class="card__scheme">3 × 12 × 120 кг</p><p class="card__meta"><span class="icon icon--timer" aria-hidden="true"></span>Відпочинок <span class="num">75 с</span></p></article>
+                <article class="card"><p class="card__name">Згинання ніг лежачи</p><p class="card__scheme">3 × 12 × 35 кг</p><p class="card__meta"><span class="icon icon--timer" aria-hidden="true"></span>Відпочинок <span class="num">60 с</span></p></article>
+                <article class="card"><p class="card__name">Підйом литок стоячи</p><p class="card__scheme">4 × 15 × 55 кг</p><p class="card__meta"><span class="icon icon--timer" aria-hidden="true"></span>Відпочинок <span class="num">45 с</span></p></article>
+              </div></div></section>
+            <section class="action-bar" aria-labelledby="sh-cta"><h2 class="section__label" id="sh-cta">Головна дія</h2>
+              <div class="section__body"><a class="btn btn--primary" href="#">Почати тренування</a></div></section>
+            <section aria-labelledby="sh-food"><h2 class="section__label" id="sh-food">Підсумок дня · харчування</h2>
+              <div class="section__body">
+                <div class="meter-head"><span class="meter-head__value">1 850 ккал</span><span class="meter-head__target">з <span class="num">2 400 ккал</span></span></div>
+                <div class="meter" role="img" aria-label="Калорії: 1 850 з 2 400 ккал (77%)" style="--meter:77%"></div>
+                <div class="stats"><div class="stat"><span class="stat__label">Білки</span><span class="stat__value">142 г</span></div><div class="stat"><span class="stat__label">Жири</span><span class="stat__value">68 г</span></div><div class="stat"><span class="stat__label">Вуглеводи</span><span class="stat__value">210 г</span></div></div>
+                <a class="link-action" href="#"><span class="icon icon--add" aria-hidden="true"></span>Додати страву</a>
+              </div></section>
+          </main>
+          <nav class="tabbar" aria-label="Головна навігація атлета">
+            <a class="tabbar__item" href="#" aria-current="page"><span class="icon icon--today" aria-hidden="true"></span>Сьогодні</a>
+            <a class="tabbar__item" href="#"><span class="icon icon--nutrition" aria-hidden="true"></span>Харчування</a>
+            <a class="tabbar__item" href="#"><span class="icon icon--progress" aria-hidden="true"></span>Прогрес</a>
+            <a class="tabbar__item" aria-disabled="true"><span class="icon icon--profile" aria-hidden="true"></span>Профіль</a>
+          </nav>
+        </div>
+      </figure>
+      <figure class="sc-tile"><figcaption>Тренер · вкладений · <code>trainer-athlete</code></figcaption>
+        <div class="app sc-screen sc-shell">
+          <header class="app-header">
+            <a class="icon-btn" href="#" aria-label="До «Мої атлети»"><span class="icon icon--back" aria-hidden="true"></span></a>
+            <div class="app-header__text"><h1 class="app-header__title">Оля Ткаченко</h1><p class="app-header__meta">Силовий цикл — осінь · Тиждень 2 з 6</p></div>
+            <span class="userpic" role="img" aria-label="Аватар атлета — Оля Ткаченко"><img src="../visuals/athlete-olia.jpg" alt=""></span>
+          </header>
+          <main class="app-main">
+            <section aria-labelledby="sh-wk"><h2 class="section__label" id="sh-wk">Останні тренування</h2>
+              <div class="section__body"><div class="casting">
+                <article class="card card--stack"><p class="card__name">12 жовтня · День A — Ноги та кор <span class="tag">Без коментаря</span></p><p class="card__line">16 підходів · 1 год 2 хв · 5 вправ</p><div class="card__links"><a class="link-action" href="#">Переглянути</a></div></article>
+                <article class="card card--stack"><p class="card__name">9 жовтня · День B — Жим і плечі</p><p class="card__line">16 підходів · 58 хв · 4 вправи</p><p class="card__meta">Коментар залишено · 10 жовтня</p><div class="card__links"><a class="link-action" href="#">Переглянути</a></div></article>
+                <article class="card card--stack"><p class="card__name">7 жовтня · День A — Ноги та кор</p><p class="card__line">17 підходів · 1 год 5 хв · 5 вправ</p><p class="card__meta">Коментар залишено · 8 жовтня</p><div class="card__links"><a class="link-action" href="#">Переглянути</a></div></article>
+              </div></div></section>
+            <section class="action-bar" aria-labelledby="sh-cta2"><h2 class="section__label" id="sh-cta2">Головна дія</h2>
+              <div class="section__body"><a class="btn btn--primary" href="#">Переглянути останнє тренування</a></div></section>
+          </main>
+          <nav class="tabbar" aria-label="Головна навігація тренера">
+            <a class="tabbar__item" href="#" aria-current="page"><span class="icon icon--athletes" aria-hidden="true"></span>Мої атлети</a>
+            <a class="tabbar__item" href="#"><span class="icon icon--programs" aria-hidden="true"></span>Програми</a>
+            <a class="tabbar__item" href="#"><span class="icon icon--invite" aria-hidden="true"></span>Запросити</a>
+            <a class="tabbar__item" href="#"><span class="icon icon--profile" aria-hidden="true"></span>Профіль</a>
+          </nav>
+        </div>
+      </figure>
+    </div>
+  </section>
+
+</div>
+</body>
+</html>

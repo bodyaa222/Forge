@@ -4,273 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>program-assign.html — Призначити програму атлету · Forge Wireframes</title>
-  <style>
-
-    /* ═══════════════════════════════════════════════════════
-       PAGE CHROME — двоколонковий layout: nav-tree + phone frame
-    ════════════════════════════════════════════════════════ */
-
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    html, body {
-      height: 100%;
-      font-family: sans-serif;
-      font-size: 14px;
-      color: #333;
-      background: #ebebeb;
-    }
-
-    .page-layout {
-      display: flex;
-      min-height: 100vh;
-      align-items: flex-start;
-    }
-
-    /* ═══════════════════════════════════════════════════════
-       LEFT NAV SIDEBAR — дерево вайрфреймів
-    ════════════════════════════════════════════════════════ */
-
-    .wf-nav {
-      width: 224px;
-      min-width: 224px;
-      flex-shrink: 0;
-      height: 100vh;
-      position: sticky;
-      top: 0;
-      overflow-y: auto;
-      background: #fafafa;
-      border-right: 1px solid #d0d0d0;
-    }
-
-    .wf-nav-title {
-      padding: 14px 14px 12px;
-      font-size: 11px;
-      font-weight: bold;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: #888;
-      border-bottom: 1px solid #e0e0e0;
-    }
-
-    /* tree root */
-    .wf-tree {
-      list-style: none;
-      padding: 6px 0 24px;
-    }
-
-    /* section header (GROUP LABEL) */
-    .wf-tree .tree-section {
-      padding: 12px 14px 4px;
-      font-size: 9px;
-      font-weight: bold;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: #bbb;
-      border-top: 1px solid #eeeeee;
-      margin-top: 6px;
-      list-style: none;
-    }
-    .wf-tree > li:first-child.tree-section {
-      border-top: none;
-      margin-top: 0;
-    }
-
-    /* screen name row */
-    .wf-tree .tree-screen {
-      list-style: none;
-      padding: 6px 0 2px;
-    }
-    .screen-name {
-      display: block;
-      padding: 3px 14px 2px 20px;
-      font-size: 12px;
-      font-weight: bold;
-      color: #555;
-      line-height: 1.4;
-    }
-
-    /* state links */
-    .tree-states {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-    }
-    .tree-states li {
-      list-style: none;
-    }
-    .tree-states li a {
-      display: block;
-      padding: 3px 14px 3px 32px;
-      font-size: 11px;
-      color: #888;
-      text-decoration: none;
-      line-height: 1.45;
-      border-left: 2px solid transparent;
-    }
-    .tree-states li a::before {
-      content: "○ ";
-      color: #ccc;
-    }
-    .tree-states li a:hover {
-      color: #444;
-      background: #f0f0f0;
-    }
-
-    /* current page */
-    .tree-states li a[aria-current="page"] {
-      color: #222;
-      font-weight: bold;
-      background: #eaeaea;
-      border-left-color: #888;
-    }
-    .tree-states li a[aria-current="page"]::before {
-      content: "● ";
-      color: #555;
-    }
-
-    /* planned — файл ще не створено */
-    .tree-states li a.planned {
-      color: #ccc;
-    }
-    .tree-states li a.planned::before {
-      color: #ddd;
-    }
-    .tree-states li a.planned:hover {
-      background: none;
-      cursor: default;
-      color: #ccc;
-    }
-
-    /* standalone screen link (без станів) */
-    .tree-screen-link {
-      display: block;
-      padding: 3px 14px 3px 20px;
-      font-size: 11px;
-      color: #bbb;
-      text-decoration: none;
-      line-height: 1.45;
-    }
-    .tree-screen-link::before {
-      content: "○ ";
-      color: #ddd;
-    }
-
-    /* ═══════════════════════════════════════════════════════
-       CANVAS — центрує phone frame
-    ════════════════════════════════════════════════════════ */
-
-    .wf-canvas {
-      flex: 1;
-      display: flex;
-      justify-content: center;
-      align-items: flex-start;
-      padding: 28px 32px;
-    }
-
-    .wf-frame-wrap { display: flex; flex-direction: column; }
-
-    /* ═══════════════════════════════════════════════════════
-       PHONE FRAME — 390px mobile container
-    ════════════════════════════════════════════════════════ */
-
-    .phone-frame {
-      width: 390px;
-      flex-shrink: 0;
-      height: 844px;
-      background: #fff;
-      border: 1px solid #bbb;
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
-    }
-
-    /* ── phone header ── */
-    .phone-frame header {
-      flex-shrink: 0;
-      height: 58px;
-      background: #fff;
-      border-bottom: 1px solid #ccc;
-      display: flex;
-      align-items: center;
-      padding: 0 16px;
-      gap: 12px;
-    }
-
-    /* ── phone main ── */
-    .phone-frame main {
-      flex: 1;
-      overflow-y: auto;
-      background: #fff;
-      padding-bottom: 24px;
-    }
-
-    /* ──────────────────────────────────────────────────────
-       WIREFRAME COMPONENT STYLES (scoped to phone-frame)
-       Палітра: фон #fff · рамки #ccc · заливка #e8e8e8 · текст #333
-    ────────────────────────────────────────────────────── */
-
-    .zone-label {
-      display: block;
-      font-size: 9px;
-      font-weight: bold;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: #aaa;
-      background: #f7f7f7;
-      border-left: 3px solid #d0d0d0;
-      padding: 5px 12px 4px;
-      line-height: 1.5;
-    }
-
-    /* sections */
-    .phone-frame section {
-      border-bottom: 1px solid #eeeeee;
-    }
-    .section-body {
-      padding: 14px 16px;
-    }
-
-    /* header internals */
-    .header-back { font-size: 13px; color: #555; text-decoration: none; padding: 6px 4px; flex-shrink: 0; }
-    .header-text { flex: 1; min-width: 0; }
-    .header-plan {
-      font-size: 15px;
-      font-weight: bold;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    /* exercise cards */
-    article.ex-card {
-      border: 1px solid #d8d8d8;
-      border-radius: 4px;
-      padding: 11px 13px;
-      margin-bottom: 8px;
-    }
-    article.ex-card:last-of-type { margin-bottom: 0; }
-    .ex-name { font-size: 14px; font-weight: bold; margin-bottom: 3px; }
-    .ex-params { font-size: 13px; color: #555; }
-    .ex-rest { font-size: 12px; color: #aaa; margin-top: 2px; }
-
-    /* CTA button */
-    .btn-start {
-      display: block;
-      width: 100%;
-      min-height: 52px;
-      background: #333;
-      color: #fff;
-      border: none;
-      border-radius: 4px;
-      font-size: 17px;
-      font-weight: bold;
-      cursor: pointer;
-      padding: 14px;
-      text-align: center;
-      text-decoration: none;
-    }
-
-  </style>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Manrope:wght@500;600;700;800&display=swap">
+  <link rel="stylesheet" href="../ui/kit.css">
+  <link rel="stylesheet" href="_frame.css">
 </head>
 <body>
 
@@ -450,85 +188,56 @@
 
   <div class="wf-canvas">
     <div class="wf-frame-wrap">
+    <div class="phone-frame app">
+    <header class="app-header">
+      <a class="icon-btn" href="programs.html" aria-label="До «Програми»"><span class="icon icon--back" aria-hidden="true"></span></a>
+      <div class="app-header__text">
+        <h1 class="app-header__title">Призначення програми</h1>
+      </div>
+    </header>
+    <main class="app-main">
 
-    <div class="phone-frame">
-
-      <header>
-        <a href="programs.html" class="header-back">[←]</a>
-        <div class="header-text">
-          <p class="header-plan">Призначення програми</p>
+      <section aria-labelledby="lbl-program">
+        <h2 class="section__label" id="lbl-program">Програма</h2>
+        <div class="section__body">
+          <article class="card card--stack"><p class="card__name">Силовий цикл — осінь</p><p class="card__line"><span class="num">6</span> тижнів · Пн · Ср · Пт</p><p class="card__meta"><span class="num">18</span> тренувань · ~<span class="num">65 хв</span> кожне</p></article>
         </div>
-      </header>
+      </section>
 
-      <main>
+      <section aria-labelledby="lbl-athlete">
+        <h2 class="section__label" id="lbl-athlete">Атлет</h2>
+        <div class="section__body">
+          <form>
+            <div class="casting" role="radiogroup" aria-labelledby="lbl-athlete">
+              <label class="radio-row" for="a1"><input class="radio-row__input" type="radio" name="athlete" id="a1"><span class="radio-row__name">Оля Ткаченко</span><span class="radio-row__meta">Силовий цикл — осінь · Тиждень <span class="num">2 з 6</span></span></label>
+              <label class="radio-row" for="a2"><input class="radio-row__input" type="radio" name="athlete" id="a2"><span class="radio-row__name">Дмитро Ворона</span><span class="radio-row__meta">Силовий цикл — осінь · Тиждень <span class="num">2 з 6</span></span></label>
+              <label class="radio-row" for="a3"><input class="radio-row__input" type="radio" name="athlete" id="a3" checked><span class="radio-row__name">Іван Савченко</span><span class="radio-row__meta">без активної програми</span></label>
+            </div>
+          </form>
+        </div>
+      </section>
 
+      <section aria-labelledby="lbl-date">
+        <h2 class="section__label" id="lbl-date">Дата початку</h2>
+        <div class="section__body">
+          <form>
+            <div class="field">
+              <label class="field__label" for="start-date">Дата початку</label>
+              <input class="field__input" id="start-date" type="date" value="2026-10-19">
+              <p class="field__hint">Наступний понеділок · перше тренування</p>
+            </div>
+          </form>
+        </div>
+      </section>
 
-        <section aria-labelledby="lbl-program">
-          <span class="zone-label" id="lbl-program">
-            Програма
-          </span>
-          <div class="section-body">
-            <article class="ex-card">
-              <p class="ex-name">Силовий цикл — осінь</p>
-              <p class="ex-params">6 тижнів · Пн · Ср · Пт</p>
-              <p class="ex-rest">18 тренувань · ~65 хв кожне</p>
-            </article>
-          </div>
-        </section>
+      <section class="action-bar" aria-labelledby="lbl-confirm">
+        <h2 class="section__label" id="lbl-confirm">Підтвердити</h2>
+        <div class="section__body">
+          <a class="btn btn--primary" href="programs.html">Призначити програму</a>
+        </div>
+      </section>
 
-        <section aria-labelledby="lbl-athlete">
-          <span class="zone-label" id="lbl-athlete">
-            Атлет
-          </span>
-          <div class="section-body">
-            <form>
-
-              <div style="display:flex;align-items:center;gap:10px;padding:12px;border:2px solid #ccc;border-radius:4px;margin-bottom:8px;background:#f8f8f8;">
-                <input type="radio" name="athlete" id="a1" style="width:18px;height:18px;" />
-                <label for="a1" style="font-size:14px;cursor:pointer;">Оля Ткаченко</label>
-                <span style="font-size:12px;color:#aaa;margin-left:auto;">Силовий цикл — осінь · Тиждень 2 з 6</span>
-              </div>
-
-              <div style="display:flex;align-items:center;gap:10px;padding:12px;border:1px solid #ccc;border-radius:4px;margin-bottom:8px;">
-                <input type="radio" name="athlete" id="a2" style="width:18px;height:18px;" />
-                <label for="a2" style="font-size:14px;cursor:pointer;">Дмитро Ворона</label>
-                <span style="font-size:12px;color:#aaa;margin-left:auto;">Силовий цикл — осінь · Тиждень 2 з 6</span>
-              </div>
-
-              <div style="display:flex;align-items:center;gap:10px;padding:12px;border:1px solid #ccc;border-radius:4px;">
-                <input type="radio" name="athlete" id="a3" checked style="width:18px;height:18px;" />
-                <label for="a3" style="font-size:14px;font-weight:bold;cursor:pointer;">Іван Савченко</label>
-                <span style="font-size:12px;color:#aaa;margin-left:auto;">без активної програми</span>
-              </div>
-
-            </form>
-          </div>
-        </section>
-
-        <section aria-labelledby="lbl-date">
-          <span class="zone-label" id="lbl-date">
-            Дата початку
-          </span>
-          <div class="section-body">
-            <form>
-              <label for="start-date" style="display:block;font-size:13px;color:#888;margin-bottom:4px;">Дата початку</label>
-              <input id="start-date" type="date" value="2026-10-19" style="width:100%;border:1px solid #ccc;border-radius:4px;padding:10px;font-size:15px;color:#333;" />
-              <p style="font-size:12px;color:#aaa;margin-top:6px;">Наступний понеділок · перше тренування</p>
-            </form>
-          </div>
-        </section>
-
-        <section aria-labelledby="lbl-confirm">
-          <span class="zone-label" id="lbl-confirm">
-            Підтвердити
-          </span>
-          <div class="section-body">
-            <a href="programs.html" class="btn-start">Призначити програму</a>
-          </div>
-        </section>
-
-      </main>
-
+    </main>
     </div>
     </div>
   </div>

@@ -4,269 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>history.html — Історія тренувань · Forge Wireframes</title>
-  <style>
-
-    /* ═══════════════════════════════════════════════════════
-       PAGE CHROME — двоколонковий layout: nav-tree + phone frame
-    ════════════════════════════════════════════════════════ */
-
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    html, body {
-      height: 100%;
-      font-family: sans-serif;
-      font-size: 14px;
-      color: #333;
-      background: #ebebeb;
-    }
-
-    .page-layout {
-      display: flex;
-      min-height: 100vh;
-      align-items: flex-start;
-    }
-
-    /* ═══════════════════════════════════════════════════════
-       LEFT NAV SIDEBAR — дерево вайрфреймів
-    ════════════════════════════════════════════════════════ */
-
-    .wf-nav {
-      width: 224px;
-      min-width: 224px;
-      flex-shrink: 0;
-      height: 100vh;
-      position: sticky;
-      top: 0;
-      overflow-y: auto;
-      background: #fafafa;
-      border-right: 1px solid #d0d0d0;
-    }
-
-    .wf-nav-title {
-      padding: 14px 14px 12px;
-      font-size: 11px;
-      font-weight: bold;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: #888;
-      border-bottom: 1px solid #e0e0e0;
-    }
-
-    /* tree root */
-    .wf-tree {
-      list-style: none;
-      padding: 6px 0 24px;
-    }
-
-    /* section header (GROUP LABEL) */
-    .wf-tree .tree-section {
-      padding: 12px 14px 4px;
-      font-size: 9px;
-      font-weight: bold;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: #bbb;
-      border-top: 1px solid #eeeeee;
-      margin-top: 6px;
-      list-style: none;
-    }
-    .wf-tree > li:first-child.tree-section {
-      border-top: none;
-      margin-top: 0;
-    }
-
-    /* screen name row */
-    .wf-tree .tree-screen {
-      list-style: none;
-      padding: 6px 0 2px;
-    }
-    .screen-name {
-      display: block;
-      padding: 3px 14px 2px 20px;
-      font-size: 12px;
-      font-weight: bold;
-      color: #555;
-      line-height: 1.4;
-    }
-
-    /* state links */
-    .tree-states {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-    }
-    .tree-states li {
-      list-style: none;
-    }
-    .tree-states li a {
-      display: block;
-      padding: 3px 14px 3px 32px;
-      font-size: 11px;
-      color: #888;
-      text-decoration: none;
-      line-height: 1.45;
-      border-left: 2px solid transparent;
-    }
-    .tree-states li a::before {
-      content: "○ ";
-      color: #ccc;
-    }
-    .tree-states li a:hover {
-      color: #444;
-      background: #f0f0f0;
-    }
-
-    /* current page */
-    .tree-states li a[aria-current="page"] {
-      color: #222;
-      font-weight: bold;
-      background: #eaeaea;
-      border-left-color: #888;
-    }
-    .tree-states li a[aria-current="page"]::before {
-      content: "● ";
-      color: #555;
-    }
-
-    /* planned — файл ще не створено */
-    .tree-states li a.planned {
-      color: #ccc;
-    }
-    .tree-states li a.planned::before {
-      color: #ddd;
-    }
-    .tree-states li a.planned:hover {
-      background: none;
-      cursor: default;
-      color: #ccc;
-    }
-
-    /* standalone screen link (без станів) */
-    .tree-screen-link {
-      display: block;
-      padding: 3px 14px 3px 20px;
-      font-size: 11px;
-      color: #bbb;
-      text-decoration: none;
-      line-height: 1.45;
-    }
-    .tree-screen-link::before {
-      content: "○ ";
-      color: #ddd;
-    }
-
-    /* ═══════════════════════════════════════════════════════
-       CANVAS — центрує phone frame
-    ════════════════════════════════════════════════════════ */
-
-    .wf-canvas {
-      flex: 1;
-      display: flex;
-      justify-content: center;
-      align-items: flex-start;
-      padding: 28px 32px;
-    }
-
-    .wf-frame-wrap { display: flex; flex-direction: column; }
-
-    /* ═══════════════════════════════════════════════════════
-       PHONE FRAME — 390px mobile container
-    ════════════════════════════════════════════════════════ */
-
-    .phone-frame {
-      width: 390px;
-      flex-shrink: 0;
-      height: 844px;
-      background: #fff;
-      border: 1px solid #bbb;
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
-    }
-
-    /* ── phone header ── */
-    .phone-frame header {
-      flex-shrink: 0;
-      height: 58px;
-      background: #fff;
-      border-bottom: 1px solid #ccc;
-      display: flex;
-      align-items: center;
-      padding: 0 16px;
-      gap: 12px;
-    }
-
-    /* ── phone main ── */
-    .phone-frame main {
-      flex: 1;
-      overflow-y: auto;
-      background: #fff;
-    }
-
-    /* ──────────────────────────────────────────────────────
-       WIREFRAME COMPONENT STYLES (scoped to phone-frame)
-       Палітра: фон #fff · рамки #ccc · заливка #e8e8e8 · текст #333
-    ────────────────────────────────────────────────────── */
-
-    .zone-label {
-      display: block;
-      font-size: 9px;
-      font-weight: bold;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: #aaa;
-      background: #f7f7f7;
-      border-left: 3px solid #d0d0d0;
-      padding: 5px 12px 4px;
-      line-height: 1.5;
-    }
-
-    /* sections */
-    .phone-frame section {
-      border-bottom: 1px solid #eeeeee;
-    }
-    .section-body {
-      padding: 14px 16px;
-    }
-
-    /* header internals */
-    .header-text { flex: 1; min-width: 0; }
-    .header-date { font-size: 12px; color: #999; }
-    .header-plan {
-      font-size: 15px;
-      font-weight: bold;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-    .header-back { font-size: 13px; color: #555; text-decoration: none; padding: 6px 4px; flex-shrink: 0; }
-
-    /* exercise cards */
-    article.ex-card {
-      border: 1px solid #d8d8d8;
-      border-radius: 4px;
-      padding: 11px 13px;
-      margin-bottom: 8px;
-    }
-    article.ex-card:last-of-type { margin-bottom: 0; }
-    .ex-name { font-size: 14px; font-weight: bold; margin-bottom: 3px; }
-    .ex-params { font-size: 13px; color: #555; }
-    .ex-rest { font-size: 12px; color: #aaa; margin-top: 2px; }
-
-    /* placeholder for charts */
-    .placeholder {
-      background: #e8e8e8;
-      border-radius: 4px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #aaa;
-      font-size: 12px;
-      text-align: center;
-      padding: 8px;
-    }
-
-  </style>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Manrope:wght@500;600;700;800&display=swap">
+  <link rel="stylesheet" href="../ui/kit.css">
+  <link rel="stylesheet" href="_frame.css">
 </head>
 <body>
 
@@ -446,65 +188,29 @@
 
   <div class="wf-canvas">
     <div class="wf-frame-wrap">
+    <div class="phone-frame app">
+    <header class="app-header">
+      <a class="icon-btn" href="progress.html" aria-label="До «Прогрес»"><span class="icon icon--back" aria-hidden="true"></span></a>
+      <div class="app-header__text">
+        <h1 class="app-header__title">Історія тренувань</h1>
+      </div>
+    </header>
+    <main class="app-main">
 
-    <div class="phone-frame">
-
-      <header>
-        <a href="progress.html" class="header-back">[←]</a>
-        <div class="header-text">
-          <p class="header-plan">Історія тренувань</p>
-        </div>
-      </header>
-
-      <main>
-
-
-        <section aria-labelledby="lbl-workouts">
-          <span class="zone-label" id="lbl-workouts">
-            Тренування
-          </span>
-          <div class="section-body">
-
-            <article class="ex-card">
-              <p class="ex-name">День A — Ноги та кор</p>
-              <p class="ex-params">12 жовтня · 16 підходів · 1 год 2 хв</p>
-              <p class="ex-rest">5 вправ · Новий рекорд · Присідання зі штангою 82,5 кг · +2,5 кг до 7 жовтня</p>
-              <a href="finish.html" class="summary-link" style="display:inline-block;margin-top:6px;">Переглянути</a>
-            </article>
-
-            <article class="ex-card">
-              <p class="ex-name">День B — Жим і плечі</p>
-              <p class="ex-params">9 жовтня · 16 підходів · 58 хв</p>
-              <p class="ex-rest">4 вправи</p>
-              <a href="finish.html" class="summary-link" style="display:inline-block;margin-top:6px;">Переглянути</a>
-            </article>
-
-            <article class="ex-card">
-              <p class="ex-name">День A — Ноги та кор</p>
-              <p class="ex-params">7 жовтня · 17 підходів · 1 год 5 хв</p>
-              <p class="ex-rest">5 вправ</p>
-              <a href="finish.html" class="summary-link" style="display:inline-block;margin-top:6px;">Переглянути</a>
-            </article>
-
-            <article class="ex-card">
-              <p class="ex-name">День B — Жим і плечі</p>
-              <p class="ex-params">5 жовтня · 15 підходів · 55 хв</p>
-              <p class="ex-rest">4 вправи</p>
-              <a href="finish.html" class="summary-link" style="display:inline-block;margin-top:6px;">Переглянути</a>
-            </article>
-
-            <article class="ex-card">
-              <p class="ex-name">День A — Ноги та кор</p>
-              <p class="ex-params">2 жовтня · 18 підходів · 1 год 8 хв</p>
-              <p class="ex-rest">5 вправ · перше тренування програми</p>
-              <a href="finish.html" class="summary-link" style="display:inline-block;margin-top:6px;">Переглянути</a>
-            </article>
-
+      <section aria-labelledby="lbl-workouts">
+        <h2 class="section__label" id="lbl-workouts">Тренування</h2>
+        <div class="section__body">
+          <div class="casting">
+            <article class="card card--stack"><p class="card__name">День A — Ноги та кор</p><p class="card__line">12 жовтня · <span class="num">16</span> підходів · <span class="num">1 год 2 хв</span> · <span class="num">5</span> вправ</p><p class="card__status"><span class="badge-record"><span class="icon icon--record" aria-hidden="true"></span>Новий рекорд</span>Присідання зі штангою <span class="num">82,5 кг</span> · <span class="num">+2,5 кг</span> до 7 жовтня</p><div class="card__links"><a class="link-action" href="finish.html">Переглянути</a></div></article>
+            <article class="card card--stack"><p class="card__name">День B — Жим і плечі</p><p class="card__line">9 жовтня · <span class="num">16</span> підходів · <span class="num">58 хв</span> · <span class="num">4</span> вправи</p><div class="card__links"><a class="link-action" href="finish.html">Переглянути</a></div></article>
+            <article class="card card--stack"><p class="card__name">День A — Ноги та кор</p><p class="card__line">7 жовтня · <span class="num">17</span> підходів · <span class="num">1 год 5 хв</span> · <span class="num">5</span> вправ</p><div class="card__links"><a class="link-action" href="finish.html">Переглянути</a></div></article>
+            <article class="card card--stack"><p class="card__name">День B — Жим і плечі</p><p class="card__line">5 жовтня · <span class="num">15</span> підходів · <span class="num">55 хв</span> · <span class="num">4</span> вправи</p><div class="card__links"><a class="link-action" href="finish.html">Переглянути</a></div></article>
+            <article class="card card--stack"><p class="card__name">День A — Ноги та кор</p><p class="card__line">2 жовтня · <span class="num">18</span> підходів · <span class="num">1 год 8 хв</span> · <span class="num">5</span> вправ</p><p class="card__meta">перше тренування програми</p><div class="card__links"><a class="link-action" href="finish.html">Переглянути</a></div></article>
           </div>
-        </section>
+        </div>
+      </section>
 
-      </main>
-
+    </main>
     </div>
     </div>
   </div>

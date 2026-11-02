@@ -5,3 +5,6 @@
 .impeccable/review/
 .impeccable/live/
 .impeccable/config.local.json
+
+# ключі API для visuals/generate.mjs
+.env.local

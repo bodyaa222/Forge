@@ -1,0 +1,833 @@
+/* ═══════════════════════════════════════════════════════════════════
+   FORGE · UI-КІТ «ЧАВУН» · ui/kit.css
+   ───────────────────────────────────────────────────────────────────
+   Плаский кіт (урок 7): змінні в :root + класи компонентів. Рівнів
+   токенів немає (вони будуть в уроці 8).
+
+   Звідки:  еталон — пофарбовані today + athlete-today-*, workout + workout-*;
+            мова — DESIGN.md; склад і стани — ui/inventory.md; тексти — microcopy.md.
+   Правило: кожна довжина, колір, тінь, шрифт і час — лише через var(--…).
+            У класах дозволено тільки ключові слова й 0 / 100% / 1fr.
+   Не тягнемо: каркас вайрфреймів (.wf-*, рамка телефона, бічне меню).
+   Підключення: шрифти (див. нижче), <link rel="stylesheet" href="ui/kit.css"> і клас .app на
+            корені екрана. Поза .app кіт нічого не чіпає.
+
+   Старі назви → один API кіту (зведення дрейфу)
+   ───────────────────────────────────────────────────────────────────
+   header / .header-text / .header-date / .header-plan / .header-screen /
+     .header-timer / .header-sub        → .app-header, __text, __meta, __title
+   .badge-notif / .header-back          → .icon-btn (+ .icon-btn__dot)
+   .header-end                          → .app-header__icon
+   .avatar                              → .userpic
+   .phone-nav / .nav-icon / .planned    → .tabbar, .tabbar__item, [aria-disabled]
+   .zone-label / .section-body          → .section__label, .section__body
+   .summary-link / .client-link / .card-link / .card-links a /
+     .ex-remove                         → .link-action (+ --danger)
+   .ex-card / .client-* / .card-status  → .card (+ --stack, --current, --edit)
+   .sets-table                          → .table.table--sets
+   .results-table / .pf-table           → .card.card--result (02.11.2026)
+   .macros-row / .summary-stat-row / .stats-row → .stats, .stat
+   .kcal-row / .ph-bar                  → .meter-head, .meter
+   .pr-label / .tag-pr                  → .badge-record
+   .status-tag / .tag-fail              → .tag
+   .input-field / input / textarea      → .field, .field__input (+ --num, --area)
+   .btn-start / .btn-primary / .btn-save / .btn-home → .btn.btn--primary
+   .btn-retry / .btn-save-note / сірі контурні     → .btn.btn--secondary
+   дія в діалозі, що щось знищує         → .btn.btn--danger
+   .btn-finish[aria-disabled] / disabled → .btn:disabled, .btn[aria-disabled="true"]
+   .btn-caption                         → .btn-caption
+   .empty-block / .empty-state / .error-block / сірий блок помилки
+                                        → .state (+ --error)
+   .no-content-text                     → .state-line
+   .sk-*                                → .skel, .skel-card
+   blockquote.trainer-note / .trainer-meta → .note, .note__meta
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* Шрифти підключає сторінка (D35, 02.11.2026: @import блокував першу відмальовку):
+   <link rel="preconnect" href="https://fonts.googleapis.com">
+   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Manrope:wght@500;600;700;800&display=swap"> */
+
+:root {
+  /* ── Колір (DESIGN.md → Colors) ── */
+  --iron: #18191B;        /* ґрунт екрана */
+  --cast: #222427;        /* лиття: картки, таб-бар, кнопки-іконки */
+  --knurl: #2B2E32;       /* накатка: активний рядок, вторинна кнопка */
+  --pit: #101113;         /* отвір: поля, порожні отвори */
+  --line: #34373C;        /* роздільники і контури 1 px */
+  --edge: #3A3D42;        /* смуга прокрутки */
+  --rim: #4A4E54;         /* доріжка прокрутки, підкреслення посилань */
+  --steel: #ECEAE4;       /* текст і числа */
+  --graphite: #9C9EA1;    /* підписи, мета, неактивне */
+  --paint: #F2C230;       /* фарба безпеки: дія і «зараз» */
+  --paint-hi: #FFE38A;    /* рант фарби: наведення, рант бейджа рекорду */
+  --paint-ink: #1A1600;   /* текст по фарбі */
+  --fault: #D3242A;       /* помилка: лише іконка і рамка 2 px */
+  --scrim: rgba(16, 17, 19, .72);
+
+  /* ── Шрифт (DESIGN.md → Typography) ── */
+  --font-num: "Unbounded", sans-serif;
+  --font-text: "Manrope", system-ui, sans-serif;
+  --fs-tab: 12px;
+  --fs-meta: 12.5px;
+  --fs-label: 13px;
+  --fs-small: 14px;
+  --fs-text: 14.5px;
+  --fs-body: 15px;
+  --fs-btn: 16px;
+  --fs-head: 17px;
+  --fs-state: 18px;
+  --fs-title: 20px;
+  --fs-field: 30px;
+  --fw-regular: 500;
+  --fw-medium: 600;
+  --fw-bold: 700;
+  --fw-heavy: 800;
+  --lh-flat: 1;
+  --lh-title: 1.15;
+  --lh-head: 1.25;
+  --lh-row: 1.35;
+  --lh-meta: 1.45;
+  --lh-body: 1.5;
+  --lh-note: 1.55;
+  --track-head: -.01em;
+  --track-code: .08em;    /* код запрошення читається по знаку */
+
+  /* ── Відступи (px за назвою; крок 4, дрібні 2/3/5/6/9/10/14) ── */
+  --sp-1: 1px;
+  --sp-2: 2px;
+  --sp-3: 3px;
+  --sp-4: 4px;
+  --sp-5: 5px;
+  --sp-6: 6px;
+  --sp-7: 7px;
+  --sp-8: 8px;
+  --sp-9: 9px;
+  --sp-10: 10px;
+  --sp-12: 12px;
+  --sp-14: 14px;
+  --sp-16: 16px;
+  --sp-22: 22px;
+  --sp-24: 24px;
+
+  /* ── Розміри ── */
+  --screen-h: 100dvh;      /* екран застосунку */
+  --ic-inherit: 1em;      /* іконка за розміром тексту */
+  --ic-baseline: -.14em;  /* іконка в рядку тексту сідає трохи нижче базової лінії */
+  --hit: 48px;            /* мінімальна ціль натиску */
+  --hit-log: 56px;        /* повноширинна кнопка */
+  --field-num: 64px;      /* числове поле */
+  --area-min: 96px;       /* багаторядкове поле, ~3 рядки */
+  --header-min: 72px;
+  --tabbar-pad: 6px 4px 22px;
+  --tab-ic-tail: .359375px; /* зсув іконки вкладки вниз, як в еталона (вбудований SVG з vertical-align) */
+  --ic-xs: 14px;
+  --ic-s: 16px;
+  --ic-m: 18px;
+  --ic-l: 20px;
+  --ic-xl: 22px;
+  --ic-tab: 24px;
+  --ic-state: 32px;
+  --hole: 6px;            /* отвір стійки у вкладці й чіпі */
+  --hole-l: 10px;         /* отвір у рядку; крапка сповіщення */
+  --bar-h: 8px;
+  --mark-col: 22px;
+  --col-set: 72px;
+  --col-check: 56px;
+  --skel-link: 96px;      /* смуга «Переглянути» в скелетоні картки */
+  --chart-h: 120px;       /* заглушка графіка */
+  --userpic-l: 64px;      /* великий аватар у картці профілю */
+  --step-n: 24px;         /* кружок номера кроку */
+  --skel-note: 72px;      /* скелетон нотатки тренера */
+  --skel-card-min: 66px;  /* скелетон картки вправи */
+  --skel-scheme: 112px;   /* колонка схеми в скелетоні картки */
+  --skel-line2: 26px;     /* другий рядок скелетона назви дня */
+  --bw: 1px;
+  --bw-2: 2px;
+  --focus-gap: 3px;
+  --scroll-w: 8px;
+
+  /* ── Форма (DESIGN.md → Shapes) ── */
+  --r: 6px;
+  --r-s: 4px;
+  --r-round: 50%;
+
+  /* ── Глибина (DESIGN.md → Elevation & Depth) ── */
+  --sh-lip: 0 1px 0 rgba(255, 255, 255, .04) inset;
+  --sh-drop: 0 10px 24px -12px rgba(0, 0, 0, .6);
+  --sh-card: var(--sh-lip), var(--sh-drop);
+  --sh-pit: inset 0 2px 4px rgba(0, 0, 0, .6);
+  --sh-hole: inset 0 1px 2px rgba(0, 0, 0, .9), 0 1px 0 rgba(255, 255, 255, .06);
+  --sh-hole-s: inset 0 1px 1px rgba(0, 0, 0, .9);
+  --sh-paint: 0 1px 0 rgba(255, 255, 255, .35) inset, 0 -2px 0 rgba(0, 0, 0, .18) inset;
+  --sh-ring: inset 0 0 0 var(--bw) var(--line);
+  --sh-ring-paint-hi: inset 0 0 0 var(--bw-2) var(--paint-hi);
+  --sh-ring-fault: inset 0 0 0 var(--bw-2) var(--fault);
+  --sh-focus: 0 0 0 var(--bw-2) var(--paint);
+  --sh-focus-fault: 0 0 0 var(--bw-2) var(--fault);
+  --sh-dialog: 0 24px 48px -16px rgba(0, 0, 0, .8);
+  --cast-num: 0 1px 0 rgba(255, 255, 255, .06), 0 -1px 0 rgba(0, 0, 0, .75);
+  --knurl-tex:
+    repeating-linear-gradient(45deg, rgba(255, 255, 255, .035) 0 1px, transparent 1px 5px),
+    repeating-linear-gradient(-45deg, rgba(255, 255, 255, .035) 0 1px, transparent 1px 5px);
+  --fade-iron: linear-gradient(to bottom, transparent, var(--iron) var(--sp-24));
+
+  /* ── Рух ── */
+  --ease-press: cubic-bezier(.16, 1, .3, 1);
+  --ease-pulse: cubic-bezier(.4, 0, .6, 1);
+  --dur-press: .12s;
+  --dur-tint: .2s;
+  --dur-pulse: 1.6s;
+  --pulse-dim: .55;
+  --press: 1px;           /* кнопка просідає */
+
+  --z-sticky: 1;
+  --z-dialog: 10;
+}
+
+/* ═══ Основа: браузерні поверхні теж у мові ═══ */
+:where(.app, .app *, .app *::before, .app *::after) { box-sizing: border-box; margin: 0; padding: 0; }
+.app {
+  display: flex; flex-direction: column;
+  height: var(--screen-h);
+  background: var(--iron);
+  color: var(--steel);
+  font: var(--fw-regular) var(--fs-body) / var(--lh-body) var(--font-text);
+  -webkit-font-smoothing: antialiased;
+  caret-color: var(--paint);
+  scrollbar-color: var(--rim) transparent;
+}
+.app ::selection { background: var(--paint); color: var(--paint-ink); }
+.app :focus-visible { outline: var(--bw-2) solid var(--paint); outline-offset: var(--focus-gap); border-radius: var(--r); }
+.app ::-webkit-scrollbar { width: var(--scroll-w); height: var(--scroll-w); }
+.app ::-webkit-scrollbar-thumb { background: var(--edge); border-radius: var(--r-s); }
+:where(.app) :where(button, input, textarea) { font: inherit; color: inherit; }
+:where(.app) :where(a) { color: inherit; }
+/* непрозорий ґрунт прокрутки: інакше Chrome інакше згладжує текст на ній */
+.app-main { flex: 1; overflow-y: auto; scrollbar-width: none; background: var(--iron); }
+.app-main::-webkit-scrollbar { display: none; }
+.sr-only { position: absolute; width: var(--sp-1); height: var(--sp-1); overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* іконка Solar Bold: <span class="icon icon--bell" aria-hidden="true"></span> */
+.icon {
+  display: inline-block; flex-shrink: 0;
+  vertical-align: var(--ic-baseline);
+  width: var(--ic, var(--ic-inherit)); height: var(--ic, var(--ic-inherit));
+  background: currentColor;
+  -webkit-mask: var(--i) center / contain no-repeat;
+  mask: var(--i) center / contain no-repeat;
+}
+
+/* ═══════════════════════ 1. НАВІГАЦІЯ ═══════════════════════ */
+
+/* Шапка: два шари тексту (мета + назва) і дії праворуч */
+.app-header {
+  flex-shrink: 0;
+  display: flex; align-items: center; gap: var(--sp-12);
+  min-height: var(--header-min);
+  padding: var(--sp-12) var(--sp-16);
+  background: var(--iron);
+  border-bottom: var(--bw) solid var(--line);
+}
+.app-header__text { flex: 1; min-width: 0; }
+.app-header__meta { font-size: var(--fs-meta); color: var(--graphite); }
+.app-header__meta--num { font-variant-numeric: tabular-nums; }
+.app-header__title {
+  font: var(--fw-bold) var(--fs-head) / var(--lh-head) var(--font-num);
+  letter-spacing: var(--track-head);
+  text-shadow: var(--cast-num);
+  /* до двох рядків, далі трикрапка (D26: на 320 px назва різалась в один рядок) */
+  display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden;
+}
+.app-header__meta + .app-header__title,
+.app-header__title + .app-header__meta { margin-top: var(--sp-2); }
+.app-header__actions { display: flex; align-items: center; gap: var(--sp-8); flex-shrink: 0; }
+/* іконка-позначка без дії (таймер тренування) */
+.app-header__icon { --ic: var(--ic-xl); display: flex; flex-shrink: 0; color: var(--graphite); }
+
+/* Кнопка-іконка: «назад», сповіщення */
+.icon-btn {
+  --ic: var(--ic-xl);
+  position: relative; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  width: var(--hit); height: var(--hit);
+  border: 0; border-radius: var(--r);
+  background: var(--cast); box-shadow: var(--sh-ring);
+  color: var(--steel); text-decoration: none; cursor: pointer;
+}
+.icon-btn:hover { color: var(--paint); }
+.icon-btn__dot {
+  position: absolute; top: var(--sp-9); right: var(--sp-9);
+  width: var(--hole-l); height: var(--hole-l); border-radius: var(--r-round);
+  background: var(--paint); border: var(--bw-2) solid var(--cast);
+}
+
+/* Аватар з ініціалами: <a> — свій профіль, <span role="img"> — чужий */
+.userpic {
+  flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  width: var(--hit); height: var(--hit); border-radius: var(--r);
+  background: var(--knurl);
+  font: var(--fw-bold) var(--fs-label) var(--font-num); color: var(--steel);
+  text-decoration: none;
+}
+a.userpic:hover { color: var(--paint); }
+/* Фото замість ініціалів (visuals/): <img alt=""> усередині, назву несе aria-label */
+.userpic { overflow: hidden; }
+.userpic > img { display: block; width: 100%; height: 100%; object-fit: cover; }
+
+/* Таб-бар: 4 вкладки, отвір стійки над іконкою */
+.tabbar {
+  flex-shrink: 0;
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  padding: var(--tabbar-pad);
+  background: var(--cast); border-top: var(--bw) solid var(--line);
+}
+.tabbar__item {
+  --ic: var(--ic-tab);
+  display: grid; justify-items: center; align-content: center; gap: var(--sp-4);
+  min-height: var(--hit); padding: var(--sp-6) 0 var(--sp-2);
+  font: var(--fw-bold) var(--fs-tab) / var(--lh-flat) var(--font-text);
+  color: var(--graphite); text-decoration: none;
+}
+.tabbar__item::before {
+  content: ""; width: var(--hole); height: var(--hole); margin-bottom: var(--sp-2);
+  border-radius: var(--r-round); background: var(--pit); box-shadow: var(--sh-hole-s);
+}
+.tabbar__item .icon { margin-top: var(--tab-ic-tail); }
+.tabbar__item[aria-current="page"] { color: var(--steel); }
+.tabbar__item[aria-current="page"]::before { background: var(--paint); box-shadow: none; }
+.tabbar__item[aria-current="page"] .icon { color: var(--paint); }
+.tabbar__item[aria-disabled="true"] { cursor: default; }
+
+/* Великий аватар і картка профілю */
+.userpic--l { width: var(--userpic-l); height: var(--userpic-l); font-size: var(--fs-title); }
+.profile-card { display: flex; align-items: center; gap: var(--sp-16); margin-bottom: var(--sp-16); }
+.profile-card__name { font: var(--fw-bold) var(--fs-head) / var(--lh-head) var(--font-num); text-shadow: var(--cast-num); }
+.profile-card__meta { font-size: var(--fs-meta); color: var(--graphite); }
+
+/* Секція екрана: ярлик (h2) + тіло */
+.section__label {
+  display: block; padding: var(--sp-16) var(--sp-16) 0;
+  font: var(--fw-bold) var(--fs-meta) / var(--lh-meta) var(--font-text);
+  color: var(--graphite);
+}
+.section__body { padding: var(--sp-12) var(--sp-16) var(--sp-16); }
+
+/* Посилання-дія: «Додати страву», «Переглянути», «Видалити вправу» */
+.link-action {
+  --ic: var(--ic-m);
+  display: inline-flex; align-items: center; gap: var(--sp-6);
+  min-height: var(--hit);
+  font-size: var(--fs-small); font-weight: var(--fw-bold); color: var(--steel);
+  text-decoration: none; background: none; border: 0; cursor: pointer;
+}
+.link-action:hover { color: var(--paint); }
+.stats + .link-action { margin-top: var(--sp-6); }
+/* знищення в списку — кошик графітом; червоне лише рамка кнопки в діалозі (D29, Quiet Fault Rule) */
+.link-action--danger .icon { color: var(--graphite); }
+.link-row { display: flex; flex-wrap: wrap; column-gap: var(--sp-16); }
+
+/* Рядки налаштувань зі стрілкою (profile) */
+.menu { display: grid; }
+.menu__item {
+  --ic: var(--ic-m);
+  display: flex; align-items: center; justify-content: space-between; gap: var(--sp-12);
+  width: 100%; min-height: var(--hit); padding: var(--sp-12) var(--sp-16);
+  background: var(--cast); border: 0; text-align: left; cursor: pointer;
+  font-size: var(--fs-body); font-weight: var(--fw-bold); color: var(--steel); text-decoration: none;
+}
+.menu__item .icon { color: var(--graphite); }
+.menu__item:hover { color: var(--paint); }
+
+/* Посилання в рядку тексту */
+.link-inline {
+  color: var(--steel); font-weight: var(--fw-bold);
+  text-decoration: underline; text-decoration-color: var(--rim);
+  text-underline-offset: var(--focus-gap);
+}
+.link-inline:hover { color: var(--paint); text-decoration-color: currentColor; }
+.text-aside { font-size: var(--fs-label); color: var(--graphite); text-align: center; margin-top: var(--sp-12); }
+/* посилання в підписі — ціль 48 px заввишки (D14) */
+.text-aside .link-inline { display: inline-flex; align-items: center; min-height: var(--hit); padding-inline: var(--sp-4); }
+
+/* ═══════════════════════ 2. КАРТКИ Й СПИСКИ ═══════════════════════ */
+
+/* Заголовок списку: назва дня ліворуч, підсумок праворуч */
+.list-head { display: flex; justify-content: space-between; align-items: baseline; gap: var(--sp-12); margin-bottom: var(--sp-12); }
+.list-head__title { font: var(--fw-bold) var(--fs-title) / var(--lh-title) var(--font-num); text-shadow: var(--cast-num); text-wrap: balance; }
+.list-head__meta { font-size: var(--fs-meta); color: var(--graphite); white-space: nowrap; }
+
+/* Картка-рядок: назва й мета ліворуч, схема праворуч */
+.card {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-areas: "name scheme" "meta scheme";
+  column-gap: var(--sp-12); row-gap: var(--sp-3);
+  align-items: center;
+  min-height: var(--hit);
+  padding: var(--sp-12) var(--sp-16);
+  background: var(--cast); border-radius: var(--r); box-shadow: var(--sh-card);
+}
+.card__name { grid-area: name; font-size: var(--fs-body); font-weight: var(--fw-bold); line-height: var(--lh-row); }
+.card__scheme {
+  grid-area: scheme;
+  font: var(--fw-regular) var(--fs-body) var(--font-num);
+  font-variant-numeric: tabular-nums; white-space: nowrap;
+  text-shadow: var(--cast-num); color: var(--steel);
+}
+.card__meta {
+  --ic: var(--ic-xs);
+  grid-area: meta;
+  display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-5);
+  font-size: var(--fs-meta); color: var(--graphite);
+}
+.card__line { grid-area: line; font-size: var(--fs-small); color: var(--steel); font-variant-numeric: tabular-nums; }
+.card__set { grid-area: set; margin-top: var(--sp-6); font-size: var(--fs-meta); font-weight: var(--fw-bold); color: var(--paint); font-variant-numeric: tabular-nums; }
+.card__links { grid-area: links; }
+.card__name-input { grid-area: name; }
+/* нотатка тренера до вправи (program-session) */
+.card__note { grid-area: note; font-size: var(--fs-meta); color: var(--graphite); }
+/* стан виконаної вправи: ✓ або отвір + «4 з 4 підходів», тег, бейдж рекорду */
+.card__status { --ic: var(--ic-s); grid-area: status; display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-6); margin-top: var(--sp-4); font-size: var(--fs-meta); color: var(--graphite); }
+.card__status .icon--done { color: var(--paint); }
+
+/* поточна вправа: та сама картка + рядок підходу */
+.card--current { grid-template-areas: "name scheme" "meta scheme" "set set"; }
+/* стовпчиком: тренування, програма, атлет, страва — рядки тексту замість схеми */
+.card--stack { grid-template-columns: minmax(0, 1fr); grid-template-areas: "name" "line" "meta" "status" "links"; row-gap: var(--sp-4); }
+/* редагована вправа в програмі */
+/* редагована вправа в програмі: та сама картка — назва в полі, схема праворуч, відпочинок і нотатка під нею (D8) */
+.card--edit { grid-template-areas: "name name" "meta scheme" "note note" "links links"; row-gap: var(--sp-8); }
+/* виконана вправа: факт схемою праворуч, план у меті, стан окремим рядком (D7: замість таблиць план → факт) */
+.card--result { grid-template-areas: "name scheme" "meta scheme" "status status"; }
+
+/* Число в рядку тексту: Unbounded, табличні, литий рельєф; кегль бере з рядка (D2, Cast Number Rule) */
+.num { font-family: var(--font-num); font-weight: inherit; font-variant-numeric: tabular-nums; text-shadow: var(--cast-num); white-space: nowrap; }
+/* Отвір стійки в рядку: «очікує» / «не завершено» (D11) */
+.hole { display: inline-block; flex-shrink: 0; width: var(--hole-l); height: var(--hole-l); border-radius: var(--r-round); background: var(--pit); box-shadow: var(--sh-hole); }
+
+/* Литво (після .card, щоб перекрити її кути й тінь): однорідні рядки в одному блоці,
+   через лінію 1 px. Кути несуть крайні рядки; відблиск лише зверху на першому,
+   тіні під литвом немає (так на еталоні «Сьогодні»). Один рядок — звичайна картка. */
+.casting > * { border-radius: 0; box-shadow: none; }
+.casting > * + * { border-top: var(--bw) solid var(--line); }
+.casting > :first-child { border-top-left-radius: var(--r); border-top-right-radius: var(--r); box-shadow: var(--sh-lip); }
+.casting > :last-child { border-bottom-left-radius: var(--r); border-bottom-right-radius: var(--r); }
+.casting > :only-child { box-shadow: var(--sh-card); }
+
+/* Список вправ зі станами: ✓ виконано · › зараз (накатка) · отвір — очікує */
+.checklist { list-style: none; background: var(--cast); border-radius: var(--r); box-shadow: var(--sh-card); overflow: hidden; }
+.checklist__item {
+  display: grid; grid-template-columns: var(--mark-col) minmax(0, 1fr) auto; gap: var(--sp-10); align-items: center;
+  min-height: var(--hit); padding: var(--sp-12) var(--sp-16);
+  font-size: var(--fs-body); font-weight: var(--fw-bold); color: var(--steel);
+}
+.checklist__item + .checklist__item { border-top: var(--bw) solid var(--line); }
+.checklist__item.is-done, .checklist__item.is-pending { color: var(--graphite); }
+.checklist__item.is-current { background: var(--knurl-tex), var(--knurl); }
+.checklist__mark { --ic: var(--ic-l); display: flex; justify-content: center; color: var(--steel); }
+.checklist__item.is-done .checklist__mark { color: var(--paint); }
+.checklist__item.is-pending .checklist__mark::before {
+  content: ""; width: var(--hole-l); height: var(--hole-l); border-radius: var(--r-round);
+  background: var(--pit); box-shadow: var(--sh-hole);
+}
+.checklist__name { min-width: 0; }
+/* на накатці графіт падає до 4,11 : 1 на перетині смуг — лічильник сталевим (D32) */
+.checklist__item.is-current .checklist__count { color: var(--steel); }
+.checklist__count { font-size: var(--fs-meta); font-weight: var(--fw-regular); color: var(--graphite); white-space: nowrap; font-variant-numeric: tabular-nums; }
+
+/* Таблиця підходів (логер). План → факт виконаних вправ — картка .card--result (D7, 02.11.2026: таблиці ширші за екран прибрано) */
+.table {
+  width: 100%; border-collapse: separate; border-spacing: 0;
+  background: var(--cast); border-radius: var(--r); box-shadow: var(--sh-card); overflow: hidden;
+  font-size: var(--fs-body);
+}
+.table th {
+  text-align: left; padding: var(--sp-12) var(--sp-16) var(--sp-8);
+  font: var(--fw-bold) var(--fs-meta) var(--font-text); color: var(--graphite);
+  border-bottom: var(--bw) solid var(--line);
+}
+.table td {
+  padding: 0 var(--sp-16); height: var(--hit);
+  font: var(--fw-regular) var(--fs-body) var(--font-num); font-variant-numeric: tabular-nums;
+  text-shadow: var(--cast-num); color: var(--steel);
+  border-bottom: var(--bw) solid var(--line);
+}
+.table tbody tr:last-child td { border-bottom: 0; }
+.table .is-pending td { color: var(--graphite); }
+.table .is-current td { background: var(--knurl-tex), var(--knurl); }
+.table td.table__mark { --ic: var(--ic-l); font-size: var(--ic-l); text-align: right; color: var(--paint); text-shadow: none; }
+.table td.table__progress { font: var(--fw-bold) var(--fs-meta) var(--font-text); color: var(--paint); text-shadow: none; }
+.table--sets { table-layout: fixed; }
+.table--sets th:first-child { width: var(--col-set); }
+.table--sets th:last-child { width: var(--col-check); }
+.table--sets td:first-child { color: var(--graphite); }
+.table--sets .is-current td:first-child { color: var(--steel); }
+
+/* Ряд показників: підпис над числом */
+.stats { display: flex; }
+.stat { flex: 1; display: flex; flex-direction: column; gap: var(--sp-2); padding-right: var(--sp-12); }
+.stat + .stat { padding-left: var(--sp-12); border-left: var(--bw) solid var(--line); }
+.stat__label { font-size: var(--fs-tab); color: var(--graphite); }
+.stat__value { font: var(--fw-bold) var(--fs-body) var(--font-num); font-variant-numeric: tabular-nums; text-shadow: var(--cast-num); }
+
+/* Підсумок зі шкалою: style="--meter: 77%" */
+.meter-head { display: flex; justify-content: space-between; align-items: baseline; gap: var(--sp-12); margin-bottom: var(--sp-10); }
+.meter-head__value { font: var(--fw-bold) var(--fs-title) var(--font-num); font-variant-numeric: tabular-nums; text-shadow: var(--cast-num); }
+.meter-head__target { font-size: var(--fs-meta); color: var(--graphite); }
+.meter {
+  position: relative; overflow: hidden;
+  height: var(--bar-h); margin-bottom: var(--sp-14);
+  background: var(--pit); box-shadow: var(--sh-pit); border-radius: var(--r-s);
+}
+.meter::after {
+  content: ""; position: absolute; inset: 0 auto 0 0;
+  width: var(--meter, 0%); background: var(--graphite); border-radius: var(--r-s);
+}
+
+/* Картка підсумку: показники по центру, назва під ними (finish) */
+.summary { padding: var(--sp-16); background: var(--cast); border-radius: var(--r); box-shadow: var(--sh-card); }
+/* той самий ряд показників, що в тренера, лише крупніше (D6); колонка за шириною числа */
+.stats--lg .stat { flex: 1 1 auto; }
+.stats--lg .stat__value { font-size: var(--fs-title); white-space: nowrap; }
+.summary__caption { margin-top: var(--sp-12); font-size: var(--fs-meta); color: var(--graphite); }
+
+/* Картка коду запрошення: код великим вилитим шрифтом (invite) */
+.code-card { padding: var(--sp-24) var(--sp-16) var(--sp-16); background: var(--cast); border-radius: var(--r); box-shadow: var(--sh-card); text-align: center; margin-bottom: var(--sp-12); }
+.code-card__label { font-size: var(--fs-meta); color: var(--graphite); }
+.code-card__code { margin: var(--sp-8) 0; font: var(--fw-bold) var(--fs-field) / var(--lh-head) var(--font-num); letter-spacing: var(--track-code); text-shadow: var(--cast-num); overflow-wrap: anywhere; }
+.code-card__meta { font-size: var(--fs-meta); color: var(--graphite); font-variant-numeric: tabular-nums; }
+
+/* Рядок посилання з кнопкою «Скопіювати» (invite) */
+.copy-row { display: flex; align-items: center; gap: var(--sp-8); padding: var(--sp-4) var(--sp-4) var(--sp-4) var(--sp-14); background: var(--pit); box-shadow: var(--sh-pit); border-radius: var(--r); }
+.copy-row__text { flex: 1; min-width: 0; font-size: var(--fs-small); color: var(--steel); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+/* Плашка рекорду: бейдж + вправа + вилите число з різницею */
+.record { padding: var(--sp-14) var(--sp-16); background: var(--cast); border-radius: var(--r); box-shadow: var(--sh-card); }
+.record > .badge-record { margin-bottom: var(--sp-10); }
+.record__name { font-size: var(--fs-body); font-weight: var(--fw-bold); line-height: var(--lh-row); }
+.record__value { margin-top: var(--sp-4); font-size: var(--fs-meta); color: var(--graphite); font-variant-numeric: tabular-nums; }
+.record__num { font: var(--fw-bold) var(--fs-title) var(--font-num); font-variant-numeric: tabular-nums; color: var(--steel); text-shadow: var(--cast-num); }
+
+/* Сітка рекордів: 2 колонки (progress) */
+.record-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--sp-8); }
+.record-card { padding: var(--sp-12) var(--sp-14); background: var(--cast); border-radius: var(--r); box-shadow: var(--sh-card); }
+.record-card__name { margin-bottom: var(--sp-4); font-size: var(--fs-meta); line-height: var(--lh-meta); color: var(--graphite); }
+.record-card__value { font: var(--fw-bold) var(--fs-title) / var(--lh-head) var(--font-num); font-variant-numeric: tabular-nums; text-shadow: var(--cast-num); }
+.record-card__date { margin-top: var(--sp-2); font-size: var(--fs-meta); color: var(--graphite); }
+
+/* Заглушка графіка: заглиблене поле з підписом, доки графіка немає */
+.chart-ph {
+  display: flex; align-items: center; justify-content: center;
+  height: var(--chart-h); padding: var(--sp-16);
+  background: var(--pit); box-shadow: var(--sh-pit); border-radius: var(--r);
+  font-size: var(--fs-meta); color: var(--graphite); text-align: center;
+}
+/* Рядок факту під графіком чи блоком: «Вага 67 кг · ціль 70 кг» */
+.fact-line { font-size: var(--fs-small); color: var(--steel); font-variant-numeric: tabular-nums; }
+
+* + .fact-line { margin-top: var(--sp-10); }
+
+/* Рядки «підпис · значення»: поточна програма атлета (trainer-athlete) */
+.kv { display: grid; grid-template-columns: auto minmax(0, 1fr); column-gap: var(--sp-16); row-gap: var(--sp-8); align-items: baseline; }
+.kv__title { grid-column: 1 / -1; font-size: var(--fs-body); font-weight: var(--fw-bold); }
+.kv__label { font-size: var(--fs-meta); color: var(--graphite); }
+.kv__value { font-size: var(--fs-small); color: var(--steel); font-variant-numeric: tabular-nums; }
+
+/* Нумеровані кроки: номер у литому кружку (invite) */
+.steps { list-style: none; counter-reset: step; display: grid; gap: var(--sp-12); }
+.steps > li { counter-increment: step; display: grid; grid-template-columns: var(--step-n) minmax(0, 1fr); gap: var(--sp-12); align-items: baseline; font-size: var(--fs-small); line-height: var(--lh-body); }
+.steps > li::before {
+  content: counter(step); display: flex; align-items: center; justify-content: center;
+  width: var(--step-n); height: var(--step-n); border-radius: var(--r-round);
+  background: var(--cast); box-shadow: var(--sh-ring);
+  font: var(--fw-bold) var(--fs-meta) / var(--lh-flat) var(--font-num); color: var(--steel);
+}
+
+/* Бейдж «Новий рекорд»: суцільна фарба з рантом */
+.badge-record {
+  --ic: var(--ic-xs);
+  display: inline-flex; align-items: center; gap: var(--sp-4);
+  padding: var(--sp-3) var(--sp-8);
+  background: var(--paint); color: var(--paint-ink);
+  box-shadow: inset 0 0 0 var(--bw) var(--paint-hi);
+  border-radius: var(--r-s);
+  font: var(--fw-heavy) var(--fs-meta) / var(--lh-flat) var(--font-text);
+  text-shadow: none; white-space: nowrap; vertical-align: middle;
+}
+
+/* Тег статусу: «Без коментаря», «не завершено» */
+.tag {
+  display: inline-flex; align-items: center;
+  padding: var(--sp-3) var(--sp-8);
+  background: var(--knurl); box-shadow: var(--sh-ring); border-radius: var(--r-s);
+  font: var(--fw-bold) var(--fs-meta) / var(--lh-flat) var(--font-text); color: var(--steel);
+  text-shadow: none; white-space: nowrap; vertical-align: middle;
+}
+
+/* ═══════════════════════ 3. ФОРМИ ═══════════════════════ */
+
+.field { display: grid; gap: var(--sp-6); min-width: 0; }
+.field__label { font: var(--fw-medium) var(--fs-label) var(--font-text); color: var(--graphite); }
+.field__req { color: var(--steel); }
+.field__input {
+  width: 100%; min-width: 0; height: var(--hit);
+  padding: 0 var(--sp-14);
+  background: var(--pit); border: 0; border-radius: var(--r); box-shadow: var(--sh-pit);
+  font: var(--fw-regular) var(--fs-body) var(--font-text); color: var(--steel);
+  color-scheme: dark;
+}
+.field__input::placeholder { color: var(--graphite); opacity: 1; }
+.field__input:focus { outline: none; box-shadow: var(--sh-pit), var(--sh-focus); }
+/* числове: як у логері */
+.field__input--num {
+  height: var(--field-num);
+  font: var(--fw-bold) var(--fs-field) var(--font-num); font-variant-numeric: tabular-nums;
+  text-shadow: var(--cast-num);
+  -moz-appearance: textfield; appearance: textfield;
+}
+.field__input--num::placeholder { font: var(--fw-medium) var(--fs-body) var(--font-text); text-shadow: none; }
+.field__input--num::-webkit-inner-spin-button, .field__input--num::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+/* назва вправи прямо в картці */
+.field__input--strong { font-weight: var(--fw-bold); }
+.field__input--area { height: auto; min-height: var(--area-min); padding: var(--sp-12) var(--sp-14); line-height: var(--lh-body); resize: vertical; }
+.field__hint { font-size: var(--fs-meta); color: var(--graphite); font-variant-numeric: tabular-nums; }
+.field__error { --ic: var(--ic-s); display: flex; align-items: flex-start; gap: var(--sp-6); font-size: var(--fs-meta); color: var(--steel); }
+.field__error .icon { color: var(--fault); margin-top: var(--sp-1); }
+.field.is-error .field__input { box-shadow: var(--sh-pit), var(--sh-focus-fault); }
+.field-row { display: grid; grid-template-columns: repeat(var(--cols, 2), minmax(0, 1fr)); gap: var(--sp-10); align-items: end; } /* поля в ряд — по нижньому краю, навіть коли підпис у два рядки */
+/* три поля в ряд: вужчі відступи й дрібніша підказка, щоб «Наприклад, 12» влазило */
+.field-row--3 { --cols: 3; }
+.field-row--3 .field__input { padding: 0 var(--sp-10); }
+.field-row--3 .field__input--num::placeholder { font-size: var(--fs-meta); }
+.form-stack { display: grid; gap: var(--sp-16); }
+
+/* код запрошення: шрифт чисел і розрядка, щоб читався по знаку */
+.field__input--code { font: var(--fw-bold) var(--fs-body) var(--font-num); letter-spacing: var(--track-code); }
+.field__input--code::placeholder { font: var(--fw-regular) var(--fs-body) var(--font-text); letter-spacing: normal; }
+
+/* Вибір із набору: отвір стійки заповнюється, коли обрано */
+.chips { display: flex; flex-wrap: wrap; gap: var(--sp-8); }
+.chip {
+  display: inline-flex; align-items: center; gap: var(--sp-8);
+  min-height: var(--hit); padding: 0 var(--sp-14);
+  background: var(--cast); box-shadow: var(--sh-ring);
+  border: 0; border-radius: var(--r);
+  font: var(--fw-bold) var(--fs-small) var(--font-text); color: var(--graphite);
+  cursor: pointer;
+}
+.chip::before {
+  content: ""; flex-shrink: 0; width: var(--hole); height: var(--hole);
+  border-radius: var(--r-round); background: var(--pit); box-shadow: var(--sh-hole-s);
+}
+.chip:hover { color: var(--steel); }
+.chip[aria-pressed="true"], .chip[aria-checked="true"] { color: var(--steel); background: var(--knurl-tex), var(--knurl); }
+.chip[aria-pressed="true"]::before, .chip[aria-checked="true"]::before { background: var(--paint); box-shadow: none; }
+/* дні тижня: сітка з 7, отвір над словом, як у таб-барі */
+.chips--week { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: var(--sp-2); } /* 7 × 49 px ≥ --hit (D16) */
+.chips--week .chip { flex-direction: column; justify-content: center; gap: var(--sp-6); padding: 0; }
+
+/* плитки: великий вибір із двох (роль при реєстрації), іконка над підписом */
+.chips--tiles { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--sp-10); }
+.chips--tiles .chip { --ic: var(--ic-tab); flex-direction: column; justify-content: center; gap: var(--sp-6); min-height: var(--hit-log); padding: var(--sp-16) var(--sp-8); font-size: var(--fs-body); }
+
+/* Радіо-список: рядок з отвором стійки, обраний — накатка й фарба (program-assign) */
+.radio-row {
+  display: grid; grid-template-columns: var(--mark-col) minmax(0, 1fr); column-gap: var(--sp-10); row-gap: var(--sp-2); align-items: center;
+  min-height: var(--hit); padding: var(--sp-12) var(--sp-16);
+  background: var(--cast); cursor: pointer;
+}
+.radio-row__input {
+  grid-row: 1 / span 2; justify-self: center;
+  width: var(--hole-l); height: var(--hole-l); margin: 0; border-radius: var(--r-round);
+  appearance: none; background: var(--pit); box-shadow: var(--sh-hole); cursor: pointer;
+}
+.radio-row__input:checked { background: var(--paint); box-shadow: none; }
+.radio-row__input:focus-visible { outline-offset: var(--sp-4); }
+.radio-row__name { font-size: var(--fs-body); font-weight: var(--fw-bold); }
+.radio-row__meta { grid-column: 2; font-size: var(--fs-meta); color: var(--graphite); }
+.radio-row:has(:checked) { background: var(--knurl-tex), var(--knurl); }
+
+/* Кнопки */
+.btn {
+  --ic: var(--ic-l);
+  display: flex; align-items: center; justify-content: center; gap: var(--sp-10);
+  width: 100%; min-height: var(--hit-log);
+  padding: var(--sp-12) var(--sp-16);
+  border: 0; border-radius: var(--r);
+  font: var(--fw-heavy) var(--fs-btn) var(--font-text);
+  text-align: center; text-decoration: none; cursor: pointer;
+  transition: transform var(--dur-press) var(--ease-press), background var(--dur-tint);
+}
+.btn--primary { background: var(--paint); color: var(--paint-ink); box-shadow: var(--sh-paint); }
+.btn--primary:hover { box-shadow: var(--sh-paint), var(--sh-ring-paint-hi); }
+.btn--primary:active { transform: translateY(var(--press)); box-shadow: var(--sh-pit); }
+.btn--secondary { background: var(--knurl); color: var(--steel); box-shadow: var(--sh-ring); }
+.btn--secondary:hover { color: var(--paint); }
+.btn--secondary:active { transform: translateY(var(--press)); }
+/* знищує дані: червоний лише рамкою, текст сталевий (The Quiet Fault Rule) */
+.btn--danger { background: var(--cast); color: var(--steel); box-shadow: var(--sh-ring-fault); }
+.btn--danger:hover { background: var(--knurl); }
+.btn--danger:active { transform: translateY(var(--press)); box-shadow: var(--sh-ring-fault), var(--sh-pit); }
+.btn:disabled, .btn[aria-disabled="true"] {
+  background: transparent; color: var(--graphite); box-shadow: var(--sh-ring);
+  cursor: not-allowed; transform: none;
+}
+/* Статус після дії: ✓ фарбою + факт і наступний крок */
+.status-line { --ic: var(--ic-s); display: flex; gap: var(--sp-6); align-items: flex-start; margin-top: var(--sp-12); font-size: var(--fs-label); color: var(--steel); font-variant-numeric: tabular-nums; }
+.status-line .icon { margin-top: var(--sp-1); color: var(--paint); }
+/* друга кнопка під дією, підписом, статусом чи помилкою */
+:where(.section__body) > :is(.btn, .btn-caption, .status-line, .state) + .btn { margin-top: var(--sp-10); }
+.btn-caption { margin-top: var(--sp-8); font-size: var(--fs-meta); line-height: var(--lh-meta); color: var(--graphite); text-align: center; }
+.btn-stack { display: grid; gap: var(--sp-10); }
+.btn-pair { display: grid; grid-template-columns: 1fr 1fr; gap: var(--sp-10); }
+/* головна дія липне до низу, доки активна (атрибут «Під пальцем») */
+.action-bar:has(.btn--primary:not(:disabled):not([aria-disabled="true"])) {
+  position: sticky; bottom: 0; z-index: var(--z-sticky);
+  background: var(--fade-iron);
+}
+/* у липкій панелі ярлик зони лише для читачів екрана: інакше він лягає на чужий вміст (D27) */
+.action-bar:has(.btn--primary:not(:disabled):not([aria-disabled="true"])) > .section__label {
+  position: absolute; width: var(--sp-1); height: var(--sp-1); overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap;
+}
+
+/* Діалог підтвердження */
+.dialog-scrim {
+  position: fixed; inset: 0; z-index: var(--z-dialog);
+  display: flex; align-items: flex-end;
+  padding: var(--sp-16);
+  background: var(--scrim);
+}
+.dialog {
+  width: 100%;
+  padding: var(--sp-24) var(--sp-16) var(--sp-16);
+  background: var(--cast); border-radius: var(--r);
+  box-shadow: var(--sh-lip), var(--sh-dialog);
+}
+.dialog__title { font: var(--fw-bold) var(--fs-state) / var(--lh-head) var(--font-num); text-shadow: var(--cast-num); margin-bottom: var(--sp-8); }
+.dialog__text { font-size: var(--fs-text); line-height: var(--lh-note); margin-bottom: var(--sp-16); }
+.dialog__title + :is(.btn-pair, .btn-stack) { margin-top: var(--sp-16); }
+
+/* ═══════════════════════ 4. ЗВОРОТНИЙ ЗВ'ЯЗОК ═══════════════════════ */
+
+/* Порожній стан і помилка: один блок, помилка — з червоною рамкою */
+.state {
+  padding: var(--sp-24) var(--sp-16) var(--sp-16);
+  background: var(--cast); border-radius: var(--r); box-shadow: var(--sh-card);
+  text-align: center;
+}
+.state__icon { --ic: var(--ic-state); display: flex; justify-content: center; margin-bottom: var(--sp-12); color: var(--graphite); }
+.state__title { font: var(--fw-bold) var(--fs-state) / var(--lh-head) var(--font-num); text-shadow: var(--cast-num); margin-bottom: var(--sp-8); }
+.state__text { font-size: var(--fs-text); line-height: var(--lh-note); margin-bottom: var(--sp-16); }
+.state > .btn { margin-top: var(--sp-4); }
+.state > :last-child { margin-bottom: 0; }
+.state--error { box-shadow: var(--sh-card), var(--sh-ring-fault); margin-bottom: var(--sp-12); }
+.state--error .state__icon { color: var(--fault); }
+/* рядок замість вмісту зони: «Нотатки від тренера на сьогодні немає.» */
+.state-line { font-size: var(--fs-small); color: var(--graphite); }
+/* рядок помилки в зоні: червона лише іконка (D25, Quiet Fault Rule) */
+.state-line--error { --ic: var(--ic-s); display: flex; align-items: flex-start; gap: var(--sp-6); color: var(--steel); }
+.state-line--error .icon { margin-top: var(--sp-2); color: var(--fault); }
+
+/* Скелетон: style="--skel-w: 68%" задає ширину блоку */
+.skel {
+  display: block;
+  width: var(--skel-w, 100%); height: var(--skel-h, var(--sp-12));
+  background: var(--knurl); border-radius: var(--r-s);
+  animation: skel-pulse var(--dur-pulse) var(--ease-pulse) infinite;
+}
+.skel--text { --skel-h: var(--fs-body); }
+.skel--title { --skel-h: var(--fs-title); }
+.skel--head { --skel-h: var(--fs-state); }
+.skel--bar { --skel-h: var(--bar-h); margin-bottom: var(--sp-14); }
+.skel--block { --skel-h: var(--skel-note); border-radius: var(--r); background: var(--cast); margin-bottom: var(--sp-10); }
+/* назва дня у два рядки: другий рядок — тінь першого */
+.skel--two-lines { box-shadow: 0 var(--skel-line2) 0 var(--knurl); margin-bottom: var(--skel-line2); }
+.app-header__title > .skel { margin-top: var(--sp-4); }
+.stat > .skel { margin-top: var(--sp-2); }
+.skel--btn { --skel-h: var(--hit-log); border-radius: var(--r); }
+.skel-card {
+  display: grid; grid-template-columns: minmax(0, 1fr) var(--skel-scheme);
+  grid-template-areas: "name scheme" "meta scheme";
+  column-gap: var(--sp-12); row-gap: var(--sp-7); align-items: center;
+  min-height: var(--skel-card-min); padding: var(--sp-16);
+  background: var(--cast);
+}
+.skel-card > :nth-child(1) { grid-area: name; }
+.skel-card > :nth-child(2) { grid-area: scheme; justify-self: end; }
+.skel-card > :nth-child(3) { grid-area: meta; }
+/* запис стовпчиком (страва): назва і мета одна під одною */
+.skel-card--stack { grid-template-columns: minmax(0, 1fr); grid-template-areas: "name" "meta"; min-height: var(--hit); }
+.skel-card--stack > :nth-child(2) { grid-area: meta; justify-self: start; }
+.skel-card--stack > :nth-child(n+3) { grid-area: auto; }
+/* кілька смуг поспіль (D1: відступ між ними більше не пишемо на екрані) */
+.skel-stack { display: grid; gap: var(--sp-8); }
+.skel--link { --skel-w: var(--skel-link); margin-top: var(--sp-16); }
+/* у литві скелетона відблиску зверху немає, тінь лежить під останньою карткою */
+.casting > .skel-card:first-child { box-shadow: none; }
+.casting > .skel-card:last-child { box-shadow: var(--sh-drop); }
+@keyframes skel-pulse { 50% { opacity: var(--pulse-dim); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .app *, .app *::before, .app *::after { animation: none !important; transition: none !important; }
+}
+
+/* ═══════════════════════ 5. КОМЕНТАРІ (чату в продукті немає) ═══════════════════════ */
+
+.note {
+  padding: var(--sp-14) var(--sp-16);
+  background: var(--cast); border-radius: var(--r); box-shadow: var(--sh-card);
+  font-size: var(--fs-body); font-style: normal; line-height: var(--lh-note); color: var(--steel);
+}
+.note__meta { margin-top: var(--sp-8); font-size: var(--fs-meta); color: var(--graphite); }
+/* очікування коментаря: порожнє місце під нього, контур без лиття */
+.note--pending { background: transparent; box-shadow: var(--sh-ring); color: var(--graphite); }
+.note--pending .note__meta { margin-top: var(--sp-4); }
+
+/* ═══ Іконки: Solar Bold з Iconify, ті самі контури, що на пофарбованих екранах ═══ */
+.icon--bell { --i: var(--i-bell); }
+.icon--today { --i: var(--i-calendar-mark); }
+.icon--nutrition { --i: var(--i-plate); }
+.icon--progress { --i: var(--i-chart-2); }
+.icon--profile { --i: var(--i-user-rounded); }
+.icon--back { --i: var(--i-alt-arrow-left); }
+.icon--current { --i: var(--i-alt-arrow-right); }
+.icon--timer { --i: var(--i-stopwatch); }
+.icon--done { --i: var(--i-check-circle); }
+.icon--fail { --i: var(--i-close-circle); }
+.icon--invite { --i: var(--i-user-plus-rounded); }
+.icon--workout { --i: var(--i-dumbbell-large); }
+.icon--offline { --i: var(--i-cloud-cross); }
+.icon--retry { --i: var(--i-restart); }
+.icon--add { --i: var(--i-add-circle); }
+.icon--athletes { --i: var(--i-users-group-rounded); }
+.icon--programs { --i: var(--i-clipboard-list); }
+.icon--copy { --i: var(--i-copy); }
+.icon--record { --i: var(--i-cup-star); }
+.icon--delete { --i: var(--i-trash-bin-trash); }
+.icon--alert { --i: var(--i-danger-circle); }
+
+:root {
+  --i-bell: url("data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%2024%2024%22%3E%3Cg%20fill=%22%23000%22%3E%3Cpath%20d=%22M8.35179%2020.2418C9.19288%2021.311%2010.5142%2022%2012%2022C13.4858%2022%2014.8071%2021.311%2015.6482%2020.2418C13.2264%2020.57%2010.7736%2020.57%208.35179%2020.2418Z%22/%3E%3Cpath%20d=%22M18.7491%209V9.7041C18.7491%2010.5491%2018.9903%2011.3752%2019.4422%2012.0782L20.5496%2013.8012C21.5612%2015.3749%2020.789%2017.5139%2019.0296%2018.0116C14.4273%2019.3134%209.57274%2019.3134%204.97036%2018.0116C3.21105%2017.5139%202.43882%2015.3749%203.45036%2013.8012L4.5578%2012.0782C5.00972%2011.3752%205.25087%2010.5491%205.25087%209.7041V9C5.25087%205.13401%208.27256%202%2012%202C15.7274%202%2018.7491%205.13401%2018.7491%209Z%22/%3E%3C/g%3E%3C/svg%3E");
+  --i-calendar-mark: url("data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%2024%2024%22%3E%3Cg%20fill=%22%23000%22%3E%3Cpath%20d=%22M7.75%202.5C7.75%202.08579%207.41421%201.75%207%201.75C6.58579%201.75%206.25%202.08579%206.25%202.5V4.07926C4.81067%204.19451%203.86577%204.47737%203.17157%205.17157C2.47737%205.86577%202.19451%206.81067%202.07926%208.25H21.9207C21.8055%206.81067%2021.5226%205.86577%2020.8284%205.17157C20.1342%204.47737%2019.1893%204.19451%2017.75%204.07926V2.5C17.75%202.08579%2017.4142%201.75%2017%201.75C16.5858%201.75%2016.25%202.08579%2016.25%202.5V4.0129C15.5847%204%2014.839%204%2014%204H10C9.16097%204%208.41527%204%207.75%204.0129V2.5Z%22/%3E%3Cpath%20fill-rule=%22evenodd%22%20d=%22M22%2012V14C22%2017.7712%2022%2019.6569%2020.8284%2020.8284C19.6569%2022%2017.7712%2022%2014%2022H10C6.22876%2022%204.34315%2022%203.17157%2020.8284C2%2019.6569%202%2017.7712%202%2014V12C2%2011.161%202%2010.4153%202.0129%209.75H21.9871C22%2010.4153%2022%2011.161%2022%2012ZM16.5%2018C17.3284%2018%2018%2017.3284%2018%2016.5C18%2015.6716%2017.3284%2015%2016.5%2015C15.6716%2015%2015%2015.6716%2015%2016.5C15%2017.3284%2015.6716%2018%2016.5%2018Z%22%20clip-rule=%22evenodd%22/%3E%3C/g%3E%3C/svg%3E");
+  --i-plate: url("data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%2024%2024%22%3E%3Cg%20fill=%22%23000%22%3E%3Cpath%20d=%22M12.75%203C12.75%202.58579%2012.4142%202.25%2012%202.25C11.5858%202.25%2011.25%202.58579%2011.25%203V5C11.25%205.41421%2011.5858%205.75%2012%205.75C12.4142%205.75%2012.75%205.41421%2012.75%205V3Z%22/%3E%3Cpath%20fill-rule=%22evenodd%22%20d=%22M22.75%2012.0565C22.75%2013.8943%2022.75%2015.3499%2022.5969%2016.4891C22.4392%2017.6615%2022.1071%2018.6105%2021.3588%2019.3588C20.6104%2020.1072%2019.6614%2020.4393%2018.489%2020.597C17.3498%2020.7501%2015.8942%2020.7501%2014.0565%2020.7501H9.94348C8.10577%2020.7501%206.65017%2020.7501%205.51098%2020.597C4.33856%2020.4393%203.38961%2020.1072%202.64124%2019.3588C1.89288%2018.6105%201.56076%2017.6615%201.40314%2016.4891C1.24997%2015.3499%201.24999%2013.8943%201.25%2012.0565L1.25%2011.7725C1.25002%2011.5529%201.25011%2011.3388%201.25053%2011.1303C1.25132%2010.7466%201.25327%2010.3814%201.25806%2010.034C1.27152%209.05873%201.30741%208.22316%201.40314%207.51116C1.56076%206.33873%201.89288%205.38978%202.64124%204.64142C3.38961%203.89306%204.33856%203.56094%205.51098%203.40331C6.22742%203.30699%207.069%203.27125%208.05206%203.25799C8.2173%203.25576%208.47469%203.25412%208.74859%203.25292C9.3014%203.2505%209.75%203.69873%209.75%204.25155V5.00008C9.75%206.24272%2010.7574%207.25008%2012%207.25008C13.2426%207.25008%2014.25%206.24272%2014.25%205.00008V4.25028C14.25%203.69796%2014.698%203.24935%2015.2503%203.25196C16.5391%203.25806%2017.6086%203.28494%2018.489%203.40331C19.6614%203.56094%2020.6104%203.89306%2021.3588%204.64142C22.1071%205.38978%2022.4392%206.33873%2022.5969%207.51116C22.75%208.65036%2022.75%2010.1059%2022.75%2011.9437V12.0565ZM8%209.75008C7.58579%209.75008%207.25%2010.0859%207.25%2010.5001C7.25%2010.9143%207.58579%2011.2501%208%2011.2501H16C16.4142%2011.2501%2016.75%2010.9143%2016.75%2010.5001C16.75%2010.0859%2016.4142%209.75008%2016%209.75008H8ZM8%2013.2501C7.58579%2013.2501%207.25%2013.5859%207.25%2014.0001C7.25%2014.4143%207.58579%2014.7501%208%2014.7501H13.5C13.9142%2014.7501%2014.25%2014.4143%2014.25%2014.0001C14.25%2013.5859%2013.9142%2013.2501%2013.5%2013.2501H8Z%22%20clip-rule=%22evenodd%22/%3E%3C/g%3E%3C/svg%3E");
+  --i-chart-2: url("data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%2024%2024%22%3E%3Cg%20fill=%22%23000%22%3E%3Cpath%20d=%22M17.2929%202.29289C17%202.58579%2017%203.05719%2017%204V17C17%2017.9428%2017%2018.4142%2017.2929%2018.7071C17.5858%2019%2018.0572%2019%2019%2019C19.9428%2019%2020.4142%2019%2020.7071%2018.7071C21%2018.4142%2021%2017.9428%2021%2017V4C21%203.05719%2021%202.58579%2020.7071%202.29289C20.4142%202%2019.9428%202%2019%202C18.0572%202%2017.5858%202%2017.2929%202.29289Z%22/%3E%3Cpath%20d=%22M10%207C10%206.05719%2010%205.58579%2010.2929%205.29289C10.5858%205%2011.0572%205%2012%205C12.9428%205%2013.4142%205%2013.7071%205.29289C14%205.58579%2014%206.05719%2014%207V17C14%2017.9428%2014%2018.4142%2013.7071%2018.7071C13.4142%2019%2012.9428%2019%2012%2019C11.0572%2019%2010.5858%2019%2010.2929%2018.7071C10%2018.4142%2010%2017.9428%2010%2017V7Z%22/%3E%3Cpath%20d=%22M3.29289%209.29289C3%209.58579%203%2010.0572%203%2011V17C3%2017.9428%203%2018.4142%203.29289%2018.7071C3.58579%2019%204.05719%2019%205%2019C5.94281%2019%206.41421%2019%206.70711%2018.7071C7%2018.4142%207%2017.9428%207%2017V11C7%2010.0572%207%209.58579%206.70711%209.29289C6.41421%209%205.94281%209%205%209C4.05719%209%203.58579%209%203.29289%209.29289Z%22/%3E%3Cpath%20d=%22M3%2021.25C2.58579%2021.25%202.25%2021.5858%202.25%2022C2.25%2022.4142%202.58579%2022.75%203%2022.75H21C21.4142%2022.75%2021.75%2022.4142%2021.75%2022C21.75%2021.5858%2021.4142%2021.25%2021%2021.25H3Z%22/%3E%3C/g%3E%3C/svg%3E");
+  --i-user-rounded: url("data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%2024%2024%22%3E%3Cg%20fill=%22%23000%22%3E%3Cpath%20d=%22M12%2013C15.866%2013%2019%2014.7909%2019%2017C19%2019.2091%2015.866%2021%2012%2021C8.13401%2021%205%2019.2091%205%2017C5%2014.7909%208.13401%2013%2012%2013Z%22/%3E%3Cpath%20d=%22M12%202C14.2091%202%2016%203.79086%2016%206C16%208.20914%2014.2091%2010%2012%2010C9.79086%2010%208%208.20914%208%206C8%203.79086%209.79086%202%2012%202Z%22/%3E%3C/g%3E%3C/svg%3E");
+  --i-alt-arrow-left: url("data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%2024%2024%22%3E%3Cpath%20fill=%22%23000%22%20d=%22M8.16485%2011.6296L14.7953%205.1999C15.2091%204.79869%2016%205.04189%2016%205.5703L16%2018.4297C16%2018.9581%2015.2091%2019.2013%2014.7953%2018.8001L8.16485%2012.3704C7.94505%2012.1573%207.94505%2011.8427%208.16485%2011.6296Z%22/%3E%3C/svg%3E");
+  --i-alt-arrow-right: url("data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%2024%2024%22%3E%3Cpath%20fill=%22%23000%22%20d=%22M15.8351%2011.6296L9.20467%205.1999C8.79094%204.79869%208%205.04189%208%205.5703L8%2018.4297C8%2018.9581%208.79094%2019.2013%209.20467%2018.8001L15.8351%2012.3704C16.055%2012.1573%2016.0549%2011.8427%2015.8351%2011.6296Z%22/%3E%3C/svg%3E");
+  --i-stopwatch: url("data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%2024%2024%22%3E%3Cg%20fill=%22%23000%22%20fill-rule=%22evenodd%22%20clip-rule=%22evenodd%22%3E%3Cpath%20d=%22M12%2022C16.9706%2022%2021%2017.9706%2021%2013C21%208.02944%2016.9706%204%2012%204C7.02944%204%203%208.02944%203%2013C3%2017.9706%207.02944%2022%2012%2022ZM12%208.25C12.4142%208.25%2012.75%208.58579%2012.75%209V13C12.75%2013.4142%2012.4142%2013.75%2012%2013.75C11.5858%2013.75%2011.25%2013.4142%2011.25%2013V9C11.25%208.58579%2011.5858%208.25%2012%208.25Z%22/%3E%3Cpath%20d=%22M9.25%202C9.25%201.58579%209.58579%201.25%2010%201.25H14C14.4142%201.25%2014.75%201.58579%2014.75%202C14.75%202.41421%2014.4142%202.75%2014%202.75H10C9.58579%202.75%209.25%202.41421%209.25%202Z%22/%3E%3C/g%3E%3C/svg%3E");
+  --i-check-circle: url("data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%2024%2024%22%3E%3Cpath%20fill=%22%23000%22%20fill-rule=%22evenodd%22%20d=%22M22%2012C22%2017.5228%2017.5228%2022%2012%2022C6.47715%2022%202%2017.5228%202%2012C2%206.47715%206.47715%202%2012%202C17.5228%202%2022%206.47715%2022%2012ZM16.0303%208.96967C16.3232%209.26256%2016.3232%209.73744%2016.0303%2010.0303L11.0303%2015.0303C10.7374%2015.3232%2010.2626%2015.3232%209.96967%2015.0303L7.96967%2013.0303C7.67678%2012.7374%207.67678%2012.2626%207.96967%2011.9697C8.26256%2011.6768%208.73744%2011.6768%209.03033%2011.9697L10.5%2013.4393L12.7348%2011.2045L14.9697%208.96967C15.2626%208.67678%2015.7374%208.67678%2016.0303%208.96967Z%22%20clip-rule=%22evenodd%22/%3E%3C/svg%3E");
+  --i-close-circle: url("data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%2024%2024%22%3E%3Cpath%20fill=%22%23000%22%20fill-rule=%22evenodd%22%20d=%22M22%2012C22%2017.5228%2017.5228%2022%2012%2022C6.47715%2022%202%2017.5228%202%2012C2%206.47715%206.47715%202%2012%202C17.5228%202%2022%206.47715%2022%2012ZM8.96963%208.96965C9.26252%208.67676%209.73739%208.67676%2010.0303%208.96965L12%2010.9393L13.9696%208.96967C14.2625%208.67678%2014.7374%208.67678%2015.0303%208.96967C15.3232%209.26256%2015.3232%209.73744%2015.0303%2010.0303L13.0606%2012L15.0303%2013.9696C15.3232%2014.2625%2015.3232%2014.7374%2015.0303%2015.0303C14.7374%2015.3232%2014.2625%2015.3232%2013.9696%2015.0303L12%2013.0607L10.0303%2015.0303C9.73742%2015.3232%209.26254%2015.3232%208.96965%2015.0303C8.67676%2014.7374%208.67676%2014.2625%208.96965%2013.9697L10.9393%2012L8.96963%2010.0303C8.67673%209.73742%208.67673%209.26254%208.96963%208.96965Z%22%20clip-rule=%22evenodd%22/%3E%3C/svg%3E");
+  --i-user-plus-rounded: url("data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%2024%2024%22%3E%3Cg%20fill=%22%23000%22%3E%3Cpath%20fill-rule=%22evenodd%22%20d=%22M16.5%2015C18.1499%2015%2018.9747%2015.0001%2019.4873%2015.5127C19.9999%2016.0253%2020%2016.8501%2020%2018.5C20%2020.1499%2019.9999%2020.9747%2019.4873%2021.4873C18.9747%2021.9999%2018.1499%2022%2016.5%2022C14.8501%2022%2014.0253%2021.9999%2013.5127%2021.4873C13.0001%2020.9747%2013%2020.1499%2013%2018.5C13%2016.8501%2013.0001%2016.0253%2013.5127%2015.5127C14.0253%2015.0001%2014.8501%2015%2016.5%2015ZM16.5%2016.3613C16.1779%2016.3613%2015.9171%2016.6222%2015.917%2016.9443V17.917H14.9443C14.6222%2017.9171%2014.3613%2018.1779%2014.3613%2018.5C14.3613%2018.8221%2014.6222%2019.0829%2014.9443%2019.083H15.917V20.0557C15.9171%2020.3778%2016.1779%2020.6387%2016.5%2020.6387C16.8221%2020.6387%2017.0829%2020.3778%2017.083%2020.0557V19.083H18.0557C18.3778%2019.0829%2018.6387%2018.8221%2018.6387%2018.5C18.6387%2018.1779%2018.3778%2017.9171%2018.0557%2017.917H17.083V16.9443C17.0829%2016.6222%2016.8221%2016.3613%2016.5%2016.3613Z%22%20clip-rule=%22evenodd%22/%3E%3Cpath%20d=%22M12%2013C13.24%2013%2014.4049%2013.1846%2015.415%2013.5078C15.0415%2013.5166%2014.6918%2013.5352%2014.3799%2013.5771C13.737%2013.6636%2013.0336%2013.8707%2012.4521%2014.4521C11.8707%2015.0336%2011.6636%2015.737%2011.5771%2016.3799C11.4995%2016.9576%2011.4999%2017.6635%2011.5%2018.4141V18.5859C11.4999%2019.3365%2011.4995%2020.0424%2011.5771%2020.6201C11.5937%2020.7432%2011.6154%2020.8688%2011.6426%2020.9951C7.94288%2020.8887%205%2019.1406%205%2017C5%2014.7909%208.13401%2013%2012%2013Z%22/%3E%3Cpath%20d=%22M12%202C14.2091%202%2016%203.79086%2016%206C16%208.20914%2014.2091%2010%2012%2010C9.79086%2010%208%208.20914%208%206C8%203.79086%209.79086%202%2012%202Z%22/%3E%3C/g%3E%3C/svg%3E");
+  --i-dumbbell-large: url("data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%2024%2024%22%3E%3Cpath%20fill=%22%23000%22%20d=%22M3.92443%2018.6073L5.39271%2020.0756C6.08487%2020.7677%206.43095%2021.1138%206.861%2021.1138C7.29105%2021.1138%207.63713%2020.7677%208.32928%2020.0756L8.69636%2019.7085L9.06343%2020.0756L9.79757%2020.8097C10.4837%2021.4959%2010.8268%2021.8389%2011.2299%2021.9469C11.4939%2022.0177%2011.7719%2022.0177%2012.036%2021.9469C12.4391%2021.8389%2012.7821%2021.4959%2013.4683%2020.8097C14.1544%2020.1236%2014.4975%2019.7805%2014.6055%2019.3774C14.6763%2019.1134%2014.6763%2018.8353%2014.6055%2018.5713C14.4975%2018.1682%2014.1544%2017.8251%2013.4683%2017.139L12.3671%2016.0378L16.0378%2012.3671L17.139%2013.4683C17.8251%2014.1544%2018.1682%2014.4975%2018.5713%2014.6055C18.8353%2014.6763%2019.1134%2014.6763%2019.3774%2014.6055C19.7805%2014.4975%2020.1236%2014.1544%2020.8097%2013.4683C21.4959%2012.7821%2021.8389%2012.4391%2021.9469%2012.036C22.0177%2011.7719%2022.0177%2011.4939%2021.9469%2011.2299C21.8389%2010.8268%2021.4959%2010.4837%2020.8097%209.79757L20.0756%209.06343L19.7046%208.70027L20.0756%208.32928C20.7677%207.63713%2021.1138%207.29105%2021.1138%206.861C21.1138%206.43095%2020.7677%206.08487%2020.0756%205.39271L18.6073%203.92442C17.9151%203.23227%2017.5691%202.88619%2017.139%202.88619C16.709%202.88619%2016.3629%203.23227%2015.6707%203.92442L15.3036%204.2915L14.2024%203.19028C13.5163%202.50414%2013.1732%202.16107%2012.7701%202.05307C12.5061%201.98231%2012.2281%201.98231%2011.964%202.05307C11.5609%202.16107%2011.2179%202.50414%2010.5317%203.19028C9.84557%203.87642%209.5025%204.21949%209.3945%204.62257C9.32374%204.88662%209.32374%205.16465%209.3945%205.42871C9.5025%205.83178%209.84557%206.17486%2010.5317%206.861L11.6329%207.96221L7.96221%2011.6329L6.861%2010.5317C6.17486%209.84557%205.83179%209.5025%205.42871%209.3945C5.16466%209.32374%204.88662%209.32374%204.62257%209.3945C4.21949%209.5025%203.87642%209.84557%203.19028%2010.5317C2.50414%2011.2179%202.16107%2011.5609%202.05306%2011.964C1.98231%2012.2281%201.98231%2012.5061%202.05306%2012.7701C2.16107%2013.1732%202.50414%2013.5163%203.19028%2014.2024L4.2915%2015.3036L3.92443%2015.6707C3.23227%2016.3629%202.88619%2016.709%202.88619%2017.139C2.88619%2017.5691%203.23227%2017.9151%203.92443%2018.6073Z%22/%3E%3C/svg%3E");
+  --i-cloud-cross: url("data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%2024%2024%22%3E%3Cg%20fill=%22%23000%22%3E%3Cpath%20fill-rule=%22evenodd%22%20d=%22M12%2022C10.1144%2022%209.17157%2022%208.58579%2021.4142C8%2020.8284%208%2019.8856%208%2018C8%2016.1144%208%2015.1716%208.58579%2014.5858C9.17157%2014%2010.1144%2014%2012%2014C13.8856%2014%2014.8284%2014%2015.4142%2014.5858C16%2015.1716%2016%2016.1144%2016%2018C16%2019.8856%2016%2020.8284%2015.4142%2021.4142C14.8284%2022%2013.8856%2022%2012%2022ZM10.6936%2015.7508C10.4333%2015.4905%2010.0112%2015.4905%209.75082%2015.7508C9.49047%2016.0112%209.49047%2016.4333%209.75082%2016.6936L11.0572%2018L9.75082%2019.3064C9.49047%2019.5667%209.49047%2019.9888%209.75082%2020.2492C10.0112%2020.5095%2010.4333%2020.5095%2010.6936%2020.2492L12%2018.9428L13.3064%2020.2492C13.5667%2020.5095%2013.9888%2020.5095%2014.2492%2020.2492C14.5095%2019.9888%2014.5095%2019.5667%2014.2492%2019.3064L12.9428%2018L14.2492%2016.6936C14.5095%2016.4333%2014.5095%2016.0112%2014.2492%2015.7508C13.9888%2015.4905%2013.5667%2015.4905%2013.3064%2015.7508L12%2017.0572L10.6936%2015.7508Z%22%20clip-rule=%22evenodd%22/%3E%3Cpath%20d=%22M6.50001%2018L6.50001%2017.9105C6.49991%2017.0449%206.49981%2016.2512%206.58661%2015.6056C6.6822%2014.8946%206.90709%2014.1432%207.52514%2013.5251C8.14319%2012.9071%208.89464%2012.6822%209.6056%2012.5866C10.2512%2012.4998%2011.0449%2012.4999%2011.9105%2012.5H12.0895C12.9551%2012.4999%2013.7488%2012.4998%2014.3944%2012.5866C15.1054%2012.6822%2015.8568%2012.9071%2016.4749%2013.5251C17.0929%2014.1432%2017.3178%2014.8946%2017.4134%2015.6056C17.4989%2016.2417%2017.5001%2017.0215%2017.5%2017.8722C20.0726%2017.3221%2022%2015.0599%2022%2012.3529C22%209.88113%2020.393%207.78024%2018.1551%207.01498C17.8371%204.19371%2015.4159%202%2012.4762%202C9.32028%202%206.7619%204.52827%206.7619%207.64706C6.7619%208.33687%206.88706%208.9978%207.11616%209.60887C6.8475%209.55673%206.56983%209.52941%206.28571%209.52941C3.91878%209.52941%202%2011.4256%202%2013.7647C2%2016.1038%203.91878%2018%206.28571%2018L6.50001%2018Z%22/%3E%3C/g%3E%3C/svg%3E");
+  --i-restart: url("data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%2024%2024%22%3E%3Cpath%20fill=%22%23000%22%20d=%22M18.2577%203.50828C18.538%203.62437%2018.7207%203.89785%2018.7207%204.20119V8.44383C18.7207%208.85805%2018.3849%209.19383%2017.9707%209.19383H13.728C13.4247%209.19383%2013.1512%209.0111%2013.0351%208.73085C12.9191%208.45059%2012.9832%208.128%2013.1977%207.9135L14.8007%206.3105C12.1674%205.20912%209.01606%205.7309%206.87348%207.87348C4.04217%2010.7048%204.04217%2015.2952%206.87348%2018.1265C9.70478%2020.9578%2014.2952%2020.9578%2017.1265%2018.1265C18.7727%2016.4803%2019.4622%2014.2401%2019.1935%2012.0937C19.142%2011.6827%2019.4335%2011.3078%2019.8445%2011.2563C20.2555%2011.2049%2020.6304%2011.4963%2020.6819%2011.9073C21.0057%2014.4934%2020.1746%2017.1997%2018.1872%2019.1872C14.7701%2022.6043%209.2299%2022.6043%205.81282%2019.1872C2.39573%2015.7701%202.39573%2010.2299%205.81282%206.81282C8.55119%204.07444%2012.6515%203.5312%2015.9309%205.18028L17.4404%203.67086C17.6549%203.45637%2017.9774%203.3922%2018.2577%203.50828Z%22/%3E%3C/svg%3E");
+  --i-add-circle: url("data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%2024%2024%22%3E%3Cpath%20fill=%22%23000%22%20fill-rule=%22evenodd%22%20d=%22M12%2022C17.5228%2022%2022%2017.5228%2022%2012C22%206.47715%2017.5228%202%2012%202C6.47715%202%202%206.47715%202%2012C2%2017.5228%206.47715%2022%2012%2022ZM12.75%209C12.75%208.58579%2012.4142%208.25%2012%208.25C11.5858%208.25%2011.25%208.58579%2011.25%209L11.25%2011.25H9C8.58579%2011.25%208.25%2011.5858%208.25%2012C8.25%2012.4142%208.58579%2012.75%209%2012.75H11.25V15C11.25%2015.4142%2011.5858%2015.75%2012%2015.75C12.4142%2015.75%2012.75%2015.4142%2012.75%2015L12.75%2012.75H15C15.4142%2012.75%2015.75%2012.4142%2015.75%2012C15.75%2011.5858%2015.4142%2011.25%2015%2011.25H12.75V9Z%22%20clip-rule=%22evenodd%22/%3E%3C/svg%3E");
+  --i-users-group-rounded: url("data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%2024%2024%22%3E%3Cg%20fill=%22%23000%22%3E%3Cpath%20d=%22M9.00098%2013.001C12.867%2013.001%2016.001%2014.7918%2016.001%2017.001C16.001%2019.2101%2012.867%2021.001%209.00098%2021.001C5.13498%2021.001%202.00098%2019.2101%202.00098%2017.001C2.00098%2014.7918%205.13498%2013.001%209.00098%2013.001Z%22/%3E%3Cpath%20d=%22M16.4766%2014.001C18.9615%2014.0011%2020.9996%2015.3434%2021%2017C21%2018.6569%2018.9638%2020%2016.4785%2020C17.2107%2019.1997%2017.7148%2018.1955%2017.7148%2017.002C17.7148%2015.8071%2017.2099%2014.8017%2016.4766%2014.001Z%22/%3E%3Cpath%20d=%22M9.00098%202C11.2101%202%2013.001%203.79086%2013.001%206C13.001%208.20914%2011.2101%2010%209.00098%2010C6.79184%2010%205.00098%208.20914%205.00098%206C5.00098%203.79086%206.79184%202%209.00098%202Z%22/%3E%3Cpath%20d=%22M15%203.00098C16.6567%203.00118%2018%204.34425%2018%206.00098C17.9999%207.6576%2016.6566%209.00078%2015%209.00098C14.6388%209.00098%2014.2924%208.93633%2013.9717%208.81934C14.4445%207.98748%2014.7148%207.02523%2014.7148%206C14.7148%204.97534%2014.4449%204.0132%2013.9727%203.18164C14.2931%203.06489%2014.6392%203.00098%2015%203.00098Z%22/%3E%3C/g%3E%3C/svg%3E");
+  --i-clipboard-list: url("data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%2024%2024%22%3E%3Cg%20fill=%22%23000%22%3E%3Cpath%20d=%22M9.5%202C8.67157%202%208%202.67157%208%203.5V4.5C8%205.32843%208.67157%206%209.5%206H14.5C15.3284%206%2016%205.32843%2016%204.5V3.5C16%202.67157%2015.3284%202%2014.5%202H9.5Z%22/%3E%3Cpath%20fill-rule=%22evenodd%22%20d=%22M6.5%204.03662C5.24209%204.10719%204.44798%204.30764%203.87868%204.87694C3%205.75562%203%207.16983%203%209.99826V15.9983C3%2018.8267%203%2020.2409%203.87868%2021.1196C4.75736%2021.9983%206.17157%2021.9983%209%2021.9983H15C17.8284%2021.9983%2019.2426%2021.9983%2020.1213%2021.1196C21%2020.2409%2021%2018.8267%2021%2015.9983V9.99826C21%207.16983%2021%205.75562%2020.1213%204.87694C19.552%204.30764%2018.7579%204.10719%2017.5%204.03662V4.5C17.5%206.15685%2016.1569%207.5%2014.5%207.5H9.5C7.84315%207.5%206.5%206.15685%206.5%204.5V4.03662ZM7%209.75C6.58579%209.75%206.25%2010.0858%206.25%2010.5C6.25%2010.9142%206.58579%2011.25%207%2011.25H7.5C7.91421%2011.25%208.25%2010.9142%208.25%2010.5C8.25%2010.0858%207.91421%209.75%207.5%209.75H7ZM10.5%209.75C10.0858%209.75%209.75%2010.0858%209.75%2010.5C9.75%2010.9142%2010.0858%2011.25%2010.5%2011.25H17C17.4142%2011.25%2017.75%2010.9142%2017.75%2010.5C17.75%2010.0858%2017.4142%209.75%2017%209.75H10.5ZM7%2013.25C6.58579%2013.25%206.25%2013.5858%206.25%2014C6.25%2014.4142%206.58579%2014.75%207%2014.75H7.5C7.91421%2014.75%208.25%2014.4142%208.25%2014C8.25%2013.5858%207.91421%2013.25%207.5%2013.25H7ZM10.5%2013.25C10.0858%2013.25%209.75%2013.5858%209.75%2014C9.75%2014.4142%2010.0858%2014.75%2010.5%2014.75H17C17.4142%2014.75%2017.75%2014.4142%2017.75%2014C17.75%2013.5858%2017.4142%2013.25%2017%2013.25H10.5ZM7%2016.75C6.58579%2016.75%206.25%2017.0858%206.25%2017.5C6.25%2017.9142%206.58579%2018.25%207%2018.25H7.5C7.91421%2018.25%208.25%2017.9142%208.25%2017.5C8.25%2017.0858%207.91421%2016.75%207.5%2016.75H7ZM10.5%2016.75C10.0858%2016.75%209.75%2017.0858%209.75%2017.5C9.75%2017.9142%2010.0858%2018.25%2010.5%2018.25H17C17.4142%2018.25%2017.75%2017.9142%2017.75%2017.5C17.75%2017.0858%2017.4142%2016.75%2017%2016.75H10.5Z%22%20clip-rule=%22evenodd%22/%3E%3C/g%3E%3C/svg%3E");
+  --i-copy: url("data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%2024%2024%22%3E%3Cg%20fill=%22%23000%22%3E%3Cpath%20d=%22M15.2402%205.61426C17.9551%205.61426%2019.3127%205.61431%2020.1562%206.46094C20.9998%207.30786%2021%208.67127%2021%2011.3975V16.2168C21%2018.9429%2020.9998%2020.3064%2020.1562%2021.1533C19.3127%2021.9998%2017.955%2022%2015.2402%2022H12.3604C9.64515%2022%208.2869%2022.0002%207.44336%2021.1533C6.59984%2020.3064%206.60059%2018.9429%206.60059%2016.2168V11.3975C6.60059%208.67128%206.59984%207.30786%207.44336%206.46094C8.28689%205.61402%209.64506%205.61426%2012.3604%205.61426H15.2402Z%22/%3E%3Cpath%20d=%22M15.2402%202C16.7616%202.0001%2018.0629%202.94764%2018.5898%204.28711C17.7091%204.16822%2016.6114%204.16887%2015.335%204.16895H12.2656C10.9891%204.16887%209.8886%204.16821%209.00781%204.28711C8.06393%204.41454%207.15966%204.70266%206.42578%205.43945C5.69187%206.17631%205.40523%207.08449%205.27832%208.03223C5.15992%208.91654%205.16008%2010.0211%205.16016%2011.3027V16.3125C5.1601%2017.374%205.16027%2018.6502%205.22754%2019.5596C3.92032%2019.0177%203%2017.7249%203%2016.2168V10.3789C2.99999%208.60799%203.00049%207.20531%203.14746%206.10742C3.29878%204.97738%203.61751%204.06213%204.33594%203.34082C5.05433%202.61968%205.96542%202.29937%207.09082%202.14746C8.18439%201.99988%209.58168%201.99999%2011.3457%202H15.2402Z%22/%3E%3C/g%3E%3C/svg%3E");
+  --i-cup-star: url("data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%2024%2024%22%3E%3Cg%20fill=%22%23000%22%3E%3Cpath%20d=%22M21.9999%208.16234L21.9999%208.23487C21.9999%209.09561%2021.9999%209.52598%2021.7927%209.8781C21.5855%2010.2302%2021.2093%2010.4392%2020.4569%2010.8572L19.6636%2011.298C20.2102%209.44984%2020.3926%207.46414%2020.4601%205.76597C20.4629%205.69316%2020.4662%205.61945%2020.4695%205.54497L20.4718%205.49279C21.1231%205.71896%2021.4887%205.88758%2021.7168%206.20408C22%206.59692%2022%207.11873%2021.9999%208.16234Z%22/%3E%3Cpath%20d=%22M2%208.16234L2%208.23487C2.00003%209.09561%202.00004%209.52598%202.20723%209.8781C2.41442%2010.2302%202.79063%2010.4392%203.54305%2010.8572L4.33681%2011.2982C3.79007%209.45001%203.60767%207.46422%203.54025%205.76597C3.53736%205.69316%203.5341%205.61945%203.53081%205.54497L3.5285%205.49266C2.87701%205.7189%202.51126%205.88752%202.2831%206.20408C1.99996%206.59692%201.99997%207.11873%202%208.16234Z%22/%3E%3Cpath%20fill-rule=%22evenodd%22%20d=%22M12.0002%202C13.7837%202%2015.2531%202.15709%2016.3771%202.34674C17.5159%202.53887%2018.0852%202.63494%2018.5609%203.22083C19.0367%203.80673%2019.0115%204.43998%2018.9612%205.70647C18.7886%2010.0545%2017.8503%2015.4853%2012.75%2015.9657V19.5H14.1802C14.6569%2019.5%2015.0673%2019.8365%2015.1608%2020.3039L15.35%2021.25H18C18.4142%2021.25%2018.75%2021.5858%2018.75%2022C18.75%2022.4142%2018.4142%2022.75%2018%2022.75H6C5.58579%2022.75%205.25%2022.4142%205.25%2022C5.25%2021.5858%205.58579%2021.25%206%2021.25H8.65L8.83922%2020.3039C8.93271%2019.8365%209.34312%2019.5%209.8198%2019.5H11.25V15.9657C6.14996%2015.4851%205.21169%2010.0544%205.03907%205.70647C4.98879%204.43998%204.96365%203.80673%205.43937%203.22083C5.91508%202.63494%206.48445%202.53887%207.62318%202.34674C8.74724%202.15709%2010.2166%202%2012.0002%202ZM12.9524%206.19887L12.8541%206.02251C12.4741%205.34084%2012.2841%205%2012%205C11.7159%205%2011.5259%205.34084%2011.1459%206.02251L11.0476%206.19887C10.9397%206.39258%2010.8857%206.48944%2010.8015%206.55334C10.7173%206.61725%2010.6125%206.64097%2010.4028%206.68841L10.2119%206.73161C9.47396%206.89857%209.10501%206.98205%209.01723%207.26432C8.92945%207.54659%209.18097%207.84072%209.68403%208.42898L9.81418%208.58117C9.95713%208.74833%2010.0286%208.83191%2010.0608%208.93532C10.0929%209.03872%2010.0821%209.15023%2010.0605%209.37327L10.0408%209.57632C9.96476%2010.3612%209.92674%2010.7536%2010.1565%2010.9281C10.3864%2011.1025%2010.7318%2010.9435%2011.4227%2010.6254L11.6014%2010.5431C11.7978%2010.4527%2011.8959%2010.4075%2012%2010.4075C12.1041%2010.4075%2012.2022%2010.4527%2012.3986%2010.5431L12.5773%2010.6254C13.2682%2010.9435%2013.6136%2011.1025%2013.8435%2010.9281C14.0733%2010.7536%2014.0352%2010.3612%2013.9592%209.57632L13.9395%209.37327C13.9179%209.15023%2013.9071%209.03872%2013.9392%208.93532C13.9714%208.83191%2014.0429%208.74833%2014.1858%208.58117L14.316%208.42898C14.819%207.84072%2015.0706%207.54659%2014.9828%207.26432C14.895%206.98205%2014.526%206.89857%2013.7881%206.73161L13.5972%206.68841C13.3875%206.64097%2013.2827%206.61725%2013.1985%206.55334C13.1143%206.48944%2013.0603%206.39258%2012.9524%206.19887Z%22%20clip-rule=%22evenodd%22/%3E%3C/g%3E%3C/svg%3E");
+  --i-trash-bin-trash: url("data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%2024%2024%22%3E%3Cg%20fill=%22%23000%22%3E%3Cpath%20d=%22M3%206.38597C3%205.90152%203.34538%205.50879%203.77143%205.50879L6.43567%205.50832C6.96502%205.49306%207.43202%205.11033%207.61214%204.54412C7.61688%204.52923%207.62232%204.51087%207.64185%204.44424L7.75665%204.05256C7.8269%203.81241%207.8881%203.60318%207.97375%203.41617C8.31209%202.67736%208.93808%202.16432%209.66147%202.03297C9.84457%201.99972%2010.0385%201.99986%2010.2611%202.00002H13.7391C13.9617%201.99986%2014.1556%201.99972%2014.3387%202.03297C15.0621%202.16432%2015.6881%202.67736%2016.0264%203.41617C16.1121%203.60318%2016.1733%203.81241%2016.2435%204.05256L16.3583%204.44424C16.3778%204.51087%2016.3833%204.52923%2016.388%204.54412C16.5682%205.11033%2017.1278%205.49353%2017.6571%205.50879H20.2286C20.6546%205.50879%2021%205.90152%2021%206.38597C21%206.87043%2020.6546%207.26316%2020.2286%207.26316H3.77143C3.34538%207.26316%203%206.87043%203%206.38597Z%22/%3E%3Cpath%20fill-rule=%22evenodd%22%20d=%22M11.5956%2022.0001H12.4044C15.1871%2022.0001%2016.5785%2022.0001%2017.4831%2021.1142C18.3878%2020.2283%2018.4803%2018.7751%2018.6654%2015.8686L18.9321%2011.6807C19.0326%2010.1037%2019.0828%209.31524%2018.6289%208.81558C18.1751%208.31592%2017.4087%208.31592%2015.876%208.31592H8.12404C6.59127%208.31592%205.82488%208.31592%205.37105%208.81558C4.91722%209.31524%204.96744%2010.1037%205.06788%2011.6807L5.33459%2015.8686C5.5197%2018.7751%205.61225%2020.2283%206.51689%2021.1142C7.42153%2022.0001%208.81289%2022.0001%2011.5956%2022.0001ZM10.2463%2012.1886C10.2051%2011.7548%209.83753%2011.4382%209.42537%2011.4816C9.01321%2011.525%208.71251%2011.9119%208.75372%2012.3457L9.25372%2017.6089C9.29494%2018.0427%209.66247%2018.3593%2010.0746%2018.3159C10.4868%2018.2725%2010.7875%2017.8856%2010.7463%2017.4518L10.2463%2012.1886ZM14.5746%2011.4816C14.9868%2011.525%2015.2875%2011.9119%2015.2463%2012.3457L14.7463%2017.6089C14.7051%2018.0427%2014.3375%2018.3593%2013.9254%2018.3159C13.5132%2018.2725%2013.2125%2017.8856%2013.2537%2017.4518L13.7537%2012.1886C13.7949%2011.7548%2014.1625%2011.4382%2014.5746%2011.4816Z%22%20clip-rule=%22evenodd%22/%3E%3C/g%3E%3C/svg%3E");
+  --i-danger-circle: url("data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%2024%2024%22%3E%3Cpath%20fill=%22%23000%22%20fill-rule=%22evenodd%22%20d=%22M22%2012C22%206.47715%2017.5228%202%2012%202C6.47715%202%202%206.47715%202%2012C2%2017.5228%206.47715%2022%2012%2022C17.5228%2022%2022%2017.5228%2022%2012ZM12%206.25C12.4142%206.25%2012.75%206.58579%2012.75%207V13C12.75%2013.4142%2012.4142%2013.75%2012%2013.75C11.5858%2013.75%2011.25%2013.4142%2011.25%2013V7C11.25%206.58579%2011.5858%206.25%2012%206.25ZM12%2017C12.5523%2017%2013%2016.5523%2013%2016C13%2015.4477%2012.5523%2015%2012%2015C11.4477%2015%2011%2015.4477%2011%2016C11%2016.5523%2011.4477%2017%2012%2017Z%22%20clip-rule=%22evenodd%22/%3E%3C/svg%3E");
+}

@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="uk">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Forge · Оболонка</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Manrope:wght@500;600;700;800&display=swap">
+  <link rel="stylesheet" href="kit.css">
+</head>
+<!--
+  ОБОЛОНКА ЕКРАНА FORGE (ui/shell.html)
+  ─────────────────────────────────────────────────────────────
+  Скелет, у який сірий вайрфрейм вкладає свій вміст:
+    1. Підключи kit.css (з wireframes/ це ../ui/kit.css, а за ним
+       wireframes/_frame.css — бічне меню й рамка телефона).
+    2. Скопіюй <div class="app"> цілком. У вайрфреймі корінь екрана —
+       сама рамка: <div class="phone-frame app">.
+    3. Шапку й таб-бар заміни на потрібний варіант із <template> нижче.
+    4. Вміст екрана вклади в <main class="app-main"> секціями:
+         <section aria-labelledby="…"><h2 class="section__label" id="…">…</h2>
+           <div class="section__body">…</div></section>
+       Аватар: <img src="../visuals/…" alt=""> усередині .userpic (назву несе aria-label);
+       без фото — ініціали текстом.
+       Головну дію клади в <section class="action-bar">: поки кнопка
+       активна, вона липне до низу над таб-баром.
+
+  Шапка двошарова: __meta (дата, підзаголовок, таймер) і __title (назва
+  екрана, h1). Порядок шарів міняється: на кореневих екранах мета
+  зверху, на вкладених — під назвою.
+-->
+<body>
+
+<div class="app">
+
+  <!-- Шапка кореневого екрана атлета (today) -->
+  <header class="app-header">
+    <div class="app-header__text">
+      <p class="app-header__meta">Понеділок, 12 жовтня</p>
+      <h1 class="app-header__title">Силовий цикл — осінь</h1>
+    </div>
+    <div class="app-header__actions">
+      <button class="icon-btn" type="button" aria-label="Сповіщення — 1 нова нотатка тренера">
+        <span class="icon icon--bell" aria-hidden="true"></span>
+        <span class="icon-btn__dot"></span>
+      </button>
+      <a class="userpic" href="profile.html" aria-label="Профіль — Оля Ткаченко"><img src="../visuals/athlete-olia.jpg" alt=""></a>
+    </div>
+  </header>
+
+  <main class="app-main">
+    <!-- ВМІСТ ЕКРАНА: секції .section__label + .section__body, головна дія в .action-bar -->
+  </main>
+
+  <!-- Таб-бар атлета -->
+  <nav class="tabbar" aria-label="Головна навігація атлета">
+    <a class="tabbar__item" href="today.html" aria-current="page"><span class="icon icon--today" aria-hidden="true"></span>Сьогодні</a>
+    <a class="tabbar__item" href="nutrition.html"><span class="icon icon--nutrition" aria-hidden="true"></span>Харчування</a>
+    <a class="tabbar__item" href="progress.html"><span class="icon icon--progress" aria-hidden="true"></span>Прогрес</a>
+    <a class="tabbar__item" aria-disabled="true"><span class="icon icon--profile" aria-hidden="true"></span>Профіль</a>
+  </nav>
+
+</div>
+
+<!-- ═══ Варіанти шапки ═══ -->
+
+<!-- Кореневий екран тренера: назва + сповіщення + власний аватар (trainer-clients) -->
+<template id="header-trainer-root">
+  <header class="app-header">
+    <div class="app-header__text">
+      <h1 class="app-header__title">Мої атлети</h1>
+    </div>
+    <div class="app-header__actions">
+      <button class="icon-btn" type="button" aria-label="Сповіщення — 1 нове тренування без коментаря">
+        <span class="icon icon--bell" aria-hidden="true"></span>
+        <span class="icon-btn__dot"></span>
+      </button>
+      <a class="userpic" href="profile.html" aria-label="Профіль — Максим Коваль"><img src="../visuals/trainer-maksym.jpg" alt=""></a>
+    </div>
+  </header>
+</template>
+
+<!-- Вкладений екран: «назад» + назва + підзаголовок + чужий аватар (trainer-athlete) -->
+<template id="header-nested">
+  <header class="app-header">
+    <a class="icon-btn" href="trainer-clients.html" aria-label="До «Мої атлети»"><span class="icon icon--back" aria-hidden="true"></span></a>
+    <div class="app-header__text">
+      <h1 class="app-header__title">Оля Ткаченко</h1>
+      <p class="app-header__meta">Силовий цикл — осінь · Тиждень 2 з 6</p>
+    </div>
+    <span class="userpic" role="img" aria-label="Аватар атлета — Оля Ткаченко"><img src="../visuals/athlete-olia.jpg" alt=""></span>
+  </header>
+</template>
+
+<!-- Тренування: «назад» + назва + таймер (workout) -->
+<template id="header-workout">
+  <header class="app-header">
+    <a class="icon-btn" href="today.html" aria-label="До «Сьогодні»"><span class="icon icon--back" aria-hidden="true"></span></a>
+    <div class="app-header__text">
+      <h1 class="app-header__title">Активне тренування</h1>
+      <p class="app-header__meta app-header__meta--num">00:23:47 · 12 жовтня</p>
+    </div>
+    <span class="app-header__icon" role="img" aria-label="Пройдено часу"><span class="icon icon--timer" aria-hidden="true"></span></span>
+  </header>
+</template>
+
+<!-- Вхід і реєстрація: лише назва продукту -->
+<template id="header-auth">
+  <header class="app-header">
+    <div class="app-header__text">
+      <h1 class="app-header__title">Forge</h1>
+    </div>
+  </header>
+</template>
+
+<!-- ═══ Варіанти таб-бару ═══ -->
+
+<!-- Тренер (trainer-clients, trainer-athlete, programs, profile) -->
+<template id="tabbar-trainer">
+  <nav class="tabbar" aria-label="Головна навігація тренера">
+    <a class="tabbar__item" href="trainer-clients.html" aria-current="page"><span class="icon icon--athletes" aria-hidden="true"></span>Мої атлети</a>
+    <a class="tabbar__item" href="programs.html"><span class="icon icon--programs" aria-hidden="true"></span>Програми</a>
+    <a class="tabbar__item" href="invite.html"><span class="icon icon--invite" aria-hidden="true"></span>Запросити</a>
+    <a class="tabbar__item" href="profile.html"><span class="icon icon--profile" aria-hidden="true"></span>Профіль</a>
+  </nav>
+</template>
+
+<!-- Таб-бар лишається лише на вкладеному trainer-athlete (+ стани). Решта вкладених екранів і тренування його не мають: вихід — стрілка «назад». -->
+
+</body>
+</html>

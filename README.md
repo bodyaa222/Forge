@@ -15,6 +15,8 @@ A mobile-first web platform connecting athletes and personal trainers — traini
 | [`wireframes/`](./wireframes/) | Low-fidelity wireframes (flows, layout sketches) |
 | [`concept/`](./concept/) | Visual direction «Чавун»: references, three directions, language test stand, attributes |
 | [`DESIGN.md`](./DESIGN.md) | Product design system «Чавун», extracted from the painted Today and Workout screens (tokens, components, rules) |
+| [`ui/`](./ui/) | UI kit: `kit.css` (flat tokens + components), `shell.html` (header + tab bar markup), `kit.html` (showcase with states), `inventory.md`, critique & audit |
+| [`visuals/`](./visuals/) | Own avatar portraits (trainers, athletes), generation prompt and script |
 | [`tokens/`](./tokens/) | Design tokens — colors, typography, spacing, shadows |
 | [`components/`](./components/) | Individual component specs and states |
 | [`design-system/`](./design-system/) | Full design system documentation |
@@ -102,7 +104,7 @@ Information Architecture: sitemap, user flows, traceability matrix.
 
 ## Вайрфрейми (Wireframes, Lesson 4)
 
-Low-fidelity HTML wireframes — статичні файли, відкриваються без сервера. 35 екранів у 390×844 px phone frame. Палітра без кольору (bg `#fff`, межі `#ccc`, текст `#333`), крім «Сьогодні» і «Активного тренування» з усіма станами: вони вже пофарбовані мовою «Чавун». Кожен стан (loading / empty / error) — окремий файл. Службові анотації прибрано.
+HTML-екрани — статичні файли, відкриваються без сервера. 35 екранів у 390×844 px phone frame. З 02.11.2026 усі вдягнені в UI-кіт «Чавун» (див. розділ «UI»). Кожен стан (loading / empty / error) — окремий файл.
 
 | Група | Екрани |
 |---|---|
@@ -154,6 +156,27 @@ Forge говорить як тренер у залі: коротко, по ді�
 | [`PRODUCT.md`](PRODUCT.md) | Продуктова правда для impeccable (користувачі, обмеження, WCAG 2.1 AA) |
 
 → **Пофарбовані екрани: [today.html](https://bodyaa222.github.io/Forge/wireframes/today.html) · [workout.html](https://bodyaa222.github.io/Forge/wireframes/workout.html)**
+
+---
+
+## UI (Lesson 7)
+
+Кіт зібрано з пофарбованих «Сьогодні» й «Тренування» (`/impeccable extract`), далі в нього вдягнено всі 35 екранів — атлет, тренер, спільне, взаємодія. На екрані немає власних стилів: вигляд береться лише з класів кіта, значення — лише зі змінних `:root`.
+
+| Файл | Що всередині |
+|---|---|
+| [`ui/kit.css`](ui/kit.css) | Плаский кіт: змінні (колір, шрифт, відступи, розміри, тіні, рух) + класи ~40 компонентів |
+| [`ui/kit.html`](https://bodyaa222.github.io/Forge/ui/kit.html) | Вітрина: кожен компонент зі станами, тексти з `microcopy.md`, оболонка |
+| [`ui/shell.html`](ui/shell.html) | Оболонка розміткою: двошарова шапка (4 варіанти) і таб-бари атлета й тренера |
+| [`ui/inventory.md`](ui/inventory.md) | Інвентар компонентів з усіх вайрфреймів: екрани, стани, фото |
+| [`ui/critique-2026-11-02.md`](ui/critique-2026-11-02.md) | `/impeccable critique` по чотирьох групах екранів (паралельні субагенти) |
+| [`ui/audit-2026-11-02.md`](ui/audit-2026-11-02.md) | Аудит екранів проти кіта + `/impeccable audit` (15/20): 35 дефектів, усі виправлено |
+| [`wireframes/_frame.css`](wireframes/_frame.css) | Каркас вайрфреймів (бічне меню, рамка), не продукт |
+| [`visuals/`](visuals/) | Власні портрети для аватарів, один колорит під «Чавун» |
+
+Правило правок — «залишаємо» (`CLAUDE.md` → «Збірка UI»): значення в змінних `kit.css`, розмітка — у вітрині, причина — у `DESIGN.md`, зміна розмітки — на всі екрани.
+
+→ **Вітрина: [ui/kit.html](https://bodyaa222.github.io/Forge/ui/kit.html) · екрани: [today.html](https://bodyaa222.github.io/Forge/wireframes/today.html) · [trainer-clients.html](https://bodyaa222.github.io/Forge/wireframes/trainer-clients.html)**
 
 ---
 

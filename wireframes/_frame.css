@@ -1,0 +1,98 @@
+/* ═══════════════════════════════════════════════════════════════════
+   FORGE · КАРКАС ВАЙРФРЕЙМІВ · wireframes/_frame.css
+   ───────────────────────────────────────────────────────────────────
+   Не продукт і не кіт: бічне меню-навігатор, полотно, рамка телефона
+   390 × 844 і анотації вайрфрейму. Екран усередині рамки — це
+   <div class="app"> з ui/kit.css, і вигляд він бере лише з кіта.
+   Підключення (після кіта):
+     <link rel="stylesheet" href="../ui/kit.css">
+     <link rel="stylesheet" href="_frame.css">
+   ═══════════════════════════════════════════════════════════════════ */
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  height: 100%;
+  font: var(--fw-regular) var(--fs-body) / var(--lh-body) var(--font-text);
+  color: var(--steel);
+  background: var(--pit);
+  -webkit-font-smoothing: antialiased;
+  caret-color: var(--paint);
+  scrollbar-color: var(--rim) var(--pit);
+}
+::selection { background: var(--paint); color: var(--paint-ink); }
+::-webkit-scrollbar { width: var(--scroll-w); height: var(--scroll-w); }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--edge); border-radius: var(--r-s); }
+:focus-visible { outline: var(--bw-2) solid var(--paint); outline-offset: var(--focus-gap); border-radius: var(--r); }
+
+.page-layout { display: flex; min-height: 100vh; align-items: flex-start; }
+
+/* ── Бічне меню-навігатор ── */
+.wf-nav {
+  width: 224px; min-width: 224px; flex-shrink: 0;
+  height: 100vh; position: sticky; top: 0; overflow-y: auto;
+  background: var(--cast);
+  border-right: var(--bw) solid var(--line);
+}
+.wf-nav-title {
+  padding: 16px 16px 14px;
+  font: var(--fw-bold) var(--fs-label) / 1.2 var(--font-num);
+  color: var(--steel);
+  border-bottom: var(--bw) solid var(--line);
+}
+.wf-tree { list-style: none; padding: 8px 0 24px; }
+.wf-tree .tree-section {
+  padding: 16px 16px 6px;
+  font-size: var(--fs-tab); font-weight: var(--fw-bold);
+  color: var(--graphite);
+  border-top: var(--bw) solid var(--line);
+  margin-top: 8px;
+  list-style: none;
+}
+.wf-tree > li:first-child.tree-section { border-top: none; margin-top: 0; }
+.wf-tree .tree-screen { list-style: none; padding: 6px 0 2px; }
+.screen-name { display: block; padding: 3px 16px 2px 16px; font-size: var(--fs-label); font-weight: var(--fw-bold); color: var(--steel); line-height: 1.4; }
+.tree-states { list-style: none; padding: 0; margin: 0; }
+.tree-states li { list-style: none; }
+.tree-states li a {
+  display: flex; align-items: center; gap: 8px;
+  padding: 5px 16px 5px 24px;
+  font-size: var(--fs-meta); color: var(--graphite);
+  text-decoration: none; line-height: var(--lh-meta);
+}
+.tree-states li a::before {
+  content: ""; width: var(--hole); height: var(--hole); border-radius: var(--r-round); flex-shrink: 0;
+  background: var(--pit); box-shadow: var(--sh-hole-s);
+}
+.tree-states li a:hover { color: var(--steel); background: var(--knurl); }
+.tree-states li a[aria-current="page"] { color: var(--steel); font-weight: var(--fw-bold); background: var(--knurl); }
+.tree-states li a[aria-current="page"]::before { background: var(--paint); box-shadow: none; }
+.tree-states li a.planned { color: var(--graphite); font-style: normal; }
+.tree-states li a.planned:hover { background: none; cursor: default; color: var(--graphite); }
+.tree-screen-link { display: block; padding: 3px 16px 3px 16px; font-size: var(--fs-meta); color: var(--graphite); text-decoration: none; line-height: var(--lh-meta); }
+
+/* ── Полотно і рамка телефона ── */
+.wf-canvas { flex: 1; display: flex; justify-content: center; align-items: flex-start; padding: 32px; }
+.wf-frame-wrap { display: flex; flex-direction: column; }
+.phone-frame {
+  --screen-h: 844px;
+  width: 390px; flex-shrink: 0; height: var(--screen-h);
+  border-radius: 28px;
+  background: var(--iron);
+  box-shadow: 0 0 0 1px var(--line), 0 30px 60px -30px rgba(0, 0, 0, .9);
+  overflow: hidden;
+}
+
+/* ── Анотація: два варіанти стану в одній рамці («або») ── */
+.subcase { margin-bottom: 8px; }
+.subcase-sep {
+  display: flex; align-items: center; gap: 12px;
+  font-size: var(--fs-tab); font-weight: var(--fw-bold); color: var(--graphite);
+  padding: 4px 0; margin: 8px 0 12px;
+}
+.subcase-sep::before, .subcase-sep::after { content: ""; flex: 1; height: 1px; background: var(--line); }
+
+/* ── Анотація: блок, що з'являється за умовою (підпис над ним) ── */
+.wf-cond { padding: 12px; border: 1px dashed var(--rim); border-radius: var(--r); }
+.wf-cond__note { margin-bottom: 8px; font-size: var(--fs-tab); color: var(--graphite); }
